@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>redditraffler - {{ title }}</title>
+    {% block styles %} {% endblock %}
+</head>
+
+<body>
+    {% include 'header.html' %}
+
+    {% block content %} {% endblock %}
+
+    {% include 'footer.html' %}
+</body>
+
+    {% block js %} {% endblock %}
+</html>
