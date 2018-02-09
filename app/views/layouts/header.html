@@ -1,11 +1,11 @@
-<nav class="navbar is-info" role="navigation" aria-label="main navigation">
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
 
     <div class="navbar-brand">
         <a class="navbar-item" href="{{ url_for('get.index') }}">
             <h1>redditraffler</h1>
         </a>
 
-        <button class="button navbar-burger is-info" data-target="navMenu">
+        <button class="button navbar-burger is-dark" data-target="navMenu">
             <span></span>
             <span></span>
             <span></span>
@@ -33,6 +33,3 @@
     </div>
 </nav>
 
-{% block js %}
-<script src="{{ url_for('static', filename='js/layouts/header.js') }}"></script>
-{% endblock %}
