@@ -1,0 +1,13 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+<section class="section">
+    <div class="container">
+        <h1 class="title">Intentionally left empty</h1>
+        {{ session['reddit_refresh_token']}}
+        {{ session['reddit_username'] }}
+    </div>
+</section>
+
+{% endblock %}
