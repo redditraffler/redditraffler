@@ -1,0 +1,6 @@
+# This is a skeleton file for config.py which is
+# needed to run the server properly.
+
+SECRET_KEY=''
+TEMPLATE_FOLDER=''
+STATIC_FOLDER=''
