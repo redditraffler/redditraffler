@@ -1,6 +1,8 @@
 from flask import Flask
 from app.routes.get import get
 
+import app.config as config
+
 
 def register_error_handlers(app):
     @app.errorhandler(401)
@@ -18,8 +20,9 @@ def register_error_handlers(app):
 
 def create_app():
     app = Flask(__name__,
-                template_folder='views',
-                static_folder='assets')
+                template_folder=config.TEMPLATE_FOLDER,
+                static_folder=config.STATIC_FOLDER)
+
     register_error_handlers(app)
 
     app.register_blueprint(get)
