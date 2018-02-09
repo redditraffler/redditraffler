@@ -3,7 +3,10 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>redditraffler - {{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma-extensions.min.css') }}">
     {% block styles %} {% endblock %}
 </head>
 
@@ -14,6 +17,8 @@
 
     {% include 'layouts/footer.html' %}
 </body>
-
+    <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/layouts/header.js') }}"></script>
     {% block js %} {% endblock %}
 </html>
