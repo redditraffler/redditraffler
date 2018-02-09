@@ -26,6 +26,11 @@
         </div>
 
         <div class="navbar-end">
+            {% if session['reddit_refresh_token'] %}
+                <form class="navbar-item" action='/logout' method='POST'>
+                    <button class="button is-dark" type='submit'>Log Out</button>
+                </form>
+            {% endif %}
             <a class="navbar-item tooltip is-tooltip-left" data-tooltip="View on GitHub" href="https://github.com/timorthi/redditraffler">
                 <i class="fab fa-github fa-fw fa-lg"></i>
             </a>

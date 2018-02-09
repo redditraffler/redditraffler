@@ -1,5 +1,6 @@
 from flask import Flask
 from app.routes.get import get
+from app.routes.post import post
 
 import app.config as config
 
@@ -27,4 +28,5 @@ def create_app():
     register_error_handlers(app)
 
     app.register_blueprint(get)
+    app.register_blueprint(post)
     return app
