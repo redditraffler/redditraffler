@@ -22,6 +22,7 @@ def create_app():
     app = Flask(__name__,
                 template_folder=config.TEMPLATE_FOLDER,
                 static_folder=config.STATIC_FOLDER)
+    app.secret_key = config.SECRET_KEY
 
     register_error_handlers(app)
 
