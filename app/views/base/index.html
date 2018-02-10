@@ -16,7 +16,7 @@
 <section class="section">
     <div class="container">
         <h1 class="title">Ready to raffle?</h1>
-        {% if session['reddit_refresh_token'] and session['reddit_username'] %}
+        {% if 'reddit_refresh_token' in session %}
             <a class="button reddit is-outlined" href="{{ url_for('raffles.create') }}">
                 <i class="fab fa-reddit fa-fw"></i> Continue as /u/{{ session['reddit_username'] }}</a>
         {% else %}
