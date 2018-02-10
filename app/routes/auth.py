@@ -9,19 +9,17 @@ from flask import (
 )
 from app.lib import reddit
 
-get = Blueprint('get', __name__)
+auth = Blueprint('auth', __name__)
 
 
-@get.route('/')
-def index():
-    return render_template(
-        'index.html',
-        title='Home',
-        reddit_login_url=reddit.get_auth_url()
-    )
+@auth.route('/logout', methods=['POST'])
+def logout():
+    session.clear()
+    # Flash message
+    return redirect(url_for('base.index'))
 
 
-@get.route('/auth_redirect')
+@auth.route('/redirect')
 def auth_redirect():
     if request.args.get('error') == 'access_denied':
         # User clicked deny access
@@ -32,9 +30,4 @@ def auth_redirect():
     refresh_token = reddit.authorize(request.args.get('code'))
     session['reddit_refresh_token'] = refresh_token
     session['reddit_username'] = reddit.get_username(refresh_token)
-    return redirect(url_for('get.raffle_form'))
-
-
-@get.route('/raffles/create')
-def raffle_form():
-    return render_template('raffle_form.html')
+    return redirect(url_for('raffle.form'))
