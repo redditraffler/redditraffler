@@ -1,5 +1,9 @@
 from flask import Flask
-from app.routes.get import get
+from app.routes.base import base
+from app.routes.auth import auth
+from app.routes.raffles import raffles
+
+import app.config as config
 
 
 def register_error_handlers(app):
@@ -18,9 +22,13 @@ def register_error_handlers(app):
 
 def create_app():
     app = Flask(__name__,
-                template_folder='views',
-                static_folder='assets')
+                template_folder=config.TEMPLATE_FOLDER,
+                static_folder=config.STATIC_FOLDER)
+    app.secret_key = config.SECRET_KEY
+
     register_error_handlers(app)
 
-    app.register_blueprint(get)
+    app.register_blueprint(base)
+    app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(raffles, url_prefix='/raffles')
     return app

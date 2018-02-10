@@ -1,0 +1,30 @@
+{% extends "layouts/base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<section class="section">
+    <div class="container">
+        <h1 class="title">Run raffles with Reddit.</h1>
+        <h2>redditraffler.com helps you choose winners.</h2>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h1 class="title">Ready to raffle?</h1>
+        {% if session['reddit_refresh_token'] and session['reddit_username'] %}
+            <a class="button reddit is-outlined" href="{{ url_for('raffles.create') }}">
+                <i class="fab fa-reddit fa-fw"></i> Continue as /u/{{ session['reddit_username'] }}</a>
+        {% else %}
+            <a class="button reddit is-outlined" href="{{ reddit_login_url }}">
+                <i class="fab fa-reddit fa-fw"></i> Login with Reddit</a>
+            <a class="button is-dark is-outlined" href=" {{ url_for('raffles.create') }}">Continue as Guest</a>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

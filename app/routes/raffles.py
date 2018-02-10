@@ -1,0 +1,17 @@
+from flask import (
+    abort,
+    Blueprint,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for
+)
+from app.lib import reddit
+
+raffles = Blueprint('raffles', __name__)
+
+
+@raffles.route('/create')
+def create():
+    return render_template('raffles/create.html')

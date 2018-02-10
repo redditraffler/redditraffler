@@ -1,0 +1,12 @@
+# This is a skeleton file for config.py which is
+# needed to run the server properly.
+
+SECRET_KEY=''
+TEMPLATE_FOLDER=''
+STATIC_FOLDER=''
+REDDIT_CLIENT_ID = ''
+REDDIT_CLIENT_SECRET = ''
+REDDIT_REDIRECT_URI = ''
+REDDIT_USER_AGENT = ''
+REDDIT_AUTH_SCOPES = []
+

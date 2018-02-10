@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+# Byte-mpiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -115,3 +115,4 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+config.py

@@ -1,7 +1,7 @@
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
 
     <div class="navbar-brand">
-        <a class="navbar-item" href="{{ url_for('get.index') }}">
+        <a class="navbar-item" href="{{ url_for('base.index') }}">
             <h1>redditraffler</h1>
         </a>
 
@@ -26,6 +26,11 @@
         </div>
 
         <div class="navbar-end">
+            {% if session['reddit_refresh_token'] %}
+                <form class="navbar-item" action="{{ url_for('auth.logout') }}" method="POST">
+                    <button class="button is-dark" type='submit'>Log Out</button>
+                </form>
+            {% endif %}
             <a class="navbar-item tooltip is-tooltip-left" data-tooltip="View on GitHub" href="https://github.com/timorthi/redditraffler">
                 <i class="fab fa-github fa-fw fa-lg"></i>
             </a>
