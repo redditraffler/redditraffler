@@ -9,9 +9,9 @@ from flask import (
 )
 from app.lib import reddit
 
-raffle = Blueprint('raffle', __name__)
+raffles = Blueprint('raffles', __name__)
 
 
-@raffle.route('/create')
+@raffles.route('/create')
 def create():
-    return render_template('raffle/create.html')
+    return render_template('raffles/create.html')
