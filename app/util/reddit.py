@@ -24,3 +24,8 @@ def get_username(refresh_token):
     r = praw.Reddit(**SETTINGS, refresh_token=refresh_token)
     return r.user.me().name
 
+
+def get_user_submissions(refresh_token):
+    """ Return the Redditor's submissions ordered latest to oldest. """
+    r = praw.Reddit(**SETTINGS, refresh_token=refresh_token)
+    return r.user.me().submissions.new()
