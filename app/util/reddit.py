@@ -10,11 +10,14 @@ SETTINGS = {
 
 
 def get_auth_url():
+    """ Returns the Reddit URL used to obtain permissions from the user. """
     r = praw.Reddit(**SETTINGS)
     return r.auth.url(config.REDDIT_AUTH_SCOPES, 'authorized', 'permanent')
 
 
 def authorize(code):
+    """ Accepts a code from Reddit's auth redirect. Returns a refresh token
+        for the user. """
     r = praw.Reddit(**SETTINGS)
     return r.auth.authorize(code)
 
