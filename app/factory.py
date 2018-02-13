@@ -2,6 +2,7 @@ from flask import Flask
 from app.routes.base import base
 from app.routes.auth import auth
 from app.routes.raffles import raffles
+from app.routes.api import api
 
 import app.config as config
 
@@ -31,4 +32,5 @@ def create_app():
     app.register_blueprint(base)
     app.register_blueprint(auth, url_prefix='/auth')
     app.register_blueprint(raffles, url_prefix='/raffles')
+    app.register_blueprint(api, url_prefix='/api')
     return app
