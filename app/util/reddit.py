@@ -31,4 +31,15 @@ def get_username(refresh_token):
 def get_user_submissions(refresh_token):
     """ Return the Redditor's submissions ordered latest to oldest. """
     r = praw.Reddit(**SETTINGS, refresh_token=refresh_token)
-    return r.user.me().submissions.new()
+    submissions = r.user.me().submissions.new()
+    result = [_serialize(s) for s in submissions]
+    return result
+
+
+def _serialize(submission):
+    """ Extracts the needed submission data and inserts them in a dict. """
+    return {
+        'title': submission.title,
+        'link': submission.shortlink,
+        'subreddit': submission.subreddit.display_name
+    }
