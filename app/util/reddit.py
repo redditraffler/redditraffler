@@ -41,5 +41,6 @@ def _serialize(submission):
     return {
         'title': submission.title,
         'link': submission.shortlink,
-        'subreddit': submission.subreddit.display_name
+        'subreddit': submission.subreddit.display_name,
+        'created_at_utc': submission.created_utc
     }
