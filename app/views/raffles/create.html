@@ -5,9 +5,17 @@
 <section class="section">
     <div class="container">
         <h1 class="title">Intentionally left empty</h1>
-        {{ session['reddit_refresh_token']}}
-        {{ session['reddit_username'] }}
+        {% if 'reddit_refresh_token' in session %}
+            <div id="submissions-list">
+
+            </div>
+        {% else %}
+        {% endif %}
     </div>
 </section>
 
+{% endblock %}
+
+{% block js %}
+    <script defer src="{{ url_for('static', filename='js/raffles/create.js') }}"></script>
 {% endblock %}
