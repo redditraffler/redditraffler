@@ -11,15 +11,17 @@ function getDateFromUnixTime(timestamp) {
 }
 
 function buildSubmissionsTable(submissions) {
-    var $table = $("#submissions-list");
+    $("#loading-container").hide();
+
+    // Add headers
+    var $table = $("#submissions");
     var tableHeaders = "<thead><th>Title</th><th>Subreddit</th><th>Created On</th></thead>";
     $table.append(tableHeaders);
 
+    // Add row for each submission
     submissions.forEach(function(submission) {
-        var $tableBody = $("#submissions-list > tbody");
-
+        var $tableBody = $("#submissions > tbody");
         var rowTemplate = "<tr><td><a href='{0}'>{1}</a></td><td>{2}</td><td>{3}</td></tr>";
-
         $tableBody.append(
             rowTemplate.format(
                 submission.link,
@@ -32,7 +34,7 @@ function buildSubmissionsTable(submissions) {
 }
 
 $(function() {
-    if ($("#submissions-list").length > 0) {
+    if ($("#submissions").length > 0) {
         $.ajax({
             dataType: "json",
             url: $APP_ROOT + "api/submissions",

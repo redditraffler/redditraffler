@@ -10,10 +10,13 @@
         <h1 class="title">Create a Raffle</h1>
         <hr>
         {% if 'reddit_refresh_token' in session %}
-            <h5 class="title is-5">First, choose your Reddit submission...</h5>
+            <h5 class="title is-5">First, choose your Reddit submission.</h5>
             <div class="box is-marginless">
-                <p>Note that only the submissions you've created in the last 3 months are shown.<p>
-                <table id="submissions-list" class="table is-fullwidth is-hoverable is-narrow">
+                <div id="loading-container" class="content has-text-centered">
+                    <p><div class="loader"></div></p>
+                    <p>Fetching your Reddit submissions...</p>
+                </div>
+                <table id="submissions" class="table is-fullwidth is-hoverable is-narrow">
                     <tbody></tbody>
                 </table>
             </div>
