@@ -39,6 +39,7 @@ def get_user_submissions(refresh_token):
 def _serialize(submission):
     """ Extracts the needed submission data and inserts them in a dict. """
     return {
+        'id': submission.id,
         'title': submission.title,
         'link': submission.shortlink,
         'subreddit': submission.subreddit.display_name,
