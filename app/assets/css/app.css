@@ -1,4 +1,6 @@
 /* App-wide styles here */
+.light-gray { background-color: #efefef }
+
 .loader {
   display: inline-block;
   position: relative;
