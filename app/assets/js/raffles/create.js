@@ -10,6 +10,33 @@ function getDateFromUnixTime(timestamp) {
     return new Date(timestamp * 1000).toDateString();
 }
 
+function initTableControl() {
+    var INITIAL_ROW_COUNT = 10;
+    var rowCount = $("#submissions > tbody > tr").length;
+    var visibleRowCount = 10;
+    if (rowCount > visibleRowCount) {
+        $('#table-control').show();
+        $('#showLess').hide();
+    }
+
+    $('#submissions > tbody > tr:lt(' + visibleRowCount + ')').show();
+
+    $('#showMore').click(function () {
+        visibleRowCount = (visibleRowCount + 10 <= rowCount) ? visibleRowCount + 10 : rowCount;
+        $('#submissions > tbody > tr:lt(' + visibleRowCount + ')').show();
+        $('#showLess').show();
+        if (visibleRowCount == rowCount) {
+            $('#showMore').hide();
+        }
+    });
+
+    $('#showLess').click(function () {
+        $('#submissions > tbody > tr').not(':lt(' + INITIAL_ROW_COUNT + ')').hide();
+        $('#showMore').show();
+        $('#showLess').hide();
+    });
+}
+
 function buildSubmissionsTable(submissions) {
     $("#loading-container").hide();
 
@@ -21,7 +48,7 @@ function buildSubmissionsTable(submissions) {
     // Add row for each submission
     submissions.forEach(function(submission) {
         var $tableBody = $("#submissions > tbody");
-        var rowTemplate = "<tr><td><a href='{0}'>{1}</a></td><td>{2}</td><td>{3}</td></tr>";
+        var rowTemplate = "<tr style='display:none'><td><a href='{0}'>{1}</a></td><td>{2}</td><td>{3}</td></tr>";
         $tableBody.append(
             rowTemplate.format(
                 submission.link,
@@ -31,6 +58,9 @@ function buildSubmissionsTable(submissions) {
             )
         );
     });
+
+    // Add collapse/expand control
+    initTableControl();
 }
 
 $(function() {
