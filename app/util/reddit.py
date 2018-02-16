@@ -38,10 +38,11 @@ def get_user_submissions(refresh_token):
 
 def _serialize(submission):
     """ Extracts the needed submission data and inserts them in a dict. """
+    REDDIT_BASE_URL = 'https://www.reddit.com'
     return {
         'id': submission.id,
         'title': submission.title,
-        'link': submission.shortlink,
+        'url': REDDIT_BASE_URL + submission.permalink,
         'subreddit': submission.subreddit.display_name,
         'created_at_utc': submission.created_utc
     }

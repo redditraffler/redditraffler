@@ -61,7 +61,7 @@ function buildSubmissionsTable(submissions) {
             rowTemplate.format(
                 submission.id,
                 submission.title,
-                submission.link,
+                submission.url,
                 submission.subreddit,
                 getDateFromUnixTime(submission.created_at_utc)
             )
