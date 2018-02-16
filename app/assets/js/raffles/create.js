@@ -21,7 +21,7 @@ function initTableControl() {
 
     $('#submissions > tbody > tr:lt(' + visibleRowCount + ')').show();
 
-    $('#showMore').click(function () {
+    $('#showMore').click(function() {
         visibleRowCount = (visibleRowCount + 10 <= rowCount) ? visibleRowCount + 10 : rowCount;
         $('#submissions > tbody > tr:lt(' + visibleRowCount + ')').show();
         $('#showLess').show();
@@ -30,10 +30,18 @@ function initTableControl() {
         }
     });
 
-    $('#showLess').click(function () {
+    $('#showLess').click(function() {
         $('#submissions > tbody > tr').not(':lt(' + INITIAL_ROW_COUNT + ')').hide();
         $('#showMore').show();
         $('#showLess').hide();
+    });
+}
+
+function initTableRows() {
+    var $rows = $("#submissions > tbody > tr");
+    $rows.click(function() {
+        $rows.removeClass("is-selected");
+        $(this).addClass("is-selected");
     });
 }
 
@@ -59,8 +67,9 @@ function buildSubmissionsTable(submissions) {
         );
     });
 
-    // Add collapse/expand control
-    initTableControl();
+
+    initTableControl(); // Add collapse/expand control
+    initTableRows(); // Add row click handlers
 }
 
 $(function() {
