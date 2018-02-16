@@ -56,7 +56,7 @@ function buildSubmissionsTable(submissions) {
     // Add row for each submission
     submissions.forEach(function(submission) {
         var $tableBody = $("#submissions > tbody");
-        var rowTemplate = "<tr><td>{0} <a href='{1}'><i class='fas fa-external-link-alt fa-fw fa-xs'></i></a></td><td>{2}</td><td>{3}</td></tr>";
+        var rowTemplate = "<tr><td>{0} <a href='{1}' target='_blank'><i class='fas fa-external-link-alt fa-fw fa-xs'></i></a></td><td>{2}</td><td>{3}</td></tr>";
         $tableBody.append(
             rowTemplate.format(
                 submission.title,
