@@ -1,5 +1,5 @@
 /* App-wide styles here */
-.light-gray { background-color: #efefef }
+.light-gray { background-color: whitesmoke; }
 
 .loader {
   display: inline-block;
