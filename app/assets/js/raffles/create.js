@@ -16,7 +16,6 @@ function initTableControl() {
     var visibleRowCount = 10;
     if (rowCount > visibleRowCount) {
         $('#table-control').show();
-        $('#showLess').hide();
     }
 
     $('#submissions > tbody > tr:lt(' + visibleRowCount + ')').show();
@@ -24,16 +23,9 @@ function initTableControl() {
     $('#showMore').click(function() {
         visibleRowCount = (visibleRowCount + 10 <= rowCount) ? visibleRowCount + 10 : rowCount;
         $('#submissions > tbody > tr:lt(' + visibleRowCount + ')').show();
-        $('#showLess').show();
         if (visibleRowCount == rowCount) {
             $('#showMore').hide();
         }
-    });
-
-    $('#showLess').click(function() {
-        $('#submissions > tbody > tr').not(':lt(' + INITIAL_ROW_COUNT + ')').hide();
-        $('#showMore').show();
-        $('#showLess').hide();
     });
 }
 
