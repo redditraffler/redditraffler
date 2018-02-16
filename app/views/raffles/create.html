@@ -11,7 +11,9 @@
             <h1 class="title">Create a raffle</h1>
             <hr>
             {% if 'reddit_refresh_token' in session %}
-                <h5 class="title is-5">First, choose your Reddit submission.</h5>
+                <div class="content">
+                    <h5 class="title is-5">First, choose your Reddit submission.</h5>
+                </div>
                 <div class="box is-marginless">
                     <div id="loading-container" class="content has-text-centered">
                         <p><div class="loader"></div></p>
@@ -34,7 +36,25 @@
     <section class="section light-gray">
         <div class="container">
             <div class="content">
-                <h5 class="title is-5">Now, set any restrictions on user accounts.</h5>
+                <h5 class="title is-5">Next, choose how many winners you'd like for this raffle.</h5>
+            </div>
+            <div id="general-criteria" class="container">
+                <div class="columns">
+                    <div class="column is-one-third">
+                        <label class="label">Number of Winners</label>
+                        <div class="field has-addons">
+                            <input class="input" name="winnerCount" type="number" min="1" value="1">
+                            <a class="button is-static">users</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section light-gray">
+        <div class="container">
+            <div class="content">
+                <h5 class="title is-5">Lastly, set any restrictions on user accounts.</h5>
                 <p>Naturally, the more restrictions you place, the more likely it is that you won't find enough raffle winners that match the criteria.</p>
             </div>
             <div id="user-criteria" class="container">
