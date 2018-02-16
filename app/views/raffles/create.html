@@ -31,6 +31,39 @@
             {% endif %}
         </div>
     </section>
+    <section class="section light-gray">
+        <div class="container">
+            <div class="content">
+                <h5 class="title is-5">Now, set any restrictions on user accounts.</h5>
+                <p>Naturally, the more restrictions you place, the more likely it is that you won't find enough raffle winners that match the criteria.</p>
+            </div>
+            <div id="user-criteria" class="container">
+                <div class="columns is-8">
+                    <div class="column">
+                        <label class="label">Minimum Account Age</label>
+                        <div class="field has-addons">
+                            <input class="input" name="minAge" type="number" min="0" value="0">
+                            <a class="button is-static">days</a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label class="label">Minimum Comment Karma</label>
+                        <div class="field has-addons">
+                            <input class="input" name="minComment" type="number" min="0" value="0">
+                            <a class="button is-static">karma</a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label class="label">Minimum Link Karma</label>
+                        <div class="field has-addons">
+                            <input class="input" name="minLink" type="number" min="0" value="0">
+                            <a class="button is-static">karma</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </form>
 {% endblock %}
 
