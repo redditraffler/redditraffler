@@ -34,6 +34,7 @@ function initTableRows() {
     $rows.click(function() {
         $rows.removeClass("is-selected");
         $(this).addClass("is-selected");
+        $("#submission-id").val($(this).attr('id'));
     });
 }
 

@@ -11,6 +11,7 @@
             <h1 class="title">Create a raffle</h1>
             <hr>
             {% if 'reddit_refresh_token' in session %}
+                <input type="hidden" id="submission-id" name="submissionId" value="">
                 <div class="content">
                     <h5 class="title is-5">First, choose your Reddit submission.</h5>
                 </div>
