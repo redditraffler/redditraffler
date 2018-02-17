@@ -30,7 +30,22 @@
                     </div>
                 </div>
             {% else %}
-                <h1 class="title">First, choose a Reddit submission...</h1>
+                <div class="content">
+                    <h5 class="title is-5">First, choose a Reddit submission.</h5>
+                    <p>You'll have to provide the URL of the Reddit submission that will be the subject of this raffle.
+                     If you <a href="{{ reddit_login_url }}">log in with Reddit</a>, we'll fetch your submissions for you.</p>
+                    <p><strong>Note:</strong> Since you're not logged in, we can't verify whether you're the person who created this Reddit submission, and it will be specified as such on the raffle results page.</p>
+                </div>
+                <div class="container">
+                    <div class="columns">
+                        <div class="column is-half">
+                            <label class="label">Submission URL</label>
+                            <div class="field">
+                                <input class="input" name="submissionURL" type="text" placeholder="https://www.reddit.com/r/hardwareswap/comments/7g1rt8/usagah_paypal_love_w_unwanted_pclaptopparts_for/">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% endif %}
         </div>
     </section>
