@@ -7,7 +7,7 @@ from flask import (
     session,
     url_for
 )
-from app.lib import reddit
+from app.util import reddit
 
 base = Blueprint('base', __name__)
 

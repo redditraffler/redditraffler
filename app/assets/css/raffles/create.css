@@ -1,0 +1,5 @@
+#submissions > tbody > tr { display: none }
+
+#table-control { display: none }
+
+.table tr.is-selected { background-color: #478dff; }

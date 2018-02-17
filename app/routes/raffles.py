@@ -7,11 +7,14 @@ from flask import (
     session,
     url_for
 )
-from app.lib import reddit
+from app.util import reddit
 
 raffles = Blueprint('raffles', __name__)
 
 
 @raffles.route('/create')
 def create():
-    return render_template('raffles/create.html')
+    return render_template(
+        'raffles/create.html',
+        reddit_login_url=reddit.get_auth_url()
+    )

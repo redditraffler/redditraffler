@@ -1,13 +1,113 @@
 {% extends "layouts/base.html" %}
 
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/raffles/create.css') }}">
+{% endblock %}
+
 {% block content %}
+<form method="POST" action="">
+    <section class="section light-gray">
+        <div class="container">
+            <h1 class="title">Create a raffle</h1>
+            <hr>
+            {% if 'reddit_refresh_token' in session %}
+                <input type="hidden" id="submission-id" name="submissionId" value="">
+                <div class="content">
+                    <h5 class="title is-5">First, choose your Reddit submission.</h5>
+                </div>
+                <div class="box is-marginless">
+                    <div id="loading-container" class="content has-text-centered">
+                        <p><div class="loader"></div></p>
+                        <p>Fetching your Reddit submissions...</p>
+                    </div>
+                    <table id="submissions" class="table is-fullwidth is-hoverable is-narrow">
+                        <tbody></tbody>
+                    </table>
+                    <div class="content has-text-centered">
+                        <div id="table-control">
+                            <button type="button" id="showMore" class="button is-small is-outlined is-rounded">Show More <i class="fas fa-chevron-down fa-fw"></i></button>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="content">
+                    <h5 class="title is-5">First, choose a Reddit submission.</h5>
+                    <p>You'll have to provide the URL of the Reddit submission that will be the subject of this raffle.
+                     If you <a href="{{ reddit_login_url }}">log in with Reddit</a>, we'll fetch your submissions for you.</p>
+                    <p><strong>Note:</strong> Since you're not logged in, we can't verify whether you're the person who created this Reddit submission, and it will be specified as such on the raffle results page.</p>
+                </div>
+                <div class="container">
+                    <div class="columns">
+                        <div class="column is-half">
+                            <label class="label">Submission URL</label>
+                            <div class="field">
+                                <input class="input" name="submissionUrl" type="text" placeholder="https://www.reddit.com/r/hardwareswap/comments/7g1rt8/usagah_paypal_love_w_unwanted_pclaptopparts_for/">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    <section class="section light-gray">
+        <div class="container">
+            <div class="content">
+                <h5 class="title is-5">Next, choose how many winners you'd like for this raffle.</h5>
+            </div>
+            <div id="general-criteria" class="container">
+                <div class="columns">
+                    <div class="column is-one-third">
+                        <label class="label">Number of Winners</label>
+                        <div class="field has-addons">
+                            <input class="input" name="winnerCount" type="number" min="1" value="1">
+                            <a class="button is-static">users</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section light-gray">
+        <div class="container">
+            <div class="content">
+                <h5 class="title is-5">Lastly, set any restrictions on user accounts.</h5>
+                <p>Naturally, the more restrictions you place, the more likely it is that you won't find enough raffle winners that match the criteria.</p>
+            </div>
+            <div id="user-criteria" class="container">
+                <div class="columns is-8">
+                    <div class="column">
+                        <label class="label">Minimum Account Age</label>
+                        <div class="field has-addons">
+                            <input class="input" name="minAge" type="number" min="0" value="0">
+                            <a class="button is-static">days</a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label class="label">Minimum Comment Karma</label>
+                        <div class="field has-addons">
+                            <input class="input" name="minComment" type="number" min="0" value="0">
+                            <a class="button is-static">karma</a>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label class="label">Minimum Link Karma</label>
+                        <div class="field has-addons">
+                            <input class="input" name="minLink" type="number" min="0" value="0">
+                            <a class="button is-static">karma</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section light-gray">
+        <div class="container has-text-centered">
+            <button type="submit" class="button is-link is-large">Submit</button>
+        </div>
+    </section>
+</form>
+{% endblock %}
 
-<section class="section">
-    <div class="container">
-        <h1 class="title">Intentionally left empty</h1>
-        {{ session['reddit_refresh_token']}}
-        {{ session['reddit_username'] }}
-    </div>
-</section>
-
+{% block js %}
+<script defer src="{{ url_for('static', filename='js/raffles/create.js') }}"></script>
 {% endblock %}
