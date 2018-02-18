@@ -20,11 +20,11 @@ function initTableControl() {
 
     $('#submissions > tbody > tr:lt(' + visibleRowCount + ')').show();
 
-    $('#showMore').click(function() {
+    $('#show-more').click(function() {
         visibleRowCount = (visibleRowCount + 10 <= rowCount) ? visibleRowCount + 10 : rowCount;
         $('#submissions > tbody > tr:lt(' + visibleRowCount + ')').show();
         if (visibleRowCount == rowCount) {
-            $('#showMore').hide();
+            $('#show-more').hide();
         }
     });
 }
