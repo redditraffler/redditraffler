@@ -67,12 +67,41 @@ function buildSubmissionsTable(submissions) {
 }
 
 function showSubmissionDetails(submission) {
-    console.log(submission);
+    var $container = $("#submission-url-container");
+    var $inputField = $("#submission-url");
+
+    $inputField.attr("class", "input"); // Remove all other styling classes
+    $inputField.addClass("is-success");
+
+    var submissionDetailsTemplate = "<p class='help'><a href='{0}'>'{1}'</a> in /r/{2} by {3} on {4}</p>";
+    var authorHtml = submission.author ? "<a href='https://reddit.com/u/" + submission.author + "'>/u/" + submission.author + "</a>" : "an unknown user";
+    $container.append(
+        submissionDetailsTemplate.format(
+            submission.url,
+            submission.title,
+            submission.subreddit,
+            authorHtml,
+            getDateFromUnixTime(submission.created_at_utc)
+        )
+    );
+}
+
+function showSubmissionError() {
+    var $container = $("#submission-url-container");
+    var $inputField = $("#submission-url");
+
+    $inputField.attr("class", "input"); // Remove all other styling classes
+    $inputField.addClass("is-danger");
+
+    var errorMsgHtml = "<p class='help is-danger'>This is not a valid submission URL.</p>";
+    $container.append(errorMsgHtml);
 }
 
 function validateUrl() {
     var URL_REGEX = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
     if (!$(this).val() || !URL_REGEX.test($(this).val())) return;
+
+    $("#submission-url-container").children(":not(#submission-url)").remove(); // Clear previous error messages if any
 
     var PROTOCOL_PATTERN = /^((http|https):\/\/)/;
     var url = $(this).val();
@@ -81,7 +110,8 @@ function validateUrl() {
         dataType: "json",
         data: { url: url },
         url: $APP_ROOT + "api/submission",
-        success: showSubmissionDetails
+        success: showSubmissionDetails,
+        error: showSubmissionError
     });
 }
 
