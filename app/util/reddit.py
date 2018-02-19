@@ -1,4 +1,5 @@
 import praw
+import prawcore
 import app.config as config
 
 SETTINGS = {
@@ -34,6 +35,22 @@ def get_user_submissions(refresh_token):
     submissions = r.user.me().submissions.new()
     result = [_serialize(s) for s in submissions]
     return result
+
+
+def validate_submission(sub_id=None, sub_url=None):
+    """ Returns a serialized submission based on the given ID or URL, or
+    None if the ID or URL is invalid. """
+    r = praw.Reddit(**SETTINGS)
+
+    if not (sub_id or sub_url):
+        return None
+
+    try:
+        submission = r.submission(id=sub_id) if sub_id else \
+                     r.submission(url=sub_url)
+        return _serialize(submission)
+    except (prawcore.exceptions.NotFound, praw.exceptions.ClientException):
+        return None
 
 
 def _serialize(submission):
