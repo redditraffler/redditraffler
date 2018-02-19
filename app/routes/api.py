@@ -24,6 +24,8 @@ def submission():
         abort(400)
 
     if request.args.get('url'):
-        return jsonify(reddit.get_submission(sub_url=request.args.get('url')))
+        submission = reddit.get_submission(sub_url=request.args.get('url'))
     else:
-        return jsonify(reddit.get_submission(sub_id=request.args.get('id')))
+        submission = reddit.get_submission(sub_id=request.args.get('id'))
+
+    return jsonify(submission) if submission else abort(404)
