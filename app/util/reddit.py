@@ -58,6 +58,7 @@ def _serialize(submission):
     REDDIT_BASE_URL = 'https://www.reddit.com'
     return {
         'id': submission.id,
+        'author': submission.author.name if submission.author else None,
         'title': submission.title,
         'url': REDDIT_BASE_URL + submission.permalink,
         'subreddit': submission.subreddit.display_name,
