@@ -37,7 +37,7 @@ def get_user_submissions(refresh_token):
     return result
 
 
-def validate_submission(sub_id=None, sub_url=None):
+def get_submission(sub_id=None, sub_url=None):
     """ Returns a serialized submission based on the given ID or URL, or
     None if the ID or URL is invalid. """
     r = praw.Reddit(**SETTINGS)
