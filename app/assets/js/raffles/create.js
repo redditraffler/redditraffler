@@ -66,6 +66,25 @@ function buildSubmissionsTable(submissions) {
     initTableRows(); // Add row click handlers
 }
 
+function showSubmissionDetails(submission) {
+    console.log(submission);
+}
+
+function validateUrl() {
+    var URL_REGEX = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+    if (!$(this).val() || !URL_REGEX.test($(this).val())) return;
+
+    var PROTOCOL_PATTERN = /^((http|https):\/\/)/;
+    var url = $(this).val();
+    if (!PROTOCOL_PATTERN.test(url)) url = 'https://' + url;
+    $.ajax({
+        dataType: "json",
+        data: { url: url },
+        url: $APP_ROOT + "api/submission",
+        success: showSubmissionDetails
+    });
+}
+
 $(function() {
     if ($("#submissions").length > 0) {
         $.ajax({
@@ -73,5 +92,9 @@ $(function() {
             url: $APP_ROOT + "api/submissions",
             success: buildSubmissionsTable,
         });
+    }
+
+    if($("#submission-url").length > 0) {
+        $("#submission-url").focusout(validateUrl);
     }
 });
