@@ -15,22 +15,22 @@ function initTableControl() {
     var rowCount = $("#submissions > tbody > tr").length;
     var visibleRowCount = 10;
     if (rowCount > visibleRowCount) {
-        $('#table-control').show();
+        $("#table-control").show();
     }
 
-    $('#submissions > tbody > tr:lt(' + visibleRowCount + ')').show();
+    $("#submissions > tbody > tr:lt(" + visibleRowCount + ")").show();
 
-    $('#show-more').click(function() {
+    $("#show-more").click(function() {
         visibleRowCount = (visibleRowCount + 10 <= rowCount) ? visibleRowCount + 10 : rowCount;
-        $('#submissions > tbody > tr:lt(' + visibleRowCount + ')').show();
+        $("#submissions > tbody > tr:lt(" + visibleRowCount + ")").show();
         if (visibleRowCount == rowCount) {
-            $('#show-more').hide();
+            $("#show-more").hide();
         }
     });
 }
 
 function showSelectedSubmission($tr) {
-    var title = $tr.children('td:first').text().trim();
+    var title = $tr.children("td:first").text().trim();
 
     if ($("#selected-submission").length > 0) {
         $("#selected-submission").html("<p>Your selection: \"{0}\"</p>".format(title));
@@ -44,7 +44,7 @@ function initTableRows() {
     $rows.click(function() {
         $rows.removeClass("is-selected");
         $(this).addClass("is-selected");
-        $("#submission-id").val($(this).attr('id'));
+        $("#submission-id").val($(this).attr("id"));
         showSelectedSubmission($(this));
     });
 }
@@ -116,7 +116,7 @@ function validateUrl() {
 
     var PROTOCOL_REGEX = /^((http|https):\/\/)/;
     var url = $(this).val();
-    if (!PROTOCOL_REGEX.test(url)) url = 'https://' + url;
+    if (!PROTOCOL_REGEX.test(url)) url = "https://" + url;
     $.ajax({
         dataType: "json",
         data: { url: url },
