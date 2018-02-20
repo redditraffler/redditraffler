@@ -85,7 +85,7 @@ function showSubmissionDetails(submission) {
     $inputField.addClass("is-success");
 
     var submissionDetailsTemplate = "<p class='help'><a href='{0}'>'{1}'</a> in /r/{2} by {3} on {4}</p>";
-    var authorHtml = submission.author ? "<a href='https://reddit.com/u/" + submission.author + "'>/u/" + submission.author + "</a>" : "an unknown user";
+    var authorHtml = submission.author ? "<a href='https://reddit.com/u/{0}'>/u/{0}</a>".format(submission.author) : "an unknown user";
     $container.append(
         submissionDetailsTemplate.format(
             submission.url,
