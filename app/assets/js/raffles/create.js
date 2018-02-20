@@ -115,6 +115,14 @@ function validateUrl() {
     });
 }
 
+function validateSubmissionSelection(event) {
+    if (!$("#submission-id").val()) {
+        $("#submissions").before("<div class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>");
+        $(document).scrollTop($("#submission-id").offset().top);
+        event.preventDefault();
+    }
+}
+
 $(function() {
     if ($("#submissions").length > 0) {
         $.ajax({
@@ -127,4 +135,6 @@ $(function() {
     if($("#submission-url").length > 0) {
         $("#submission-url").focusout(validateUrl);
     }
+
+    $("#raffle-form").submit(validateSubmissionSelection);
 });
