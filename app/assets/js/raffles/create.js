@@ -127,7 +127,7 @@ function validateUrl() {
 }
 
 function validateSubmissionSelection(event) {
-    if (!$("#submission-id").val()) {
+    if ($("#submission-id").length > 0 && !$("#submission-id").val()) {
         $("#submissions").before("<div class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>");
         $(document).scrollTop($("#submission-id").offset().top);
         event.preventDefault();
