@@ -114,9 +114,9 @@ function validateUrl() {
 
     $("#submission-url-container").children(":not(#submission-url)").remove(); // Clear previous error messages if any
 
-    var PROTOCOL_PATTERN = /^((http|https):\/\/)/;
+    var PROTOCOL_REGEX = /^((http|https):\/\/)/;
     var url = $(this).val();
-    if (!PROTOCOL_PATTERN.test(url)) url = 'https://' + url;
+    if (!PROTOCOL_REGEX.test(url)) url = 'https://' + url;
     $.ajax({
         dataType: "json",
         data: { url: url },
