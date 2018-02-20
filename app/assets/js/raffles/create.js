@@ -29,12 +29,23 @@ function initTableControl() {
     });
 }
 
+function showSelectedSubmission($tr) {
+    var title = $tr.children('td:first').text().trim();
+
+    if ($("#selected-submission").length > 0) {
+        $("#selected-submission").html("<p>Your selection: \"{0}\"</p>".format(title));
+    } else {
+        $("#submissions").before("<div id='selected-submission' class='content has-text-centered'><p>Your selection: \"{0}\"</p></div>".format(title));
+    }
+}
+
 function initTableRows() {
     var $rows = $("#submissions > tbody > tr");
     $rows.click(function() {
         $rows.removeClass("is-selected");
         $(this).addClass("is-selected");
         $("#submission-id").val($(this).attr('id'));
+        showSelectedSubmission($(this));
     });
 }
 
