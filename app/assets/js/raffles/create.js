@@ -24,6 +24,10 @@ function initTableControl() {
 function showSelectedSubmission($tr) {
     var title = $tr.children("td:first").text().trim();
 
+    if ($("#submission-id-error").length > 0) {
+        $("#submission-id-error").remove();
+    }
+
     if ($("#selected-submission").length > 0) {
         $("#selected-submission").html("<p>Your selection: \"{0}\"</p>".format(title));
     } else {
@@ -123,7 +127,7 @@ function validateUrl() {
 
 function validateSubmissionSelection(event) {
     if ($("#submission-id").length > 0 && !$("#submission-id").val()) {
-        $("#submissions").before("<div class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>");
+        $("#submissions").before("<div id='submission-id-error' class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>");
         $(document).scrollTop($("#submission-id").offset().top);
         event.preventDefault();
     }
