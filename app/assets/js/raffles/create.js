@@ -127,6 +127,11 @@ function validateSubmissionSelection(event) {
         $(document).scrollTop($("#submission-id").offset().top);
         event.preventDefault();
     }
+
+    if ($("#submission-url").length > 0 && !$("#submission-url").hasClass("is-success")) {
+        $(document).scrollTop($("#submission-url").offset().top);
+        event.preventDefault();
+    }
 }
 
 $(function() {
