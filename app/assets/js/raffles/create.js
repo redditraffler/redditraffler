@@ -101,10 +101,13 @@ function showSubmissionError() {
 }
 
 function validateUrl() {
-    var URL_REGEX = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
-    if (!$(this).val() || !URL_REGEX.test($(this).val())) return;
-
     $("#submission-url-container").children(":not(#submission-url)").remove(); // Clear previous error messages if any
+
+    var URL_REGEX = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+    if (!$(this).val() || !URL_REGEX.test($(this).val())) {
+        showSubmissionError();
+        return;
+    }
 
     var PROTOCOL_REGEX = /^((http|https):\/\/)/;
     var url = $(this).val();
