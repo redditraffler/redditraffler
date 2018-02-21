@@ -1,11 +1,3 @@
-String.prototype.format = function() {
-    var s = this, i = arguments.length;
-    while (i--) {
-        s = s.replace(new RegExp('\\{' + i + '\\}', 'gm'), arguments[i]);
-    }
-    return s;
-};
-
 function getDateFromUnixTime(timestamp) {
     return new Date(timestamp * 1000).toDateString();
 }
@@ -15,18 +7,32 @@ function initTableControl() {
     var rowCount = $("#submissions > tbody > tr").length;
     var visibleRowCount = 10;
     if (rowCount > visibleRowCount) {
-        $('#table-control').show();
+        $("#table-control").show();
     }
 
-    $('#submissions > tbody > tr:lt(' + visibleRowCount + ')').show();
+    $("#submissions > tbody > tr:lt(" + visibleRowCount + ")").show();
 
-    $('#showMore').click(function() {
+    $("#show-more").click(function() {
         visibleRowCount = (visibleRowCount + 10 <= rowCount) ? visibleRowCount + 10 : rowCount;
-        $('#submissions > tbody > tr:lt(' + visibleRowCount + ')').show();
+        $("#submissions > tbody > tr:lt(" + visibleRowCount + ")").show();
         if (visibleRowCount == rowCount) {
-            $('#showMore').hide();
+            $("#show-more").hide();
         }
     });
+}
+
+function showSelectedSubmission($tr) {
+    var title = $tr.children("td:first").text().trim();
+
+    if ($("#submission-id-error").length > 0) {
+        $("#submission-id-error").remove();
+    }
+
+    if ($("#selected-submission").length > 0) {
+        $("#selected-submission").html("<p>Your selection: \"{0}\"</p>".format(title));
+    } else {
+        $("#submissions").before("<div id='selected-submission' class='content has-text-centered'><p>Your selection: \"{0}\"</p></div>".format(title));
+    }
 }
 
 function initTableRows() {
@@ -34,7 +40,8 @@ function initTableRows() {
     $rows.click(function() {
         $rows.removeClass("is-selected");
         $(this).addClass("is-selected");
-        $("#submission-id").val($(this).attr('id'));
+        $("#submission-id").val($(this).attr("id"));
+        showSelectedSubmission($(this));
     });
 }
 
@@ -66,6 +73,71 @@ function buildSubmissionsTable(submissions) {
     initTableRows(); // Add row click handlers
 }
 
+function showSubmissionDetails(submission) {
+    var $container = $("#submission-url-container");
+    var $inputField = $("#submission-url");
+
+    $inputField.attr("class", "input"); // Remove all other styling classes
+    $inputField.addClass("is-success");
+
+    var submissionDetailsTemplate = "<p class='help'><a href='{0}'>'{1}'</a> in /r/{2} by {3} on {4}</p>";
+    var authorHtml = submission.author ? "<a href='https://reddit.com/u/{0}'>/u/{0}</a>".format(submission.author) : "an unknown user";
+    $container.append(
+        submissionDetailsTemplate.format(
+            submission.url,
+            submission.title,
+            submission.subreddit,
+            authorHtml,
+            getDateFromUnixTime(submission.created_at_utc)
+        )
+    );
+}
+
+function showSubmissionError() {
+    var $container = $("#submission-url-container");
+    var $inputField = $("#submission-url");
+
+    $inputField.attr("class", "input"); // Remove all other styling classes
+    $inputField.addClass("is-danger");
+
+    var errorMsgHtml = "<p class='help is-danger'>This is not a valid submission URL.</p>";
+    $container.append(errorMsgHtml);
+}
+
+function validateUrl() {
+    $("#submission-url-container").children(":not(#submission-url)").remove(); // Clear previous error messages if any
+
+    var URL_REGEX = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+    if (!$(this).val() || !URL_REGEX.test($(this).val())) {
+        showSubmissionError();
+        return;
+    }
+
+    var PROTOCOL_REGEX = /^((http|https):\/\/)/;
+    var url = $(this).val();
+    if (!PROTOCOL_REGEX.test(url)) url = "https://" + url;
+    $.ajax({
+        dataType: "json",
+        data: { url: url },
+        url: $APP_ROOT + "api/submission",
+        success: showSubmissionDetails,
+        error: showSubmissionError
+    });
+}
+
+function validateSubmissionSelection(event) {
+    if ($("#submission-id").length > 0 && !$("#submission-id").val()) {
+        $("#submissions").before("<div id='submission-id-error' class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>");
+        $(document).scrollTop($("#submission-id").offset().top);
+        event.preventDefault();
+    }
+
+    if ($("#submission-url").length > 0 && !$("#submission-url").hasClass("is-success")) {
+        $(document).scrollTop($("#submission-url").offset().top);
+        event.preventDefault();
+    }
+}
+
 $(function() {
     if ($("#submissions").length > 0) {
         $.ajax({
@@ -74,4 +146,10 @@ $(function() {
             success: buildSubmissionsTable,
         });
     }
+
+    if($("#submission-url").length > 0) {
+        $("#submission-url").focusout(validateUrl);
+    }
+
+    $("#raffle-form").submit(validateSubmissionSelection);
 });

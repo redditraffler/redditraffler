@@ -1,4 +1,5 @@
 import praw
+import prawcore
 import app.config as config
 
 SETTINGS = {
@@ -36,11 +37,28 @@ def get_user_submissions(refresh_token):
     return result
 
 
+def get_submission(sub_id=None, sub_url=None):
+    """ Returns a serialized submission based on the given ID or URL, or
+    None if the ID or URL is invalid. """
+    r = praw.Reddit(**SETTINGS)
+
+    if not (sub_id or sub_url):
+        return None
+
+    try:
+        submission = r.submission(id=sub_id) if sub_id else \
+                     r.submission(url=sub_url)
+        return _serialize(submission)
+    except (prawcore.exceptions.NotFound, praw.exceptions.ClientException):
+        return None
+
+
 def _serialize(submission):
     """ Extracts the needed submission data and inserts them in a dict. """
     REDDIT_BASE_URL = 'https://www.reddit.com'
     return {
         'id': submission.id,
+        'author': submission.author.name if submission.author else None,
         'title': submission.title,
         'url': REDDIT_BASE_URL + submission.permalink,
         'subreddit': submission.subreddit.display_name,
