@@ -24,8 +24,8 @@ def register_error_handlers(app):
 
 def create_app():
     app = Flask(__name__,
-                template_folder=config.TEMPLATE_FOLDER,
-                static_folder=config.STATIC_FOLDER)
+                template_folder='views',
+                static_folder='assets')
 
     app.config.from_object(config)
 
