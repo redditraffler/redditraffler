@@ -3,7 +3,7 @@ from app.routes.base import base
 from app.routes.auth import auth
 from app.routes.raffles import raffles
 from app.routes.api import api
-from app.db import db
+from app.db import db, migrate, models
 
 import app.config as config
 
@@ -37,7 +37,6 @@ def create_app():
     app.register_blueprint(api, url_prefix='/api')
 
     db.init_app(app)
-    with app.app_context():
-        db.create_all()
+    migrate.init_app(app, db)
 
     return app
