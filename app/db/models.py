@@ -31,7 +31,10 @@ class Raffle(db.Model):
     minimum_ckarma = db.Column(db.Integer)
     minimum_lkarma = db.Column(db.Integer)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    user_id = db.Column(db.Integer,
+                        db.ForeignKey('user.id'),
+                        nullable=True,
+                        index=True)
 
     def __repr__(self):
         return '<Raffle {}>'.format(self.submission_id)
