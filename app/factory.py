@@ -3,6 +3,7 @@ from app.routes.base import base
 from app.routes.auth import auth
 from app.routes.raffles import raffles
 from app.routes.api import api
+from app.db import db, migrate, models
 
 import app.config as config
 
@@ -23,9 +24,10 @@ def register_error_handlers(app):
 
 def create_app():
     app = Flask(__name__,
-                template_folder=config.TEMPLATE_FOLDER,
-                static_folder=config.STATIC_FOLDER)
-    app.secret_key = config.SECRET_KEY
+                template_folder='views',
+                static_folder='assets')
+
+    app.config.from_object(config)
 
     register_error_handlers(app)
 
@@ -33,4 +35,8 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/auth')
     app.register_blueprint(raffles, url_prefix='/raffles')
     app.register_blueprint(api, url_prefix='/api')
+
+    db.init_app(app)
+    migrate.init_app(app, db)
+
     return app

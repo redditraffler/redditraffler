@@ -116,3 +116,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 config.py
+*.db
