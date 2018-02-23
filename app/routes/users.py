@@ -18,5 +18,6 @@ def show_user(username):
 
     raffles = user.raffles
     return render_template('users/show_user.html',
+                           title='/u/' + user.username,
                            user=user,
                            raffles=raffles)
