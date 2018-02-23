@@ -1,0 +1,37 @@
+{% extends "layouts/base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/users/show_user.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container has-text-centered">
+        <h1 class="title">/u/{{ user.username }} <a class="reddit" href="https://reddit.com/u/{{ user.username }}"><i class="fab fa-reddit"></i></a></h1>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        {% if raffles %}
+
+        {% else %}
+        <article class="message">
+            <div class="message-body">
+                <div class="content has-text-centered">
+                <p><i class="far fa-frown fa-10x"></i></p>
+                {% if session['reddit_username'] == user.username %}
+                    <p>This page is empty because you haven't created any raffles with your account.</p>
+                    <p>If you'd like to get started, <a href="{{ url_for('raffles.create') }}">click here!</a></p>
+                {% else %}
+                    <p>This page is empty because this user hasn't created any raffles with their account. Check back some other time!</p>
+                {% endif %}
+                </div>
+            </div>
+        </article>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
+

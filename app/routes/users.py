@@ -11,10 +11,12 @@ users = Blueprint('users', __name__)
 
 @users.route('/<username>')
 def show_user(username):
-    if not User.query.filter_by(username=username).scalar():
+    user = User.query.filter_by(username=username).one_or_none()
+
+    if not user:
         abort(404)
 
-    user = User.query.filter_by(username=username).one()
     raffles = user.raffles
-
-    return 'user found!'
+    return render_template('users/show_user.html',
+                           user=user,
+                           raffles=raffles)

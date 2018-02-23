@@ -1,0 +1,7 @@
+.reddit {
+    color: inherit;
+}
+
+.reddit:hover, .reddit:focus {
+    color: #ff4500;
+}
