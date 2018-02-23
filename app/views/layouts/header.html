@@ -27,9 +27,20 @@
 
         <div class="navbar-end">
             {% if 'reddit_refresh_token' in session %}
-                <form class="navbar-item" action="{{ url_for('auth.logout') }}" method="POST">
-                    <button class="button is-dark" type='submit'>Log Out</button>
-                </form>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    {{ session['reddit_username'] }}
+                </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="{{ url_for('users.show_user', username=session['reddit_username']) }}">
+                        Profile
+                    </a>
+                    <a id="logout" class="navbar-item">
+                        Log Out
+                    </a>
+                </div>
+            </div>
+            <form id="logout-form" style="display:none" action="{{ url_for('auth.logout') }}" method="POST"></form>
             {% endif %}
             <a class="navbar-item" title="View on GitHub" href="https://github.com/timorthi/redditraffler">
                 <i class="fab fa-github fa-fw fa-lg"></i>

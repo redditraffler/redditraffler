@@ -14,7 +14,6 @@ raffles = Blueprint('raffles', __name__)
 
 @raffles.route('/create')
 def create():
-    return render_template(
-        'raffles/create.html',
-        reddit_login_url=reddit.get_auth_url()
-    )
+    return render_template('raffles/create.html',
+                           title='create a raffle',
+                           reddit_login_url=reddit.get_auth_url())

@@ -22,4 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    if ($("#logout").length > 0) {
+        $("#logout").click(function() {
+            $("#logout-form").submit();
+        });
+    }
 });
