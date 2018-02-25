@@ -12,7 +12,6 @@ def test_submissions(client, monkeypatch):
         session['reddit_refresh_token'] = 'test_token'
 
     monkeypatch.setattr(reddit, 'get_user_submissions', lambda x: [])
-
     res = client.get(url_for('api.submissions'))
     assert res.status_code == 200
 
