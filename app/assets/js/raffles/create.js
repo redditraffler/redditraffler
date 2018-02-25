@@ -24,8 +24,8 @@ function initTableControl() {
 function showSelectedSubmission($tr) {
     var title = $tr.children("td:first").text().trim();
 
-    if ($("#submission-id-error").length > 0) {
-        $("#submission-id-error").remove();
+    if ($("#submission-selection-error").length > 0) {
+        $("#submission-selection-error").remove();
     }
 
     if ($("#selected-submission").length > 0) {
@@ -40,7 +40,7 @@ function initTableRows() {
     $rows.click(function() {
         $rows.removeClass("is-selected");
         $(this).addClass("is-selected");
-        $("#submission-id").val($(this).attr("id"));
+        $("#submission-selection").val("https://redd.it/" + $(this).attr("id"));
         showSelectedSubmission($(this));
     });
 }
@@ -126,9 +126,9 @@ function validateUrl() {
 }
 
 function validateSubmissionSelection(event) {
-    if ($("#submission-id").length > 0 && !$("#submission-id").val()) {
-        $("#submissions").before("<div id='submission-id-error' class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>");
-        $(document).scrollTop($("#submission-id").offset().top);
+    if ($("#submission-selection").length > 0 && !$("#submission-selection").val()) {
+        $("#submissions").before("<div id='submission-selection-error' class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>");
+        $(document).scrollTop($("#submission-selection").offset().top);
         event.preventDefault();
     }
 
