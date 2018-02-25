@@ -1,4 +1,4 @@
-from flask import url_for, session
+from flask import url_for
 from app.db.models import User
 
 
