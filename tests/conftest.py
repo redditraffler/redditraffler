@@ -27,7 +27,7 @@ def db(app, request):
 
 
 @pytest.fixture(scope='function')
-def session(db, request):
+def db_session(db, request):
     connection = db.engine.connect()
     transaction = connection.begin()
     options = dict(bind=connection, binds={})
