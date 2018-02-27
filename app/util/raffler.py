@@ -66,6 +66,7 @@ class Raffler():
                (comment.body is not None) and \
                (comment.author is not None) and \
                (comment not in self._entries)
+               # TODO: Missing check for duplicate comments in submission
 
     def _is_valid_winner(self, user):
         return (user.age >= self.min_age) and \
