@@ -44,9 +44,9 @@ class Raffler():
             entry = self._entries.pop()
             author = entry.author
             user = self.User(username=author.name,
-                        age=Raffler._account_age_days(author.created_utc),
-                        comment_karma=author.comment_karma,
-                        link_karma=author.link_karma)
+                             age=Raffler._account_age_days(author.created_utc),
+                             comment_karma=author.comment_karma,
+                             link_karma=author.link_karma)
             if self._is_valid_winner(user):
                 self._winners.update({user: entry})
 
@@ -77,18 +77,6 @@ class Raffler():
         return (datetime.utcnow() -
                 datetime.utcfromtimestamp(created_utc)).days
 
-
-class User():
-    def __init__(self, username, age, comment_karma, link_karma):
-        self.username = username
-        self.age = age
-        self.comment_karma = comment_karma
-        self.link_karma = link_karma
-    @staticmethod
-    def _account_age_days(created_utc):
-        return (datetime.utcnow() -
-                datetime.utcfromtimestamp(created_utc)).days
-
     class User():
         def __init__(self, username, age, comment_karma, link_karma):
             self.username = username
@@ -109,4 +97,3 @@ class User():
                 'comment_karma': self.comment_karma,
                 'link_karma': self.link_karma
             }
-
