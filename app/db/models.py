@@ -27,9 +27,9 @@ class Raffle(db.Model):
     submission_author = db.Column(db.String(64))
     subreddit = db.String(db.String(64))
     winner_count = db.Column(db.Integer)
-    minimum_account_age = db.Column(db.Integer)
-    minimum_ckarma = db.Column(db.Integer)
-    minimum_lkarma = db.Column(db.Integer)
+    min_account_age = db.Column(db.Integer)
+    min_comment_karma = db.Column(db.Integer)
+    min_link_karma = db.Column(db.Integer)
 
     winners = db.relationship('Winner', backref='raffle', lazy=True)
 

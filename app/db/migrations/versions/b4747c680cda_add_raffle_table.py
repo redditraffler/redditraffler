@@ -26,9 +26,9 @@ def upgrade():
     sa.Column('submission_title', sa.String(length=128), nullable=True),
     sa.Column('submission_author', sa.String(length=64), nullable=True),
     sa.Column('winner_count', sa.Integer(), nullable=True),
-    sa.Column('minimum_account_age', sa.Integer(), nullable=True),
-    sa.Column('minimum_ckarma', sa.Integer(), nullable=True),
-    sa.Column('minimum_lkarma', sa.Integer(), nullable=True),
+    sa.Column('min_account_age', sa.Integer(), nullable=True),
+    sa.Column('min_comment_karma', sa.Integer(), nullable=True),
+    sa.Column('min_link_karma', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
