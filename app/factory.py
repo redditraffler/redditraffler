@@ -5,6 +5,7 @@ from app.routes.raffles import raffles
 from app.routes.api import api
 from app.routes.users import users
 from app.db import db, migrate, models
+from app.jobs import rq
 
 import app.config as config
 
@@ -40,5 +41,6 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
+    rq.init_app(app)
 
     return app
