@@ -28,7 +28,8 @@ class Raffler():
                 self._entries.add(comment)
 
     def select_winners(self):
-        while self.winner_count - len(self._winners) > 0:
+        while (len(self._entries)) > 0 and \
+              (self.winner_count - len(self._winners) > 0):
             entry = self._entries.pop()
             author = entry.author
             user = User(username=author.name,
@@ -38,6 +39,8 @@ class Raffler():
 
             if self._is_valid_winner(user):
                 self._winners.add(user)
+
+        return len(self._winners) == self.winner_count
 
     def _is_valid_comment(self, comment):
         return (comment.is_root) and \
