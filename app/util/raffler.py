@@ -75,3 +75,21 @@ class User():
         self.age = age
         self.comment_karma = comment_karma
         self.link_karma = link_karma
+    @staticmethod
+    def _account_age_days(created_utc):
+        return (datetime.utcnow() -
+                datetime.utcfromtimestamp(created_utc)).days
+
+    class User():
+        def __init__(self, username, age, comment_karma, link_karma):
+            self.username = username
+            self.age = age
+            self.comment_karma = comment_karma
+            self.link_karma = link_karma
+
+        def __hash__(self):
+            return hash((self.username))
+
+        def __eq__(self, other):
+            return self.username == other.username
+
