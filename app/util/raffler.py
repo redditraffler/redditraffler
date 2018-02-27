@@ -19,7 +19,7 @@ class Raffler():
         self.min_comment_karma = int(min_comment_karma)
         self.min_link_karma = int(min_link_karma)
 
-        self._winners = set()
+        self._winners = {}
         self._entries = set()
 
     def fetch_comments(self):
@@ -36,20 +36,19 @@ class Raffler():
     def select_winners(self):
         """ Loop over the internal set of entries to find comments whose
         author meets the criteria set. Authors that meet the criteria are
-        added to an internal set `_winners`. Returns whether the the loop
+        added to an internal dict `_winners`. Returns whether the loop
         succeeded in finding enough winners to match `winner_count`.
         """
         while (len(self._entries)) > 0 and \
               (self.winner_count - len(self._winners) > 0):
             entry = self._entries.pop()
             author = entry.author
-            user = User(username=author.name,
+            user = self.User(username=author.name,
                         age=Raffler._account_age_days(author.created_utc),
                         comment_karma=author.comment_karma,
                         link_karma=author.link_karma)
-
             if self._is_valid_winner(user):
-                self._winners.add(user)
+                self._winners.update({user: entry})
 
         return len(self._winners) == self.winner_count
 
