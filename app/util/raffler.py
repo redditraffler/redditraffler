@@ -52,6 +52,15 @@ class Raffler():
 
         return len(self._winners) == self.winner_count
 
+    def get_serialized_winners(self):
+        result = []
+        for user, comment in self._winners.items():
+            result.append({
+                'user': user.as_dict(),
+                'comment_url': 'https://reddit.com' + comment.permalink,
+            })
+        return result
+
     def _is_valid_comment(self, comment):
         return (comment.is_root) and \
                (comment.body is not None) and \
@@ -92,4 +101,12 @@ class User():
 
         def __eq__(self, other):
             return self.username == other.username
+
+        def as_dict(self):
+            return {
+                'username': self.username,
+                'age': self.age,
+                'comment_karma': self.comment_karma,
+                'link_karma': self.link_karma
+            }
 
