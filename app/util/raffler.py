@@ -54,9 +54,9 @@ class Raffler():
                (user.link_karma >= self.min_link_karma)
 
     @staticmethod
-    def _account_age_days(created_epoch):
+    def _account_age_days(created_utc):
         return (datetime.utcnow() -
-                datetime.utcfromtimestamp(created_epoch)).days
+                datetime.utcfromtimestamp(created_utc)).days
 
 
 class User():
