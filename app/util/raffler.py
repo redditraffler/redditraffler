@@ -6,21 +6,27 @@ import app.config as config
 class Raffler():
     def __init__(self, submission_url, winner_count, min_age,
                  min_comment_karma, min_link_karma):
+        """ Initialize a Reddit instance and helper data structures,
+        fetch the submission, and set all raffle parameters. """
         self.reddit = praw.Reddit(client_id=config.BOT_CLIENT_ID,
                                   client_secret=config.BOT_CLIENT_SECRET,
                                   user_agent=config.REDDIT_USER_AGENT,
                                   username=config.BOT_USERNAME,
                                   password=config.BOT_PASSWORD)
-
         self.submission = self.reddit.submission(url=submission_url)
         self.winner_count = int(winner_count)
         self.min_age = int(min_age)
         self.min_comment_karma = int(min_comment_karma)
         self.min_link_karma = int(min_link_karma)
+
         self._winners = set()
         self._entries = set()
 
     def fetch_comments(self):
+        """ Fetch the submission's comments in a random order.
+        `replace_more(limit=20)` is equivalent to scrolling down in a
+        submission to load more comments. Top-level, valid comments are
+        then added to an internal set `_entries`. """
         self.submission.comment_sort = 'random'
         self.submission.comments.replace_more(limit=20)
         for comment in self.submission.comments.list():
@@ -28,6 +34,11 @@ class Raffler():
                 self._entries.add(comment)
 
     def select_winners(self):
+        """ Loop over the internal set of entries to find comments whose
+        author meets the criteria set. Authors that meet the criteria are
+        added to an internal set `_winners`. Returns whether the the loop
+        succeeded in finding enough winners to match `winner_count`.
+        """
         while (len(self._entries)) > 0 and \
               (self.winner_count - len(self._winners) > 0):
             entry = self._entries.pop()
