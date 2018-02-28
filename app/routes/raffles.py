@@ -48,7 +48,7 @@ def _validate_raffle_form(form):
            (form.get(key, type=int) < 0):
             return False
 
-    # Validate submission validity
+    # Validate that the submission exists
     if not reddit.get_submission(sub_url=form.get('submissionUrl')):
         return False
 
