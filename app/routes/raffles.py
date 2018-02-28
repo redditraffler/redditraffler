@@ -28,7 +28,7 @@ def create():
             'min_comment_karma': request.form.get('minComment', type=int),
             'min_link_karma': request.form.get('minLink', type=int)
         }
-        sub_id = reddit.id_from_url(raffle_params['submission_url'])
+        sub_id = reddit.submission_id_from_url(raffle_params['submission_url'])
         raffle.queue(raffle_params=raffle_params, job_id=sub_id)
         return 'ok'
 

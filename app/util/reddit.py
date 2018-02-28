@@ -53,7 +53,7 @@ def get_submission(sub_id=None, sub_url=None):
         return None
 
 
-def id_from_url(url):
+def submission_id_from_url(url):
     return praw.models.Submission.id_from_url(url)
 
 
