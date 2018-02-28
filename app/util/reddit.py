@@ -53,6 +53,10 @@ def get_submission(sub_id=None, sub_url=None):
         return None
 
 
+def id_from_url(url):
+    return praw.models.Submission.id_from_url(url)
+
+
 def _serialize(submission):
     """ Extracts the needed submission data and inserts them in a dict. """
     REDDIT_BASE_URL = 'https://www.reddit.com'

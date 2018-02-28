@@ -7,7 +7,6 @@ from flask import (
 )
 from app.util import reddit
 from app.jobs.raffle_job import raffle
-from praw.models import Submission
 
 raffles = Blueprint('raffles', __name__)
 
@@ -29,7 +28,7 @@ def create():
             'min_comment_karma': request.form.get('minComment', type=int),
             'min_link_karma': request.form.get('minLink', type=int)
         }
-        sub_id = Submission.id_from_url(raffle_params['submission_url'])
+        sub_id = reddit.id_from_url(raffle_params['submission_url'])
         raffle.queue(raffle_params=raffle_params, job_id=sub_id)
         return 'ok'
 
