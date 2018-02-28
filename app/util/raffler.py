@@ -4,7 +4,7 @@ import app.config as config
 
 
 class Raffler():
-    def __init__(self, submission_url, winner_count, min_age,
+    def __init__(self, submission_url, winner_count, min_account_age,
                  min_comment_karma, min_link_karma):
         """ Initialize a Reddit instance and helper data structures,
         fetch the submission, and set all raffle parameters. """
@@ -15,7 +15,7 @@ class Raffler():
                                   password=config.BOT_PASSWORD)
         self.submission = self.reddit.submission(url=submission_url)
         self.winner_count = int(winner_count)
-        self.min_age = int(min_age)
+        self.min_account_age = int(min_account_age)
         self.min_comment_karma = int(min_comment_karma)
         self.min_link_karma = int(min_link_karma)
 
@@ -69,7 +69,7 @@ class Raffler():
                # TODO: Missing check for duplicate comments in submission
 
     def _is_valid_winner(self, user):
-        return (user.age >= self.min_age) and \
+        return (user.age >= self.min_account_age) and \
                (user.comment_karma >= self.min_comment_karma) and \
                (user.link_karma >= self.min_link_karma)
 

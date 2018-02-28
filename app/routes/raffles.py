@@ -24,7 +24,7 @@ def create():
         raffle_params = {
             'submission_url': request.form.get('submissionUrl'),
             'winner_count': request.form.get('winnerCount', type=int),
-            'min_age': request.form.get('minAge', type=int),
+            'min_account_age': request.form.get('minAge', type=int),
             'min_comment_karma': request.form.get('minComment', type=int),
             'min_link_karma': request.form.get('minLink', type=int)
         }
