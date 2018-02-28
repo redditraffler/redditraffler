@@ -6,6 +6,8 @@ from flask import (
     url_for
 )
 from app.util import reddit
+from app.jobs.raffle_job import raffle
+from praw.models import Submission
 
 raffles = Blueprint('raffles', __name__)
 
@@ -19,6 +21,16 @@ def create():
     elif request.method == 'POST':
         if not _validate_raffle_form(request.form):
             abort(422)
+
+        raffle_params = {
+            'submission_url': request.form.get('submissionUrl'),
+            'winner_count': request.form.get('winnerCount', type=int),
+            'min_age': request.form.get('minAge', type=int),
+            'min_comment_karma': request.form.get('minComment', type=int),
+            'min_link_karma': request.form.get('minLink', type=int)
+        }
+        sub_id = Submission.id_from_url(raffle_params['submission_url'])
+        raffle.queue(raffle_params=raffle_params, job_id=sub_id)
         return 'ok'
 
 
