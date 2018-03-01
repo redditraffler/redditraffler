@@ -1,6 +1,6 @@
 from flask import Flask
-from app.db import db, migrate, models
-from app.jobs import rq
+from app.extensions import db, migrate, rq
+from app.db import models
 from app.routes import base, auth, raffles, api, users
 import app.config as config
 

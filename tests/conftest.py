@@ -1,5 +1,5 @@
 from app.factory import create_app
-from app.db import db as _db
+from app.extensions import db as _db
 import pytest
 
 settings = {

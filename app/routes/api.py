@@ -1,6 +1,6 @@
 from flask import Blueprint, session, jsonify, abort, request
 from app.util import reddit
-from app.jobs import rq
+from app.extensions import rq
 
 
 api = Blueprint('api', __name__)
