@@ -4,6 +4,7 @@ from app.jobs import rq, update_job_status
 from app.util import reddit
 from app.util.raffler import Raffler
 from rq import get_current_job
+from flask import has_app_context
 
 
 @rq.job
@@ -18,10 +19,32 @@ def raffle(raffle_params):
     update_job_status(job, 'Selecting winners...')
     r.select_winners()
     update_job_status(job, 'Saving results to our database...')
-    _save_results_to_db(winners=r.get_serialized_winners(),
+    _save_results_to_db(raffle_params=raffle_params,
+                        winners=r.get_serialized_winners(),
                         submission=submission)
     update_job_status(job, 'Done!')
 
 
-def _save_results_to_db(winners, submission):
-    pass
+def _save_results_to_db(raffle_params, winners, submission):
+    raffle = Raffle(submission_id=submission['id'],
+                    submission_title=submission['title'],
+                    submission_author=submission['author'],
+                    subreddit=submission['subreddit'],
+                    winner_count=raffle_params['winner_count'],
+                    min_account_age=raffle_params['min_account_age'],
+                    min_comment_karma=raffle_params['min_comment_karma'],
+                    min_link_karma=raffle_params['min_link_karma'])
+    # TODO: Missing user_id in Raffle instance
+
+    for winner in winners:
+        user = winner['user']
+        w = Winner(username=user['username'],
+                   account_age=user['age'],
+                   comment_karma=user['comment_karma'],
+                   link_karma=user['link_karma'],
+                   comment_url=winner['comment_url'])
+        raffle.winners.append(w)
+
+    # TODO: App context missing
+    db.session.add(raffle)
+    db.session.commit()
