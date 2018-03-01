@@ -52,6 +52,7 @@ class Winner(db.Model):
     account_age = db.Column(db.Integer)
     comment_karma = db.Column(db.Integer)
     link_karma = db.Column(db.Integer)
+    comment_url = db.Column(db.String(128))
 
     raffle_id = db.Column(db.Integer,
                           db.ForeignKey('raffle.id'),
