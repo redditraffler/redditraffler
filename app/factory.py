@@ -1,13 +1,22 @@
 from flask import Flask
-from app.routes.base import base
-from app.routes.auth import auth
-from app.routes.raffles import raffles
-from app.routes.api import api
-from app.routes.users import users
-from app.db import db, migrate, models
-from app.jobs import rq
-
+from app.extensions import db, migrate, rq
+from app.db import models
+from app.routes import base, auth, raffles, api, users
 import app.config as config
+
+
+def create_app():
+    app = Flask(__name__,
+                template_folder='views',
+                static_folder='assets')
+
+    app.config.from_object(config)
+
+    register_error_handlers(app)
+    register_blueprints(app)
+    register_extensions(app)
+
+    return app
 
 
 def register_error_handlers(app):
@@ -24,23 +33,17 @@ def register_error_handlers(app):
         return 'internal server error', 500
 
 
-def create_app():
-    app = Flask(__name__,
-                template_folder='views',
-                static_folder='assets')
+def register_blueprints(app):
+    app.register_blueprint(base.base)
+    app.register_blueprint(auth.auth, url_prefix='/auth')
+    app.register_blueprint(raffles.raffles, url_prefix='/raffles')
+    app.register_blueprint(api.api, url_prefix='/api')
+    app.register_blueprint(users.users, url_prefix='/users')
+    return None
 
-    app.config.from_object(config)
 
-    register_error_handlers(app)
-
-    app.register_blueprint(base)
-    app.register_blueprint(auth, url_prefix='/auth')
-    app.register_blueprint(raffles, url_prefix='/raffles')
-    app.register_blueprint(api, url_prefix='/api')
-    app.register_blueprint(users, url_prefix='/users')
-
+def register_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
     rq.init_app(app)
-
-    return app
+    return None
