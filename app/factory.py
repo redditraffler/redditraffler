@@ -14,10 +14,7 @@ def create_app():
 
     register_error_handlers(app)
     register_blueprints(app)
-
-    db.init_app(app)
-    migrate.init_app(app, db)
-    rq.init_app(app)
+    register_extensions(app)
 
     return app
 
@@ -42,4 +39,11 @@ def register_blueprints(app):
     app.register_blueprint(raffles.raffles, url_prefix='/raffles')
     app.register_blueprint(api.api, url_prefix='/api')
     app.register_blueprint(users.users, url_prefix='/users')
+    return None
+
+
+def register_extensions(app):
+    db.init_app(app)
+    migrate.init_app(app, db)
+    rq.init_app(app)
     return None
