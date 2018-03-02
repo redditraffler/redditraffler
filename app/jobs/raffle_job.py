@@ -45,6 +45,5 @@ def _save_results_to_db(raffle_params, winners, submission):
                    comment_url=winner['comment_url'])
         raffle.winners.append(w)
 
-    # TODO: App context missing
     db.session.add(raffle)
     db.session.commit()
