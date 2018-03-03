@@ -1,6 +1,6 @@
+from app import config
 import praw
 import prawcore
-import app.config as config
 
 SETTINGS = {
     'client_id': config.REDDIT_CLIENT_ID,

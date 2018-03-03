@@ -1,6 +1,6 @@
+from app import config
 from datetime import datetime
 import praw
-import app.config as config
 
 
 class Raffler():
