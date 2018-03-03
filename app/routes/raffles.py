@@ -3,10 +3,12 @@ from flask import (
     Blueprint,
     render_template,
     request,
+    session,
     url_for
 )
 from app.util import reddit
 from app.jobs.raffle_job import raffle
+from app.db.models import User
 
 raffles = Blueprint('raffles', __name__)
 
@@ -21,6 +23,7 @@ def create():
         if not _validate_raffle_form(request.form):
             abort(422)
 
+        user = _try_get_user_from_session()
         sub_url = _ensure_protocol(request.form.get('submissionUrl'))
         sub_id = reddit.submission_id_from_url(sub_url)
         raffle_params = {
@@ -30,7 +33,10 @@ def create():
             'min_comment_karma': request.form.get('minComment', type=int),
             'min_link_karma': request.form.get('minLink', type=int)
         }
-        raffle.queue(raffle_params=raffle_params, job_id=sub_id)
+
+        raffle.queue(raffle_params=raffle_params,
+                     user=user,
+                     job_id=sub_id)
         return 'ok'
 
 
@@ -62,3 +68,12 @@ def _ensure_protocol(url):
     if url.startswith('http'):
         return url
     return 'https://' + url
+
+
+def _try_get_user_from_session():
+    if 'reddit_username' in session:
+        return User.query \
+                   .filter_by(username=session['reddit_username']) \
+                   .first()
+    else:
+        return None
