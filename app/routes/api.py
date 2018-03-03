@@ -1,5 +1,7 @@
 from flask import Blueprint, session, jsonify, abort, request
 from app.util import reddit
+from app.extensions import rq
+
 
 api = Blueprint('api', __name__)
 
@@ -29,3 +31,11 @@ def submission():
         submission = reddit.get_submission(sub_id=request.args.get('id'))
 
     return jsonify(submission) if submission else abort(404)
+
+
+@api.route('/job_status')
+def status():
+    job = rq.get_queue().fetch_job(request.args.get('job_id'))
+    if not job:
+        abort(404)
+    return jsonify({'status': job.meta.get('status')})

@@ -1,6 +1,6 @@
+from app import config
 import praw
 import prawcore
-import app.config as config
 
 SETTINGS = {
     'client_id': config.REDDIT_CLIENT_ID,
@@ -51,6 +51,10 @@ def get_submission(sub_id=None, sub_url=None):
         return _serialize(submission)
     except (prawcore.exceptions.NotFound, praw.exceptions.ClientException):
         return None
+
+
+def submission_id_from_url(url):
+    return praw.models.Submission.id_from_url(url)
 
 
 def _serialize(submission):

@@ -8,7 +8,7 @@ from flask import (
     url_for
 )
 from app.util import reddit
-from app.db import db
+from app.extensions import db
 from app.db.models import User
 
 auth = Blueprint('auth', __name__)

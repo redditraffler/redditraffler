@@ -3,7 +3,7 @@ from flask import (
     Blueprint,
     render_template
 )
-from app.db import db
+from app.extensions import db
 from app.db.models import User
 
 users = Blueprint('users', __name__)
