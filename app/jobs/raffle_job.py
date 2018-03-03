@@ -1,6 +1,6 @@
 from app.extensions import db, rq
 from app.db.models import Raffle, Winner
-from app.jobs import update_job_status
+from app.jobs.util import update_job_status
 from app.util import reddit
 from app.util.raffler import Raffler
 from rq import get_current_job
