@@ -20,18 +20,20 @@ def create():
                                title='create a raffle',
                                reddit_login_url=reddit.get_auth_url())
     elif request.method == 'POST':
-        if not _validate_raffle_form(request.form):
+        form = request.form.copy()
+        if 'submissionUrl' in form:
+            form['submissionUrl'] = _ensure_protocol(form['submissionUrl'])
+        if not _validate_raffle_form(form):
             abort(422)
 
         user = _try_get_user_from_session()
-        sub_url = _ensure_protocol(request.form.get('submissionUrl'))
-        sub_id = reddit.submission_id_from_url(sub_url)
+        sub_id = reddit.submission_id_from_url(form.get('submissionUrl'))
         raffle_params = {
-            'submission_url': sub_url,
-            'winner_count': request.form.get('winnerCount', type=int),
-            'min_account_age': request.form.get('minAge', type=int),
-            'min_comment_karma': request.form.get('minComment', type=int),
-            'min_link_karma': request.form.get('minLink', type=int)
+            'submission_url': form.get('submissionUrl'),
+            'winner_count': form.get('winnerCount', type=int),
+            'min_account_age': form.get('minAge', type=int),
+            'min_comment_karma': form.get('minComment', type=int),
+            'min_link_karma': form.get('minLink', type=int)
         }
 
         raffle.queue(raffle_params=raffle_params,
