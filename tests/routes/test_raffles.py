@@ -1,6 +1,5 @@
 from flask import url_for, request
 from app.util import reddit
-import pytest
 
 
 def test_get_create(client):
@@ -16,7 +15,6 @@ def test_post_create_invalid_params(client):
     assert res.status_code == 422
 
 
-@pytest.mark.skip(reason='RQ_ASYNC=False but job still being sent to worker')
 def test_post_create_valid_params(client, monkeypatch):
     monkeypatch.setattr(reddit, 'get_submission', lambda sub_url: True)
     res = client.post(url_for('raffles.create'), data=_valid_form_params())
