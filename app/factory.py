@@ -1,5 +1,4 @@
 from flask import Flask
-from app import config
 from app.extensions import db, migrate, rq
 from app.db import models
 from app.routes import base, auth, raffles, api, users
