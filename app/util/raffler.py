@@ -1,4 +1,4 @@
-from app import config
+from app.config import BaseConfig as config
 from datetime import datetime
 import praw
 

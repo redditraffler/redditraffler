@@ -1,11 +1,40 @@
 # This is a skeleton file for config.py which is
-# needed to run the server properly.
+# needed to run the server properly. Replace all empty values with
+# the appropriate values for your environment; leave the rest of the
+# values alone.
 
-SECRET_KEY=''
-REDDIT_CLIENT_ID = ''
-REDDIT_CLIENT_SECRET = ''
-REDDIT_REDIRECT_URI = ''
-REDDIT_USER_AGENT = ''
-REDDIT_AUTH_SCOPES = []
-SQLALCHEMY_DATABASE_URI = 'sqlite:///path/to/database.db'
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+class BaseConfig():
+    SECRET_KEY = ''
+    RQ_REDIS_URL = 'redis://127.0.0.1:6379/0'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    REDDIT_CLIENT_ID = ''
+    REDDIT_CLIENT_SECRET = ''
+    REDDIT_REDIRECT_URI = 'http://localhost:5000/auth/redirect'
+    REDDIT_USER_AGENT = ''
+    REDDIT_AUTH_SCOPES = ['identity', 'history', 'read']
+
+    BOT_USERNAME = ''
+    BOT_PASSWORD = ''
+    BOT_CLIENT_ID = ''
+    BOT_CLIENT_SECRET = ''
+
+
+class DevConfig(BaseConfig):
+    ENV = 'development'
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = ''
+
+
+class ProdConfig(BaseConfig):
+    ENV = 'production'
+    DEBUG = False
+    SQLALCHEMY_DATABASE_URI = ''
+
+
+class TestConfig(BaseConfig):
+    ENV = 'test'
+    TESTING = True
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = ''
+    RQ_ASYNC = False

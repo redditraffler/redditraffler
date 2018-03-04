@@ -1,16 +1,16 @@
 from flask import Flask
-from app import config
 from app.extensions import db, migrate, rq
 from app.db import models
 from app.routes import base, auth, raffles, api, users
+from app.config import ProdConfig
 
 
-def create_app():
+def create_app(config_object=ProdConfig):
     app = Flask(__name__,
                 template_folder='views',
                 static_folder='assets')
 
-    app.config.from_object(config)
+    app.config.from_object(config_object)
 
     register_error_handlers(app)
     register_blueprints(app)

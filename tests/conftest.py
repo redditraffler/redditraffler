@@ -1,20 +1,15 @@
+from app.config import TestConfig
 from app.factory import create_app
 from app.extensions import db as _db
 import pytest
 
-settings = {
-    'TESTING': True,
-    'SQLALCHEMY_DATABASE_URI': 'sqlite:////tmp/test.db'
-}
-
 
 @pytest.fixture(scope='session')
 def app():
-    app = create_app()
-    app.config.update(settings)
-    context = app.app_context()
+    test_app = create_app(TestConfig)
+    context = test_app.app_context()
     context.push()
-    yield app
+    yield test_app
     context.pop()
 
 

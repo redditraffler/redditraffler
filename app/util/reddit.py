@@ -1,4 +1,4 @@
-from app import config
+from app.config import BaseConfig as config
 import praw
 import prawcore
 
