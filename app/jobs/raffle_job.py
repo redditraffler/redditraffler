@@ -17,7 +17,7 @@ def raffle(raffle_params, user):
     r.fetch_comments()
     update_job_status(job, 'Selecting winners...')
     r.select_winners()
-    update_job_status(job, 'Saving results to our database...')
+    update_job_status(job, 'Saving raffle results...')
     _save_results_to_db(raffle_params=raffle_params,
                         winners=r.get_serialized_winners(),
                         submission=submission,
