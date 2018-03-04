@@ -2,18 +2,20 @@ from app.util import reddit
 from app.util.raffler import Raffler
 from app.jobs.raffle_job import raffle
 from app.db.models import Raffle, User
+import pytest
 
 
+@pytest.fixture(autouse=True)
 def patch_raffler_class(monkeypatch):
     monkeypatch.setattr(Raffler, '__init__', _stub_raffler_init)
     monkeypatch.setattr(Raffler, 'fetch_comments', lambda x: True)
     monkeypatch.setattr(Raffler, 'select_winners', lambda x: True)
     monkeypatch.setattr(Raffler, 'get_serialized_winners', _stub_winners)
     monkeypatch.setattr(reddit, 'get_submission', _stub_submission)
+    yield
 
 
-def test_raffle_guest_db_saving(db_session, client, monkeypatch):
-    patch_raffler_class(monkeypatch)
+def test_raffle_guest_db_saving(db_session, client):
     raffle_params = _raffle_params()
     job = raffle.queue(raffle_params, None)
 
@@ -24,8 +26,7 @@ def test_raffle_guest_db_saving(db_session, client, monkeypatch):
     assert saved_raffle.winners[0].username == 'test-user'
 
 
-def test_raffle_verified_db_saving(db_session, client, monkeypatch):
-    patch_raffler_class(monkeypatch)
+def test_raffle_verified_db_saving(db_session, client):
     user = User(username='verified_redditor')
     db_session.add(user)
     db_session.commit()
