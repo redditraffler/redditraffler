@@ -1,5 +1,6 @@
 from flask import url_for, request
 from app.util import reddit
+from app.jobs.raffle_job import raffle
 
 
 def test_get_create(client):
@@ -22,6 +23,8 @@ def test_post_create_valid_params(client, monkeypatch):
     assert res.status_code == 200
 
 
+def _stub_raffle_job(raffle_params, user, job_id):
+    return [raffle_params, user, job_id]
 
 
 def _stub_submission(sub_url):
