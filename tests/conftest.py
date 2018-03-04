@@ -6,10 +6,10 @@ import pytest
 
 @pytest.fixture(scope='session')
 def app():
-    app = create_app(config_object=TestConfig)
-    context = app.app_context()
+    test_app = create_app(TestConfig)
+    context = test_app.app_context()
     context.push()
-    yield app
+    yield test_app
     context.pop()
 
 
