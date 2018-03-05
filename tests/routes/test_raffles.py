@@ -35,6 +35,16 @@ def test_raffle_status(client, monkeypatch):
     assert res.status_code == 200
 
 
+def test_show_missing_raffle(client, db_session):
+    res = client.get(url_for('raffles.show', submission_id='123abc'))
+    assert res.status_code == 404
+
+
+def test_show(client, raffle):
+    res = client.get(url_for('raffles.show', submission_id='test_id'))
+    assert res.status_code == 200
+
+
 def _stub_raffle_job(raffle_params, user, job_id):
     return [raffle_params, user, job_id]
 
