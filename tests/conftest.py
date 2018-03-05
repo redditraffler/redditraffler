@@ -1,6 +1,7 @@
 from app.config import TestConfig
 from app.factory import create_app
 from app.extensions import db as _db
+from app.db.models import Raffle
 import pytest
 
 
@@ -32,3 +33,17 @@ def db_session(db, request):
     transaction.rollback()
     connection.close()
     session.remove()
+
+
+@pytest.fixture
+def raffle(db_session):
+    raffle = Raffle(submission_id='test_id',
+                    submission_title='test_title',
+                    submission_author='test_author',
+                    subreddit='test_subreddit',
+                    winner_count=1,
+                    min_account_age=0,
+                    min_comment_karma=0,
+                    min_link_karma=0)
+    db_session.add(raffle)
+    db_session.commit()
