@@ -1,4 +1,9 @@
 /* App-wide styles here */
+html {
+  height: 100%;
+  background-color: whitesmoke;
+}
+
 .light-gray { background-color: whitesmoke; }
 
 .loader {

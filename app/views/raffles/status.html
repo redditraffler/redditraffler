@@ -1,0 +1,24 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<section class="hero is-medium">
+    <div class="hero-body is-full">
+        <div class="container has-text-centered">
+            <div class="box">
+                <div id="loader" class="content">
+                    <div class="loader"></div>
+                </div>
+                <div id="status-container" class="content">
+                    <p id="job-status" class="title">Fetching status...</p>
+                    <p>You'll be redirected to the results page when we're done processing your raffle.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<script>var jobId = {{ job_id | tojson | safe }};</script>
+<script defer src="{{ url_for('static', filename='js/raffles/status.js') }}"></script>
+{% endblock %}

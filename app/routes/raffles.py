@@ -1,6 +1,7 @@
 from flask import (
     abort,
     Blueprint,
+    redirect,
     render_template,
     request,
     session,
@@ -9,6 +10,7 @@ from flask import (
 from app.util import reddit
 from app.jobs.raffle_job import raffle
 from app.db.models import User
+from app.extensions import rq
 
 raffles = Blueprint('raffles', __name__)
 
@@ -39,7 +41,16 @@ def create():
         raffle.queue(raffle_params=raffle_params,
                      user=user,
                      job_id=sub_id)
-        return 'ok'
+        return redirect(url_for('raffles.status', job_id=sub_id))
+
+
+@raffles.route('/<job_id>/status')
+def status(job_id):
+    if not rq.get_queue().fetch_job(job_id):
+        abort(404)
+    return render_template('raffles/status.html',
+                           title='raffle status',
+                           job_id=job_id)
 
 
 def _validate_raffle_form(form):
