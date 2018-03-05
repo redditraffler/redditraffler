@@ -42,7 +42,8 @@ class Raffle(db.Model):
         return '<Raffle {}>'.format(self.submission_id)
 
     def is_verified(self):
-        return self.submission_author == self.creator.username
+        return self.creator and \
+               (self.submission_author == self.creator.username)
 
 
 class Winner(db.Model):
