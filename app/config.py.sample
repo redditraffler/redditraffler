@@ -38,3 +38,4 @@ class TestConfig(BaseConfig):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = ''
     RQ_ASYNC = False
+    RATELIMIT_ENABLED = False
