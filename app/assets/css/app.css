@@ -9,7 +9,8 @@ html {
 }
 
 .is-reddit {
-  background-color: #ff4500;
+  /* Decreased opacity as the main color is too loud for backgrounds */
+  background-color: #ff7644;
   color: white;
 }
 
@@ -18,7 +19,7 @@ html {
 }
 
 .reddit-button:hover, .reddit-button:active {
-    color: #ff4500;
+  color: #ff4500;
 }
 
 .loader {
