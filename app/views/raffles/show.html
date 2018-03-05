@@ -10,7 +10,7 @@
     <div class="hero-body">
         <p class="title">
             Raffle results for "<a href="https://redd.it/{{ raffle.submission_id }}">{{ raffle.submission_title | truncate(50) }}</a>"
-            {% if raffle.creator %}
+            {% if raffle.is_verified() %}
             <i class="fas fa-check-circle" title="Verified Raffle"></i>
             {% endif %}
         </p>
