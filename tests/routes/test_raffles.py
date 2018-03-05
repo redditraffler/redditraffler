@@ -20,7 +20,7 @@ def test_post_create_valid_params(client, monkeypatch):
     monkeypatch.setattr(reddit, 'get_submission', lambda sub_url: True)
     monkeypatch.setattr(raffle, 'queue', _stub_raffle_job)
     res = client.post(url_for('raffles.create'), data=_valid_form_params())
-    assert res.status_code == 200
+    assert res.status_code == 302
 
 
 def _stub_raffle_job(raffle_params, user, job_id):
