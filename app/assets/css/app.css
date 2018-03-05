@@ -5,7 +5,7 @@ html {
 }
 
 .is-white {
-  background-color: white
+  background-color: white;
 }
 
 .is-reddit {
@@ -17,7 +17,7 @@ html {
   color: inherit
 }
 
-.reddit-button:hover, .reddit-button:focus {
+.reddit-button:hover, .reddit-button:active {
     color: #ff4500;
 }
 
