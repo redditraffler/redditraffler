@@ -4,8 +4,6 @@ html {
   background-color: whitesmoke;
 }
 
-.light-gray { background-color: whitesmoke; }
-
 .loader {
   display: inline-block;
   position: relative;
