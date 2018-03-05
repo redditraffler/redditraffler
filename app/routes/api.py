@@ -38,4 +38,9 @@ def status():
     job = rq.get_queue().fetch_job(request.args.get('job_id'))
     if not job:
         abort(404)
-    return jsonify({'status': job.meta.get('status')})
+
+    if 'status' in job.meta:
+        status = job.meta.get('status')
+    else:
+        status = 'Waiting in queue...'
+    return jsonify({'status': status})
