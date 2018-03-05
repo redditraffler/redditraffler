@@ -1,0 +1,12 @@
+.is-reddit .title, .is-reddit .subtitle {
+    color: white
+}
+
+.hero a {
+    color: white;
+    text-decoration: underline;
+}
+
+.hero a:hover {
+    color: #e2e0e0;
+}

@@ -1,10 +1,54 @@
 {% extends "layouts/base.html" %}
 
-{% block content %}
-<section class="section">
-
-</section>
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/raffles/show.css') }}">
 {% endblock %}
 
-{% block js %}
+
+{% block content %}
+<section class="hero is-reddit">
+    <div class="hero-body">
+        <p class="title">
+            Raffle results for "<a href="https://redd.it/{{ raffle.submission_id }}">{{ raffle.submission_title | truncate(50) }}</a>"
+            {% if raffle.creator %}
+            <i class="fas fa-check-circle" title="Verified Raffle"></i>
+            {% endif %}
+        </p>
+        <p class="subtitle">
+            Created by
+            {% if raffle.creator %}
+                <a href="{{ url_for('users.show_user', username=raffle.creator.username) }}">/u/{{raffle.creator.username}}</i></a>
+            {% else %}
+                an anonymous user
+            {% endif %}
+            on {{ raffle.created_at.strftime('%-d %b %Y at %X UTC') }}
+        </p>
+    </div>
+</section>
+
+<section class="section is-white">
+    <div class="content has-text-centered">
+        <p class="title">Criteria</p>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <div class="has-text-centered">
+                <p class="is-size-3">{{ raffle.min_account_age }} <span class="is-size-5">day(s)</span></p>
+                <p class="is-size-6">Minimum Account Age</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="has-text-centered">
+                <p class="is-size-3">{{ raffle.min_comment_karma }}</p>
+                <p class="is-size-6">Minimum Comment Karma</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="has-text-centered">
+                <p class="is-size-3">{{ raffle.min_link_karma }}</p>
+                <p class="is-size-6">Minimum Link Karma</p>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
