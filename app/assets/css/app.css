@@ -13,6 +13,14 @@ html {
   color: white;
 }
 
+.reddit-button {
+  color: inherit
+}
+
+.reddit-button:hover, .reddit-button:focus {
+    color: #ff4500;
+}
+
 .loader {
   display: inline-block;
   position: relative;
