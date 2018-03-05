@@ -1,6 +1,7 @@
 from flask import (
     abort,
     Blueprint,
+    redirect,
     render_template,
     request,
     session,
@@ -40,6 +41,8 @@ def create():
         raffle.queue(raffle_params=raffle_params,
                      user=user,
                      job_id=sub_id)
+        return redirect(url_for('raffles.status', job_id=sub_id))
+
 
 @raffles.route('/<job_id>/status')
 def status(job_id):
