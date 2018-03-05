@@ -26,7 +26,7 @@
     </div>
 </section>
 
-<section class="section is-white">
+<section class="section">
     <div class="content has-text-centered">
         <p class="title">Criteria</p>
     </div>
@@ -51,4 +51,55 @@
         </div>
     </div>
 </section>
+<hr>
+<section class="section">
+    <div class="content has-text-centered">
+        <p class="title">Winners</p>
+        <p class="subtitle">
+            {% if raffle.winner_count == 1 %}
+            1 winner was chosen for this raffle. The winner is...
+            {% else %}
+            {{ raffle.winner_count }} winners were chosen for this raffle. The winners are...
+            {% endif %}
+        </p>
+    </div>
+
+    {% for row in raffle.winners | batch(3) %}
+    <div class="columns is-centered">
+        {% for winner in row %}
+        <div class="column is-narrow">
+            <div class="card">
+                <div class="card-content has-text-centered">
+                    <p class="is-size-4">
+                        /u/{{ winner.username }}
+                    </p>
+                    <p>
+                        <a class="reddit-button" href="https://reddit.com/u/{{ winner.username }}">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                    </p>
+                    <p>
+                        <a class="reddit-button" href="{{ winner.comment_url }}">
+                            <i class="far fa-comment-alt"></i> Comment
+                        </a>
+                    </p>
+                </div>
+                <footer class="card-footer">
+                    <p class="card-footer-item">
+                        {{ winner.account_age }} days old
+                    </p>
+                    <p class="card-footer-item">
+                        {{ winner.comment_karma }} comment karma
+                    </p>
+                    <p class="card-footer-item">
+                        {{ winner.link_karma }} link karma
+                    </p>
+                </footer>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</section>
+<hr>
 {% endblock %}
