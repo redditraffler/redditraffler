@@ -41,10 +41,10 @@
     <div class="container">
         <h1 class="title">Ready to raffle?</h1>
         {% if 'reddit_refresh_token' in session %}
-            <a class="button reddit is-outlined" href="{{ url_for('raffles.create') }}">
+            <a class="button reddit-login is-outlined" href="{{ url_for('raffles.create') }}">
                 <i class="fab fa-reddit fa-fw"></i> Continue as /u/{{ session['reddit_username'] }}</a>
         {% else %}
-            <a class="button reddit is-outlined" href="{{ reddit_login_url }}">
+            <a class="button reddit-login is-outlined" href="{{ reddit_login_url }}">
                 <i class="fab fa-reddit fa-fw"></i> Login with Reddit</a>
             <a class="button is-dark is-outlined" href=" {{ url_for('raffles.create') }}">Continue as Guest</a>
         {% endif %}

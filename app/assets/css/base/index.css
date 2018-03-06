@@ -2,12 +2,13 @@
     color: #f0f0f0;
 }
 
-.reddit {
+.reddit-login {
     border-color: #ff4500;
     color: #ff4500;
+    background-color: inherit;
 }
 
-.reddit:hover, .reddit:focus {
+.reddit-login:hover, .reddit-login:focus {
     border-color: #ff4500;
     background-color: #ff4500;
     color: white;
