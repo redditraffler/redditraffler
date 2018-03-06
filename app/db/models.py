@@ -41,6 +41,10 @@ class Raffle(db.Model):
     def __repr__(self):
         return '<Raffle {}>'.format(self.submission_id)
 
+    def is_verified(self):
+        return self.creator and \
+               (self.submission_author == self.creator.username)
+
 
 class Winner(db.Model):
     id = db.Column(db.Integer, primary_key=True)

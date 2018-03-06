@@ -9,7 +9,7 @@ from flask import (
 )
 from app.util import reddit
 from app.jobs.raffle_job import raffle
-from app.db.models import User
+from app.db.models import User, Raffle
 from app.extensions import rq
 
 raffles = Blueprint('raffles', __name__)
@@ -51,6 +51,17 @@ def status(job_id):
     return render_template('raffles/status.html',
                            title='raffle status',
                            job_id=job_id)
+
+
+@raffles.route('/<submission_id>')
+def show(submission_id):
+    raffle = Raffle.query.filter_by(submission_id=submission_id).first()
+    if not raffle:
+        abort(404)
+    title = 'results for "%s"' % raffle.submission_title
+    return render_template('raffles/show.html',
+                           title=title,
+                           raffle=raffle)
 
 
 def _validate_raffle_form(form):

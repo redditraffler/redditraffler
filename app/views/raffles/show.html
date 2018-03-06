@@ -1,0 +1,105 @@
+{% extends "layouts/base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/raffles/show.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<section class="hero is-reddit">
+    <div class="hero-body">
+        <p class="title">
+            Raffle results for "<a href="https://redd.it/{{ raffle.submission_id }}">{{ raffle.submission_title | truncate(50) }}</a>"
+            {% if raffle.is_verified() %}
+            <i class="fas fa-check-circle" title="Verified Raffle"></i>
+            {% endif %}
+        </p>
+        <p class="subtitle">
+            Created by
+            {% if raffle.creator %}
+                <a href="{{ url_for('users.show_user', username=raffle.creator.username) }}">/u/{{raffle.creator.username}}</i></a>
+            {% else %}
+                an anonymous user
+            {% endif %}
+            on {{ raffle.created_at.strftime('%-d %b %Y at %X UTC') }}
+        </p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="content has-text-centered">
+        <p class="title">Criteria</p>
+    </div>
+    <div class="columns is-centered">
+        <div class="column is-3">
+            <div class="has-text-centered">
+                <p class="is-size-3">{{ raffle.min_account_age }} <span class="is-size-5">day(s)</span></p>
+                <p class="is-size-6">Minimum Account Age</p>
+            </div>
+        </div>
+        <div class="column is-3">
+            <div class="has-text-centered">
+                <p class="is-size-3">{{ raffle.min_comment_karma }}</p>
+                <p class="is-size-6">Minimum Comment Karma</p>
+            </div>
+        </div>
+        <div class="column is-3">
+            <div class="has-text-centered">
+                <p class="is-size-3">{{ raffle.min_link_karma }}</p>
+                <p class="is-size-6">Minimum Link Karma</p>
+            </div>
+        </div>
+    </div>
+</section>
+<hr>
+<section class="section">
+    <div class="content has-text-centered">
+        <p class="title">Winners</p>
+        <p class="subtitle">
+            {% if raffle.winner_count == 1 %}
+            1 winner was chosen for this raffle. The winner is...
+            {% else %}
+            {{ raffle.winner_count }} winners were chosen for this raffle. The winners are...
+            {% endif %}
+        </p>
+    </div>
+
+    {% for row in raffle.winners | batch(3) %}
+    <div class="columns is-centered">
+        {% for winner in row %}
+        <div class="column is-narrow">
+            <div class="card">
+                <div class="card-content has-text-centered">
+                    <p class="is-size-4">
+                        /u/{{ winner.username }}
+                    </p>
+                    <p>
+                        <a class="reddit-button" href="https://reddit.com/u/{{ winner.username }}">
+                            <i class="fas fa-user"></i> Profile
+                        </a>
+                    </p>
+                    <p>
+                        <a class="reddit-button" href="{{ winner.comment_url }}">
+                            <i class="far fa-comment-alt"></i> Comment
+                        </a>
+                    </p>
+                </div>
+                <footer class="card-footer">
+                    <p class="card-footer-item">
+                        {{ winner.account_age }} days old
+                    </p>
+                    <p class="card-footer-item">
+                        {{ winner.comment_karma }} comment karma
+                    </p>
+                    <p class="card-footer-item">
+                        {{ winner.link_karma }} link karma
+                    </p>
+                </footer>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</section>
+<hr>
+{% endblock %}
