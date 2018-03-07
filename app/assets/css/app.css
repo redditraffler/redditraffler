@@ -43,6 +43,7 @@ html {
 
 #nav-github {
   color: white;
+  transition: 0.3s;
 }
 
 #nav-github:hover {
