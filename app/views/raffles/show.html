@@ -8,21 +8,23 @@
 {% block content %}
 <section class="hero is-reddit">
     <div class="hero-body">
-        <p class="title">
-            Raffle results for "<a href="https://redd.it/{{ raffle.submission_id }}">{{ raffle.submission_title | truncate(50) }}</a>"
-            {% if raffle.is_verified() %}
-            <i class="fas fa-check-circle" title="Verified Raffle"></i>
-            {% endif %}
-        </p>
-        <p class="subtitle">
-            Created by
-            {% if raffle.creator %}
-                <a href="{{ url_for('users.show_user', username=raffle.creator.username) }}">/u/{{raffle.creator.username}}</i></a>
-            {% else %}
-                an anonymous user
-            {% endif %}
-            on {{ raffle.created_at.strftime('%-d %b %Y at %X UTC') }}
-        </p>
+        <div class="container has-text-centered">
+            <p class="title">
+                Raffle results for "<a href="https://redd.it/{{ raffle.submission_id }}">{{ raffle.submission_title | truncate(50) }}</a>"
+                {% if raffle.is_verified() %}
+                <i class="fas fa-check-circle" title="Verified Raffle"></i>
+                {% endif %}
+            </p>
+            <p class="subtitle">
+                Created by
+                {% if raffle.creator %}
+                    <a href="{{ url_for('users.show_user', username=raffle.creator.username) }}">/u/{{raffle.creator.username}}</i></a>
+                {% else %}
+                    an anonymous user
+                {% endif %}
+                on {{ raffle.created_at.strftime('%-d %b %Y at %X UTC') }}
+            </p>
+        </div>
     </div>
 </section>
 
