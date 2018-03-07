@@ -10,7 +10,7 @@
 }
 
 .is-reddit-button:hover, .is-reddit-button:focus {
-    border-color: #ff4500;
+    border-color: transparent;
     background-color: whitesmoke;
     color: #ff4500;
 }
