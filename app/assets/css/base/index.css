@@ -14,6 +14,10 @@
     color: #ff4500;
 }
 
+.cta-box {
+    border-radius: 0;
+}
+
 .cta-title {
     color: white;
 }
