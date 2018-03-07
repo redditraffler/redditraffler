@@ -4,6 +4,7 @@
 * Reddit, lighter shade: #ff7644;
 */
 
+/**** General ****/
 html {
   height: 100%;
   background-color: whitesmoke;
@@ -29,7 +30,112 @@ html {
 .reddit-button:hover, .reddit-button:active {
   color: #ff4500;
 }
+/**** End General ****/
 
+/**** Header ****/
+#brand:hover {
+  text-decoration: none;
+}
+
+#nav-github {
+  color: white;
+}
+
+#nav-github:hover {
+  color: #333;
+}
+
+a.navbar-item,
+a.navbar-brand,
+a.navbar-link {
+  color: white;
+}
+
+a.navbar-link:hover {
+  color: white;
+  text-decoration: none;
+  background-color: #ff7644;
+}
+
+a.navbar-link::after {
+  border-color: white;
+}
+
+a.navbar-item:hover,
+a.navbar-item.is-active {
+  color: white;
+  background-color: transparent;
+}
+
+.navbar-brand:hover {
+  background-color: transparent;
+}
+
+/* User dropdown overrides */
+.navbar-item:hover {
+  text-decoration: underline;
+  background-color: transparent;
+}
+
+.navbar-item.has-dropdown:hover .navbar-link {
+  cursor: default;
+  background-color: transparent;
+}
+
+.navbar-dropdown {
+  border-top: none;
+  background-color: #ff7644;
+}
+
+.navbar-dropdown a.navbar-item:hover {
+  background-color: inherit;
+  color: white;
+}
+/* End User dropdown overrides */
+
+@media only screen and (max-width: 1023px) {
+  /* User dropdown overrides */
+  a.navbar-link {
+    cursor: default;
+  }
+
+  .navbar-item.has-dropdown:hover {
+    text-decoration: none;
+  }
+
+  .navbar-item.has-dropdown:hover .navbar-item:hover {
+    text-decoration: underline
+  }
+  /* End User dropdown overrides */
+  /* Burger menu overrides */
+  .navbar-menu {
+    background-color: #ff7644;
+  }
+
+  nav .button,
+  nav .button:focus,
+  nav .button:active,
+  nav .button.is-active {
+    border-color: white;
+    color: white;
+  }
+
+  nav .button:active,
+  nav .button:hover,
+  nav .button.is-active,
+  nav .button.is-hovered {
+    color: white;
+  }
+
+  nav .button:focus:not(:active),
+  nav .button.is-focused:not(:active) {
+    box-shadow: none;
+  }
+  /* Burger menu overrides */
+}
+/**** End Header ****/
+
+/**** Bulma Overrides ****/
 .loader {
   display: inline-block;
   position: relative;
@@ -66,3 +172,4 @@ html {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+/**** End Bulma Overrides ****/
