@@ -1,11 +1,11 @@
-<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+<nav class="navbar is-reddit" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
-            <a class="navbar-item" href="{{ url_for('base.index') }}">
+            <a id="brand" class="navbar-item" href="{{ url_for('base.index') }}">
                 <h1>redditraffler</h1>
             </a>
 
-            <button class="button navbar-burger is-dark" data-target="navMenu">
+            <button class="button navbar-burger is-reddit" data-target="navMenu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -14,7 +14,7 @@
 
         <div id="navMenu" class="navbar-menu">
             <div class="navbar-end">
-                <a class="navbar-item">Home</a>
+                <a class="navbar-item" href="{{ url_for('base.index') }}">Home</a>
                 {% if 'reddit_refresh_token' in session %}
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
@@ -31,7 +31,7 @@
                 </div>
                 <form id="logout-form" style="display:none" action="{{ url_for('auth.logout') }}" method="POST"></form>
                 {% endif %}
-                <a class="navbar-item" title="View on GitHub" href="https://github.com/timorthi/redditraffler">
+                <a id="nav-github" class="navbar-item" title="View on GitHub" href="https://github.com/timorthi/redditraffler">
                     <i class="fab fa-github fa-fw fa-lg"></i>
                 </a>
             </div>
