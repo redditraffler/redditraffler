@@ -21,3 +21,7 @@
 .card:hover {
     background-color: #fcf0ec;
 }
+
+.card-icon {
+    margin-right: 2px;
+}
