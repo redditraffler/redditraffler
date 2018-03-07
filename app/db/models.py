@@ -45,6 +45,11 @@ class Raffle(db.Model):
         return self.creator and \
                (self.submission_author == self.creator.username)
 
+    def created_at_readable(self):
+        return self.created_at.strftime('%B %-d %Y, %-I:%M%p UTC') \
+                              .replace('AM', 'am') \
+                              .replace('PM', 'pm')
+
 
 class Winner(db.Model):
     id = db.Column(db.Integer, primary_key=True)
