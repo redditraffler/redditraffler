@@ -22,7 +22,7 @@
                 {% else %}
                     an anonymous user
                 {% endif %}
-                on {{ raffle.created_at.strftime('%-d %b %Y at %X UTC') }}
+                on {{ raffle.created_at_readable() }}
             </p>
         </div>
     </div>
