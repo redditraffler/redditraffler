@@ -1,4 +1,9 @@
 /* App-wide styles here */
+/* Colors:
+* True Reddit: #ff4500;
+* Reddit, lighter shade: #ff7644;
+*/
+
 html {
   height: 100%;
   background-color: whitesmoke;
@@ -8,8 +13,11 @@ html {
   background-color: white;
 }
 
+.has-text-reddit {
+  color: #ff7644;
+}
+
 .is-reddit {
-  /* Decreased opacity as the main color is too loud for backgrounds */
   background-color: #ff7644;
   color: white;
 }
