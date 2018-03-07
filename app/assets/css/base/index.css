@@ -6,11 +6,12 @@
     border-color: #ffd1c1;
     color: #fafafa;
     background-color: inherit;
+    transition: 0.3s;
 }
 
 .is-reddit-button:hover, .is-reddit-button:focus {
     border-color: #ff4500;
-    background-color: white;
+    background-color: whitesmoke;
     color: #ff4500;
 }
 
