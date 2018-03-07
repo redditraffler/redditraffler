@@ -15,6 +15,12 @@ from app.extensions import rq
 raffles = Blueprint('raffles', __name__)
 
 
+@raffles.route('')
+def index():
+    return render_template('raffles/index.html',
+                           title='all raffles')
+
+
 @raffles.route('/create', methods=['GET', 'POST'])
 def create():
     if request.method == 'GET':
