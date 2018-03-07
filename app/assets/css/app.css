@@ -33,6 +33,10 @@ html {
 /**** End General ****/
 
 /**** Header ****/
+#nav-container {
+  width: 70%;
+}
+
 #brand:hover {
   text-decoration: none;
 }
@@ -94,6 +98,10 @@ a.navbar-item.is-active {
 /* End User dropdown overrides */
 
 @media only screen and (max-width: 1023px) {
+  #nav-container {
+    width: 100%;
+  }
+
   /* User dropdown overrides */
   a.navbar-link {
     cursor: default;
