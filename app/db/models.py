@@ -25,7 +25,7 @@ class Raffle(db.Model):
     submission_id = db.Column(db.String(64), index=True, unique=True)
     submission_title = db.Column(db.String(128))
     submission_author = db.Column(db.String(64))
-    subreddit = db.String(db.String(64))
+    subreddit = db.Column(db.String(64))
     winner_count = db.Column(db.Integer)
     min_account_age = db.Column(db.Integer)
     min_comment_karma = db.Column(db.Integer)
