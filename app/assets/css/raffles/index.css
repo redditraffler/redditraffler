@@ -1,0 +1,19 @@
+.pagination-link.is-current {
+    background-color: #ff7644;
+    border-color: #ff7644;
+}
+
+#raffles {
+    border: 1px solid #ff76446e;
+    border-radius: 3px;
+    border-collapse: separate;
+}
+
+#raffles thead tr td {
+    border-bottom: 2px solid;
+    border-bottom-color: #ff76446e;
+}
+
+#raffles tbody tr td {
+    border-bottom-color: #ff76446e;
+}
