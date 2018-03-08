@@ -2,4 +2,18 @@
 
 #table-control { display: none }
 
-.table tr.is-selected { background-color: #478dff; }
+.table tr.is-selected {
+    background-color: #ff7644;
+    color: whitesmoke;
+}
+
+.table tbody tr a { color: #ff7644; }
+.table tbody tr a:hover { color: #e46a3e; }
+
+.button.is-link {
+    background-color: #ff7644;
+    color: whitesmoke;
+}
+
+.button.is-link:hover { background-color: #e46a3e; }
+.button.is-link:active { background-color: #e46a3e; }
