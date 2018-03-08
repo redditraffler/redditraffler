@@ -46,7 +46,7 @@ class Raffle(db.Model):
                (self.submission_author == self.creator.username)
 
     def created_at_readable(self):
-        return self.created_at.strftime('%B %-d %Y, %-I:%M%p UTC') \
+        return self.created_at.strftime('%B %-d %Y, %-I:%M%p') \
                               .replace('AM', 'am') \
                               .replace('PM', 'pm')
 
