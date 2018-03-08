@@ -1,9 +1,38 @@
 {% extends "layouts/base.html" %}
 
 {% block styles %}
+<link href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bulma.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/raffles/index.css') }}">
 {% endblock %}
 
-
 {% block content %}
-hello world!
+<section class="section">
+    <div class="container">
+        <table id="raffles" class="table" width="100%">
+            <thead>
+                <tr>
+                    <td><b>Submission Title</b></td>
+                    <td><b>Subreddit</b></td>
+                    <td><b>Created At</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for raffle in raffles %}
+                    <tr>
+                        <td>{{ raffle.submission_title }}</td>
+                        <td>{{ raffle.subreddit }}</td>
+                        <td>{{ 'hello' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bulma.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/raffles/index.js') }}"></script>
 {% endblock %}
