@@ -22,7 +22,7 @@
                     <tr data-raffle-id="{{ raffle.submission_id }}">
                         <td>{{ raffle.submission_title | truncate(50) }}</td>
                         <td>{{ raffle.subreddit }}</td>
-                        <td>{{ raffle.created_at_readable() }}</td>
+                        <td data-sort="{{ raffle.created_at }}">{{ raffle.created_at_readable() }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
