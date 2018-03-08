@@ -23,10 +23,10 @@ def index():
                            raffles=raffles)
 
 
-@raffles.route('/create', methods=['GET', 'POST'])
-def create():
+@raffles.route('/new', methods=['GET', 'POST'])
+def new():
     if request.method == 'GET':
-        return render_template('raffles/create.html',
+        return render_template('raffles/new.html',
                                title='create a raffle',
                                reddit_login_url=reddit.get_auth_url())
     elif request.method == 'POST':

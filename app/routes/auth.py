@@ -40,4 +40,4 @@ def auth_redirect():
         db.session.add(user)
         db.session.commit()
 
-    return redirect(url_for('raffles.create'))
+    return redirect(url_for('raffles.new'))

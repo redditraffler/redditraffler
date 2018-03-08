@@ -94,12 +94,12 @@
     <div class="container has-text-centered">
         <h1 class="title cta-title">Ready to begin?</h1>
         {% if 'reddit_refresh_token' in session %}
-        <a class="button is-reddit-button is-outlined" href="{{ url_for('raffles.create') }}">
+        <a class="button is-reddit-button is-outlined" href="{{ url_for('raffles.new') }}">
             <i class="fab fa-reddit fa-fw"></i> Continue as /u/{{ session['reddit_username'] }}</a>
         {% else %}
         <a class="button is-reddit-button is-outlined" href="{{ reddit_login_url }}">
             <i class="fab fa-reddit fa-fw"></i> Login with Reddit</a>
-        <a class="button is-reddit-button is-outlined" href=" {{ url_for('raffles.create') }}">Continue as Guest</a>
+        <a class="button is-reddit-button is-outlined" href=" {{ url_for('raffles.new') }}">Continue as Guest</a>
         {% endif %}
     </div>
 </div>
