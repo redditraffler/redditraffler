@@ -5,50 +5,59 @@
 {% endblock %}
 
 {% block content %}
+<section class="hero is-small is-reddit">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title has-text-light">
+                New Raffle
+            </p>
+        </div>
+    </div>
+</section>
+
 <form id="raffle-form" method="POST" action="">
     <section class="section">
         <div class="container">
-            <h1 class="title">Create a raffle</h1>
-            <hr>
             {% if 'reddit_refresh_token' in session %}
-                <input type="hidden" id="submission-selection" name="submissionUrl" value="">
-                <div class="content">
-                    <h5 class="title is-5">First, choose your Reddit submission.</h5>
+            <input type="hidden" id="submission-selection" name="submissionUrl" value="">
+            <div class="content">
+                <h5 class="title is-5">First, choose your Reddit submission.</h5>
+            </div>
+            <div class="box is-marginless">
+                <div id="loading-container" class="content has-text-centered">
+                    <p><div class="loader"></div></p>
+                    <p>Fetching your Reddit submissions...</p>
                 </div>
-                <div class="box is-marginless">
-                    <div id="loading-container" class="content has-text-centered">
-                        <p><div class="loader"></div></p>
-                        <p>Fetching your Reddit submissions...</p>
-                    </div>
-                    <table id="submissions" class="table is-fullwidth is-hoverable is-narrow">
-                        <tbody></tbody>
-                    </table>
-                    <div class="content has-text-centered">
-                        <div id="table-control">
-                            <button type="button" id="show-more" class="button is-small is-outlined is-rounded">Show More <i class="fas fa-chevron-down fa-fw"></i></button>
-                        </div>
+                <table id="submissions" class="table is-fullwidth is-hoverable is-narrow">
+                    <tbody></tbody>
+                </table>
+                <div class="content has-text-centered">
+                    <div id="table-control">
+                        <button type="button" id="show-more" class="button is-small is-outlined is-rounded">Show More <i class="fas fa-chevron-down fa-fw"></i></button>
                     </div>
                 </div>
+            </div>
             {% else %}
-                <div class="content">
-                    <h5 class="title is-5">First, choose a Reddit submission.</h5>
-                    <p>You'll have to provide the URL of the Reddit submission that will be the subject of this raffle.
-                     If you <a href="{{ reddit_login_url }}">log in with Reddit</a>, we'll fetch your submissions for you.</p>
-                    <p><strong>Note:</strong> Since you're not logged in, we can't verify whether you're the person who created this Reddit submission, and it will be specified as such on the raffle results page.</p>
-                </div>
-                <div class="container">
-                    <div class="columns">
-                        <div class="column is-half">
-                            <label class="label">Submission URL</label>
-                            <div id="submission-url-container" class="field">
-                                <input id="submission-url" class="input" name="submissionUrl" type="text" placeholder="https://www.reddit.com/r/hardwareswap/comments/7g1rt8/usagah_paypal_love_w_unwanted_pclaptopparts_for/" required>
-                            </div>
+            <div class="content">
+                <h5 class="title is-5">First, choose a Reddit submission.</h5>
+                <p>You'll have to provide the URL of the Reddit submission that will be the subject of this raffle.
+                    If you <a href="{{ reddit_login_url }}">log in with Reddit</a>, we'll fetch your submissions for you.</p>
+                <p><strong>Note:</strong> Since you're not logged in, we can't verify whether you're the person who created this Reddit submission, and it will be specified as such on the raffle results page.</p>
+            </div>
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-half">
+                        <label class="label">Submission URL</label>
+                        <div id="submission-url-container" class="field">
+                            <input id="submission-url" class="input" name="submissionUrl" type="text" placeholder="https://www.reddit.com/r/hardwareswap/comments/7g1rt8/usagah_paypal_love_w_unwanted_pclaptopparts_for/" required>
                         </div>
                     </div>
                 </div>
+            </div>
             {% endif %}
         </div>
     </section>
+
     <section class="section">
         <div class="container">
             <div class="content">
@@ -67,6 +76,7 @@
             </div>
         </div>
     </section>
+
     <section class="section">
         <div class="container">
             <div class="content">
@@ -100,6 +110,7 @@
             </div>
         </div>
     </section>
+
     <section class="section">
         <div class="container has-text-centered">
             <button type="submit" class="button is-link is-large">Submit</button>

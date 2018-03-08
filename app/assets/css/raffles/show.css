@@ -1,9 +1,5 @@
-.is-reddit .title, .is-reddit .subtitle {
-    color: white
-}
-
 .hero a {
-    color: white;
+    color: inherit;
     text-decoration: underline;
 }
 
