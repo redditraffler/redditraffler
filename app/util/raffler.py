@@ -1,6 +1,20 @@
 from app.config import BaseConfig as config
 from datetime import datetime
 import praw
+import prawcore
+
+
+def try_create_user(author):
+    """ Utility function to make sure the author of an entry isn't banned
+    or anything along those lines. """
+    try:
+        user = self.User(username=author.name,
+                         age=Raffler._account_age_days(author.created_utc),
+                         comment_karma=author.comment_karma,
+                         link_karma=author.link_karma)
+        return user
+    except prawcore.exceptions.NotFound, AttributeError:
+        return None
 
 
 class Raffler():
@@ -43,10 +57,7 @@ class Raffler():
               (self.winner_count - len(self._winners) > 0):
             entry = self._entries.pop()
             author = entry.author
-            user = self.User(username=author.name,
-                             age=Raffler._account_age_days(author.created_utc),
-                             comment_karma=author.comment_karma,
-                             link_karma=author.link_karma)
+            user = try_create_user(entry.author)
             if self._is_valid_winner(user):
                 self._winners.update({user: entry})
 
