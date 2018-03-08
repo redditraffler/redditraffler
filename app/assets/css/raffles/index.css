@@ -17,3 +17,13 @@
 #raffles tbody tr td {
     border-bottom-color: #ff76446e;
 }
+
+#raffles tbody tr {
+    transition: 0.2s;
+}
+
+#raffles tbody tr:hover {
+    background-color: #ff7644;
+    color: white;
+    cursor: pointer;
+}

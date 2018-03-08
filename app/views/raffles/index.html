@@ -19,10 +19,10 @@
             </thead>
             <tbody>
                 {% for raffle in raffles %}
-                    <tr>
-                        <td>{{ raffle.submission_title }}</td>
+                    <tr data-raffle-id="{{ raffle.submission_id }}">
+                        <td>{{ raffle.submission_title | truncate(50) }}</td>
                         <td>{{ raffle.subreddit }}</td>
-                        <td>{{ 'hello' }}</td>
+                        <td>{{ raffle.created_at_readable() }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

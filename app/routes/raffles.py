@@ -17,8 +17,10 @@ raffles = Blueprint('raffles', __name__)
 
 @raffles.route('')
 def index():
+    raffles = Raffle.query.all()
     return render_template('raffles/index.html',
-                           title='all raffles')
+                           title='all raffles',
+                           raffles=raffles)
 
 
 @raffles.route('/create', methods=['GET', 'POST'])
