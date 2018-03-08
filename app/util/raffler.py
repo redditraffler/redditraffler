@@ -4,19 +4,6 @@ import praw
 import prawcore
 
 
-def try_create_user(author):
-    """ Utility function to make sure the author of an entry isn't banned
-    or anything along those lines. """
-    try:
-        user = self.User(username=author.name,
-                         age=Raffler._account_age_days(author.created_utc),
-                         comment_karma=author.comment_karma,
-                         link_karma=author.link_karma)
-        return user
-    except (prawcore.exceptions.NotFound, AttributeError):
-        return None
-
-
 class Raffler():
     def __init__(self, submission_url, winner_count, min_account_age,
                  min_comment_karma, min_link_karma):
@@ -57,8 +44,8 @@ class Raffler():
               (self.winner_count - len(self._winners) > 0):
             entry = self._entries.pop()
             author = entry.author
-            user = try_create_user(entry.author)
-            if self._is_valid_winner(user):
+            user = self._try_create_user(entry.author)
+            if user and self._is_valid_winner(user):
                 self._winners.update({user: entry})
 
         return len(self._winners) == self.winner_count
@@ -83,6 +70,18 @@ class Raffler():
         return (user.age >= self.min_account_age) and \
                (user.comment_karma >= self.min_comment_karma) and \
                (user.link_karma >= self.min_link_karma)
+
+    def _try_create_user(self, author):
+        """ Utility function to make sure the author of an entry isn't banned
+        or anything along those lines. """
+        try:
+            user = self.User(username=author.name,
+                             age=Raffler._account_age_days(author.created_utc),
+                             comment_karma=author.comment_karma,
+                             link_karma=author.link_karma)
+            return user
+        except (prawcore.exceptions.NotFound, AttributeError):
+            return None
 
     @staticmethod
     def _account_age_days(created_utc):
