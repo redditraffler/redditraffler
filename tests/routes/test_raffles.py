@@ -4,6 +4,10 @@ from app.jobs.raffle_job import raffle
 from rq.queue import Queue
 
 
+def test_index(client):
+    assert client.get(url_for('raffles.index')).status_code == 200
+
+
 def test_get_create(client):
     assert client.get(url_for('raffles.create')).status_code == 200
 
