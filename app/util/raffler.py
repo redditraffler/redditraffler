@@ -13,7 +13,7 @@ def try_create_user(author):
                          comment_karma=author.comment_karma,
                          link_karma=author.link_karma)
         return user
-    except prawcore.exceptions.NotFound, AttributeError:
+    except (prawcore.exceptions.NotFound, AttributeError):
         return None
 
 
