@@ -128,6 +128,7 @@ function validateUrl() {
     // Skip validation if input value hasn't changed
     if (url != window._prevUrl) {
         window._prevUrl = url;
+        $msg.html("<div class='la-ball-clip-rotate la-sm la-reddit'><div></div></div>");
         $.ajax({
             dataType: "json",
             data: { url: url },
