@@ -4,27 +4,27 @@ from app.jobs.raffle_job import raffle
 from rq.queue import Queue
 
 
-def test_index(client):
+def test_index(client, db_session):
     assert client.get(url_for('raffles.index')).status_code == 200
 
 
-def test_get_create(client):
-    assert client.get(url_for('raffles.create')).status_code == 200
+def test_get_new(client):
+    assert client.get(url_for('raffles.new')).status_code == 200
 
 
-def test_post_create_no_params(client):
-    assert client.post(url_for('raffles.create')).status_code == 422
+def test_post_new_no_params(client):
+    assert client.post(url_for('raffles.new')).status_code == 422
 
 
-def test_post_create_invalid_params(client):
-    res = client.post(url_for('raffles.create'), data=_invalid_form_params())
+def test_post_new_invalid_params(client):
+    res = client.post(url_for('raffles.new'), data=_invalid_form_params())
     assert res.status_code == 422
 
 
-def test_post_create_valid_params(client, monkeypatch):
+def test_post_new_valid_params(client, monkeypatch):
     monkeypatch.setattr(reddit, 'get_submission', lambda sub_url: True)
     monkeypatch.setattr(raffle, 'queue', _stub_raffle_job)
-    res = client.post(url_for('raffles.create'), data=_valid_form_params())
+    res = client.post(url_for('raffles.new'), data=_valid_form_params())
     assert res.status_code == 302
 
 

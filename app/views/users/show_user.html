@@ -19,7 +19,7 @@
                 <p><i class="far fa-frown fa-10x"></i></p>
                 {% if session['reddit_username'] == user.username %}
                     <p>This page is empty because you haven't created any raffles with your account.</p>
-                    <p>If you'd like to get started, <a href="{{ url_for('raffles.create') }}">click here!</a></p>
+                    <p>If you'd like to get started, <a href="{{ url_for('raffles.new') }}">click here!</a></p>
                 {% else %}
                     <p>This page is empty because this user hasn't created any raffles with their account. Check back some other time!</p>
                 {% endif %}

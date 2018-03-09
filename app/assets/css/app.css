@@ -2,6 +2,7 @@
 /* Colors:
 * True Reddit: #ff4500;
 * Reddit, lighter shade: #ff7644;
+* Reddit, lighter shade, darker on hover: #e46a3e;
 */
 
 /**** General ****/
@@ -11,24 +12,20 @@ html {
   background-color: whitesmoke;
 }
 
-.is-white {
-  background-color: white;
-}
+a { color: #ff7644; }
 
-.has-text-reddit {
-  color: #ff7644;
-}
+.is-white { background-color: white; }
 
 .is-reddit {
   background-color: #ff7644;
   color: white;
 }
 
-.reddit-button {
-  color: inherit
-}
+.has-text-reddit { color: #ff7644; }
 
-.reddit-button:hover, .reddit-button:active {
+.reddit-button { color: inherit; }
+.reddit-button:hover,
+.reddit-button:active {
   color: #ff4500;
 }
 /**** End General ****/
@@ -163,42 +160,3 @@ a.navbar-item.is-active {
   color: #ff4500;
 }
 /**** End Footer ****/
-
-/**** Bulma Overrides ****/
-.loader {
-  display: inline-block;
-  position: relative;
-  width: 64px;
-  height: 64px;
-}
-
-.loader div {
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 51px;
-  height: 51px;
-  margin: 6px;
-  border: 6px solid #ff4500;
-  border-radius: 50%;
-  animation: loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #ff4500 transparent transparent transparent;
-}
-
-.loader div:nth-child(1) {
-  animation-delay: -0.45s;
-}
-
-.loader div:nth-child(2) {
-  animation-delay: -0.3s;
-}
-
-.loader div:nth-child(3) {
-  animation-delay: -0.15s;
-}
-
-@keyframes loader {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-/**** End Bulma Overrides ****/
