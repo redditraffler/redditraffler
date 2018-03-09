@@ -31,6 +31,9 @@
     display: block;
     font-size: 0;
     color: #fff;
+}
+
+.la-ball-clip-rotate.la-centered {
     margin: 0 auto;
 }
 
