@@ -76,13 +76,13 @@ function buildSubmissionsTable(submissions) {
 function showSubmissionDetails(submission) {
     var $container = $("#submission-url-container");
     var $inputField = $("#submission-url");
+    var $msg = $("#submission-url-msg");
 
-    $inputField.attr("class", "input"); // Remove all other styling classes
-    $inputField.addClass("is-success");
+    $inputField.attr("class", "input is-success");
 
-    var submissionDetailsTemplate = "<p class='help'><a href='{0}'>'{1}'</a> in /r/{2} by {3} on {4}</p>";
+    var submissionDetailsTemplate = "<a href='{0}'>'{1}'</a> in /r/{2} by {3} on {4}";
     var authorHtml = submission.author ? "<a href='https://reddit.com/u/{0}'>/u/{0}</a>".format(submission.author) : "an unknown user";
-    $container.append(
+    $msg.html(
         submissionDetailsTemplate.format(
             submission.url,
             submission.title,
@@ -96,16 +96,17 @@ function showSubmissionDetails(submission) {
 function showSubmissionError() {
     var $container = $("#submission-url-container");
     var $inputField = $("#submission-url");
+    var $msg = $("#submission-url-msg");
 
-    $inputField.attr("class", "input"); // Remove all other styling classes
-    $inputField.addClass("is-danger");
+    $inputField.attr("class", "input is-danger");
 
-    var errorMsgHtml = "<p class='help is-danger'>This is not a valid submission URL.</p>";
-    $container.append(errorMsgHtml);
+    $msg.addClass("is-danger");
+    $msg.text("This is not a valid submission URL.");
 }
 
 function validateUrl() {
-    $("#submission-url-container").children(":not(#submission-url)").remove(); // Clear previous error messages if any
+    // Clear any previous messages and styling
+    $("#submission-url-msg").empty().attr("class", "help");
 
     var URL_REGEX = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
     if (!$(this).val() || !URL_REGEX.test($(this).val())) {
