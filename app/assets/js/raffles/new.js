@@ -78,6 +78,8 @@ function showSubmissionDetails(submission) {
     var $inputField = $("#submission-url");
     var $msg = $("#submission-url-msg");
 
+    // Clear any previous messages and styling
+    $msg.empty().attr("class", "help");
     $inputField.attr("class", "input is-success");
 
     var submissionDetailsTemplate = "<a href='{0}'>'{1}'</a> in /r/{2} by {3} on {4}";
@@ -98,6 +100,8 @@ function showSubmissionError() {
     var $inputField = $("#submission-url");
     var $msg = $("#submission-url-msg");
 
+    // Clear any previous messages and styling
+    $msg.empty().attr("class", "help");
     $inputField.attr("class", "input is-danger");
 
     $msg.addClass("is-danger");
@@ -105,25 +109,33 @@ function showSubmissionError() {
 }
 
 function validateUrl() {
-    // Clear any previous messages and styling
-    $("#submission-url-msg").empty().attr("class", "help");
+    var $msg = $("#submission-url-msg");
+    var url = $(this).val();
 
     var URL_REGEX = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
-    if (!$(this).val() || !URL_REGEX.test($(this).val())) {
+    if (!url || !URL_REGEX.test(url)) {
         showSubmissionError();
         return;
     }
 
     var PROTOCOL_REGEX = /^((http|https):\/\/)/;
-    var url = $(this).val();
-    if (!PROTOCOL_REGEX.test(url)) url = "https://" + url;
-    $.ajax({
-        dataType: "json",
-        data: { url: url },
-        url: $APP_ROOT + "api/submission",
-        success: showSubmissionDetails,
-        error: showSubmissionError
-    });
+    if (!PROTOCOL_REGEX.test(url)) {
+        url = "https://" + url; // Add https if protocol not present
+    } else {
+        url = url.replace(/^http:\/\//i, 'https://'); // Replace http with https
+    }
+
+    // Skip validation if input value hasn't changed
+    if (url != window._prevUrl) {
+        window._prevUrl = url;
+        $.ajax({
+            dataType: "json",
+            data: { url: url },
+            url: $APP_ROOT + "api/submission",
+            success: showSubmissionDetails,
+            error: showSubmissionError
+        });
+    }
 }
 
 function validateSubmissionSelection(event) {
