@@ -1,0 +1,12 @@
+.raffle-box {
+    transition: 0.2s ease;
+}
+
+.raffle-box:hover {
+    background-color: #fcf0ec;
+    cursor: pointer;
+}
+
+.raffle-date {
+    text-align: right;
+}

@@ -1,0 +1,59 @@
+{% extends "layouts/base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/users/show.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero is-small is-reddit">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title has-text-light">
+                /u/{{ user.username }}'s raffles
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        {% if raffles.count() > 0 %}
+        {% for raffle in raffles %}
+        <div class="columns is-centered">
+            <div class="column is-7">
+                <div data-raffle-id="{{ raffle.submission_id }}" class="box is-7 raffle-box">
+                    <div class="columns is-vcentered">
+                        <div  class="column is-8">
+                            <div class="content">
+                                <p>{{ raffle.submission_title }}</p>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="content raffle-date is-size-7">
+                                <p>{{ raffle.created_at_readable() }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="content has-text-centered">
+            <p><i class="far fa-frown fa-4x has-text-reddit"></i></p>
+            {% if session['reddit_username'] == user.username %}
+            <p>This page is empty because you haven't created any raffles with your account.</p>
+            <p>If you'd like to get started, <a href="{{ url_for('raffles.new') }}">click here!</a></p>
+            {% else %}
+            <p>This page is empty because this user hasn't created any raffles with their account. Check back some other time!</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/users/show.js') }}"></script>
+{% endblock %}
+

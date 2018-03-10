@@ -18,7 +18,7 @@
             <p class="subtitle has-text-light">
                 Created by
                 {% if raffle.creator %}
-                    <a href="{{ url_for('users.show_user', username=raffle.creator.username) }}">/u/{{raffle.creator.username}}</i></a>
+                    <a href="{{ url_for('users.show', username=raffle.creator.username) }}">/u/{{raffle.creator.username}}</i></a>
                 {% else %}
                     an anonymous user
                 {% endif %}

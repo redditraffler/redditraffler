@@ -17,7 +17,6 @@
 
     {% include 'layouts/footer.html' %}
 </body>
-    <script>$APP_ROOT = {{ request.url_root | tojson | safe }} </script>
     <script src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
     <script src="{{ url_for('static', filename='js/util.js') }}"></script>
     <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>

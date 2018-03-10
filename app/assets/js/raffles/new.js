@@ -132,7 +132,7 @@ function validateUrl() {
         $.ajax({
             dataType: "json",
             data: { url: url },
-            url: $APP_ROOT + "api/submission",
+            url: "/api/submission",
             success: showSubmissionDetails,
             error: showSubmissionError
         });
@@ -156,7 +156,7 @@ $(function() {
     if ($("#submissions").length > 0) {
         $.ajax({
             dataType: "json",
-            url: $APP_ROOT + "api/submissions",
+            url: "/api/submissions",
             success: buildSubmissionsTable,
         });
     }

@@ -23,7 +23,7 @@
                         {{ session['reddit_username'] }}
                     </a>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item" href="{{ url_for('users.show_user', username=session['reddit_username']) }}">
+                        <a class="navbar-item" href="{{ url_for('users.show', username=session['reddit_username']) }}">
                             Profile
                         </a>
                         <a id="logout" class="navbar-item">
