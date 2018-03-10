@@ -8,7 +8,6 @@
 }
 
 #raffles tbody tr:hover {
-    background-color: #ff7644;
-    color: white;
+    background-color: #fcf0ec;
     cursor: pointer;
 }
