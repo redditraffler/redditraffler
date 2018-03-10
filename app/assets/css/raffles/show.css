@@ -7,6 +7,16 @@
     color: #e2e0e0;
 }
 
+#subtitle {
+    margin-bottom: 0.5rem;
+}
+
+#verified-tag {
+    background-color: #ff7644;
+    border: 1px solid white;
+    color: white;
+}
+
 .card {
     -o-transition: 0.2s ease;
     -ms-transition: 0.2s ease;
