@@ -17,7 +17,7 @@
 
 <section class="section">
     <div class="container">
-        {% if raffles %}
+        {% if raffles.count() > 0 %}
         {% for raffle in raffles %}
         <div class="columns is-centered">
             <div class="column is-7">
