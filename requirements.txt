@@ -12,6 +12,7 @@ Flask-Limiter==1.0.1
 Flask-Migrate==2.1.1
 Flask-RQ2==17.2
 Flask-SQLAlchemy==2.3.2
+Flask-WTF==0.14.2
 idna==2.6
 itsdangerous==0.24
 Jinja2==2.10
@@ -37,3 +38,4 @@ SQLAlchemy==1.2.3
 update-checker==0.16
 urllib3==1.22
 Werkzeug==0.14.1
+WTForms==2.1
