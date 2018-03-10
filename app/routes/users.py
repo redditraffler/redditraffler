@@ -16,8 +16,7 @@ def show(username):
     if not user:
         abort(404)
 
-    raffles = user.raffles
     return render_template('users/show.html',
                            title='/u/' + user.username,
                            user=user,
-                           raffles=raffles)
+                           raffles=user.raffles)
