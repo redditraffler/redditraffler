@@ -5,6 +5,7 @@ from flask import (
 )
 from app.extensions import db
 from app.db.models import User, Raffle
+from sqlalchemy import desc
 
 users = Blueprint('users', __name__)
 
@@ -17,7 +18,7 @@ def show(username):
         abort(404)
 
     raffles = Raffle.query.filter_by(user_id=user.id) \
-                          .order_by('created_at desc')
+                          .order_by(desc('created_at'))
 
     return render_template('users/show.html',
                            title='/u/' + user.username,
