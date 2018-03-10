@@ -1,6 +1,7 @@
 from flask import url_for, request
 from app.util import reddit
 from app.jobs.raffle_job import raffle
+from app.routes import raffles
 from rq.queue import Queue
 
 
@@ -23,9 +24,24 @@ def test_post_new_invalid_params(client):
 
 def test_post_new_valid_params(client, monkeypatch):
     monkeypatch.setattr(reddit, 'get_submission', lambda sub_url: True)
+    monkeypatch.setattr(raffles, '_raffle_exists', lambda sub_url: False)
     monkeypatch.setattr(raffle, 'queue', _stub_raffle_job)
+    params = _valid_form_params()
     res = client.post(url_for('raffles.new'), data=_valid_form_params())
     assert res.status_code == 302
+    assert url_for('raffles.status', job_id='57xvjb') in \
+        res.headers['location']
+
+
+def test_post_new_valid_params_existing_raffle(client, monkeypatch):
+    monkeypatch.setattr(reddit, 'get_submission', lambda sub_url: True)
+    monkeypatch.setattr(raffles, '_raffle_exists', lambda sub_url: True)
+    monkeypatch.setattr(raffle, 'queue', _stub_raffle_job)
+    params = _valid_form_params()
+    res = client.post(url_for('raffles.new'), data=_valid_form_params())
+    assert res.status_code == 302
+    assert url_for('raffles.show', submission_id='57xvjb') in \
+        res.headers['location']
 
 
 def test_raffle_status_missing_job(client):
