@@ -4,7 +4,7 @@ from flask import (
     render_template
 )
 from app.extensions import db
-from app.db.models import User
+from app.db.models import User, Raffle
 
 users = Blueprint('users', __name__)
 
@@ -16,7 +16,10 @@ def show(username):
     if not user:
         abort(404)
 
+    raffles = Raffle.query.filter_by(user_id=user.id) \
+                          .order_by('created_at desc')
+
     return render_template('users/show.html',
                            title='/u/' + user.username,
                            user=user,
-                           raffles=user.raffles)
+                           raffles=raffles)
