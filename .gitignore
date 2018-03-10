@@ -116,6 +116,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-config.py
 *.db
 .pytest_cache
