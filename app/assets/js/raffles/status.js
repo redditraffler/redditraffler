@@ -10,7 +10,7 @@ function updateStatus(data) {
             "<p>Redirecting you to the results page...</p>"
         );
         setTimeout(function() {
-            window.location.replace("/raffles/" + jobId);
+            window.location.href = "/raffles/" + jobId;
         }, 1500);
     } else {
         $("#job-status").text(status);
