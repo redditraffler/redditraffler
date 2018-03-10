@@ -10,7 +10,7 @@ function updateStatus(data) {
             "<p>Redirecting you to the results page...</p>"
         );
         setTimeout(function() {
-            window.location.replace($APP_ROOT + "raffles/" + jobId);
+            window.location.replace("/raffles/" + jobId);
         }, 1500);
     } else {
         $("#job-status").text(status);
@@ -22,7 +22,7 @@ function pollJobStatus() {
     $.ajax({
         dataType: "json",
         data: { job_id: jobId },
-        url: $APP_ROOT + "api/job_status",
+        url: "/api/job_status",
         success: updateStatus
     });
 }
