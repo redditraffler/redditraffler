@@ -13,6 +13,7 @@ Flask-Migrate==2.1.1
 Flask-RQ2==17.2
 Flask-SQLAlchemy==2.3.2
 Flask-WTF==0.14.2
+gunicorn==19.7.1
 idna==2.6
 itsdangerous==0.24
 Jinja2==2.10
@@ -23,11 +24,13 @@ pep8==1.7.1
 pluggy==0.6.0
 praw==5.3.0
 prawcore==0.13.0
+psycopg2==2.7.4
 py==1.5.2
 pycodestyle==2.3.1
 pytest==3.4.1
 pytest-flask==0.10.0
 python-dateutil==2.6.1
+python-dotenv==0.8.2
 python-editor==1.0.3
 redis==2.10.6
 requests==2.18.4

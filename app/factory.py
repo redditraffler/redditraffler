@@ -6,7 +6,7 @@ from app.config import ProdConfig
 
 
 def create_app(config_object=ProdConfig):
-    app = Flask(__name__,
+    app = Flask('app',
                 template_folder='views',
                 static_folder='assets')
 
