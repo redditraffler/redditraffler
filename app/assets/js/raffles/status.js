@@ -5,7 +5,7 @@ function updateStatus(data) {
     if (status == "Done!") {
         $("#loader").hide();
         $("#status-container").html(
-            "<p><i class='fas fa-check fa-6x'></i></p>" +
+            "<p><i class='fas fa-check fa-6x has-text-reddit'></i></p>" +
             "<p class='title'>Done!</p>" +
             "<p>Redirecting you to the results page...</p>"
         );
