@@ -21,7 +21,7 @@
         {% for raffle in raffles %}
         <div class="columns is-centered">
             <div class="column is-7">
-                <div class="box is-7 raffle-box">
+                <div data-raffle-id="{{ raffle.submission_id }}" class="box is-7 raffle-box">
                     <div class="columns is-vcentered">
                         <div  class="column is-8">
                             <div class="content">
@@ -51,6 +51,9 @@
         {% endif %}
     </div>
 </section>
+{% endblock %}
 
+{% block js %}
+<script src="{{ url_for('static', filename='js/users/show.js') }}"></script>
 {% endblock %}
 
