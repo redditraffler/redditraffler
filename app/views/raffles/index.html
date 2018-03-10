@@ -30,7 +30,7 @@
             <tbody>
                 {% for raffle in raffles %}
                     <tr data-raffle-id="{{ raffle.submission_id }}">
-                        <td>{{ raffle.submission_title | truncate(80) }}</td>
+                        <td>{{ raffle.submission_title | truncate(80) }} {% if raffle.is_verified() %} <i class="fas fa-check-circle fa-fw" title="Verified Raffle"></i> {% endif %}</td>
                         <td>{{ raffle.subreddit }}</td>
                         <td data-sort="{{ raffle.created_at }}">{{ raffle.created_at_readable() }}</td>
                     </tr>
