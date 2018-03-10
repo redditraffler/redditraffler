@@ -8,13 +8,14 @@ from flask import (
     url_for
 )
 from app.util import reddit
-from app.extensions import db
+from app.extensions import db, csrf
 from app.db.models import User
 
 auth = Blueprint('auth', __name__)
 
 
 @auth.route('/logout', methods=['POST'])
+@csrf.exempt
 def logout():
     session.clear()
     # Flash message

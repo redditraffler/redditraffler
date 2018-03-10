@@ -16,6 +16,7 @@
 </section>
 
 <form id="raffle-form" method="POST" action="">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     <section class="section">
         <div class="container">
             {% if 'reddit_refresh_token' in session %}
