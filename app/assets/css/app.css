@@ -165,7 +165,18 @@ a.navbar-item.is-active {
   color: #ff4500;
 }
 
+.footer #attributions,
 .footer #copyright {
-  opacity: 0.3;
+  opacity: 0.4;
+  margin: 0;
+  padding: 0;
+}
+
+.footer #attributions a {
+  color: inherit;
+}
+
+.footer #attributions a:hover {
+  text-decoration: underline;
 }
 /**** End Footer ****/
