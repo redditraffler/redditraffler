@@ -21,7 +21,9 @@ def submissions():
 
 @api.route('/submission')
 def submission():
-    """ Accepts a `url` parameter and returns the associated submission. """
+    """ Accepts a `url` parameter and returns the associated submission. If
+    a raffle exists for the given submission then the path to that raffle is
+    returned. """
 
     if not request.args.get('url'):
         abort(400)
