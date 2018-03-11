@@ -95,7 +95,7 @@ function showSubmissionDetails(submission) {
     );
 }
 
-function showSubmissionError() {
+function showSubmissionError(url) {
     var $container = $("#submission-url-container");
     var $inputField = $("#submission-url");
     var $msg = $("#submission-url-msg");
@@ -105,7 +105,24 @@ function showSubmissionError() {
     $inputField.attr("class", "input is-danger");
 
     $msg.addClass("is-danger");
-    $msg.text("This is not a valid submission URL.");
+    if (url) {
+        $msg.html("There is already an <a href='" + url + "'>existing raffle</a> for this submission");
+    } else {
+        $msg.text("This is not a valid submission URL.");
+    }
+}
+
+function showValidationResults(jqXHR) {
+    switch (jqXHR.status) {
+        case 200:
+            showSubmissionDetails(jqXHR.responseJSON);
+            break;
+        case 303:
+            showSubmissionError(jqXHR.responseJSON.url);
+            break;
+        default:
+            showSubmissionError();
+    }
 }
 
 function validateUrl() {
@@ -133,8 +150,7 @@ function validateUrl() {
             dataType: "json",
             data: { url: url },
             url: "/api/submission",
-            success: showSubmissionDetails,
-            error: showSubmissionError
+            complete: showValidationResults
         });
     }
 }
