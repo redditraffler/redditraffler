@@ -2,6 +2,10 @@
 
 #table-control { display: none }
 
+.table tbody tr:hover {
+    cursor: pointer;
+}
+
 .table tr.is-selected {
     background-color: #ff7644;
     color: whitesmoke;
