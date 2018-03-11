@@ -15,7 +15,6 @@ auth = Blueprint('auth', __name__)
 
 
 @auth.route('/logout', methods=['POST'])
-@csrf.exempt
 def logout():
     session.clear()
     # Flash message

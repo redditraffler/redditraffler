@@ -31,7 +31,9 @@
                         </a>
                     </div>
                 </div>
-                <form id="logout-form" style="display:none" action="{{ url_for('auth.logout') }}" method="POST"></form>
+                <form id="logout-form" style="display:none" action="{{ url_for('auth.logout') }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                </form>
                 {% endif %}
                 <a id="nav-github" class="navbar-item" title="View on GitHub" href="https://github.com/timorthi/redditraffler">
                     <i class="fab fa-github fa-fw fa-lg"></i>
