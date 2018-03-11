@@ -16,7 +16,7 @@
             <div class="navbar-end">
                 <a class="navbar-item" href="{{ url_for('base.index') }}">Home</a>
                 <a class="navbar-item" href="{{ url_for('raffles.index') }}">Raffles</a>
-                <a class="navbar-item" href="{{ url_for('base.index',_anchor='create') }}">Create</a>
+                <a class="navbar-item" href="{% if 'reddit_refresh_token' in session %} {{ url_for('raffles.new') }} {% else %} {{ url_for('base.index',_anchor='create') }} {% endif %}">Create</a>
                 {% if 'reddit_refresh_token' in session %}
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
