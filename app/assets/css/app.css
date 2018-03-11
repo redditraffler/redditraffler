@@ -143,7 +143,12 @@ a.navbar-item.is-active {
 /**** End Header ****/
 
 /**** Footer ****/
+.footer {
+  font-size: 0.9rem;
+}
+
 .footer-icon {
+  font-size: 1.25rem;
   color: #4a4a4a;
   transition: 0.3s;
 }
@@ -158,5 +163,9 @@ a.navbar-item.is-active {
 
 .footer-icon-reddit:hover {
   color: #ff4500;
+}
+
+.footer #copyright {
+  opacity: 0.3;
 }
 /**** End Footer ****/
