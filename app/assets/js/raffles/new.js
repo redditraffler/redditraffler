@@ -51,8 +51,8 @@ function buildSubmissionsTable(submissions) {
     var $table = $("#submissions");
 
     if (!submissions) {
-        var $noSubmissionsHtml = "<div id='no-submission-error' class='content has-text-centered has-text-danger'><p>Either you don't have any submissions yet or all your eligible submissions are already existing raffles.</p></div>";
-        $table.html($noSubmissionsHtml);
+        var noSubmissionsHtml = "<div id='no-submission-error' class='content has-text-centered has-text-danger'><p>Either you don't have any submissions yet or all your eligible submissions are already existing raffles.</p></div>";
+        $table.html(noSubmissionsHtml);
         return;
     }
 
