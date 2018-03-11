@@ -21,13 +21,22 @@ def test_submission_no_params(client):
     assert res.status_code == 400
 
 
-def test_submission_invalid_submission(client, monkeypatch):
+def test_submission_invalid_submission(client, monkeypatch, db_session):
+    monkeypatch.setattr(reddit, 'submission_id_from_url', lambda x: None)
     monkeypatch.setattr(reddit, 'get_submission', lambda sub_url: None)
     res = client.get(url_for('api.submission', url='some_url'))
     assert res.status_code == 404
 
 
-def test_submission(client, monkeypatch):
-    monkeypatch.setattr(reddit, 'get_submission', lambda sub_id: 'nonempty')
-    res = client.get(url_for('api.submission', id='some_id'))
+def test_submission_existing_raffle(client, monkeypatch, db_session, raffle):
+    monkeypatch.setattr(reddit, 'submission_id_from_url', lambda x: 'test_id')
+    monkeypatch.setattr(reddit, 'get_submission', lambda sub_url: None)
+    res = client.get(url_for('api.submission', url='some_url'))
+    assert res.status_code == 303
+
+
+def test_submission_valid_submission(client, monkeypatch, db_session):
+    monkeypatch.setattr(reddit, 'submission_id_from_url', lambda x: None)
+    monkeypatch.setattr(reddit, 'get_submission', lambda sub_url: 'something')
+    res = client.get(url_for('api.submission', url='some_url'))
     assert res.status_code == 200

@@ -48,8 +48,15 @@ function initTableRows() {
 function buildSubmissionsTable(submissions) {
     $("#loading-container").hide();
 
-    // Add headers
     var $table = $("#submissions");
+
+    if (!submissions) {
+        var noSubmissionsHtml = "<div id='no-submission-error' class='content has-text-centered has-text-danger'><p>Either you don't have any submissions yet or all your eligible submissions are already existing raffles.</p></div>";
+        $table.html(noSubmissionsHtml);
+        return;
+    }
+
+    // Add headers
     var tableHeaders = "<thead><th>Title</th><th>Subreddit</th><th>Created On</th></thead>";
     $table.append(tableHeaders);
 
@@ -95,7 +102,7 @@ function showSubmissionDetails(submission) {
     );
 }
 
-function showSubmissionError() {
+function showSubmissionError(url) {
     var $container = $("#submission-url-container");
     var $inputField = $("#submission-url");
     var $msg = $("#submission-url-msg");
@@ -105,7 +112,24 @@ function showSubmissionError() {
     $inputField.attr("class", "input is-danger");
 
     $msg.addClass("is-danger");
-    $msg.text("This is not a valid submission URL.");
+    if (url) {
+        $msg.html("There is already an <a href='" + url + "'>existing raffle</a> for this submission");
+    } else {
+        $msg.text("This is not a valid submission URL.");
+    }
+}
+
+function showValidationResults(jqXHR) {
+    switch (jqXHR.status) {
+        case 200:
+            showSubmissionDetails(jqXHR.responseJSON);
+            break;
+        case 303:
+            showSubmissionError(jqXHR.responseJSON.url);
+            break;
+        default:
+            showSubmissionError();
+    }
 }
 
 function validateUrl() {
@@ -133,15 +157,16 @@ function validateUrl() {
             dataType: "json",
             data: { url: url },
             url: "/api/submission",
-            success: showSubmissionDetails,
-            error: showSubmissionError
+            complete: showValidationResults
         });
     }
 }
 
 function validateSubmissionSelection(event) {
     if ($("#submission-selection").length > 0 && !$("#submission-selection").val()) {
-        $("#submissions").before("<div id='submission-selection-error' class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>");
+        if ($("#submission-selection-error").length == 0 && $("#no-submission-error").length == 0) {
+            $("#submissions").before("<div id='submission-selection-error' class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>");
+        }
         $(document).scrollTop($("#submission-selection").offset().top);
         event.preventDefault();
     }

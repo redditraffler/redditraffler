@@ -16,7 +16,7 @@
             <div class="navbar-end">
                 <a class="navbar-item" href="{{ url_for('base.index') }}">Home</a>
                 <a class="navbar-item" href="{{ url_for('raffles.index') }}">Raffles</a>
-                <a class="navbar-item" href="{{ url_for('base.index',_anchor='create') }}">Create</a>
+                <a class="navbar-item" href="{% if 'reddit_refresh_token' in session %} {{ url_for('raffles.new') }} {% else %} {{ url_for('base.index',_anchor='create') }} {% endif %}">Create</a>
                 {% if 'reddit_refresh_token' in session %}
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
@@ -31,7 +31,9 @@
                         </a>
                     </div>
                 </div>
-                <form id="logout-form" style="display:none" action="{{ url_for('auth.logout') }}" method="POST"></form>
+                <form id="logout-form" style="display:none" action="{{ url_for('auth.logout') }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                </form>
                 {% endif %}
                 <a id="nav-github" class="navbar-item" title="View on GitHub" href="https://github.com/timorthi/redditraffler">
                     <i class="fab fa-github fa-fw fa-lg"></i>

@@ -36,17 +36,12 @@ def new():
         if not _validate_raffle_form(form):
             abort(422)
 
-        user = _try_get_user_from_session()
         sub_id = reddit.submission_id_from_url(form.get('submissionUrl'))
-        raffle_params = {
-            'submission_url': form.get('submissionUrl'),
-            'winner_count': form.get('winnerCount', type=int),
-            'min_account_age': form.get('minAge', type=int),
-            'min_comment_karma': form.get('minComment', type=int),
-            'min_link_karma': form.get('minLink', type=int)
-        }
+        if _raffle_exists(sub_id):
+            return redirect(url_for('raffles.show', submission_id=sub_id))
 
-        raffle.queue(raffle_params=raffle_params,
+        user = _try_get_user_from_session()
+        raffle.queue(raffle_params=_raffle_params_from_form(form),
                      user=user,
                      job_id=sub_id)
         return redirect(url_for('raffles.status', job_id=sub_id))
@@ -109,3 +104,17 @@ def _try_get_user_from_session():
                    .first()
     else:
         return None
+
+
+def _raffle_params_from_form(form):
+    return {
+        'submission_url': form.get('submissionUrl'),
+        'winner_count': form.get('winnerCount', type=int),
+        'min_account_age': form.get('minAge', type=int),
+        'min_comment_karma': form.get('minComment', type=int),
+        'min_link_karma': form.get('minLink', type=int)
+    }
+
+
+def _raffle_exists(sub_id):
+    return Raffle.query.filter_by(submission_id=sub_id).scalar()

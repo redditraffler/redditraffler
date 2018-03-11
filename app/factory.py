@@ -1,5 +1,5 @@
 from flask import Flask
-from app.extensions import db, migrate, rq, limiter
+from app.extensions import db, migrate, rq, limiter, csrf
 from app.db import models
 from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
@@ -47,4 +47,5 @@ def register_extensions(app):
     migrate.init_app(app, db)
     rq.init_app(app)
     limiter.init_app(app)
+    csrf.init_app(app)
     return None
