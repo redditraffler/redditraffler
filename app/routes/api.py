@@ -21,16 +21,12 @@ def submissions():
 
 @api.route('/submission')
 def submission():
-    """ Accepts a `url` or `id` parameter and returns the associated
-    submission. """
+    """ Accepts a `url` parameter and returns the associated submission. """
 
-    if not (request.args.get('url') or request.args.get('id')):
+    if not request.args.get('url'):
         abort(400)
 
-    if request.args.get('url'):
-        submission = reddit.get_submission(sub_url=request.args.get('url'))
-    else:
-        submission = reddit.get_submission(sub_id=request.args.get('id'))
+    submission = reddit.get_submission(sub_url=request.args.get('url'))
 
     return jsonify(submission) if submission else abort(404)
 
