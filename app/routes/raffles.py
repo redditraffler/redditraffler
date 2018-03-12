@@ -19,7 +19,7 @@ raffles = Blueprint('raffles', __name__)
 def index():
     raffles = Raffle.query.all()
     return render_template('raffles/index.html',
-                           title='all raffles',
+                           title='View All Raffles',
                            raffles=raffles)
 
 
@@ -27,7 +27,7 @@ def index():
 def new():
     if request.method == 'GET':
         return render_template('raffles/new.html',
-                               title='create a raffle',
+                               title='New Raffle',
                                reddit_login_url=reddit.get_auth_url())
     elif request.method == 'POST':
         form = request.form.copy()
@@ -52,7 +52,7 @@ def status(job_id):
     if not rq.get_queue().fetch_job(job_id):
         abort(404)
     return render_template('raffles/status.html',
-                           title='raffle status',
+                           title='Raffle Status',
                            job_id=job_id)
 
 
@@ -61,9 +61,8 @@ def show(submission_id):
     raffle = Raffle.query.filter_by(submission_id=submission_id).first()
     if not raffle:
         abort(404)
-    title = 'results for "%s"' % raffle.submission_title
     return render_template('raffles/show.html',
-                           title=title,
+                           title='Results For "%s"' % raffle.submission_title,
                            raffle=raffle)
 
 

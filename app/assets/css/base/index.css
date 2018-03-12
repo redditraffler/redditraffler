@@ -9,6 +9,11 @@
   background-attachment: fixed;
 }
 
+.fi-svg {
+    width: 10rem;
+    height: 10rem;
+}
+
 .is-reddit-button {
     border-color: #ffd1c1;
     color: #fafafa;

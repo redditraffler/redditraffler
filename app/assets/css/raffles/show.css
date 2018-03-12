@@ -17,6 +17,18 @@
     color: white;
 }
 
+.sample-banner {
+    /* background-color: #5860CB; */
+    background-color: #FF3E3E;
+    color: white;
+    padding: 0.5rem 0;
+}
+
+.sample-banner .content p {
+    padding: 0;
+    margin: 0;
+}
+
 .card {
     -o-transition: 0.2s ease;
     -ms-transition: 0.2s ease;
