@@ -21,6 +21,6 @@ def show(username):
                           .order_by(desc('created_at'))
 
     return render_template('users/show.html',
-                           title='/u/' + user.username,
+                           title="/u/%s's Raffles" % user.username,
                            user=user,
                            raffles=raffles)
