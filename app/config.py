@@ -25,6 +25,7 @@ class DevConfig(BaseConfig):
     ENV = 'development'
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
+    ASSETS_DEBUG = True
 
 
 class ProdConfig(BaseConfig):
