@@ -8,6 +8,10 @@ class BaseConfig():
     SECRET_KEY = os.getenv('SECRET_KEY')
     RQ_REDIS_URL = os.getenv('REDIS_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    CACHE_CONFIG = {
+        'CACHE_TYPE': 'redis',
+        'CACHE_REDIS_URL': os.getenv('REDIS_URL')
+    }
 
     REDDIT_CLIENT_ID = os.getenv('REDDIT_CLIENT_ID')
     REDDIT_CLIENT_SECRET = os.getenv('REDDIT_CLIENT_SECRET')
