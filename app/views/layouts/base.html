@@ -5,9 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>redditraffler - {{ title }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/balloon.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    {% assets "css_base" %} <link rel="stylesheet" href="{{ ASSET_URL }}"> {% endassets %}
     {% if config['ENV'] == 'production' %}
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77153949-3"></script>
     <script src="{{ url_for('static', filename='js/gtag.js') }}"></script>
@@ -22,11 +20,6 @@
 
     {% include 'layouts/footer.html' %}
 </body>
-    <script src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
-    <script src="{{ url_for('static', filename='js/util.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
-    <script defer src="{{ url_for('static', filename='js/layouts/header.js') }}"></script>
-    <script defer src="{{ url_for('static', filename='js/layouts/footer.js') }}"></script>
+    {% assets "js_base" %} <script type="text/javascript" src="{{ ASSET_URL }}"></script> {% endassets %}
     {% block js %} {% endblock %}
 </html>
