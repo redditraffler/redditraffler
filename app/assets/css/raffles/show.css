@@ -30,10 +30,6 @@
 }
 
 .card {
-    -o-transition: 0.2s ease;
-    -ms-transition: 0.2s ease;
-    -moz-transition: 0.2s ease;
-    -webkit-transition: 0.2s ease;
     transition: 0.2s ease;
 }
 .card:hover {
@@ -42,4 +38,11 @@
 
 .card-icon {
     margin-right: 2px;
+}
+
+@media only screen and (min-width: 1408px) {
+    .card {
+        white-space: nowrap;
+        overflow: hidden;
+    }
 }
