@@ -28,7 +28,7 @@ class DevConfig(BaseConfig):
 
 
 class ProdConfig(BaseConfig):
-    ENV = 'production'
+    ENV = os.getenv('ENV') if os.getenv('ENV') else 'production'
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
 
