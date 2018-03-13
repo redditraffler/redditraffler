@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/balloon.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    {% if config['ENV'] == 'production' %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77153949-3"></script>
+    <script src="{{ url_for('static', filename='js/gtag.js') }}"></script>
+    {% endif %}
     {% block styles %} {% endblock %}
 </head>
 
