@@ -10,7 +10,8 @@ class BaseConfig():
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CACHE_CONFIG = {
         'CACHE_TYPE': 'redis',
-        'CACHE_REDIS_URL': os.getenv('REDIS_URL')
+        'CACHE_REDIS_URL': os.getenv('REDIS_URL'),
+        'CACHE_DEFAULT_TIMEOUT': 60 * 60 * 24,  # 1 day
     }
 
     REDDIT_CLIENT_ID = os.getenv('REDDIT_CLIENT_ID')
