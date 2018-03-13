@@ -1,8 +1,9 @@
 from flask import Flask
-from app.extensions import db, migrate, rq, limiter, csrf
+from app.extensions import db, migrate, rq, limiter, csrf, assets
 from app.db import models
 from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
+from flask_assets import Bundle
 
 
 def create_app(config_object=ProdConfig):
@@ -48,4 +49,17 @@ def register_extensions(app):
     rq.init_app(app)
     limiter.init_app(app)
     csrf.init_app(app)
+    init_and_register_assets(app)
+    return None
+
+
+def init_and_register_assets(app):
+    assets.init_app(app)
+    js = Bundle('js/util.js', 'js/moment.min.js', 'js/jquery-3.3.1.min.js',
+                'js/fontawesome-v5.0.0.min.js', 'js/layouts/header.js',
+                'js/layouts/footer.js', filters='jsmin', output='dist/base.js')
+    css = Bundle('css/bulma.css', 'css/balloon.min.css', 'css/app.css',
+                 filters='cssmin', output='dist/base.css')
+    assets.register('js_base', js)
+    assets.register('css_base', css)
     return None
