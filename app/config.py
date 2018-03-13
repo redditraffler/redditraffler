@@ -47,4 +47,4 @@ class TestConfig(BaseConfig):
     RQ_ASYNC = False
     RATELIMIT_ENABLED = False
     WTF_CSRF_ENABLED = False
-    CACHE_CONFIG = {'CACHE_TYPE': 'null', 'CACHE_NO_NULL_WARNING': 'True'}
+    CACHE_CONFIG = {'CACHE_TYPE': 'null', 'CACHE_NO_NULL_WARNING': True}
