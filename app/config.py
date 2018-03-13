@@ -8,6 +8,11 @@ class BaseConfig():
     SECRET_KEY = os.getenv('SECRET_KEY')
     RQ_REDIS_URL = os.getenv('REDIS_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    CACHE_CONFIG = {
+        'CACHE_TYPE': 'redis',
+        'CACHE_REDIS_URL': os.getenv('REDIS_URL'),
+        'CACHE_DEFAULT_TIMEOUT': 60 * 60 * 24,  # 1 day
+    }
 
     REDDIT_CLIENT_ID = os.getenv('REDDIT_CLIENT_ID')
     REDDIT_CLIENT_SECRET = os.getenv('REDDIT_CLIENT_SECRET')
@@ -42,3 +47,4 @@ class TestConfig(BaseConfig):
     RQ_ASYNC = False
     RATELIMIT_ENABLED = False
     WTF_CSRF_ENABLED = False
+    CACHE_CONFIG = {'CACHE_TYPE': 'null', 'CACHE_NO_NULL_WARNING': True}

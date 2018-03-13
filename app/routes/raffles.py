@@ -10,7 +10,7 @@ from flask import (
 from app.util import reddit
 from app.jobs.raffle_job import raffle
 from app.db.models import User, Raffle
-from app.extensions import rq
+from app.extensions import rq, cache
 
 raffles = Blueprint('raffles', __name__)
 
@@ -57,6 +57,7 @@ def status(job_id):
 
 
 @raffles.route('/<submission_id>')
+@cache.cached()
 def show(submission_id):
     raffle = Raffle.query.filter_by(submission_id=submission_id).first()
     if not raffle:
