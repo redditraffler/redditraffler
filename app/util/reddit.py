@@ -1,4 +1,5 @@
 from app.config import BaseConfig as config
+from app.extensions import cache
 import praw
 import prawcore
 
@@ -29,6 +30,7 @@ def get_username(refresh_token):
     return r.user.me().name
 
 
+@cache.memoize(timeout=60*3)
 def get_user_submissions(refresh_token):
     """ Return the Redditor's submissions ordered latest to oldest. """
     r = praw.Reddit(**SETTINGS, refresh_token=refresh_token)
@@ -37,6 +39,7 @@ def get_user_submissions(refresh_token):
     return result
 
 
+@cache.memoize(timeout=60*3)
 def get_submission(sub_id=None, sub_url=None):
     """ Returns a serialized submission based on the given ID or URL, or
     None if the ID or URL is invalid. """
