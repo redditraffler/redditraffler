@@ -49,7 +49,7 @@ def register_extensions(app):
     rq.init_app(app)
     limiter.init_app(app)
     csrf.init_app(app)
-    cache.init_app(app)
+    cache.init_app(app, config=app.config['CACHE_CONFIG'])
     init_and_register_assets(app)
     return None
 
