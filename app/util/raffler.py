@@ -27,12 +27,16 @@ class Raffler():
         """ Fetch the submission's comments in a random order.
         `replace_more(limit=20)` is equivalent to scrolling down in a
         submission to load more comments. Top-level, valid comments are
-        then added to an internal set `_entries`. """
+        then added to an internal set `_entries`. Returns whether the
+        loop succeeded in finding at least as many entries as
+        `winner_count`. """
         self.submission.comment_sort = 'random'
         self.submission.comments.replace_more(limit=20)
         for comment in self.submission.comments.list():
             if self._is_valid_comment(comment):
                 self._entries.add(comment)
+
+        return len(self._entries) >= len(self.winner_count)
 
     def select_winners(self):
         """ Loop over the internal set of entries to find comments whose
