@@ -22,18 +22,16 @@ def create_app(config_object=ProdConfig):
 
 def register_error_handlers(app):
     def render_error(error):
-        code_mapping = {
+        code_msg = {
             401: 'Unauthorized',
             404: 'Not Found',
             500: 'Internal Server Error'
         }
-
         error_code = getattr(error, 'code', 500)
-        error_code = 500
         return render_template('base/error.html',
                                title='Error {}'.format(error_code),
                                code=error_code,
-                               code_msg=code_mapping[error_code]), error_code
+                               code_msg=code_msg.get('error_code')), error_code
 
     for code in [401, 404, 500]:
         app.errorhandler(code)(render_error)

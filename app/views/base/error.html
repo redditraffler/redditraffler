@@ -10,7 +10,7 @@
         <div class="container">
             <div class="content has-text-centered">
                 <p class="title">{{ code }}</p>
-                <p class="error-msg"><b>({{ code_msg }})</b></p>
+                {% if code_msg %} <p class="error-msg"><b>({{ code_msg }})</b></p> {% endif %}
                 <p class="error-msg">
                 {% if code == 404 %}
                     Sorry, we can't find the page you're looking for.
@@ -18,6 +18,8 @@
                     Sorry, something went wrong behind the scenes and we'll look into it ASAP. <br> In the meantime, don't hesitate to <a href="#contact">contact us</a> if you have any questions.
                 {% elif code == 401 %}
                     Sorry, it looks like you don't have the permissions to view this page.
+                {% else %}
+                    Sorry, something went wrong.
                 {% endif %}
                 </p>
                 <p>
