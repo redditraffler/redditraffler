@@ -138,6 +138,7 @@ function validateUrl() {
 
     var URL_REGEX = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
     if (!url || !URL_REGEX.test(url)) {
+        window._prevUrl = url;
         showSubmissionError();
         return;
     }
