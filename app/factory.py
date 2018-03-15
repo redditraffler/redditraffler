@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
 from app.db import models
 from app.routes import base, auth, raffles, api, users
@@ -21,17 +21,22 @@ def create_app(config_object=ProdConfig):
 
 
 def register_error_handlers(app):
-    @app.errorhandler(401)
-    def unauthorized(error):
-        return 'unauthorized', 401
+    def render_error(error):
+        code_msg = {
+            401: 'Unauthorized',
+            404: 'Not Found',
+            500: 'Internal Server Error'
+        }
+        error_code = getattr(error, 'code', 500)
+        return render_template('base/error.html',
+                               title='Error {}'.format(error_code),
+                               code=error_code,
+                               code_msg=code_msg.get('error_code')), error_code
 
-    @app.errorhandler(404)
-    def not_found(error):
-        return 'not found', 404
+    for code in [401, 404, 500]:
+        app.errorhandler(code)(render_error)
 
-    @app.errorhandler(500)
-    def internal_server_error(error):
-        return 'internal server error', 500
+    return None
 
 
 def register_blueprints(app):
