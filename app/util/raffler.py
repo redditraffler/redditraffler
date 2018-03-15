@@ -36,7 +36,7 @@ class Raffler():
             if self._is_valid_comment(comment):
                 self._entries.add(comment)
 
-        return len(self._entries) >= len(self.winner_count)
+        return len(self._entries) >= self.winner_count
 
     def select_winners(self):
         """ Loop over the internal set of entries to find comments whose
