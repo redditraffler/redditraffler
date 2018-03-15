@@ -36,7 +36,8 @@ class Raffler():
             if self._is_valid_comment(comment):
                 self._entries.add(comment)
 
-        return len(self._entries) >= self.winner_count
+        if len(self._entries) < self.winner_count:
+            raise ValueError('winner_count exceeds number of valid comments')
 
     def select_winners(self):
         """ Loop over the internal set of entries to find comments whose
@@ -51,7 +52,8 @@ class Raffler():
             if user and self._is_valid_winner(user):
                 self._winners.update({user: entry})
 
-        return len(self._winners) == self.winner_count
+        if len(self._winners) < self.winner_count:
+            raise ValueError('winner_count exceeds number of eligible winners')
 
     def get_serialized_winners(self):
         result = []
