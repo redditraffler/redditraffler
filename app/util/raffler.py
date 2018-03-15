@@ -63,16 +63,23 @@ class Raffler():
         return result
 
     def _is_valid_comment(self, comment):
-        return (comment.is_root) and \
-               (comment.body is not None) and \
-               (comment.author is not None) and \
-               (comment not in self._entries)
-               # TODO: Missing check for duplicate comments in submission
+        # TODO: Find possible exceptions raised
+        try:
+            return (comment.is_root) and \
+                   (comment.body is not None) and \
+                   (comment.author is not None) and \
+                   (comment not in self._entries)
+        except:
+            return False
 
     def _is_valid_winner(self, user):
-        return (user.age >= self.min_account_age) and \
-               (user.comment_karma >= self.min_comment_karma) and \
-               (user.link_karma >= self.min_link_karma)
+        # TODO: Find possible exceptions raised
+        try:
+            return (user.age >= self.min_account_age) and \
+                   (user.comment_karma >= self.min_comment_karma) and \
+                   (user.link_karma >= self.min_link_karma)
+        except:
+            return False
 
     def _try_create_user(self, author):
         """ Utility function to make sure the author of an entry isn't banned
