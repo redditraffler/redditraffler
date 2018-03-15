@@ -46,11 +46,10 @@ def status():
     if not job:
         abort(404)
 
-    if 'status' in job.meta:
-        status = job.meta.get('status')
-    else:
-        status = 'Waiting in queue...'
-    return jsonify({'status': status})
+    status = job.meta.get('status') if 'status' in job.meta \
+        else 'Waiting to process...'
+
+    return jsonify({'status': status, 'error': job.meta.get('error')})
 
 
 def _filter_submissions(submissions_list):

@@ -27,12 +27,19 @@ class Raffler():
         """ Fetch the submission's comments in a random order.
         `replace_more(limit=20)` is equivalent to scrolling down in a
         submission to load more comments. Top-level, valid comments are
-        then added to an internal set `_entries`. """
+        then added to an internal set `_entries`. Returns whether the
+        loop succeeded in finding at least as many entries as
+        `winner_count`. """
         self.submission.comment_sort = 'random'
         self.submission.comments.replace_more(limit=20)
         for comment in self.submission.comments.list():
             if self._is_valid_comment(comment):
                 self._entries.add(comment)
+
+        if len(self._entries) < self.winner_count:
+            msg = 'winner_count exceeds valid comments. winner_count: {0}, '\
+                  'comments: {1}'.format(self.winner_count, len(self._entries))
+            raise ValueError(msg)
 
     def select_winners(self):
         """ Loop over the internal set of entries to find comments whose
@@ -40,15 +47,17 @@ class Raffler():
         added to an internal dict `_winners`. Returns whether the loop
         succeeded in finding enough winners to match `winner_count`.
         """
-        while (len(self._entries)) > 0 and \
-              (self.winner_count - len(self._winners) > 0):
+        while (len(self._entries) > 0) and \
+              (len(self._winners) < self.winner_count):
             entry = self._entries.pop()
-            author = entry.author
             user = self._try_create_user(entry.author)
             if user and self._is_valid_winner(user):
                 self._winners.update({user: entry})
 
-        return len(self._winners) == self.winner_count
+        if len(self._winners) < self.winner_count:
+            msg = 'winner_count exceeds eligible winners. winner_count: {0}, '\
+                  'winners: {1}'.format(self.winner_count, len(self._winners))
+            raise ValueError(msg)
 
     def get_serialized_winners(self):
         result = []
@@ -60,16 +69,23 @@ class Raffler():
         return result
 
     def _is_valid_comment(self, comment):
-        return (comment.is_root) and \
-               (comment.body is not None) and \
-               (comment.author is not None) and \
-               (comment not in self._entries)
-               # TODO: Missing check for duplicate comments in submission
+        # TODO: Find possible exceptions raised
+        try:
+            return (comment.is_root) and \
+                   (comment.body is not None) and \
+                   (comment.author is not None) and \
+                   (comment not in self._entries)
+        except:
+            return False
 
     def _is_valid_winner(self, user):
-        return (user.age >= self.min_account_age) and \
-               (user.comment_karma >= self.min_comment_karma) and \
-               (user.link_karma >= self.min_link_karma)
+        # TODO: Find possible exceptions raised
+        try:
+            return (user.age >= self.min_account_age) and \
+                   (user.comment_karma >= self.min_comment_karma) and \
+                   (user.link_karma >= self.min_link_karma)
+        except:
+            return False
 
     def _try_create_user(self, author):
         """ Utility function to make sure the author of an entry isn't banned
