@@ -1,0 +1,30 @@
+{% extends "layouts/base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base/error.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero is-fullheight is-reddit">
+    <div class="hero-body">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p class="title">{{ code }}</p>
+                <p class="error-msg"><b>({{ code_msg }})</b></p>
+                <p class="error-msg">
+                {% if code == 404 %}
+                    Sorry, we can't find the page you're looking for.
+                {% elif code == 500 %}
+                    Sorry, something went wrong behind the scenes and we'll look into it ASAP. <br> In the meantime, don't hesitate to <a href="#contact">contact us</a> if you have any questions.
+                {% elif code == 401 %}
+                    Sorry, it looks like you don't have the permissions to view this page.
+                {% endif %}
+                </p>
+                <p>
+                    <a class="button is-reddit-button is-outlined" href="{{ url_for('base.index') }}">Back to familiar land</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
