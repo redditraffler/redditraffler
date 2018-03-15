@@ -1,6 +1,6 @@
 from app.extensions import db, rq
 from app.db.models import Raffle, Winner
-from app.jobs.util import update_job_status
+from app.jobs.util import update_job_status, set_job_error
 from app.util import reddit
 from app.util.raffler import Raffler
 from rq import get_current_job
@@ -16,6 +16,7 @@ def raffle(raffle_params, user):
 
         current_app.logger.info('[Job %s] Started job' % sub_id)
         job = get_current_job()
+        set_job_error(job, False)
 
         current_app.logger.info('[Job %s] Fetching submission' % sub_id)
         update_job_status(job, 'Fetching submission...')
@@ -41,6 +42,7 @@ def raffle(raffle_params, user):
     except:
         # TODO: Find possible exceptions raised
         current_app.logger.exception('[Job %s] Error' % sub_id)
+        set_job_error(job, True)
 
 
 def _save_results_to_db(raffle_params, winners, submission, user):
