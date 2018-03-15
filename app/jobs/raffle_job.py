@@ -14,7 +14,8 @@ def raffle(raffle_params, user):
         sub_id = reddit.submission_id_from_url(sub_url)
         submission = reddit.get_submission(sub_url=sub_url)
 
-        current_app.logger.info('[Job %s] Started job' % sub_id)
+        current_app.logger.info('[Job %s] Started job %s' %
+                                (sub_id, str(raffle_params)))
         job = get_current_job()
         set_job_error(job, False)
 
