@@ -39,9 +39,15 @@
             <div class="column is-half">
                 <div class="content has-text-justified">
                     <p class="title has-text-reddit">How it works</p>
-                    <p>redditraffler retrieves your submission's top-level comments, along with their authors, in a random order.</p>
-                    <p>With the user criteria that you'll specify, such as minimum comment karma, redditraffler will choose one or more winners for you based on how many you'd like.</p>
-                    <p>The results of your raffle will be saved and be available to view for as long as this website is running.</p>
+                    <p>
+                        redditraffler retrieves your submission's top-level comments, along with their authors, in a random order.
+                    </p>
+                    <p>
+                        With the user criteria that you'll specify, such as minimum comment karma, redditraffler will choose one or more winners for you based on how many you'd like.
+                    </p>
+                    <p>
+                        The results of your raffle will be saved and be available to view for as long as this website is running. An example of what a raffle results page would look like can be found <a href="{{ url_for('raffles.show', submission_id='4re9cx') }}">here</a>.
+                    </p>
                 </div>
             </div>
         </div>
@@ -54,18 +60,14 @@
             <div class="column is-half">
                 <div class="content has-text-justified">
                     <p class="title has-text-reddit">Getting Started</p>
-                    <p>The usage criteria for redditraffler is simple. You'll need a Reddit submission that:</p>
-                    <ul>
-                        <li>
-                            <p><strong>is public.</strong> The subreddit on which your submission was posted can't be private, otherwise we won't be able to fetch its comments.</p>
-                        </li>
-                        <li>
-                            <p><strong>has valid comments.</strong> The more the merrier, naturally, but redditraffler will work as long as the number of winners you specify is less than or equal to the number of valid comments.</p>
-                            <p>A valid comment is a root comment, not deleted, not made by the author of the submission, and a coment whose author is not banned or deleted.</p>
-                        </li>
-                    </ul>
                     <p>
-                        Apart from that, all you'll need is a small set of requirements that entrants need to meet in order to be eligible for your contest. Currently, redditraffler supports: minimum account age, minimum comment karma, and minimum post karma.
+                        The usage criteria for redditraffler is simple. You'll need a Reddit submission that is <strong>public</strong> and <strong>has valid comments</strong>. For an example of what a redditraffler-compatible submission would look like, see <a href="https://redd.it/4re9cx">this /r/Overwatch giveaway</a>.
+                    </p>
+                    <p>
+                        Apart from that, all you'll need is a small set of requirements that entrants need to meet in order to be eligible as a winner for your contest.
+                    </p>
+                    <p>
+                        For detailed information about the process, see our <a href="{{ url_for('base.about') }}">about</a> page.
                     </p>
                 </div>
             </div>
