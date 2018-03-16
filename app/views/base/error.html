@@ -15,7 +15,7 @@
                 {% if code == 404 %}
                     Sorry, we can't find the page you're looking for.
                 {% elif code == 500 %}
-                    Sorry, something went wrong behind the scenes and we'll look into it ASAP. <br> In the meantime, don't hesitate to <a href="#contact">contact us</a> if you have any questions.
+                    Sorry, something went wrong behind the scenes and we'll look into it ASAP. <br> In the meantime, don't hesitate to <a href="{{ url_for('base.about', _anchor='contact') }}">contact us</a> if you have any questions.
                 {% elif code == 401 %}
                     Sorry, it looks like you don't have the permissions to view this page.
                 {% else %}

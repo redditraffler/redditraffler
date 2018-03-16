@@ -1,25 +1,30 @@
 <footer class="footer">
     <a name="contact"></a>
     <div class="container">
-        <div class="content has-text-centered">
-            <p>Server Time (UTC): <span id="clock"></span></p>
-            <p>
-                <b>redditraffler.com</b> is developed and maintained by
-                <a href="https://reddit.com/u/xozzo">/u/xozzo</a>.
-            </p>
-            <p>
-                <a class="footer-icon footer-icon-github" href="https://github.com/timorthi/redditraffler"><i class="fab fa-github fa-fw"></i></a>
-                <a class="footer-icon footer-icon-mail" href="mailto:admin@redditraffler.com"><i class="far fa-envelope fa-fw"></i></a>
-                <a class="footer-icon footer-icon-reddit" href="https://www.reddit.com/u/redditraffler"><i class="fab fa-reddit fa-fw"></i></a>
-            </p>
-            <p>
-                <a href='https://ko-fi.com/Z8Z1A9FB' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-            </p>
-
-            <div class="footer-light-text">
-            <p>Icons by <a href="https://fontawesome.com/">FontAwesome</a> and <a href="https://www.flaticon.com">Flaticon</a>. Powered by <a href="http://flask.pocoo.org/">Flask</a> and <a href="https://bulma.io/">Bulma</a>. </p>
-            <p><a href="{{ url_for('base.tos') }}">Terms of Service</a> | <a href="{{ url_for('base.privacy_policy') }}">Privacy Policy</a></p>
-            <p>Copyright &copy; <span id="year"></span> redditraffler.com. All rights reserved.</p>
+        <div class="columns">
+            <div class="column is-half is-offset-one-quarter">
+                <div class="content has-text-centered">
+                    <div class="footer-light-text">
+                        <p>Server Time: <span id="clock"></span></p>
+                        <p>
+                            Icons by
+                            <a href="https://fontawesome.com/">FontAwesome</a> and
+                            <a href="https://www.flaticon.com">Flaticon</a>. Powered by
+                            <a href="http://flask.pocoo.org/">Flask</a> and
+                            <a href="https://bulma.io/">Bulma</a>.
+                        </p>
+                        <p>
+                            <a href="{{ url_for('base.about', _anchor='contact') }}">Contact Us</a> |
+                            <a href="{{ url_for('base.tos') }}">Terms of Service</a> |
+                            <a href="{{ url_for('base.privacy_policy') }}">Privacy Policy</a>
+                        </p>
+                        <p>Copyright &copy; <span id="year"></span> redditraffler.com. All rights reserved.</p>
+                        <p id="ko-fi-img">
+                            <p>Support the website</p>
+                            <a href='https://ko-fi.com/Z8Z1A9FB' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

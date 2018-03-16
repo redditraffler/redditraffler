@@ -9,7 +9,7 @@ function updateStatus(data) {
             "<p><i class='fas fa-times fa-6x has-text-reddit'></i><p>" +
             "<p class='title'>Something went wrong :(</p>" +
             "<p>This most likely happened because your raffle parameters were too strict (i.e. we couldn't find enough winners to match your parameters).</p>" +
-            "<p>If you think this is not the case, please <a href='#contact'>contact us</a> with the code '" + jobId + "' and we'll look into it ASAP.</p>"
+            "<p>If you think this is not the case, please <a href='/about#contact'>contact us</a> with the code '" + jobId + "' and we'll look into it ASAP.</p>"
         );
     } else if (status == "Done!") {
         $("#loader").hide();
