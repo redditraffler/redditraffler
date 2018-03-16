@@ -19,6 +19,12 @@ def index():
                            reddit_login_url=reddit.get_auth_url())
 
 
+@base.route('/about')
+def about():
+    return render_template('base/about.html',
+                           title='About')
+
+
 @base.route('/terms-of-service')
 def tos():
     return render_template('base/terms-of-service.html',
