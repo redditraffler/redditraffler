@@ -1,5 +1,9 @@
 {% extends "layouts/base.html" %}
 
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base/about.css') }}">
+{% endblock %}
+
 {% block content %}
 <section class="hero is-small is-reddit">
     <div class="hero-body">
@@ -75,6 +79,36 @@
                         <li>Minimum post karma</li>
                     </ul>
                     <p>As redditraffler grows, we will continue adding features to the site to improve user experience as well as to give hosts more control over their contests. If you have any questions, suggestions, or if you just want to say hello, you can <a href="#contact">contact us</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-three-quarters">
+                <div id="contact-container" class="content has-text-centered">
+                    <a name="contact"></a>
+                    <p class="title has-text-reddit has-text-centered">Contact</p>
+                    <p>
+                        redditraffler is developed and maintained by <a href="https://reddit.com/u/xozzo">/u/xozzo</a>. You may contact him via:
+                    </p>
+                    <ul id="contact-list">
+                        <li>
+                            <a class="contact-link github" href="https://github.com/timorthi/redditraffler"><i class="fab fa-github fa-fw"></i> GitHub</a>
+                        </li>
+                        <li>
+                            <a class="contact-link mail" href="mailto:admin@redditraffler.com"><i class="far fa-envelope fa-fw"></i> E-mail</a>
+                        </li>
+                        <li>
+                            <a class="contact-link reddit" href="https://www.reddit.com/u/xozzo"><i class="fab fa-reddit fa-fw"></i> Reddit</a>
+                        </li>
+                    </ul>
+                    <p>
+                        redditraffler is a free service and it will always be free. However, there is overhead associated with keeping the website running. If you'd like to support the website, you can <a href="https://ko-fi.com/Z8Z1A9FB">buy me a coffee</a>. Any donations will be put into maintaining and improving the website. Thank you in advance! :)
+                    </p>
                 </div>
             </div>
         </div>

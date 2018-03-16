@@ -1,0 +1,38 @@
+#contact-container p {
+    margin: 1rem;
+}
+
+#contact-container p:nth-child(2) {
+    margin-bottom: 0.5rem;
+}
+
+#contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#contact-list li {
+    display: inline;
+}
+
+#contact-list li:not(:last-child) {
+    padding-right: 1rem;
+}
+
+.contact-link {
+  color: #4a4a4a;
+  transition: 0.3s;
+}
+
+.contact-link.github:hover {
+  color: #333;
+}
+
+.contact-link.mail:hover {
+  color: #dd4b39;
+}
+
+.contact-link.reddit:hover {
+  color: #ff4500;
+}
