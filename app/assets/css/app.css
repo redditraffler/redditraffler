@@ -145,27 +145,25 @@ a.navbar-item.is-active {
 /**** Footer ****/
 .footer {
   font-size: 0.9rem;
+  color: whitesmoke;
+  background-color: #363636;
+  padding: 3rem 1.5rem;
 }
 
-.footer #ko-fi-img {
-  padding: 1rem;
+.footer #ko-fi {
+  padding: 0.5rem;
   opacity: 1;
 }
 
-.footer-light-text p {
-  opacity: 0.6;
+.footer #text-container p:not(:last-child) {
+  margin: 0.5rem;
 }
 
-.footer-light-text p:not(:last-child) {
-  margin: 0;
-  padding: 0;
-}
-
-.footer-light-text a {
+.footer #text-container a {
   color: inherit;
 }
 
-.footer-light-text a:hover {
+.footer #text-container a:hover {
   text-decoration: underline;
 }
 /**** End Footer ****/
