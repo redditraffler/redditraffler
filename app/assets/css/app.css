@@ -30,6 +30,17 @@ section { background-color: whitesmoke; }
 .reddit-button:active {
   color: #ff4500;
 }
+
+.message.is-reddit div.message-header {
+  background-color: #ff7644;
+  color: white;
+}
+
+.message.is-reddit div.message-body {
+  color: #363636;
+  background-color: #ffdcd0;
+  border-color: #ff7644;
+}
 /**** End General ****/
 
 /**** Header ****/
