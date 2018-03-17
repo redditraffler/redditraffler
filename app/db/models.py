@@ -31,7 +31,10 @@ class Raffle(db.Model):
     min_comment_karma = db.Column(db.Integer)
     min_link_karma = db.Column(db.Integer)
 
-    winners = db.relationship('Winner', backref='raffle', lazy=True)
+    winners = db.relationship('Winner',
+                              backref='raffle',
+                              lazy=True,
+                              cascade='all, delete-orphan')
 
     user_id = db.Column(db.Integer,
                         db.ForeignKey('user.id'),
