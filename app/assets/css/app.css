@@ -9,10 +9,12 @@
 
 html {
   height: 100%;
-  background-color: whitesmoke;
+  background-color: #363636;
 }
 
 a { color: #ff7644; }
+
+section { background-color: whitesmoke; }
 
 .is-white { background-color: white; }
 
