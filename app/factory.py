@@ -3,7 +3,7 @@ from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
 from app.db import models
 from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
-from app.commands import delete
+from app.commands import delete, clear_cache
 from flask_assets import Bundle
 
 
@@ -72,3 +72,4 @@ def init_and_register_assets(app):
 
 def register_commands(app):
     app.cli.add_command(delete)
+    app.cli.add_command(clear_cache)

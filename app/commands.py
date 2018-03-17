@@ -1,12 +1,12 @@
 from flask import current_app
 from flask.cli import with_appcontext
 from app.db.models import Raffle
-from app.extensions import db
+from app.extensions import db, cache
 import click
 
 
 @click.command()
-@click.option('--raffle_id', default=None, help='ID of the raffle to remove')
+@click.option('--raffle_id', required=True, help='ID of the raffle to remove')
 @with_appcontext
 def delete(raffle_id):
     try:
@@ -15,7 +15,7 @@ def delete(raffle_id):
         click.echo('Raffle \'{}\' does not exist.'.format(raffle_id))
         return
 
-    if click.confirm('Really delete Raffle {}?'.format(raffle_id)):
+    if click.confirm('Continue deleting Raffle {}?'.format(raffle_id)):
         current_app.logger.info('[COMMAND] Removing {}'.format(raffle_id))
         try:
             db.session.delete(raffle)
@@ -28,3 +28,11 @@ def delete(raffle_id):
                 '[COMMAND] Error while trying to remove {}'.format(raffle_id)
             )
             click.echo('Something went wrong while deleting the raffle.')
+
+
+@click.command()
+@with_appcontext
+def clear_cache():
+    cache.clear()
+    current_app.logger.info('[COMMAND] Cache cleared')
+    click.echo('Cache cleared')
