@@ -3,6 +3,7 @@ from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
 from app.db import models
 from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
+from app.commands import delete, clear_cache
 from flask_assets import Bundle
 
 
@@ -10,13 +11,11 @@ def create_app(config_object=ProdConfig):
     app = Flask('app',
                 template_folder='views',
                 static_folder='assets')
-
     app.config.from_object(config_object)
-
     register_error_handlers(app)
     register_blueprints(app)
     register_extensions(app)
-
+    register_commands(app)
     return app
 
 
@@ -69,3 +68,8 @@ def init_and_register_assets(app):
     assets.register('js_base', js)
     assets.register('css_base', css)
     return None
+
+
+def register_commands(app):
+    app.cli.add_command(delete)
+    app.cli.add_command(clear_cache)
