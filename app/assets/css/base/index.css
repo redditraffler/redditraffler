@@ -27,8 +27,9 @@
     color: #ff4500;
 }
 
-.cta-box {
+.box.cta-box {
     border-radius: 0;
+    margin-bottom: 0;
 }
 
 .cta-title {
