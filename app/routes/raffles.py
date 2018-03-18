@@ -79,7 +79,7 @@ def _validate_raffle_form(form):
     for key in INT_KEYS:
         val = form.get(key, type=int)
         if (not isinstance(val, int)) or (val < 0) or \
-           (key == 'winnerCount' and val < 1):
+           (key == 'winnerCount' and (val < 1 or val > 25)):
             return False
 
     # Validate that the submission exists
