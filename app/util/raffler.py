@@ -69,6 +69,8 @@ class Raffler():
         return result
 
     def _is_valid_comment(self, comment):
+        """ Returns true if the comment is in the raffle's submission, and
+        it is not banned or removed. """
         # TODO: Find possible exceptions raised
         try:
             return (comment.is_root) and \
@@ -79,6 +81,8 @@ class Raffler():
             return False
 
     def _is_valid_winner(self, user):
+        """ Returns true if the user meets the raffle requirements and it
+        the user only has one comment in the raffle submission. """
         # TODO: Find possible exceptions raised
         try:
             return (user.age >= self.min_account_age) and \
@@ -101,6 +105,7 @@ class Raffler():
 
     @staticmethod
     def _account_age_days(created_utc):
+        """ Utility function to get account age in days. """
         return (datetime.utcnow() -
                 datetime.utcfromtimestamp(created_utc)).days
 
