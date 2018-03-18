@@ -78,6 +78,7 @@ class Raffler():
                    (comment.author is not None) and \
                    (comment not in self._entries)
         except:
+            current_app.logger.exception('Exception in _is_valid_comment')
             return False
 
     def _is_valid_winner(self, user):
@@ -89,6 +90,7 @@ class Raffler():
                    (user.comment_karma >= self.min_comment_karma) and \
                    (user.link_karma >= self.min_link_karma)
         except:
+            current_app.logger.exception('Exception in _is_valid_winner')
             return False
 
     def _try_create_user(self, author):
