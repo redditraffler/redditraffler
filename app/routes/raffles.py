@@ -57,7 +57,6 @@ def status(job_id):
 
 
 @raffles.route('/<submission_id>')
-@cache.cached()
 def show(submission_id):
     raffle = Raffle.query.filter_by(submission_id=submission_id).first()
     if not raffle:
