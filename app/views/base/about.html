@@ -52,9 +52,6 @@
                     <div class="columns is-centered">
                         <div class="column">
                             <article class="message is-warning">
-                                <div class="message-header">
-                                    <p>A Note On Guest-Created Raffles</p>
-                                </div>
                                 <div class="message-body">
                                     <p>
                                         Apart from removing content that violates our <a href="{{ url_for('base.tos') }}">Terms of Service</a>, redditraffler reserves the right to remove guest-created raffles without prior warning to allow the submission's author to generate a verified raffle. Verified raffles will never be edited or deleted.
@@ -66,24 +63,36 @@
 
                     <a name="preconditions"></a>
                     <p class="subtitle has-text-reddit has-text-centered"><b>Preconditions</b></p>
-                    <p>
-                        In order to successfully generate results, redditraffler operates under the following assumptions about your contest:
-                    </p>
-                    <ul>
-                        <li>It is "comment-to-enter". Anyone who comments is considered an entrant.</li>
-                        <li>It does not impose any real-life restrictions. For example, redditraffler will not be able to enforce rules like "only select winners who are above X years of age".</li>
-                    </ul>
-                    <p>
-                        In addition to the above, the following assumptions are made about the Reddit submission for your contest:
-                    </p>
-                    <ul>
-                        <li>The submission can be viewed by anyone.</li>
-                        <li>The submission has enough entries (comments) to choose from.</li>
-                        <li>Replies to comments are ignored.</li>
-                        <li>Comments made by the submission's author are ignored.</li>
-                        <li>Removed or banned comments are ignored.</li>
-                        <li>Users who make multiple top-level comments are ignored.</li>
-                    </ul>
+                    <p>In order to successfully generate results, redditraffler operates under the following assumptions...</p>
+                    <div class="columns">
+                        <div class="column is-same-height">
+                            <div class="box">
+                                <p>
+                                    <b>Regarding your contest:</b>
+                                </p>
+                                <ul>
+                                    <li>It is "comment-to-enter". Anyone who comments is considered an entrant.</li>
+                                    <li>It does not impose any real-life restrictions. For example, redditraffler will not be able to enforce rules like "only
+                                        select winners who are above X years of age".</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="column is-same-height">
+                            <div class="box">
+                                <p>
+                                    <b>Regarding the Reddit submission for your contest:</b>
+                                </p>
+                                <ul>
+                                    <li>The submission can be viewed by anyone.</li>
+                                    <li>The submission has enough entries (comments) to choose from.</li>
+                                    <li>Replies to comments are ignored.</li>
+                                    <li>Comments made by the submission's author are ignored.</li>
+                                    <li>Removed or banned comments are ignored.</li>
+                                    <li>Users who make multiple top-level comments are ignored.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
                     <p class="subtitle has-text-reddit has-text-centered"><b>Winner Selection</b></p>
                     <p>You may select up to 15 winners for your raffle. Currently, redditraffler supports selecting winners using the following criteria:</p>
