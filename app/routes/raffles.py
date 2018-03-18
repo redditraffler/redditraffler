@@ -1,6 +1,7 @@
 from flask import (
     abort,
     Blueprint,
+    current_app,
     redirect,
     render_template,
     request,
@@ -34,6 +35,8 @@ def new():
         if 'submissionUrl' in form:
             form['submissionUrl'] = _ensure_protocol(form['submissionUrl'])
         if not _validate_raffle_form(form):
+            current_app.logger.error('Form validation failed {}'.format(
+                [(key, value) for key, value in request.form.items()]))
             abort(422)
 
         sub_id = reddit.submission_id_from_url(form.get('submissionUrl'))
