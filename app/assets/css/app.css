@@ -16,6 +16,8 @@ a { color: #ff7644; }
 
 section { background-color: whitesmoke; }
 
+.column.is-same-height { display: flex; }
+
 .is-white { background-color: white; }
 
 .is-reddit {
