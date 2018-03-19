@@ -79,7 +79,7 @@ class Raffler():
             return (comment.is_root) and \
                    (comment.body is not None) and \
                    (comment.author is not None) and \
-                   (comment not in self._entries)
+                   self._is_same_submission(comment)
         except:
             current_app.logger.exception('Exception in _is_valid_comment')
             return False
@@ -107,6 +107,12 @@ class Raffler():
             return user
         except (prawcore.exceptions.NotFound, AttributeError):
             return None
+
+    def _is_same_submission(self, comment):
+        """ Utility function to check if comment's submission is same as
+        the raffle's submission """
+        return (comment.submission.id ==
+                Submission.id_from_url(self.submission.url))
 
     @staticmethod
     def _account_age_days(created_utc):
