@@ -1,5 +1,7 @@
+from flask import current_app
 from app.config import BaseConfig as config
 from datetime import datetime
+from praw.models import Submission
 import praw
 import prawcore
 
@@ -33,7 +35,8 @@ class Raffler():
         self.submission.comment_sort = 'random'
         self.submission.comments.replace_more(limit=20)
         for comment in self.submission.comments.list():
-            if self._is_valid_comment(comment):
+            if (comment not in self._entries) and \
+               self._is_valid_comment(comment):
                 self._entries.add(comment)
 
         if len(self._entries) < self.winner_count:
