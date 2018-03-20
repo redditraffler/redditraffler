@@ -3,13 +3,12 @@ redditraffler is a website that facilitates contests or giveaways using Reddit s
 
 Read more about it at https://redditraffler.com.
 
-# Issues
+## Issues
 The issue tracker for this project is on [GitHub](https://github.com/timorthi/redditraffler/issues).
 
 Non-development related questions or issues can be forwarded to me on [Reddit](https://reddit.com/u/xozzo) or via [e-mail](mailto:admin@redditraffler.com).
 
-# Development
-## Requirements
+## Development Requirements
 * Python 3.6+
 * pip
 * Redis
