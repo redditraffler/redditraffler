@@ -18,6 +18,8 @@
                     Sorry, something went wrong behind the scenes and we'll look into it ASAP. <br> In the meantime, don't hesitate to <a href="{{ url_for('base.about', _anchor='contact') }}">contact us</a> if you have any questions.
                 {% elif code == 401 %}
                     Sorry, it looks like you don't have the permissions to view this page.
+                {% elif code == 422 %}
+                    Sorry, we can't process what you just sent us. Please <a href="{{ url_for('base.about', _anchor='contact') }}">contact us</a> for more information.
                 {% else %}
                     Sorry, something went wrong.
                 {% endif %}
