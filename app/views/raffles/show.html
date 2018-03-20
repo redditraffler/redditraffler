@@ -32,13 +32,18 @@
     </div>
 </section>
 
-{% if raffle.submission_id == '4re9cx' %}
-<div class="sample-banner">
+{% if raffle.submission_id == '4re9cx' or not raffle.is_verified() %}
+<div class="banner is-red">
     <div class="container">
         <div class="content has-text-centered">
-            <i class="fas fa-2x fa-exclamation-circle fa-fw"></i>
+            <i class="fas fa-2x fa-exclamation-triangle fa-fw"></i>
+            {% if raffle.submission_id == '4re9cx' %}
             <p>This is an example raffle created with permission by the submission's author.</p>
             <p>This page does not reflect the true results of this particular giveaway.</p>
+            {% else %}
+            <p>This raffle was not created by the author of the Reddit submission.</p>
+            <p>The results shown on this page may not reflect the true results of this contest.</p>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -47,7 +52,7 @@
 <section class="section">
     <div class="container">
         <div class="content has-text-centered">
-            <p class="title">Criteria</p>
+            <p class="title has-text-reddit">Criteria</p>
         </div>
         <div class="columns is-centered">
             <div class="column">
@@ -78,7 +83,7 @@
 <section class="section">
     <div class="container">
         <div class="content has-text-centered">
-            <p class="title">Winners</p>
+            <p class="title has-text-reddit">Winners</p>
             <p class="subtitle">
                 {% if raffle.winner_count == 1 %}
                 1 winner was chosen for this raffle. The winner is...
@@ -94,7 +99,7 @@
             <div class="column is-4">
                 <div class="card">
                     <div class="card-content has-text-centered">
-                        <p class="is-size-4">
+                        <p class="is-size-4 has-text-reddit">
                             /u/{{ winner.username }}
                         </p>
                         <p>
@@ -122,5 +127,4 @@
         {% endfor %}
     </div>
 </section>
-<hr>
 {% endblock %}

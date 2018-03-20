@@ -160,7 +160,7 @@ a.navbar-item.is-active {
 /**** Footer ****/
 .footer {
   font-size: 0.9rem;
-  color: whitesmoke;
+  color: #a0a0a0;
   background-color: #363636;
   padding: 3rem 1.5rem;
 }
