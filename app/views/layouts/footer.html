@@ -6,16 +6,16 @@
                 <div id="text-container" class="content has-text-centered">
                     <p>Server Time: <span id="clock"></span></p>
                     <p>
+                        <a href="{{ url_for('base.about', _anchor='contact') }}">Contact Us</a> |
+                        <a href="{{ url_for('base.tos') }}">Terms of Service</a> |
+                        <a href="{{ url_for('base.privacy_policy') }}">Privacy Policy</a>
+                    </p>
+                    <p id="attributions">
                         Icons by
                         <a href="https://fontawesome.com/">FontAwesome</a> and
                         <a href="https://www.flaticon.com">Flaticon</a>. Powered by
                         <a href="http://flask.pocoo.org/">Flask</a> and
                         <a href="https://bulma.io/">Bulma</a>.
-                    </p>
-                    <p>
-                        <a href="{{ url_for('base.about', _anchor='contact') }}">Contact Us</a> |
-                        <a href="{{ url_for('base.tos') }}">Terms of Service</a> |
-                        <a href="{{ url_for('base.privacy_policy') }}">Privacy Policy</a>
                     </p>
                     <p>Copyright &copy; <span id="year"></span> redditraffler.com. All rights reserved.</p>
                     <div id="ko-fi">
