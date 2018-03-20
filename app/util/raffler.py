@@ -24,6 +24,7 @@ class Raffler():
 
         self._winners = {}
         self._entries = set()
+        self._disqualified_users = set()
 
     def fetch_comments(self):
         """ Fetch the submission's comments in a random order.
@@ -89,9 +90,15 @@ class Raffler():
         the user only has one comment in the raffle submission. """
         # TODO: Find possible exceptions raised
         try:
-            return (user.age >= self.min_account_age) and \
-                   (user.comment_karma >= self.min_comment_karma) and \
-                   (user.link_karma >= self.min_link_karma)
+            if (user.username not in self._disqualified_users) and \
+               (user.age >= self.min_account_age) and \
+               (user.comment_karma >= self.min_comment_karma) and \
+               (user.link_karma >= self.min_link_karma) and \
+               (not self._has_duplicate_comments(user)):
+                return True
+            else:
+                self._disqualified_users.add(user.username)
+                return False
         except:
             current_app.logger.exception('Exception in _is_valid_winner')
             return False
@@ -107,6 +114,24 @@ class Raffler():
             return user
         except (prawcore.exceptions.NotFound, AttributeError):
             return None
+
+    def _has_duplicate_comments(self, user):
+        """ Returns if the user has more than one root comment in the raffle's
+        submission. If there is more than one then the user is added to
+        the disqualified users set.
+        """
+        # NOTE: Praw can only fetch 1k comments at most, so we return if
+        # count > 1 in the case that the submission is old enough that we
+        # aren't able to fetch comments (count == 0) from that submission.
+        count = 0
+        comments = self.reddit.redditor(user.username).comments.new(limit=None)
+        for comment in comments:
+            if (comment.created_utc < self.submission.created_utc) or \
+               (count > 1):
+                break
+            if self._is_valid_comment(comment):
+                count += 1
+        return count > 1
 
     def _is_same_submission(self, comment):
         """ Utility function to check if comment's submission is same as
