@@ -1,6 +1,7 @@
 from flask import (
     abort,
     Blueprint,
+    current_app,
     redirect,
     render_template,
     request,
@@ -34,6 +35,8 @@ def new():
         if 'submissionUrl' in form:
             form['submissionUrl'] = _ensure_protocol(form['submissionUrl'])
         if not _validate_raffle_form(form):
+            current_app.logger.error('Form validation failed {}'.format(
+                [(key, value) for key, value in request.form.items()]))
             abort(422)
 
         sub_id = reddit.submission_id_from_url(form.get('submissionUrl'))
@@ -57,7 +60,6 @@ def status(job_id):
 
 
 @raffles.route('/<submission_id>')
-@cache.cached()
 def show(submission_id):
     raffle = Raffle.query.filter_by(submission_id=submission_id).first()
     if not raffle:
@@ -80,7 +82,7 @@ def _validate_raffle_form(form):
     for key in INT_KEYS:
         val = form.get(key, type=int)
         if (not isinstance(val, int)) or (val < 0) or \
-           (key == 'winnerCount' and val < 1):
+           (key == 'winnerCount' and (val < 1 or val > 25)):
             return False
 
     # Validate that the submission exists

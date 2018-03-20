@@ -9,10 +9,14 @@
 
 html {
   height: 100%;
-  background-color: whitesmoke;
+  background-color: #363636;
 }
 
 a { color: #ff7644; }
+
+section { background-color: whitesmoke; }
+
+.column.is-same-height { display: flex; }
 
 .is-white { background-color: white; }
 
@@ -27,6 +31,17 @@ a { color: #ff7644; }
 .reddit-button:hover,
 .reddit-button:active {
   color: #ff4500;
+}
+
+.message.is-reddit div.message-header {
+  background-color: #ff7644;
+  color: white;
+}
+
+.message.is-reddit div.message-body {
+  color: #363636;
+  background-color: #ffdcd0;
+  border-color: #ff7644;
 }
 /**** End General ****/
 

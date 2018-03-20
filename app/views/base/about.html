@@ -41,43 +41,73 @@
         <div class="columns is-centered">
             <div class="column is-three-quarters">
                 <div class="content has-text-justified">
-                    <p class="title has-text-reddit has-text-centered">Using redditraffler</p>
+                    <p class="title has-text-reddit has-text-centered" style="padding-bottom: 20px">Using redditraffler</p>
+                    <p class="subtitle has-text-reddit has-text-centered"><b>Verified Raffles</b></p>
                     <p>
-                        redditraffler will always be a free service and will be available for use by anyone as long as it is financially viable to keep the website running. Side note: you can support this website by <a href="https://ko-fi.com/Z8Z1A9FB">buying me a coffee</a> :)
+                        You can use redditraffler as a guest, or you can log in with your Reddit account. Despite the options,
+                        <strong>we recommend that the author of the Reddit submission log in with their account</strong>. This way, redditraffler can
+                        verify that the raffle was created by the author of the submission (and presumably the creator of the contest). The raffle
+                        is then marked as verified so that participants can be assured that it was not a random person who generated the results.
                     </p>
+                    <div class="columns is-centered">
+                        <div class="column">
+                            <article class="message is-warning">
+                                <div class="message-body">
+                                    <p>
+                                        Apart from removing content that violates our <a href="{{ url_for('base.tos') }}">Terms of Service</a>, redditraffler reserves the right to remove guest-created raffles without prior warning to allow the submission's author to generate a verified raffle. Verified raffles will never be edited or deleted.
+                                    </p>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
 
-                    <p class="subtitle has-text-reddit">Verified Raffles</p>
-                    <p>
-                        You can use redditraffler as a guest, or you can log in with your Reddit account. Despite the options, <strong>we recommend that the author of the Reddit submission log in with their account</strong>. This way, redditraffler can verify that the raffle was created by the author of the submission (and presumably the creator of the contest). The raffle is then marked as verified so that participants can be assured that it was not a random person who generated the results.
-                    </p>
+                    <a name="preconditions"></a>
+                    <p class="subtitle has-text-reddit has-text-centered"><b>Preconditions</b></p>
+                    <p>In order to successfully generate results, redditraffler operates under the following assumptions...</p>
+                    <div class="columns">
+                        <div class="column is-same-height">
+                            <div class="box">
+                                <p>
+                                    <b>Regarding your contest:</b>
+                                </p>
+                                <ul>
+                                    <li>It is "comment-to-enter". Anyone who comments is considered an entrant.</li>
+                                    <li>It does not impose any real-life restrictions. For example, redditraffler will not be able to enforce rules like "only
+                                        select winners who are above X years of age".</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="column is-same-height">
+                            <div class="box">
+                                <p>
+                                    <b>Regarding the Reddit submission for your contest:</b>
+                                </p>
+                                <ul>
+                                    <li>The submission can be viewed by anyone.</li>
+                                    <li>The submission has enough entries (comments) to choose from.</li>
+                                    <li>Replies to comments are ignored.</li>
+                                    <li>Comments made by the submission's author are ignored.</li>
+                                    <li>Removed or banned comments are ignored.</li>
+                                    <li>Users who make multiple top-level comments are ignored.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
-                    <p class="subtitle has-text-reddit">Preconditions</p>
-                    <p>
-                        <strong>In order to successfully generate results, redditraffler operates under the following assumptions about your contest:</strong>
-                    </p>
-                    <ul>
-                        <li>Your contest is "comment-to-enter", meaning anyone who comments is considered an entrant.</li>
-                        <li>Your contest imposes restrictions using only information obtainable through a person's Reddit account. For example, if you only want winners who are above X years of age or winners who are in Y location, redditraffler will not be able to enforce this rule when selecting winners.</li>
-                    </ul>
-                    <p>
-                        <strong>In addition to the above, the following assumptions are made about the Reddit submission for your contest:</strong>
-                    </p>
-                    <ul>
-                        <li>The submission is in a public subreddit.</li>
-                        <li>The submission has enough entries (comments) to choose from.</li>
-                        <li>Only top-level comments are "valid" entries; replies to comments will be ignored.</li>
-                        <li>Comments made by the submission's author will be ignored.</li>
-                        <li>Comments that have been removed, or whose author has been banned, will be ignored.</li>
-                        <li>If a user makes a top-level comment more than once in the same submission, they will be ignored.</li>
-                    </ul>
+                    <p class="subtitle has-text-reddit has-text-centered"><b>Winner Selection</b></p>
+                    <p>redditraffler currently supports selection of <b>up to 25 winners</b> with the following criteria:</p>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="box">
+                                <ul id="criteria-list">
+                                    <li>Minimum account age</li>
+                                    <li>Minimum comment karma</li>
+                                    <li>Minimum post karma</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
-                    <p class="subtitle has-text-reddit">Winner Selection</p>
-                    <p>You may select up to 15 winners for your raffle. Currently, redditraffler supports selecting winners using the following criteria:</p>
-                    <ul>
-                        <li>Minimum account age</li>
-                        <li>Minimum comment karma</li>
-                        <li>Minimum post karma</li>
-                    </ul>
                     <p>As redditraffler grows, we will continue adding features to the site to improve user experience as well as to give hosts more control over their contests. If you have any questions, suggestions, or if you just want to say hello, you can <a href="#contact">contact us</a>.</p>
                 </div>
             </div>

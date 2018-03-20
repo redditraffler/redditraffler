@@ -1,5 +1,7 @@
+from flask import current_app
 from app.config import BaseConfig as config
 from datetime import datetime
+from praw.models import Submission
 import praw
 import prawcore
 
@@ -22,6 +24,7 @@ class Raffler():
 
         self._winners = {}
         self._entries = set()
+        self._disqualified_users = set()
 
     def fetch_comments(self):
         """ Fetch the submission's comments in a random order.
@@ -33,7 +36,8 @@ class Raffler():
         self.submission.comment_sort = 'random'
         self.submission.comments.replace_more(limit=20)
         for comment in self.submission.comments.list():
-            if self._is_valid_comment(comment):
+            if (comment not in self._entries) and \
+               self._is_valid_comment(comment):
                 self._entries.add(comment)
 
         if len(self._entries) < self.winner_count:
@@ -69,22 +73,34 @@ class Raffler():
         return result
 
     def _is_valid_comment(self, comment):
+        """ Returns true if the comment is in the raffle's submission, and
+        it is not banned or removed. """
         # TODO: Find possible exceptions raised
         try:
             return (comment.is_root) and \
                    (comment.body is not None) and \
                    (comment.author is not None) and \
-                   (comment not in self._entries)
+                   self._is_same_submission(comment)
         except:
+            current_app.logger.exception('Exception in _is_valid_comment')
             return False
 
     def _is_valid_winner(self, user):
+        """ Returns true if the user meets the raffle requirements and it
+        the user only has one comment in the raffle submission. """
         # TODO: Find possible exceptions raised
         try:
-            return (user.age >= self.min_account_age) and \
-                   (user.comment_karma >= self.min_comment_karma) and \
-                   (user.link_karma >= self.min_link_karma)
+            if (user.username not in self._disqualified_users) and \
+               (user.age >= self.min_account_age) and \
+               (user.comment_karma >= self.min_comment_karma) and \
+               (user.link_karma >= self.min_link_karma) and \
+               (not self._has_duplicate_comments(user)):
+                return True
+            else:
+                self._disqualified_users.add(user.username)
+                return False
         except:
+            current_app.logger.exception('Exception in _is_valid_winner')
             return False
 
     def _try_create_user(self, author):
@@ -99,8 +115,33 @@ class Raffler():
         except (prawcore.exceptions.NotFound, AttributeError):
             return None
 
+    def _has_duplicate_comments(self, user):
+        """ Returns if the user has more than one root comment in the raffle's
+        submission. If there is more than one then the user is added to
+        the disqualified users set.
+        """
+        # NOTE: Praw can only fetch 1k comments at most, so we return if
+        # count > 1 in the case that the submission is old enough that we
+        # aren't able to fetch comments (count == 0) from that submission.
+        count = 0
+        comments = self.reddit.redditor(user.username).comments.new(limit=None)
+        for comment in comments:
+            if (comment.created_utc < self.submission.created_utc) or \
+               (count > 1):
+                break
+            if self._is_valid_comment(comment):
+                count += 1
+        return count > 1
+
+    def _is_same_submission(self, comment):
+        """ Utility function to check if comment's submission is same as
+        the raffle's submission """
+        return (comment.submission.id ==
+                Submission.id_from_url(self.submission.url))
+
     @staticmethod
     def _account_age_days(created_utc):
+        """ Utility function to get account age in days. """
         return (datetime.utcnow() -
                 datetime.utcfromtimestamp(created_utc)).days
 

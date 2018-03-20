@@ -41,18 +41,31 @@
             {% else %}
             <div class="content">
                 <h5 class="title is-5">First, choose a Reddit submission.</h5>
-                <p>You'll have to provide the URL of the Reddit submission that will be the subject of this raffle.
-                    If you <a href="{{ reddit_login_url }}">log in with Reddit</a>, we'll fetch your submissions for you.</p>
-                <p><strong>Note:</strong> Since you're not logged in, we can't verify whether you're the person who created this Reddit submission, and it will be specified as such on the raffle results page.</p>
+                <p>
+                    You'll have to provide the URL of the Reddit submission that will be the subject of this raffle.
+                    If you <a href="{{ reddit_login_url }}">log in with Reddit</a>, we'll fetch your submissions for you.
+                </p>
             </div>
             <div class="container">
                 <div class="columns">
                     <div class="column is-half">
-                        <label class="label">Submission URL</label>
+                        <label class="label has-text-reddit">Submission URL</label>
                         <div id="submission-url-container" class="field">
                             <input id="submission-url" class="input" name="submissionUrl" type="text" placeholder="https://www.reddit.com/r/hardwareswap/comments/7g1rt8/usagah_paypal_love_w_unwanted_pclaptopparts_for/" required>
                             <p id="submission-url-msg" class="help"></p>
                         </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column is-half">
+                        <article class="message is-warning">
+                            <div class="message-body">
+                                <p>
+                                    Since you're not logged in, we can't verify whether you're the person who created this Reddit submission. We will specify that the raffle is unverified on the results page.
+                                    <b>Note that we reserve the right to remove any guest-created raffle if the author of the submission requests it.</b>
+                                </p>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </div>
@@ -68,9 +81,9 @@
             <div id="general-criteria" class="container">
                 <div class="columns">
                     <div class="column is-one-third">
-                        <label class="label">Number of Winners</label>
+                        <label class="label has-text-reddit">Number of Winners</label>
                         <div class="field has-addons">
-                            <input class="input" name="winnerCount" type="number" min="1" value="1" required>
+                            <input class="input" name="winnerCount" type="number" min="1" max="25" value="1" required>
                             <a class="button is-static">users</a>
                         </div>
                     </div>
@@ -88,21 +101,21 @@
             <div id="user-criteria" class="container">
                 <div class="columns is-8">
                     <div class="column">
-                        <label class="label">Minimum Account Age</label>
+                        <label class="label has-text-reddit">Minimum Account Age</label>
                         <div class="field has-addons">
                             <input class="input" name="minAge" type="number" min="0" value="0" required>
                             <a class="button is-static">days</a>
                         </div>
                     </div>
                     <div class="column">
-                        <label class="label">Minimum Comment Karma</label>
+                        <label class="label has-text-reddit">Minimum Comment Karma</label>
                         <div class="field has-addons">
                             <input class="input" name="minComment" type="number" min="0" value="0" required>
                             <a class="button is-static">karma</a>
                         </div>
                     </div>
                     <div class="column">
-                        <label class="label">Minimum Link Karma</label>
+                        <label class="label has-text-reddit">Minimum Link Karma</label>
                         <div class="field has-addons">
                             <input class="input" name="minLink" type="number" min="0" value="0" required>
                             <a class="button is-static">karma</a>
