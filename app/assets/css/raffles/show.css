@@ -17,15 +17,17 @@
     color: white;
 }
 
-.sample-banner {
-    /* background-color: #5860CB; */
-    background-color: #FF3E3E;
+.banner {
     color: white;
     padding: 0.5rem 0;
 }
 
-.sample-banner .content p {
-    padding: 0;
+.banner.is-red {
+    background-color: #FF3E3E;
+}
+
+.banner .content p {
+    padding: 0 1rem;
     margin: 0;
 }
 
