@@ -27,17 +27,19 @@ def auth_redirect():
         current_app.logger.info('User declined Reddit authorization')
         return redirect(url_for('base.index'))
 
-    # Possible prawcore.exceptions.OAuthException here
+    try:
+        refresh_token = reddit.authorize(request.args.get('code'))
+        username = reddit.get_username(refresh_token)
 
-    refresh_token = reddit.authorize(request.args.get('code'))
-    username = reddit.get_username(refresh_token)
+        session['reddit_refresh_token'] = refresh_token
+        session['reddit_username'] = username
 
-    session['reddit_refresh_token'] = refresh_token
-    session['reddit_username'] = username
-
-    if not User.query.filter_by(username=username).scalar():
-        user = User(username=username)
-        db.session.add(user)
-        db.session.commit()
+        if not User.query.filter_by(username=username).scalar():
+            user = User(username=username)
+            db.session.add(user)
+            db.session.commit()
+    except:
+        current_app.logger.exception('Exception in auth redirect')
+        abort(500)
 
     return redirect(url_for('raffles.new'))
