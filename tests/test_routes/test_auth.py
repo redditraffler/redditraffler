@@ -9,7 +9,7 @@ def test_logout(client):
     assert res.status_code == 302
 
 
-def test_auth_already_logged_in(client):
+def test_auth_redirect_already_logged_in(client):
     with client.session_transaction() as session:
         session['reddit_refresh_token'] = 'test_token'
         session['reddit_username'] = 'test_username'
