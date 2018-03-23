@@ -9,6 +9,14 @@ def test_logout(client):
     assert res.status_code == 302
 
 
+def test_auth_already_logged_in(client):
+    with client.session_transaction() as session:
+        session['reddit_refresh_token'] = 'test_token'
+        session['reddit_username'] = 'test_username'
+    res = client.get(url_for('auth.auth_redirect'))
+    assert res.status_code == 302
+
+
 def test_auth_redirect_access_denied(client):
     """ Assert that the user is redirected when they deny access on the
     Reddit auth page. """
