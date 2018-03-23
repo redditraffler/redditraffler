@@ -26,6 +26,9 @@ def auth_redirect():
     if request.args.get('error') == 'access_denied':
         current_app.logger.info('User declined Reddit authorization')
         return redirect(url_for('base.index'))
+    if 'reddit_refresh_token' in session:
+        current_app.logger.info('User already logged in')
+        return redirect(url_for('base.index'))
 
     try:
         refresh_token = reddit.authorize(request.args.get('code'))
