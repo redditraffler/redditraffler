@@ -1,6 +1,7 @@
 from flask import (
     abort,
     Blueprint,
+    current_app,
     redirect,
     render_template,
     request,
@@ -17,15 +18,14 @@ auth = Blueprint('auth', __name__)
 @auth.route('/logout', methods=['POST'])
 def logout():
     session.clear()
-    # Flash message
     return redirect(url_for('base.index'))
 
 
 @auth.route('/redirect')
 def auth_redirect():
     if request.args.get('error') == 'access_denied':
-        # User clicked deny access
-        abort(500)
+        current_app.logger.info('User declined Reddit authorization')
+        return redirect(url_for('base.index'))
 
     # Possible prawcore.exceptions.OAuthException here
 
