@@ -10,11 +10,11 @@ def test_logout(client):
 
 
 def test_auth_redirect_access_denied(client):
-    """ Assert that an error is shown when user clicks deny access on the
+    """ Assert that the user is redirected when they deny access on the
     Reddit auth page. """
     params = {'error': 'access_denied'}
     res = client.get(url_for('auth.auth_redirect'), query_string=params)
-    assert res.status_code == 500
+    assert res.status_code == 302
 
 
 def test_auth_redirect_valid_token_existing_user(client,
