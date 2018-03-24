@@ -2,6 +2,10 @@
     color: #f0f0f0;
 }
 
+#hero img {
+    width: 15rem;
+}
+
 .hero-bg {
   background-color: #ff7644;
   background-size: 50%;

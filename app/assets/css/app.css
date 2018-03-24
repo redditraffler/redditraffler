@@ -88,6 +88,10 @@ a.navbar-item.is-active {
   background-color: transparent;
 }
 
+.navbar-brand img {
+  width: 9rem;
+}
+
 /* User dropdown overrides */
 .navbar-item:hover {
   text-decoration: underline;
