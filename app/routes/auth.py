@@ -41,6 +41,7 @@ def auth_redirect():
             user = User(username=username)
             db.session.add(user)
             db.session.commit()
+            current_app.logger.info("Created user '{}'".format(username))
     except:
         current_app.logger.exception('Exception in auth redirect')
         abort(500)
