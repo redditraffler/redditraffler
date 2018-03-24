@@ -11,7 +11,7 @@ from flask import (
 from app.util import reddit
 from app.jobs.raffle_job import raffle
 from app.db.models import User, Raffle
-from app.extensions import rq, cache
+from app.extensions import rq, cache, db
 
 raffles = Blueprint('raffles', __name__)
 
@@ -61,7 +61,7 @@ def status(job_id):
 
 @raffles.route('/<submission_id>')
 def show(submission_id):
-    raffle = Raffle.query.filter_by(submission_id=submission_id).first()
+    raffle = _raffle_from_cache(submission_id)
     if not raffle:
         abort(404)
     return render_template('raffles/show.html',
@@ -120,3 +120,16 @@ def _raffle_params_from_form(form):
 
 def _raffle_exists(sub_id):
     return Raffle.query.filter_by(submission_id=sub_id).scalar()
+
+
+def _raffle_from_cache(sub_id):
+    cache_key = 'raffle_{}'.format(sub_id)
+    cached = cache.get(cache_key)
+    if not cached:
+        raffle = Raffle.query.filter_by(submission_id=sub_id).first()
+        if raffle:
+            cache.set(cache_key, raffle)
+    else:
+        db.session.add(cached)
+        raffle = cached
+    return raffle

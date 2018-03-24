@@ -19,6 +19,7 @@ def delete(raffle_id):
         try:
             db.session.delete(raffle)
             db.session.commit()
+            cache.delete('raffle_{}'.format(raffle_id))
             click.echo('[COMMAND] Successfully removed {}'.format(raffle_id))
         except Exception as e:
             db.session.rollback()
