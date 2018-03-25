@@ -19,13 +19,13 @@
 .table tbody tr a { color: #ff7644; }
 .table tbody tr a:hover { color: #e46a3e; }
 
-.button.is-link {
+.button.is-reddit {
     background-color: #ff7644;
     color: whitesmoke;
 }
 
-.button.is-link:hover { background-color: #e46a3e; }
-.button.is-link:active { background-color: #e46a3e; }
+.button.is-reddit:hover { background-color: #e46a3e; }
+.button.is-reddit:active { background-color: #e46a3e; }
 
 /* Loader */
 .la-ball-clip-rotate,
