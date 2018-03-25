@@ -7083,7 +7083,7 @@ html.has-navbar-fixed-bottom {
 }
 
 .navbar-burger span:nth-child(3) {
-  top: calc(50% + 4px);
+  top: calc(50% - -4px);
 }
 
 .navbar-burger:hover {
