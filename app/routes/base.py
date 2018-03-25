@@ -15,7 +15,7 @@ base = Blueprint('base', __name__)
 @base.route('/')
 def index():
     return render_template('base/index.html',
-                           title='Home',
+                           title='the raffle system for reddit submissions',
                            reddit_login_url=reddit.get_auth_url())
 
 

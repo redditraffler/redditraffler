@@ -56,7 +56,6 @@ section { background-color: whitesmoke; }
 
 #nav-github {
   color: white;
-  transition: 0.3s;
 }
 
 #nav-github:hover {
@@ -87,6 +86,10 @@ a.navbar-item.is-active {
 
 .navbar-brand:hover {
   background-color: transparent;
+}
+
+.navbar-brand img {
+  width: 9rem;
 }
 
 /* User dropdown overrides */

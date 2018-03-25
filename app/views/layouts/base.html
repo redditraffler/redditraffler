@@ -4,6 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="redditraffler is an automated raffle system for Reddit submissions. Use redditraffler to help you choose winners for your Reddit contests, raffles, and giveaways!">
+    <meta name="author" content="Timothy Ng">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" />
     <title>redditraffler - {{ title }}</title>
     {% assets "css_base" %} <link rel="stylesheet" href="{{ ASSET_URL }}"> {% endassets %}
     {% if config['ENV'] == 'production' %}
