@@ -93,7 +93,7 @@
             </p>
         </div>
 
-        {% for row in raffle.winners | batch(3) %}
+        {% for row in raffle.winners | sort(attribute='username') | batch(3) %}
         <div class="columns is-centered">
             {% for winner in row %}
             <div class="column is-4">
