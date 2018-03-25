@@ -42,27 +42,8 @@
             <div class="column is-three-quarters">
                 <div class="content has-text-justified">
                     <p class="title has-text-reddit has-text-centered" style="padding-bottom: 20px">Using redditraffler</p>
-                    <p class="subtitle has-text-reddit has-text-centered"><b>Verified Raffles</b></p>
-                    <p>
-                        You can use redditraffler as a guest, or you can log in with your Reddit account. Despite the options,
-                        <strong>we recommend that the author of the Reddit submission log in with their account</strong>. This way, redditraffler can
-                        verify that the raffle was created by the author of the submission (and presumably the creator of the contest). The raffle
-                        is then marked as verified so that participants can be assured that it was not a random person who generated the results.
-                    </p>
-                    <div class="columns is-centered">
-                        <div class="column">
-                            <article class="message is-warning">
-                                <div class="message-body">
-                                    <p>
-                                        Apart from removing content that violates our <a href="{{ url_for('base.tos') }}">Terms of Service</a>, redditraffler reserves the right to remove guest-created raffles without prior warning to allow the submission's author to generate a verified raffle. Verified raffles will never be edited or deleted.
-                                    </p>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
-
-                    <a name="preconditions"></a>
                     <p class="subtitle has-text-reddit has-text-centered"><b>Preconditions</b></p>
+                    <a name="preconditions"></a>
                     <p>In order to successfully generate results, redditraffler operates under the following assumptions...</p>
                     <div class="columns">
                         <div class="column is-same-height">
@@ -91,6 +72,28 @@
                                     <li>Users who make multiple top-level comments are ignored.</li>
                                 </ul>
                             </div>
+                        </div>
+                    </div>
+
+                    <p class="subtitle has-text-reddit has-text-centered"><b>Verified Raffles</b></p>
+                    <p>
+                        You can use redditraffler as a guest, or you can log in with your Reddit account. Despite the options,
+                        <strong>we recommend that the author of the Reddit submission log in with their account</strong>. This way, redditraffler can
+                        verify that the raffle was created by the author of the submission (and presumably the creator of the contest). The raffle
+                        is then marked as verified so that participants can be assured that it was not a random person who generated the results.
+                    </p>
+                    <div class="columns is-centered">
+                        <div class="column">
+                            <article class="message is-warning">
+                                <div class="message-body">
+                                    <p>
+                                        Apart from removing content that violates our
+                                        <a href="{{ url_for('base.tos') }}">Terms of Service</a>, redditraffler reserves the right to remove guest-created raffles without prior
+                                        warning to allow the submission's author to generate a verified raffle. Verified raffles will never be
+                                        edited or deleted.
+                                    </p>
+                                </div>
+                            </article>
                         </div>
                     </div>
 
