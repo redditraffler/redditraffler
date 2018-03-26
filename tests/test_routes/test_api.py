@@ -59,9 +59,7 @@ def test_post_new_raffle_valid_params(client, monkeypatch):
     monkeypatch.setattr(raffle, 'queue', _stub_raffle_job)
     params = _valid_form_params()
     res = client.post(url_for('api.new_raffle'), data=_valid_form_params())
-    assert res.status_code == 302
-    assert url_for('raffles.status', job_id='57xvjb') in \
-        res.headers['location']
+    assert res.status_code == 202
 
 
 def test_post_new_raffle_valid_params_existing_raffle(client, monkeypatch):
@@ -70,9 +68,7 @@ def test_post_new_raffle_valid_params_existing_raffle(client, monkeypatch):
     monkeypatch.setattr(raffle, 'queue', _stub_raffle_job)
     params = _valid_form_params()
     res = client.post(url_for('api.new_raffle'), data=_valid_form_params())
-    assert res.status_code == 302
-    assert url_for('raffles.show', submission_id='57xvjb') in \
-        res.headers['location']
+    assert res.status_code == 303
 
 
 def _valid_form_params():
