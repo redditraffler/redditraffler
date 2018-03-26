@@ -178,6 +178,71 @@ function validateSubmissionSelection(event) {
     }
 }
 
+function addIgnoredUser(username) {
+    // Add user to internal list and add tag
+    var $ignoredUserTemplate = "<span class='tag is-medium is-reddit is-rounded'><span name='username'>{0}</span><a class='delete is-small'></a></span>";
+    ignoredUsersList.push(username.toLowerCase());
+    $("#ignored-users").append($ignoredUserTemplate.format(username));
+}
+
+function removeIgnoredUser() {
+    // Remove user from internal list and remove tag
+    var $tag = $(this).parent("span");
+    var $username = $(this).siblings("span[name='username']");
+    ignoredUsersList = ignoredUsersList.filter(function (elem) { return elem != $username.text().toLowerCase(); });
+    $tag.remove();
+}
+
+function setDefaultIgnoredUsers() {
+    var DEFAULT_USERS = ["AutoModerator"];
+    DEFAULT_USERS.forEach(function(user) {
+        addIgnoredUser(user);
+    });
+}
+
+function isValidUsername(username) {
+    var USERNAME_REGEX = /^[\w-]+$/;
+    return (username.length >= 3 && username.length <= 20 &&
+            USERNAME_REGEX.test(username) &&
+            ignoredUsersList.indexOf(username.toLowerCase()) < 0);
+}
+
+function validateAndAddIgnoredUser() {
+    var MAX_IGNORED_USERS_COUNT = 25;
+    var $input = $("input[name='ignoredUser']");
+    var $msg = $("#ignored-user-msg");
+    var username = $input.val();
+
+    $msg.empty().attr('class', 'help is-danger');
+    $input.removeClass('is-danger');
+
+
+    if (ignoredUsersList.length >= MAX_IGNORED_USERS_COUNT) {
+        $input.addClass('is-danger');
+        $msg.text("Too many ignored usernames. Remove some of them before trying to add to the list again.");
+        return;
+    }
+
+    if (isValidUsername(username)) {
+        // Add to ignored users list and reset input
+        addIgnoredUser(username);
+        $input.val('');
+    } else {
+        // Add helper message if failed validation
+        $input.addClass('is-danger');
+        $msg.text("This is not a valid Reddit username.");
+    }
+}
+
+// Validate and add ignored user when enter is pressed
+function validateOnEnter(event) {
+    if (event.keyCode == 13) {
+        event.preventDefault();
+        validateAndAddIgnoredUser();
+    }
+}
+
+var ignoredUsersList = [];
 $(function() {
     if ($("#submissions").length > 0) {
         $.ajax({
@@ -192,4 +257,10 @@ $(function() {
     }
 
     $("#raffle-form").submit(validateSubmissionSelection);
+
+    // Ignored User section
+    setDefaultIgnoredUsers();
+    $("#ignored-user-btn").click(validateAndAddIgnoredUser);
+    $("#ignored-users").on("click", "a.delete", removeIgnoredUser);
+    $("input[name='ignoredUser']").keydown(validateOnEnter);
 });

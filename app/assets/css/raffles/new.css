@@ -19,13 +19,22 @@
 .table tbody tr a { color: #ff7644; }
 .table tbody tr a:hover { color: #e46a3e; }
 
-.button.is-reddit {
+.button.is-reddit,
+.tag.is-reddit {
     background-color: #ff7644;
     color: whitesmoke;
 }
 
 .button.is-reddit:hover { background-color: #e46a3e; }
 .button.is-reddit:active { background-color: #e46a3e; }
+
+.flex-wrap { flex-wrap: wrap; }
+
+#ignored-users span.tag { margin: 0.2rem 0.2rem; }
+
+#ignored-user-msg { width: 100%; }
+
+.is-label-help { padding-bottom: 1rem; }
 
 /* Loader */
 .la-ball-clip-rotate,

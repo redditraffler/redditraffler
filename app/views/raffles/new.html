@@ -84,15 +84,15 @@
                         <label class="label has-text-reddit">Number of Winners</label>
                         <div class="field has-addons">
                             <div class="control is-expanded">
-                            <input class="input" name="winnerCount" type="number" min="1" max="25" value="1" required>
+                                <input class="input" name="winnerCount" type="number" min="1" max="25" value="1" required>
                             </div>
                             <div class="control">
-                            <a class="button is-static">users</a>
+                                <a class="button is-static">users</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </section>
 
@@ -107,32 +107,60 @@
                         <label class="label has-text-reddit">Minimum Account Age</label>
                         <div class="field has-addons">
                             <div class="control is-expanded">
-                            <input class="input" name="minAge" type="number" min="0" value="0" required>
+                                <input class="input" name="minAge" type="number" min="0" value="0" required>
                             </div>
                             <div class="control">
-                            <a class="button is-static">days</a>
+                                <a class="button is-static">days</a>
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <div class="column">
                         <label class="label has-text-reddit">Minimum Comment Karma</label>
                         <div class="field has-addons">
                             <div class="control is-expanded">
-                            <input class="input" name="minComment" type="number" min="0" value="0" required>
+                                <input class="input" name="minComment" type="number" min="0" value="0" required>
                             </div>
                             <div class="control">
-                            <a class="button is-static">karma</a>
+                                <a class="button is-static">karma</a>
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <div class="column">
                         <label class="label has-text-reddit">Minimum Link Karma</label>
                         <div class="field has-addons">
                             <div class="control is-expanded">
-                            <input class="input" name="minLink" type="number" min="0" value="0" required>
+                                <input class="input" name="minLink" type="number" min="0" value="0" required>
                             </div>
                             <div class="control">
-                            <a class="button is-static">karma</a>
+                                <a class="button is-static">karma</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <label class="label has-text-reddit">Ignored Users</label>
+                    <p class="help is-label-help">Use this field to add usernames (case-insensitive), such as bots like AutoModerator, that you want to exclude from this raffle. The author of the submission is automatically ignored.</p>
+                    <div class="columns">
+                        <div class="column is-one-third">
+                            <div class="field has-addons flex-wrap">
+                                <div class="control">
+                                    <a class="button is-static">
+                                        /u/
+                                    </a>
+                                </div>
+                                <div class="control is-expanded">
+                                    <input class="input" name="ignoredUser" type="text">
+                                </div>
+                                <div class="control">
+                                    <a id="ignored-user-btn" class="button is-reddit">
+                                        Ignore
+                                    </a>
+                                </div>
+                                <p id="ignored-user-msg" class="help is-danger"></p>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div id="ignored-users" class="field is-grouped is-grouped-multiline"></div>
                         </div>
                     </div>
                 </div>
