@@ -170,12 +170,14 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <button type="submit" class="button is-reddit is-large">Submit</button>
+            <button id="submit-btn" type="submit" class="button is-reddit is-large">Submit</button>
+            <p id="submit-btn-msg" class="help is-danger"></p>
         </div>
     </section>
 </form>
 {% endblock %}
 
 {% block js %}
+<script>var formSubmitPath = {{ url_for('api.new_raffle') | tojson | safe }};</script>
 <script defer src="{{ url_for('static', filename='js/raffles/new.js') }}"></script>
 {% endblock %}

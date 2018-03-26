@@ -70,17 +70,19 @@ def new_raffle():
     if not _validate_raffle_form(form):
         current_app.logger.error('Form validation failed {}'.format(
             [(key, value) for key, value in request.form.items()]))
-        abort(422)
+        return jsonify({'message': 'Form validation failed.'}), 422
 
     sub_id = reddit.submission_id_from_url(form.get('submissionUrl'))
     if _raffle_exists(sub_id):
-        return redirect(url_for('raffles.show', submission_id=sub_id))
+        return jsonify({
+            'url': url_for('raffles.show', submission_id=sub_id)
+        }), 303
 
     user = _try_get_user_from_session()
     raffle.queue(raffle_params=_raffle_params_from_form(form),
                  user=user,
                  job_id=sub_id)
-    return redirect(url_for('raffles.status', job_id=sub_id))
+    return jsonify({'url': url_for('raffles.status', job_id=sub_id)}), 202
 
 
 def _filter_submissions(submissions_list):

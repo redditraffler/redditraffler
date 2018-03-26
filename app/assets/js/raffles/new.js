@@ -163,26 +163,66 @@ function validateUrl() {
     }
 }
 
-function validateSubmissionSelection(event) {
+function submitForm() {
+    var $form = $("#raffle-form");
+    var $submitBtn = $("#submit-btn");
+    var $submitBtnMsg = $("#submit-btn-msg");
+    var formData = $form.serializeArray();
+
+    formData.push({ name: "ignoredUsers", value: JSON.stringify(ignoredUsersList) });
+    $submitBtn.addClass("is-loading");
+    $submitBtn.prop("disabled", true);
+
+    $.ajax({
+        dataType: "json",
+        type: "POST",
+        data: formData,
+        url: formSubmitPath,
+        complete: function(jqXHR) {
+            console.log(jqXHR.status);
+            switch (jqXHR.status) {
+                case 201: // Redirect to status page
+                case 303: // Redirect to existing raffle
+                    window.location.href = jqXHR.responseJSON.url;
+                    break;
+                case 422: // Form validation failed
+                    $submitBtnMsg.text(jqXHR.responseJSON.message);
+                    $submitBtn.removeClass("is-loading");
+                    $submitBtn.prop("disabled", false);
+                    break;
+                default:
+                    $submitBtnMsg.text("Something went wrong behind the scenes.");
+                    $submitBtn.removeClass("is-loading");
+                    $submitBtn.prop("disabled", false);
+            }
+        }
+    });
+}
+
+function validateAndSubmitForm(event) {
+    event.preventDefault();
+    // Logged in user did not select a submission
     if ($("#submission-selection").length > 0 && !$("#submission-selection").val()) {
         if ($("#submission-selection-error").length == 0 && $("#no-submission-error").length == 0) {
             $("#submissions").before("<div id='submission-selection-error' class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>");
         }
         $(document).scrollTop($("#submission-selection").offset().top);
-        event.preventDefault();
+        return;
     }
-
+    // Guest user did not enter a valid submission URL
     if ($("#submission-url").length > 0 && !$("#submission-url").hasClass("is-success")) {
         $(document).scrollTop($("#submission-url").offset().top);
-        event.preventDefault();
+        return;
     }
+    // Validation passed, submit form
+    submitForm();
 }
 
 function addIgnoredUser(username) {
     // Add user to internal list and add tag
-    var $ignoredUserTemplate = "<span class='tag is-medium is-reddit is-rounded'><span name='username'>{0}</span><a class='delete is-small'></a></span>";
+    var ignoredUserTemplate = "<span class='tag is-medium is-reddit is-rounded'><span name='username'>{0}</span><a class='delete is-small'></a></span>";
     ignoredUsersList.push(username.toLowerCase());
-    $("#ignored-users").append($ignoredUserTemplate.format(username));
+    $("#ignored-users").append(ignoredUserTemplate.format(username));
 }
 
 function removeIgnoredUser() {
@@ -213,6 +253,7 @@ function validateAndAddIgnoredUser() {
     var $msg = $("#ignored-user-msg");
     var username = $input.val();
 
+    // Clear any previous messages
     $msg.empty().attr('class', 'help is-danger');
     $input.removeClass('is-danger');
 
@@ -256,7 +297,7 @@ $(function() {
         $("#submission-url").focusout(validateUrl);
     }
 
-    $("#raffle-form").submit(validateSubmissionSelection);
+    $("#raffle-form").submit(validateAndSubmitForm);
 
     // Ignored User section
     setDefaultIgnoredUsers();
