@@ -209,7 +209,7 @@ function isValidUsername(username) {
 
 function validateAndAddIgnoredUser() {
     var MAX_IGNORED_USERS_COUNT = 25;
-    var $input = $("input[name='ignoredUser']");
+    var $input = $("#ignored-user-input");
     var $msg = $("#ignored-user-msg");
     var username = $input.val();
 
@@ -262,5 +262,5 @@ $(function() {
     setDefaultIgnoredUsers();
     $("#ignored-user-btn").click(validateAndAddIgnoredUser);
     $("#ignored-users").on("click", "a.delete", removeIgnoredUser);
-    $("input[name='ignoredUser']").keydown(validateOnEnter);
+    $("#ignored-user-input").keydown(validateOnEnter);
 });
