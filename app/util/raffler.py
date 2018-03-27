@@ -1,7 +1,6 @@
 from flask import current_app
 from app.config import BaseConfig as config
 from datetime import datetime
-from praw.models import Submission
 import praw
 import prawcore
 
@@ -90,14 +89,14 @@ class Raffler():
         the user only has one comment in the raffle submission. """
         # TODO: Find possible exceptions raised
         try:
-            if (user.username not in self._disqualified_users) and \
+            if (user.username.lower() not in self._disqualified_users) and \
                (user.age >= self.min_account_age) and \
                (user.comment_karma >= self.min_comment_karma) and \
                (user.link_karma >= self.min_link_karma) and \
                (not self._has_duplicate_comments(user)):
                 return True
             else:
-                self._disqualified_users.add(user.username)
+                self._disqualified_users.add(user.username.lower())
                 return False
         except:
             current_app.logger.exception('Exception in _is_valid_winner')
@@ -136,8 +135,7 @@ class Raffler():
     def _is_same_submission(self, comment):
         """ Utility function to check if comment's submission is same as
         the raffle's submission """
-        return (comment.submission.id ==
-                Submission.id_from_url(self.submission.url))
+        return comment.submission.id == self.submission.id
 
     @staticmethod
     def _account_age_days(created_utc):

@@ -10,7 +10,7 @@ from flask import (
 )
 from app.util import reddit
 from app.extensions import rq
-from app.db.models import Raffle
+from app.db.models import Raffle, User
 from app.jobs.raffle_job import raffle
 import ast
 import re
