@@ -8,7 +8,7 @@ import prawcore
 
 class Raffler():
     def __init__(self, submission_url, winner_count, min_account_age,
-                 min_comment_karma, min_link_karma):
+                 min_comment_karma, min_link_karma, ignored_users):
         """ Initialize a Reddit instance and helper data structures,
         fetch the submission, and set all raffle parameters. """
         self.reddit = praw.Reddit(client_id=config.BOT_CLIENT_ID,
@@ -24,7 +24,7 @@ class Raffler():
 
         self._winners = {}
         self._entries = set()
-        self._disqualified_users = set()
+        self._disqualified_users = set(ignored_users)
 
     def fetch_comments(self):
         """ Fetch the submission's comments in a random order.
