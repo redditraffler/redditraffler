@@ -179,9 +179,8 @@ function submitForm() {
         data: formData,
         url: formSubmitPath,
         complete: function(jqXHR) {
-            console.log(jqXHR.status);
             switch (jqXHR.status) {
-                case 201: // Redirect to status page
+                case 202: // Redirect to status page
                 case 303: // Redirect to existing raffle
                     window.location.href = jqXHR.responseJSON.url;
                     break;
