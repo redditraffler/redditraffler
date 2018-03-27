@@ -12,7 +12,8 @@ from app.util import reddit
 from app.extensions import rq
 from app.db.models import Raffle
 from app.jobs.raffle_job import raffle
-import ast, re
+import ast
+import re
 
 
 api = Blueprint('api', __name__)
@@ -117,7 +118,8 @@ def _validate_raffle_form(form):
     # Validate ignored users list
     try:
         users_list = ast.literal_eval(form.get('ignoredUsers'))
-    except (SyntaxError, ValueError):
+        assert isinstance(users_list, list)
+    except (SyntaxError, ValueError, AssertionError):
         return False
     USERNAME_REGEX = r'\A[\w-]+\Z'
     for username in users_list:
@@ -150,7 +152,7 @@ def _raffle_params_from_form(form):
         'min_account_age': form.get('minAge', type=int),
         'min_comment_karma': form.get('minComment', type=int),
         'min_link_karma': form.get('minLink', type=int),
-        'ignored_users': form.get('ignoredUsers')
+        'ignored_users': ast.literal_eval(form.get('ignoredUsers'))
     }
 
 
