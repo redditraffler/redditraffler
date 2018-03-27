@@ -12,6 +12,7 @@ from app.util import reddit
 from app.extensions import rq
 from app.db.models import Raffle
 from app.jobs.raffle_job import raffle
+import ast, re
 
 
 api = Blueprint('api', __name__)
@@ -95,7 +96,7 @@ def _filter_submissions(submissions_list):
 def _validate_raffle_form(form):
     # Validate presence of required keys.
     REQUIRED_KEYS = {'submissionUrl', 'winnerCount', 'minAge', 'minComment',
-                     'minLink'}
+                     'minLink', 'ignoredUsers'}
     if not REQUIRED_KEYS.issubset(form.keys()):
         return False
 
@@ -112,6 +113,17 @@ def _validate_raffle_form(form):
     url = _ensure_protocol(form.get('submissionUrl'))
     if not reddit.get_submission(sub_url=url):
         return False
+
+    # Validate ignored users list
+    try:
+        users_list = ast.literal_eval(form.get('ignoredUsers'))
+    except (SyntaxError, ValueError):
+        return False
+    USERNAME_REGEX = r'\A[\w-]+\Z'
+    for username in users_list:
+        if not isinstance(username, str) or len(username) < 3 or \
+           len(username) > 20 or not re.match(USERNAME_REGEX, username):
+            return False
 
     return True
 
@@ -137,7 +149,8 @@ def _raffle_params_from_form(form):
         'winner_count': form.get('winnerCount', type=int),
         'min_account_age': form.get('minAge', type=int),
         'min_comment_karma': form.get('minComment', type=int),
-        'min_link_karma': form.get('minLink', type=int)
+        'min_link_karma': form.get('minLink', type=int),
+        'ignored_users': form.get('ignoredUsers')
     }
 
 
