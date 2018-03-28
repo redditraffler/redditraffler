@@ -2464,8 +2464,8 @@ a.box:active {
   position: relative;
   width: 1em;
   position: absolute;
-  left: calc(50% - (1em / 2));
-  top: calc(50% - (1em / 2));
+  left: calc(50% - 0.5em);
+  top: calc(50% - 0.5em);
   position: absolute !important;
 }
 
