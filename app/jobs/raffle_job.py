@@ -1,5 +1,5 @@
 from app.extensions import db, rq
-from app.db.models import Raffle, Winner
+from app.db.models import Raffle, Winner, IgnoredUser
 from app.jobs.util import update_job_status, set_job_error
 from app.util import reddit
 from app.util.raffler import Raffler
@@ -65,6 +65,9 @@ def _save_results_to_db(raffle_params, winners, submission, user):
                    link_karma=user['link_karma'],
                    comment_url=winner['comment_url'])
         raffle.winners.append(w)
+
+    for username in raffle_params['ignored_users']:
+        raffle.ignored_users.append(IgnoredUser(username=username))
 
     db.session.add(raffle)
     db.session.commit()

@@ -83,8 +83,12 @@
                     <div class="column is-one-third">
                         <label class="label has-text-reddit">Number of Winners</label>
                         <div class="field has-addons">
-                            <input class="input" name="winnerCount" type="number" min="1" max="25" value="1" required>
-                            <a class="button is-static">users</a>
+                            <div class="control is-expanded">
+                                <input class="input" name="winnerCount" type="number" min="1" max="25" value="1" required>
+                            </div>
+                            <div class="control">
+                                <a class="button is-static">users</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -96,29 +100,67 @@
         <div class="container">
             <div class="content">
                 <h5 class="title is-5">Lastly, set any restrictions on user accounts.</h5>
-                <p>Naturally, the more restrictions you place, the more likely it is that you won't find enough raffle winners that match the criteria.</p>
             </div>
             <div id="user-criteria" class="container">
                 <div class="columns is-8">
                     <div class="column">
                         <label class="label has-text-reddit">Minimum Account Age</label>
                         <div class="field has-addons">
-                            <input class="input" name="minAge" type="number" min="0" value="0" required>
-                            <a class="button is-static">days</a>
+                            <div class="control is-expanded">
+                                <input class="input" name="minAge" type="number" min="0" value="0" required>
+                            </div>
+                            <div class="control">
+                                <a class="button is-static">days</a>
+                            </div>
                         </div>
                     </div>
                     <div class="column">
                         <label class="label has-text-reddit">Minimum Comment Karma</label>
                         <div class="field has-addons">
-                            <input class="input" name="minComment" type="number" min="0" value="0" required>
-                            <a class="button is-static">karma</a>
+                            <div class="control is-expanded">
+                                <input class="input" name="minComment" type="number" min="0" value="0" required>
+                            </div>
+                            <div class="control">
+                                <a class="button is-static">karma</a>
+                            </div>
                         </div>
                     </div>
                     <div class="column">
                         <label class="label has-text-reddit">Minimum Link Karma</label>
                         <div class="field has-addons">
-                            <input class="input" name="minLink" type="number" min="0" value="0" required>
-                            <a class="button is-static">karma</a>
+                            <div class="control is-expanded">
+                                <input class="input" name="minLink" type="number" min="0" value="0" required>
+                            </div>
+                            <div class="control">
+                                <a class="button is-static">karma</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <label class="label has-text-reddit">Ignored Users</label>
+                    <p class="help is-label-help">Use this field to add usernames (case-insensitive), such as bots like AutoModerator, that you want to exclude from this raffle. The author of the submission is automatically ignored.</p>
+                    <div class="columns">
+                        <div class="column is-one-third">
+                            <div class="field has-addons flex-wrap">
+                                <div class="control">
+                                    <a class="button is-static">
+                                        /u/
+                                    </a>
+                                </div>
+                                <div class="control is-expanded">
+                                    <input id="ignored-user-input" class="input" type="text">
+                                </div>
+                                <div class="control">
+                                    <a id="ignored-user-btn" class="button is-reddit">
+                                        Ignore
+                                    </a>
+                                </div>
+                                <p id="ignored-user-msg" class="help is-danger"></p>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div id="ignored-users" class="field is-grouped is-grouped-multiline"></div>
                         </div>
                     </div>
                 </div>
@@ -128,12 +170,14 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <button type="submit" class="button is-link is-large">Submit</button>
+            <button id="submit-btn" type="submit" class="button is-reddit is-large">Submit</button>
+            <p id="submit-btn-msg" class="help is-danger"></p>
         </div>
     </section>
 </form>
 {% endblock %}
 
 {% block js %}
+<script>var formSubmitPath = {{ url_for('api.new_raffle') | tojson | safe }};</script>
 <script defer src="{{ url_for('static', filename='js/raffles/new.js') }}"></script>
 {% endblock %}
