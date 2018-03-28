@@ -35,6 +35,10 @@ class Raffle(db.Model):
                               backref='raffle',
                               lazy=True,
                               cascade='all, delete-orphan')
+    ignored_users = db.relationship('IgnoredUser',
+                                    backref='raffle',
+                                    lazy=True,
+                                    cascade='all, delete-orphan')
 
     user_id = db.Column(db.Integer,
                         db.ForeignKey('user.id'),
@@ -65,6 +69,20 @@ class Winner(db.Model):
     comment_karma = db.Column(db.Integer)
     link_karma = db.Column(db.Integer)
     comment_url = db.Column(db.String(128))
+
+    raffle_id = db.Column(db.Integer,
+                          db.ForeignKey('raffle.id'),
+                          nullable=False,
+                          index=True)
+
+
+class IgnoredUser(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime,
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
+    username = db.Column(db.String(64))
 
     raffle_id = db.Column(db.Integer,
                           db.ForeignKey('raffle.id'),
