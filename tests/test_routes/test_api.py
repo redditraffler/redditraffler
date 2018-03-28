@@ -77,7 +77,8 @@ def _valid_form_params():
         'winnerCount': 1,
         'minAge': 0,
         'minComment': 0,
-        'minLink': 0
+        'minLink': 0,
+        'ignoredUsers': '[]'
     }
 
 

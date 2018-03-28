@@ -7,4 +7,3 @@ def raffler_params():
         'min_link_karma': 5,
         'ignored_users': ['TestUser']
     }
-

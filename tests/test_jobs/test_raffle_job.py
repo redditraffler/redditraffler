@@ -2,6 +2,7 @@ from app.util import reddit
 from app.util.raffler import Raffler
 from app.jobs.raffle_job import raffle
 from app.db.models import Raffle, User
+from tests.helpers import raffler_params
 import pytest
 
 
@@ -16,8 +17,7 @@ def patch_raffler_class(monkeypatch):
 
 
 def test_raffle_guest_db_saving(db_session, client):
-    raffle_params = _raffle_params()
-    job = raffle.queue(raffle_params, None)
+    job = raffle.queue(raffler_params(), None)
 
     saved_raffle = Raffle.query.filter_by(submission_id='abc123').first()
     assert saved_raffle
@@ -30,8 +30,7 @@ def test_raffle_verified_db_saving(db_session, client):
     user = User(username='verified_redditor')
     db_session.add(user)
     db_session.commit()
-    raffle_params = _raffle_params()
-    job = raffle.queue(raffle_params, user)
+    job = raffle.queue(raffler_params(), user)
 
     saved_raffle = Raffle.query.filter_by(submission_id='abc123').first()
     assert saved_raffle
@@ -41,7 +40,7 @@ def test_raffle_verified_db_saving(db_session, client):
 
 
 def _stub_raffler_init(self, submission_url, winner_count, min_account_age,
-                       min_comment_karma, min_link_karma):
+                       min_comment_karma, min_link_karma, ignored_users):
     return None
 
 

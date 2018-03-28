@@ -1,5 +1,5 @@
 from app.util.raffler import Raffler
-from tests.test_util.util import raffler_params
+from tests.helpers import raffler_params
 import praw
 
 
