@@ -23,7 +23,7 @@ class Raffler():
 
         self._winners = {}
         self._entries = set()
-        self._disqualified_users = set(ignored_users)
+        self._disqualified_users = set([u.lower() for u in ignored_users])
 
     def fetch_comments(self):
         """ Fetch the submission's comments in a random order.
