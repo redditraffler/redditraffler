@@ -29,6 +29,11 @@ class RaffleFormValidator():
                 [(key, value) for key, value in self.form.items()]))
             return False
 
+    def get_sanitized_form(self):
+        self._sanitize_url()
+        self._cast_int_values()
+        return self.form
+
     def _validate_required_keys(self):
         for key in self.REQUIRED_KEYS:
             if key not in self.form.keys():
@@ -50,8 +55,7 @@ class RaffleFormValidator():
         url = self.form.get('submissionUrl')
         if not isinstance(url, str):
             raise TypeError('{} is not a string'.format(url))
-        if not url.startswith('http'):
-            url = 'https://' + url
+        url = self.ensure_protocol(url)
         if not reddit.get_submission(sub_url=url):
             raise ValueError('Invalid submission url: {}'.format(url))
 
@@ -79,9 +83,23 @@ class RaffleFormValidator():
                (not re.match(USERNAME_REGEX, username)):
                 raise ValueError('Invalid username: {}'.format(username))
 
+    def _sanitize_url(self):
+        self.form['submissionUrl'] = self.\
+            ensure_protocol(self.form['submissionUrl'])
+
+    def _cast_int_values(self):
+        for key in self.INT_KEYS:
+            self.form[key] = int(self.form[key])
+
     @staticmethod
     def try_cast_int(x):
         try:
             return int(x)
         except:
             return x
+
+    @staticmethod
+    def ensure_protocol(url):
+        if not url.startswith('http'):
+            return 'https://' + url
+        return url
