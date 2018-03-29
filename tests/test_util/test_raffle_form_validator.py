@@ -1,7 +1,6 @@
 from app.db.models import Raffle
 from app.util import reddit
 from app.util.raffle_form_validator import RaffleFormValidator
-from tests.helpers import valid_raffle_form_params
 import pytest
 
 
