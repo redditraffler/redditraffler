@@ -121,13 +121,15 @@ def test_validate_ignored_users_list_not_list(base_form):
 
 
 def test_validate_ignored_users_list_valid_string(base_form):
-    base_form.update({'ignoredUsers': '["SomeUser"]'})
-    v = RaffleFormValidator(base_form)
+    form = base_form
+    form.update({'ignoredUsers': '["SomeUser"]'})
+    v = RaffleFormValidator(form)
     v._validate_ignored_users_list()
 
 
 def test_validate_ignored_users_list_invalid_username(base_form):
-    base_form.update({'ignoredUsers': '["X"]'})
-    v = RaffleFormValidator(base_form)
+    form = base_form
+    form.update({'ignoredUsers': '["X"]'})
+    v = RaffleFormValidator(form)
     with pytest.raises(ValueError):
         v._validate_ignored_users_list()
