@@ -32,6 +32,7 @@ class RaffleFormValidator():
     def get_sanitized_form(self):
         self._sanitize_url()
         self._cast_int_values()
+        self._cast_ignored_users_list()
         return self.form
 
     def _validate_required_keys(self):
@@ -91,6 +92,9 @@ class RaffleFormValidator():
     def _cast_int_values(self):
         for key in self.INT_KEYS:
             self.form[key] = int(self.form[key])
+
+    def _cast_ignored_users_list(self):
+        self.form['ignoredUsers'] = ast.literal_eval(self.form['ignoredUsers'])
 
     @staticmethod
     def try_cast_int(x):
