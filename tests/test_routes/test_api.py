@@ -1,5 +1,6 @@
 from flask import url_for, session
 from app.util import reddit
+from app.util.raffle_form_validator import RaffleFormValidator
 from app.routes import api
 from app.jobs.raffle_job import raffle
 
@@ -54,21 +55,10 @@ def test_post_new_raffle_invalid_params(client):
 
 
 def test_post_new_raffle_valid_params(client, monkeypatch):
-    monkeypatch.setattr(reddit, 'get_submission', lambda sub_url: True)
-    monkeypatch.setattr(api, '_raffle_exists', lambda sub_url: False)
+    monkeypatch.setattr(RaffleFormValidator, 'run', lambda x: True)
     monkeypatch.setattr(raffle, 'queue', _stub_raffle_job)
-    params = _valid_form_params()
     res = client.post(url_for('api.new_raffle'), data=_valid_form_params())
     assert res.status_code == 202
-
-
-def test_post_new_raffle_valid_params_existing_raffle(client, monkeypatch):
-    monkeypatch.setattr(reddit, 'get_submission', lambda sub_url: True)
-    monkeypatch.setattr(api, '_raffle_exists', lambda sub_url: True)
-    monkeypatch.setattr(raffle, 'queue', _stub_raffle_job)
-    params = _valid_form_params()
-    res = client.post(url_for('api.new_raffle'), data=_valid_form_params())
-    assert res.status_code == 303
 
 
 def _valid_form_params():
