@@ -272,7 +272,7 @@ function validateAndAddIgnoredUser() {
     } else {
         // Add helper message if failed validation
         $input.addClass('is-danger');
-        $msg.text("This is not a valid Reddit username.");
+        $msg.text("This is not a valid Reddit username, or it is already in the list.");
     }
 }
 
