@@ -47,3 +47,4 @@ def raffle(db_session):
                     min_link_karma=0)
     db_session.add(raffle)
     db_session.commit()
+    return raffle
