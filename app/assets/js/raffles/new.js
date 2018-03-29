@@ -220,7 +220,7 @@ function validateAndSubmitForm(event) {
 function addIgnoredUser(username) {
     // Add user to internal list and add tag
     var ignoredUserTemplate = "<span class='tag is-medium is-reddit is-rounded'><span name='username'>{0}</span><a class='delete is-small'></a></span>";
-    ignoredUsersList.push(username.toLowerCase());
+    ignoredUsersList.push(username);
     $("#ignored-users").append(ignoredUserTemplate.format(username));
 }
 
@@ -228,7 +228,7 @@ function removeIgnoredUser() {
     // Remove user from internal list and remove tag
     var $tag = $(this).parent("span");
     var $username = $(this).siblings("span[name='username']");
-    ignoredUsersList = ignoredUsersList.filter(function (elem) { return elem != $username.text().toLowerCase(); });
+    ignoredUsersList = ignoredUsersList.filter(function (elem) { return elem.toLowerCase() != $username.text().toLowerCase(); });
     $tag.remove();
 }
 
@@ -243,7 +243,9 @@ function isValidUsername(username) {
     var USERNAME_REGEX = /^[\w-]+$/;
     return (username.length >= 3 && username.length <= 20 &&
             USERNAME_REGEX.test(username) &&
-            ignoredUsersList.indexOf(username.toLowerCase()) < 0);
+            ignoredUsersList.toString()
+                            .toLowerCase()
+                            .indexOf(username.toLowerCase()) < 0);
 }
 
 function validateAndAddIgnoredUser() {
@@ -270,7 +272,7 @@ function validateAndAddIgnoredUser() {
     } else {
         // Add helper message if failed validation
         $input.addClass('is-danger');
-        $msg.text("This is not a valid Reddit username.");
+        $msg.text("This is not a valid Reddit username, or it is already in the list.");
     }
 }
 
