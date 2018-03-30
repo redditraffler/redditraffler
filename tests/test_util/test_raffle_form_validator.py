@@ -14,6 +14,18 @@ def form_valid_ints():
     return dict.fromkeys(RaffleFormValidator.INT_KEYS, 1)
 
 
+@pytest.fixture
+def unsanitized_form():
+    return {
+        'submissionUrl': 'redd.it/57xvjb',
+        'winnerCount': '1',
+        'minAge': '0',
+        'minComment': '0',
+        'minLink': '0',
+        'ignoredUsers': '[]'
+    }
+
+
 def test_run_valid(base_form, mocker):
     class_path = 'app.util.raffle_form_validator.RaffleFormValidator'
     mocker.patch(class_path + '._validate_required_keys')
@@ -135,17 +147,10 @@ def test_validate_ignored_users_list_invalid_username(base_form):
         v._validate_ignored_users_list()
 
 
-def test_get_sanitized_form():
-    unsanitized_form = {
-        'submissionUrl': 'redd.it/57xvjb',
-        'winnerCount': '1',
-        'minAge': '0',
-        'minComment': '0',
-        'minLink': '0',
-        'ignoredUsers': '[]'
-    }
+def test_get_sanitized_form(unsanitized_form):
     v = RaffleFormValidator(unsanitized_form)
     form = v.get_sanitized_form()
     assert form['submissionUrl'].startswith('https')
+    assert isinstance(form['ignoredUsers'], list)
     for key in RaffleFormValidator.INT_KEYS:
         assert isinstance(form[key], int)
