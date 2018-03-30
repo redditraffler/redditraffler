@@ -55,6 +55,7 @@ def register_extensions(app):
     limiter.init_app(app)
     csrf.init_app(app)
     cache.init_app(app, config=app.config['CACHE_CONFIG'])
+    init_ssl(app)
     init_and_register_assets(app)
     return None
 
@@ -69,6 +70,13 @@ def init_and_register_assets(app):
     assets.register('js_base', js)
     assets.register('css_base', css)
     return None
+
+
+def init_ssl(app):
+    # Workaround because Flask-SSLify doesn't support app factories
+    if app.config['ENV'] == 'production':
+        from flask_sslify import SSLify
+        SSLify(app)
 
 
 def register_commands(app):
