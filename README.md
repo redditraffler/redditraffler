@@ -9,11 +9,12 @@ The issue tracker for this project is on [GitHub](https://github.com/timorthi/re
 Non-development related questions or issues can be forwarded to me on [Reddit](https://reddit.com/u/xozzo) or via [e-mail](mailto:admin@redditraffler.com).
 
 ## Development Requirements
+redditraffler is a [Flask](https://github.com/pallets/flask) app with jQuery for DOM manipulation, so you'll need to know Python and/or JavaScript for development. The required tools are:
 * Python 3.6+
 * pip
-* Redis
+* Redis for job queueing and caching
+* PostgreSQL is recommended since it's used in production, but SQLite will work fine.
 * Reddit API keys (one web app, one script app)
-* PostgreSQL is recommended but SQLite will work
 
 ## Installation
 ```
@@ -31,7 +32,7 @@ You can load these environmental variables in manually or you can create a `.env
 
 ## Database Setup
 We use Postgres in production so it'd be a good idea to do the same for development.
-Once you have your database and app configuration set up, you'll need to run the database migrations.
+Once you have your database set up and app config pointing to it, you'll need to run the database migrations.
 ```
 $ FLASK_APP=runserver.py flask db upgrade
 ```
