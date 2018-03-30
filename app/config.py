@@ -30,14 +30,14 @@ class BaseConfig():
 class DevConfig(BaseConfig):
     ENV = 'development'
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     ASSETS_DEBUG = True
 
 
 class ProdConfig(BaseConfig):
     ENV = os.getenv('ENV') if os.getenv('ENV') else 'production'
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
 
 class TestConfig(BaseConfig):
