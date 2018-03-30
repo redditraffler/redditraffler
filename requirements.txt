@@ -15,7 +15,7 @@ Flask-Limiter==1.0.1
 Flask-Migrate==2.1.1
 Flask-RQ2==17.2
 Flask-SQLAlchemy==2.3.2
--e git+https://github.com/kennethreitz/flask-sslify.git@8c70d29474bb06688c398ccf51d0bf90503d287a#egg=Flask_SSLify
+-e git+https://github.com/timorthi/flask-sslify.git@8c70d29474bb06688c398ccf51d0bf90503d287a#egg=Flask_SSLify
 Flask-WTF==0.14.2
 gunicorn==19.7.1
 idna==2.6
