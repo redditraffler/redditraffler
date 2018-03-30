@@ -40,17 +40,12 @@ def get_user_submissions(refresh_token):
 
 
 @cache.memoize(timeout=60*3)
-def get_submission(sub_id=None, sub_url=None):
-    """ Returns a serialized submission based on the given ID or URL, or
-    None if the ID or URL is invalid. """
+def get_submission(sub_url):
+    """ Returns a serialized submission based on the given URL, or None if
+    the URL is invalid. """
     r = praw.Reddit(**SETTINGS)
-
-    if not (sub_id or sub_url):
-        return None
-
     try:
-        submission = r.submission(id=sub_id) if sub_id else \
-                     r.submission(url=sub_url)
+        submission = r.submission(url=sub_url)
         return _serialize(submission)
     except (prawcore.exceptions.NotFound, praw.exceptions.ClientException):
         return None
