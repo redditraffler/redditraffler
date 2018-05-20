@@ -63,8 +63,9 @@ def register_extensions(app):
 def init_and_register_assets(app):
     assets.init_app(app)
     js = Bundle('js/util.js', 'js/moment.min.js', 'js/jquery-3.3.1.min.js',
-                'js/fontawesome-v5.0.0.min.js', 'js/layouts/header.js',
-                'js/layouts/footer.js', filters='jsmin', output='dist/base.js')
+                'js/fontawesome-v5.0.0.min.js', 'js/sweetalert2.min.js',
+                'js/layouts/header.js', 'js/layouts/footer.js',
+                filters='jsmin', output='dist/base.js')
     css = Bundle('css/bulma.css', 'css/balloon.min.css', 'css/app.css',
                  filters='cssmin', output='dist/base.css')
     assets.register('js_base', js)
