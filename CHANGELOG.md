@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
+### Added
+- Added a confirmation popup for raffle parameters on form submit.
+
 ### Changed
 - Use simpler versioning scheme (increment with each release) instead of SemVer.
 
