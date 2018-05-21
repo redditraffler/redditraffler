@@ -229,7 +229,7 @@ function confirmForm() {
         confirmButtonColor: "#ff7644",
         showCancelButton: true,
         cancelButtonText: "Go Back",
-        text: "You won't be able to edit or change this raffle, be sure you've entered the options correctly!"
+        text: "You won't be able to edit or remove this raffle once it's created. Please make sure you've entered the options correctly!"
     }).then(function(result) {
         if (result.value) {
             submitForm();
