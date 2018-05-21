@@ -18,12 +18,12 @@
 <section class="section">
     <div class="container">
         {% if raffles.count() > 0 %}
-        {% for raffle in raffles %}
-        <div class="columns is-centered">
+        <div id="raffle-list" class="columns is-centered">
             <div class="column is-7">
+            {% for raffle in raffles %}
                 <div data-raffle-id="{{ raffle.submission_id }}" class="box is-7 raffle-box">
                     <div class="columns is-vcentered">
-                        <div  class="column is-8">
+                        <div class="column is-8">
                             <div class="content">
                                 <p>{{ raffle.submission_title }}</p>
                             </div>
@@ -35,9 +35,14 @@
                         </div>
                     </div>
                 </div>
+            {% endfor %}
             </div>
         </div>
-        {% endfor %}
+        <div id="table-control" class="content has-text-centered">
+            <button type="button" id="show-more" class="button is-small is-outlined is-rounded">Show More
+                <i class="fas fa-chevron-down fa-fw"></i>
+            </button>
+        </div>
         {% else %}
         <div class="content has-text-centered">
             <p><i class="far fa-frown fa-4x has-text-reddit"></i></p>
