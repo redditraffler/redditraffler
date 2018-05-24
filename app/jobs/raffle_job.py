@@ -1,4 +1,4 @@
-from app.extensions import db, rq
+from app.extensions import db, rq, cache
 from app.db.models import Raffle, Winner, IgnoredUser
 from app.jobs.util import update_job_status, set_job_error
 from app.util import reddit
@@ -31,6 +31,11 @@ def raffle(raffle_params, user):
         update_job_status(job, 'Selecting winners...')
         r.select_winners()
 
+        if user:
+            current_app.logger.info('[Job %s] Searching for any unverified'
+                                    'raffles for this submission...' % sub_id)
+            _try_remove_unverified(sub_id)
+
         current_app.logger.info('[Job %s] Saving results' % sub_id)
         update_job_status(job, 'Saving raffle results...')
         _save_results_to_db(raffle_params=raffle_params,
@@ -44,6 +49,30 @@ def raffle(raffle_params, user):
         # TODO: Find possible exceptions raised
         current_app.logger.exception('[Job %s] Error' % sub_id)
         set_job_error(job, True)
+
+
+def _try_remove_unverified(sub_id):
+    """ Removes an unverified raffle for the given sub_id if it exists. """
+    unverified_raffle = Raffle.query \
+                              .filter(Raffle.submission_id == sub_id) \
+                              .filter(Raffle.user_id == None) \
+                              .first()
+    if not unverified_raffle:
+        return
+
+    try:
+        current_app.logger.info('[Job %s] Removing unverified raffle...' \
+                                % sub_id)
+        db.session.delete(unverified_raffle)
+        db.session.commit()
+        cache.delete('raffle_{}'.format(sub_id))
+        current_app.logger.info('[Job %s] Successfully removed unverified '
+                                'raffle.' % sub_id)
+    except Exception:
+        db.session.rollback()
+        current_app.logger.exception('[Job %s] Something went wrong '
+                                     'while deleting the raffle.' % sub_id)
+        raise
 
 
 def _save_results_to_db(raffle_params, winners, submission, user):
