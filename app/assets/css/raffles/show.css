@@ -2,9 +2,9 @@
     color: inherit;
     text-decoration: underline;
 }
-.hero a:hover { color: #e2e0e0;}
+.hero a:hover { color: #e2e0e0; }
 
-#subtitle { margin-bottom: 0.5rem;}
+#subtitle { margin-bottom: 0.5rem; }
 
 #verified-tag {
     background-color: #ff7644;
@@ -24,12 +24,12 @@
     margin: 0;
 }
 
-.tag.is-reddit { background-color: #ffe8e0;}
+.tag.is-reddit { background-color: #ffe8e0; }
 
 .card { transition: 0.2s ease; }
 .card:hover { background-color: #fcf0ec; }
 
-.card-icon { margin-right: 2px;}
+.card-icon { margin-right: 2px; }
 
 @media only screen and (min-width: 1408px) {
     .card {

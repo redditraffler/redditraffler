@@ -62,10 +62,14 @@ class RaffleFormValidator():
 
     def _validate_raffle_not_exists(self):
         """ Checks that the submission URL given has not already been made
-        into a raffle. """
+        into a verified raffle. """
         url = self.ensure_protocol(self.form.get('submissionUrl'))
         sub_id = reddit.submission_id_from_url(url)
-        if Raffle.query.filter_by(submission_id=sub_id).scalar():
+        has_existing_raffle = Raffle.query \
+                                    .filter(Raffle.submission_id == sub_id) \
+                                    .filter(Raffle.user_id != None) \
+                                    .scalar()
+        if has_existing_raffle:
             raise ValueError("Raffle already exists for {}".format(sub_id))
 
     def _validate_ignored_users_list(self):

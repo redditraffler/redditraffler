@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
+Nothing here yet!
+
+## 2018.5 (2018-05-24)
+### Added
+- Added a confirmation popup for raffle parameters on form submit.
+- Added a "show more" button on user profile pages to prevent showing too many raffles at once.
+- Existing unverified raffles can now be overwritten by verified raffles. Logged-in users should be able to select their submission when creating a new raffle; unverified raffles will be removed automatically upon successful creation of the verified one.
+
 ### Changed
 - Use simpler versioning scheme (increment with each release) instead of SemVer.
 

@@ -1,3 +1,9 @@
+.hero a {
+    color: inherit;
+    text-decoration: underline;
+}
+.hero a:hover { color: #e2e0e0; }
+
 .raffle-box {
     transition: 0.2s ease;
 }
@@ -10,3 +16,5 @@
 .raffle-date {
     text-align: right;
 }
+
+#table-control { display: none }

@@ -7,6 +7,7 @@ from flask import (
     session,
     url_for
 )
+from sqlalchemy.orm import load_only
 from app.util import reddit
 from app.util.raffle_form_validator import RaffleFormValidator
 from app.extensions import rq
@@ -19,9 +20,8 @@ api = Blueprint('api', __name__)
 
 @api.route('/submissions')
 def submissions():
-    """ Return the user's Reddit submissions, filtering out submissions
-    that have already been made into raffles. """
-
+    """ Return the user's Reddit submissions that are not already made
+    into raffles. """
     if 'reddit_refresh_token' not in session:
         abort(401)
 
@@ -34,7 +34,6 @@ def submission():
     """ Accepts a `url` parameter and returns the associated submission. If
     a raffle exists for the given submission then the path to that raffle is
     returned. """
-
     if not request.args.get('url'):
         abort(400)
 
@@ -81,10 +80,14 @@ def new_raffle():
 
 
 def _filter_submissions(submissions_list):
-    existing_raffle_ids = [tuple[0] for tuple in Raffle.query.
-                           with_entities(Raffle.submission_id).all()]
-    return [sub for sub in submissions_list if
-            sub['id'] not in existing_raffle_ids]
+    """ Given a submissions list, removes the submissions that were already
+    made into raffles. """
+    existing_verified_raffles = Raffle.query \
+                                      .filter(Raffle.user_id != None) \
+                                      .options(load_only('submission_id')) \
+                                      .all()
+    excluded_ids = set([r.submission_id for r in existing_verified_raffles])
+    return [sub for sub in submissions_list if sub['id'] not in excluded_ids]
 
 
 def _try_get_user_from_session():

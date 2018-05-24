@@ -163,13 +163,18 @@ function validateUrl() {
     }
 }
 
-function submitForm() {
+function getFormDataForSubmit() {
     var $form = $("#raffle-form");
+    var data = $form.serializeArray();
+    data.push({ name: "ignoredUsers", value: JSON.stringify(ignoredUsersList) });
+    return data;
+}
+
+function submitForm() {
     var $submitBtn = $("#submit-btn");
     var $submitBtnMsg = $("#submit-btn-msg");
-    var formData = $form.serializeArray();
+    var formData = getFormDataForSubmit();
 
-    formData.push({ name: "ignoredUsers", value: JSON.stringify(ignoredUsersList) });
     $submitBtn.addClass("is-loading");
     $submitBtn.prop("disabled", true);
 
@@ -213,8 +218,23 @@ function validateAndSubmitForm(event) {
         $(document).scrollTop($("#submission-url").offset().top);
         return;
     }
-    // Validation passed, submit form
-    submitForm();
+    // Validation passed, show confirmation message for form submit
+    confirmForm();
+}
+
+function confirmForm() {
+    swal({
+        type: 'warning',
+        confirmButtonText: "Submit",
+        confirmButtonColor: "#ff7644",
+        showCancelButton: true,
+        cancelButtonText: "Go Back",
+        text: "You won't be able to edit or remove this raffle once it's created. Please make sure you've entered the options correctly!"
+    }).then(function(result) {
+        if (result.value) {
+            submitForm();
+        }
+    });
 }
 
 function addIgnoredUser(username) {
