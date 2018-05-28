@@ -33,9 +33,9 @@ def status(job_id):
 @raffles.route('/<submission_id>')
 def show(submission_id):
     raffle = _raffle_from_cache(submission_id)
-    title = Markup('Results For "%s"' % raffle.submission_title)
     if not raffle:
         abort(404)
+    title = Markup('Results For "%s"' % raffle.submission_title)
     return render_template('raffles/show.html',
                            title=title,
                            raffle=raffle)
