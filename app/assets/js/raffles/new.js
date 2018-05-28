@@ -67,7 +67,7 @@ function buildSubmissionsTable(submissions) {
         $tableBody.append(
             rowTemplate.format(
                 submission.id,
-                submission.title,
+                escapeHtml(submission.title),
                 submission.url,
                 submission.subreddit,
                 getDateFromUnixTime(submission.created_at_utc)
