@@ -94,7 +94,7 @@ function showSubmissionDetails(submission) {
     $msg.html(
         submissionDetailsTemplate.format(
             submission.url,
-            submission.title,
+            escapeHtml(submission.title),
             submission.subreddit,
             authorHtml,
             getDateFromUnixTime(submission.created_at_utc)
