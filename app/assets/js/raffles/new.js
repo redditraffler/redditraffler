@@ -29,9 +29,9 @@ function showSelectedSubmission($tr) {
     }
 
     if ($("#selected-submission").length > 0) {
-        $("#selected-submission").html("<p>Your selection: \"{0}\"</p>".format(title));
+        $("#selected-submission").html("<p>Your selection: &quot;{0}&quot;</p>".format(title));
     } else {
-        $("#submissions").before("<div id='selected-submission' class='content has-text-centered'><p>Your selection: \"{0}\"</p></div>".format(title));
+        $("#submissions").before("<div id='selected-submission' class='content has-text-centered'><p>Your selection: &quot;{0}&quot;</p></div>".format(title));
     }
 }
 
