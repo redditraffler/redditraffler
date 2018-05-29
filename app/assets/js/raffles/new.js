@@ -22,16 +22,16 @@ function initTableControl() {
 }
 
 function showSelectedSubmission($tr) {
-    var title = $tr.children("td:first").text().trim();
+    var title = escapeHtml($tr.children("td:first").text().trim());
 
     if ($("#submission-selection-error").length > 0) {
         $("#submission-selection-error").remove();
     }
 
     if ($("#selected-submission").length > 0) {
-        $("#selected-submission").html("<p>Your selection: \"{0}\"</p>".format(title));
+        $("#selected-submission").html("<p>Your selection: &quot;{0}&quot;</p>".format(title));
     } else {
-        $("#submissions").before("<div id='selected-submission' class='content has-text-centered'><p>Your selection: \"{0}\"</p></div>".format(title));
+        $("#submissions").before("<div id='selected-submission' class='content has-text-centered'><p>Your selection: &quot;{0}&quot;</p></div>".format(title));
     }
 }
 
