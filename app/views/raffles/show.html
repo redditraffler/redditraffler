@@ -10,7 +10,7 @@
     <div class="hero-body">
         <div class="container has-text-centered">
             <p class="title has-text-light">
-                Raffle results for "<a href="https://redd.it/{{ raffle.submission_id }}">{{ raffle.submission_title | truncate(60) }}</a>"
+                Raffle results for "<a href="https://redd.it/{{ raffle.submission_id }}">{{ raffle.submission_title | truncate(60) | safe }}</a>"
             </p>
             <p id="subtitle" class="subtitle has-text-light">
                 Created by

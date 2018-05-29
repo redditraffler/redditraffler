@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
-Nothing here yet!
+### Security
+- Submission titles are now sanitized before saving to the database instead of relying on the templating engine to escape the string.
 
 ## 2018.5 (2018-05-24)
 ### Added

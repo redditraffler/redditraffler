@@ -4,7 +4,7 @@ from app.jobs.util import update_job_status, set_job_error
 from app.util import reddit
 from app.util.raffler import Raffler
 from rq import get_current_job
-from flask import current_app
+from flask import current_app, escape
 
 
 @rq.job
@@ -77,7 +77,7 @@ def _try_remove_unverified(sub_id):
 
 def _save_results_to_db(raffle_params, winners, submission, user):
     raffle = Raffle(submission_id=submission['id'],
-                    submission_title=submission['title'],
+                    submission_title=escape(submission['title']),
                     submission_author=submission['author'],
                     subreddit=submission['subreddit'],
                     winner_count=raffle_params['winner_count'],

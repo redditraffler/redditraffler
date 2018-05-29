@@ -1,4 +1,4 @@
-from flask import abort, Blueprint, render_template, request
+from flask import abort, Blueprint, render_template, request, Markup
 from app.util import reddit
 from app.db.models import User, Raffle
 from app.extensions import rq, cache, db
@@ -35,8 +35,9 @@ def show(submission_id):
     raffle = _raffle_from_cache(submission_id)
     if not raffle:
         abort(404)
+    title = Markup('Results For "%s"' % raffle.submission_title)
     return render_template('raffles/show.html',
-                           title='Results For "%s"' % raffle.submission_title,
+                           title=title,
                            raffle=raffle)
 
 

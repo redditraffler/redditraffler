@@ -34,7 +34,7 @@
                             {% if raffle.submission_id == '4re9cx' %}
                             <span id="sample-raffle" class="tag is-rounded">Sample</span>
                             {% endif %}
-                            {{ raffle.submission_title | truncate(80) }}
+                            {{ raffle.submission_title | truncate(80) | safe }}
                             {% if raffle.is_verified() %}
                             <i class="fas fa-check-circle fa-fw has-text-reddit" title="Verified Raffle"></i>
                             {% endif %}
