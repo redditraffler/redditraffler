@@ -22,7 +22,7 @@ function initTableControl() {
 }
 
 function showSelectedSubmission($tr) {
-    var title = $tr.children("td:first").text().trim();
+    var title = escapeHtml($tr.children("td:first").text().trim());
 
     if ($("#submission-selection-error").length > 0) {
         $("#submission-selection-error").remove();
