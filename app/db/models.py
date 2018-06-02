@@ -1,5 +1,6 @@
 from app.extensions import db
 from datetime import datetime
+from sqlalchemy import inspect
 
 
 class User(db.Model):
@@ -56,6 +57,14 @@ class Raffle(db.Model):
         return self.created_at.strftime('%B %-d %Y, %-I:%M%p') \
                               .replace('AM', 'am') \
                               .replace('PM', 'pm')
+
+    def as_dict(self):
+        exclude = set(['id', 'created_at', 'updated_at'])
+        res = {}
+        for col in inspect(self).mapper.column_attrs:
+            if col.key not in exclude:
+                res[col.key] = getattr(self, col.key)
+        return res
 
 
 class Winner(db.Model):
