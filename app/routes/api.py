@@ -87,7 +87,7 @@ def get_user_raffles(username):
                .first()
     if not user:
         return jsonify({'message': 'User not found.'}), 404
-    return jsonify({'raffles': [r.as_dict() for r in user.raffles]})
+    return jsonify([r.as_dict() for r in user.raffles])
 
 
 def _filter_submissions(submissions_list):
