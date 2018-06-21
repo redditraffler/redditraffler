@@ -69,9 +69,8 @@ def test_get_user_raffles_invalid_user(client, db_session):
 def test_get_user_raffles_valid_user(client, db_session, user, raffle):
     res = client.get(url_for('api.get_user_raffles', username=user.username))
     assert res.status_code == 200
-    assert len(res.json['raffles']) == len(user.raffles)
-    assert res.json['raffles'][-1]['submission_id'] == \
-        user.raffles[-1].submission_id
+    assert len(res.json) == len(user.raffles)
+    assert res.json[-1]['submission_id'] == user.raffles[-1].submission_id
 
 
 def _valid_form_params():
