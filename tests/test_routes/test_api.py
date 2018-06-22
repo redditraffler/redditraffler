@@ -61,6 +61,18 @@ def test_post_new_raffle_valid_params(client, monkeypatch):
     assert res.status_code == 202
 
 
+def test_get_user_raffles_invalid_user(client, db_session):
+    res = client.get(url_for('api.get_user_raffles', username='invalid123'))
+    assert res.status_code == 404
+
+
+def test_get_user_raffles_valid_user(client, db_session, user, raffle):
+    res = client.get(url_for('api.get_user_raffles', username=user.username))
+    assert res.status_code == 200
+    assert len(res.json) == len(user.raffles)
+    assert res.json[-1]['submission_id'] == user.raffles[-1].submission_id
+
+
 def _valid_form_params():
     return {
         'submissionUrl': 'https://redd.it/57xvjb',

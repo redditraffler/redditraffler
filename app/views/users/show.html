@@ -1,6 +1,8 @@
 {% extends "layouts/base.html" %}
 
 {% block styles %}
+<link href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bulma.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/users/show.css') }}">
 {% endblock %}
 
@@ -17,32 +19,18 @@
 
 <section class="section">
     <div class="container">
-        {% if raffles.count() > 0 %}
-        <div id="raffle-list" class="columns is-centered">
-            <div class="column is-7">
-            {% for raffle in raffles %}
-                <div data-raffle-id="{{ raffle.submission_id }}" class="box is-7 raffle-box">
-                    <div class="columns is-vcentered">
-                        <div class="column is-8">
-                            <div class="content">
-                                <p>{{ raffle.submission_title | safe }}</p>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="content raffle-date is-size-7">
-                                <p>{{ raffle.created_at_readable() }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            </div>
-        </div>
-        <div id="table-control" class="content has-text-centered">
-            <button type="button" id="show-more" class="button is-small is-outlined is-rounded">Show More
-                <i class="fas fa-chevron-down fa-fw"></i>
-            </button>
-        </div>
+        {% if user.raffles|length > 0 %}
+         <table id="raffles" class="table" width="100%">
+            <thead>
+                <tr>
+                    <td><b>Submission Title</b></td>
+                    <td><b>Subreddit</b></td>
+                    <td><b>Created At</b></td>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
         {% else %}
         <div class="content has-text-centered">
             <p><i class="far fa-frown fa-4x has-text-reddit"></i></p>
@@ -59,6 +47,8 @@
 {% endblock %}
 
 {% block js %}
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dataTables.bulma.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/users/show.js') }}"></script>
 {% endblock %}
 

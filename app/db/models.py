@@ -1,5 +1,7 @@
 from app.extensions import db
 from datetime import datetime
+from sqlalchemy import inspect
+from flask import current_app
 
 
 class User(db.Model):
@@ -56,6 +58,17 @@ class Raffle(db.Model):
         return self.created_at.strftime('%B %-d %Y, %-I:%M%p') \
                               .replace('AM', 'am') \
                               .replace('PM', 'pm')
+
+    def as_dict(self):
+        exclude = set(['id', 'updated_at'])
+        res = {}
+        for col in inspect(self).mapper.column_attrs:
+            if col.key == 'created_at':
+                res[col.key] = getattr(self, col.key).timestamp()
+            elif col.key not in exclude:
+                res[col.key] = getattr(self, col.key)
+        res['created_at_readable'] = self.created_at_readable()
+        return res
 
 
 class Winner(db.Model):

@@ -1,28 +1,41 @@
-function initListControl() {
-    var INITIAL_ROW_COUNT = 10;
-    var rowCount = $(".raffle-box").length;
-    var visibleRowCount = 10;
-    if (rowCount > visibleRowCount) {
-        $("#table-control").show();
-    }
+function buildRafflesTable(data) {
+    var $table = $("#raffles");
+    var $tbody = $table.find('tbody');
 
-    $(".raffle-box").hide();
-    $(".raffle-box:lt(" + visibleRowCount + ")").show();
+    var rowTemplate = "<tr data-raffle-id='{0}'><td>{1}</td><td>{2}</td><td data-sort='{3}'>{4}</td></tr>";
+    data.forEach(function(raffle) {
+        $tbody.append(rowTemplate.format(
+            raffle.submission_id,
+            raffle.submission_title,
+            raffle.subreddit,
+            raffle.created_at,
+            raffle.created_at_readable
+        ));
+    });
 
-    $("#show-more").click(function() {
-        visibleRowCount = (visibleRowCount + 10 <= rowCount) ? visibleRowCount + 10 : rowCount;
-        $(".raffle-box:lt(" + visibleRowCount + ")").show();
-        if (visibleRowCount == rowCount) {
-            $("#show-more").hide();
+    $tbody.children('tr').click(function() {
+        var raffleId = $(this).attr('data-raffle-id');
+        window.location.href = "/raffles/{0}".format(raffleId);
+    });
+
+    $("#raffles").DataTable({
+        "pageLength": 5,
+        "lengthChange": false,
+        "order": [[2, "desc"]]
+    });
+}
+
+function fetchUserRaffles() {
+    var username = window.location.pathname.split('/').pop();
+    $.ajax({
+        dataType: "json",
+        url: "/api/users/{0}/raffles".format(username),
+        success: function(res) {
+            if (res.length > 0) buildRafflesTable(res);
         }
     });
 }
 
 $(function() {
-    $(".raffle-box").click(function() {
-        var raffle_id = $(this).attr('data-raffle-id');
-        window.location.href = "/raffles/" + raffle_id;
-    });
-
-    initListControl();
+    fetchUserRaffles();
 });

@@ -79,6 +79,17 @@ def new_raffle():
     return jsonify({'url': url_for('raffles.status', job_id=sub_id)}), 202
 
 
+@api.route('/users/<username>/raffles')
+def get_user_raffles(username):
+    """ Returns all the raffles that were created by the given user. """
+    user = User.query \
+               .filter_by(username=username) \
+               .first()
+    if not user:
+        return jsonify({'message': 'User not found.'}), 404
+    return jsonify([r.as_dict() for r in user.raffles])
+
+
 def _filter_submissions(submissions_list):
     """ Given a submissions list, removes the submissions that were already
     made into raffles. """
