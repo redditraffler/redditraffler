@@ -18,3 +18,17 @@
 }
 
 #table-control { display: none }
+
+.pagination-link.is-current {
+    background-color: #ff7644;
+    border-color: #ff7644;
+}
+
+#raffles tbody tr {
+    transition: 0.2s;
+}
+
+#raffles tbody tr:hover {
+    background-color: #fcf0ec;
+    cursor: pointer;
+}
