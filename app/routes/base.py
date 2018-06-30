@@ -25,6 +25,12 @@ def about():
                            title='About')
 
 
+@base.route('/faq')
+def faq():
+    return render_template('base/faq.html',
+                           title='Frequently Asked Questions')
+
+
 @base.route('/terms-of-service')
 def tos():
     return render_template('base/terms-of-service.html',
