@@ -1,0 +1,111 @@
+{% extends "layouts/base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base/faq.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero is-small is-reddit">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title has-text-light">
+                Frequently Asked Questions
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-three-quarters">
+                <div class="content has-text-justified">
+                    <p class="title has-text-reddit">General</p>
+                </div>
+                <div class="qa-container">
+                    <p class="question">How does redditraffler work?</p>
+                    <p class="answer">
+                        Redditraffler allows hosts to select winners for their comment-to-enter type contest on Reddit. A quick summary is as follows:
+                        <ol>
+                            <li>The contest host creates a thread on Reddit for the contest.</li>
+                            <li>Each participant submit a comment to that thread to enter the contest.</li>
+                            <li>When ready to pick a winner or group of winners, the contest host uses redditraffler to enter their raffle parameters, such as how many winners, minimum account age of the winners, and so on.</li>
+                            <li>The winners are selected randomly and the results will be displayed on redditraffler.</li>
+                        </ol>
+                    </p>
+                </div>
+                <div class="qa-container">
+                    <p class="question">How do I know if the raffle was submitted to redditraffler by the contest host?</p>
+                    <p class="answer">
+                        Users have the option to log in with their Reddit account to generate a raffle out of their own account&#39;s submissions. This makes the raffles &quot;verified&quot;. To find out if a raffle is verified, look out for a tick mark <i class="fas fa-check-circle fa-fw has-text-reddit" title="Verified Raffle"></i> in the <a href="{{ url_for('raffles.index') }}">raffle list</a> or a badge
+                            <span class="tag is-reddit is-rounded verified-tag">
+                                Verified Raffle
+                                <i class="fas fa-check-circle fa-fw"></i>
+                            </span>
+                        in the individual raffle results pages!
+                    </p>
+                </div>
+                <div class="qa-container">
+                    <p class="question">How are winners selected?</p>
+                    <p class="answer">Redditraffler allows contest hosts to filter participants by criteria (see below). During the selection process, the first user in the randomized list is selected and checked against the aforementioned criteria. If the user meets all the criteria, then they are added to the winners pool. The process is repeated for the following users in randomized list as needed.</p>
+                </div>
+                <div class="qa-container">
+                    <p class="question">Will raffle results ever be changed or removed?</p>
+                    <p class="answer">Raffle results will never be altered in any way. Verified raffle results will be kept in our database, but unverified raffles will be removed after 7 days or when the author of the Reddit submission overwrites it with a verified raffle &mdash; whichever comes first.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-three-quarters">
+                <div class="content has-text-justified">
+                    <p class="title has-text-reddit ">For Contest Hosts</p>
+                </div>
+                <div class="qa-container">
+                    <p class="question">What kind of contest can I use redditraffler for?</p>
+                    <p class="answer">
+                        Redditraffler is suitable for "comment-to-enter" type contests, where every top-level comment is an entry to the contest. It is also limited to Reddit-based limitations i.e. any real-life restrictions, like minimum age, cannot be enforced by redditraffler.
+                    </p>
+                </div>
+                <div class="qa-container">
+                    <p class="question">What do I need in order to use redditraffler?</p>
+                    <p class="answer">
+                        All you need is a Reddit account and a submission that will be used for your contest. The submission must be in a public subreddit.
+                    </p>
+                </div>
+                <div class="qa-container">
+                    <p class="question">What kind of criteria can I use to select winners?</p>
+                    <p class="answer">
+                        Redditraffler currently supports the following criteria for selecting winning Reddit accounts:
+                        <ul>
+                            <li>Minimum Account Age</li>
+                            <li>Minimum Comment Karma</li>
+                            <li>Minimum Post Karma</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="qa-container">
+                    <p class="question">How many winners can I have for each raffle?</p>
+                    <p class="answer">Redditraffler currently supports a maximum of 25 winners.</p>
+                </div>
+                <div class="qa-container">
+                    <p class="question">Can I make any changes to my raffle after creating it?</p>
+                    <p class="answer">Unfortunately not. We'd like participants to trust that redditraffler doesn&#39;t tamper with results in any way.</p>
+                </div>
+                <div class="qa-container">
+                    <p class="question">I made a mistake while setting up my raffle. Can you help me fix it?</p>
+                    <p class="answer">As stated above, we won&#39;t be able to accommodate any requests to make changes to a raffle in any way, even if it was an honest mistake.</p>
+                </div>
+                <div class="qa-container">
+                    <p class="question">Somebody used my submission to create an unverified raffle. What can I do?</p>
+                    <p class="answer">As the creator of that submission, you can ignore unverified raffles and generate results on redditraffler as if it were a new one. The unverified raffle will be overwritten with the results of the new, verified raffle. If not overwritten, unverified raffles will be removed automatically 7 days after they are created.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

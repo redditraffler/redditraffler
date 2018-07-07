@@ -1,0 +1,17 @@
+.qa-container:not(:last-child) { padding-bottom: 1rem; }
+
+.qa-container .question:before { content: '• ';}
+.qa-container .question { font-weight: bold; }
+
+.qa-container ol { list-style-position: inside; }
+
+.qa-container ul {
+    list-style-type: circle;
+    list-style-position: inside;
+}
+
+.verified-tag {
+    background-color: #ff7644 !important;
+    border: 1px solid white;
+    color: white !important;
+}
