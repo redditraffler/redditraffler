@@ -4,9 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
+Nothing here yet!
+
+## 2018.7 (2018-10-21)
 ### Changed
 - Replaced the raffle list in the user page with DataTables (the same kind of table as in the raffle index page).
 - Site usage information has been moved to a FAQ page.
+
 
 ## 2018.6 (2018-05-28)
 ### Security
