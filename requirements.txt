@@ -42,14 +42,14 @@ python-dateutil==2.6.1
 python-dotenv==0.8.2
 python-editor==1.0.3
 redis==2.10.6
-requests==2.18.4
+requests==2.21.0
 rq==0.10.0
 rq-scheduler==0.8.1
 six==1.11.0
 SQLAlchemy==1.2.3
 toml==0.10.0
 update-checker==0.16
-urllib3==1.22
+urllib3==1.24.1
 webassets==0.12.1
 Werkzeug==0.14.1
 WTForms==2.1
