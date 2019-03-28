@@ -8,9 +8,9 @@ from flask_assets import Environment
 from flask_caching import Cache
 
 db = SQLAlchemy()
-migrate = Migrate(directory='app/db/migrations')
+migrate = Migrate(directory="app/db/migrations")
 rq = RQ()
-limiter = Limiter(key_func=get_remote_address, default_limits=['2 per second'])
+limiter = Limiter(key_func=get_remote_address, default_limits=["2 per second"])
 csrf = CSRFProtect()
 assets = Environment()
 cache = Cache()

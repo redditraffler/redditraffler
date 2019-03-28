@@ -4,48 +4,48 @@ import os
 load_dotenv()
 
 
-class BaseConfig():
-    SECRET_KEY = os.getenv('SECRET_KEY')
-    RQ_REDIS_URL = os.getenv('REDIS_URL')
+class BaseConfig:
+    SECRET_KEY = os.getenv("SECRET_KEY")
+    RQ_REDIS_URL = os.getenv("REDIS_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CACHE_CONFIG = {
-        'CACHE_TYPE': 'redis',
-        'CACHE_KEY_PREFIX': 'redditraffler_',
-        'CACHE_REDIS_URL': os.getenv('REDIS_URL'),
-        'CACHE_DEFAULT_TIMEOUT': 60 * 60 * 24,  # 1 day
+        "CACHE_TYPE": "redis",
+        "CACHE_KEY_PREFIX": "redditraffler_",
+        "CACHE_REDIS_URL": os.getenv("REDIS_URL"),
+        "CACHE_DEFAULT_TIMEOUT": 60 * 60 * 24,  # 1 day
     }
 
-    REDDIT_CLIENT_ID = os.getenv('REDDIT_CLIENT_ID')
-    REDDIT_CLIENT_SECRET = os.getenv('REDDIT_CLIENT_SECRET')
-    REDDIT_REDIRECT_URI = os.getenv('REDDIT_REDIRECT_URI')
-    REDDIT_USER_AGENT = os.getenv('REDDIT_USER_AGENT')
-    REDDIT_AUTH_SCOPES = ['identity', 'history', 'read']
+    REDDIT_CLIENT_ID = os.getenv("REDDIT_CLIENT_ID")
+    REDDIT_CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET")
+    REDDIT_REDIRECT_URI = os.getenv("REDDIT_REDIRECT_URI")
+    REDDIT_USER_AGENT = os.getenv("REDDIT_USER_AGENT")
+    REDDIT_AUTH_SCOPES = ["identity", "history", "read"]
 
-    BOT_USERNAME = os.getenv('BOT_USERNAME')
-    BOT_PASSWORD = os.getenv('BOT_PASSWORD')
-    BOT_CLIENT_ID = os.getenv('BOT_CLIENT_ID')
-    BOT_CLIENT_SECRET = os.getenv('BOT_CLIENT_SECRET')
+    BOT_USERNAME = os.getenv("BOT_USERNAME")
+    BOT_PASSWORD = os.getenv("BOT_PASSWORD")
+    BOT_CLIENT_ID = os.getenv("BOT_CLIENT_ID")
+    BOT_CLIENT_SECRET = os.getenv("BOT_CLIENT_SECRET")
 
 
 class DevConfig(BaseConfig):
-    ENV = 'development'
+    ENV = "development"
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     ASSETS_DEBUG = True
 
 
 class ProdConfig(BaseConfig):
-    ENV = os.getenv('ENV') if os.getenv('ENV') else 'production'
+    ENV = os.getenv("ENV") if os.getenv("ENV") else "production"
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
 
 
 class TestConfig(BaseConfig):
-    ENV = 'test'
+    ENV = "test"
     TESTING = True
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/redditraffler-test.db'
+    SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/redditraffler-test.db"
     RQ_ASYNC = False
     RATELIMIT_ENABLED = False
     WTF_CSRF_ENABLED = False
-    CACHE_CONFIG = {'CACHE_TYPE': 'null', 'CACHE_NO_NULL_WARNING': True}
+    CACHE_CONFIG = {"CACHE_TYPE": "null", "CACHE_NO_NULL_WARNING": True}

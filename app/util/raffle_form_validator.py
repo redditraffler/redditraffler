@@ -5,10 +5,16 @@ import ast
 import re
 
 
-class RaffleFormValidator():
-    REQUIRED_KEYS = {'submissionUrl', 'winnerCount', 'minAge',
-                     'minComment', 'minLink', 'ignoredUsers'}
-    INT_KEYS = {'minAge', 'winnerCount', 'minComment', 'minLink'}
+class RaffleFormValidator:
+    REQUIRED_KEYS = {
+        "submissionUrl",
+        "winnerCount",
+        "minAge",
+        "minComment",
+        "minLink",
+        "ignoredUsers",
+    }
+    INT_KEYS = {"minAge", "winnerCount", "minComment", "minLink"}
 
     def __init__(self, form):
         """ form must be a dict. """
@@ -25,8 +31,11 @@ class RaffleFormValidator():
             self._validate_ignored_users_list()
             return True
         except:
-            current_app.logger.exception('Form validation failed {}'.format(
-                [(key, value) for key, value in self.form.items()]))
+            current_app.logger.exception(
+                "Form validation failed {}".format(
+                    [(key, value) for key, value in self.form.items()]
+                )
+            )
             return False
 
     def get_sanitized_form(self):
@@ -38,37 +47,36 @@ class RaffleFormValidator():
     def _validate_required_keys(self):
         for key in self.REQUIRED_KEYS:
             if key not in self.form.keys():
-                raise KeyError('Missing key {}'.format(key))
+                raise KeyError("Missing key {}".format(key))
 
     def _validate_int_values(self):
         """ Check if all integer keys have proper values. """
         for key in self.INT_KEYS:
             val = self.try_cast_int(self.form.get(key))
             if not isinstance(val, int):
-                raise TypeError('Invalid type for key {}: {}'.format(key, val))
-            if (val < 0) or \
-               ((key == 'winnerCount') and (val < 1 or val > 25)):
-                raise ValueError('Invalid value for key {}: {}'
-                                 .format(key, val))
+                raise TypeError("Invalid type for key {}: {}".format(key, val))
+            if (val < 0) or ((key == "winnerCount") and (val < 1 or val > 25)):
+                raise ValueError("Invalid value for key {}: {}".format(key, val))
 
     def _validate_submission_url(self):
         """ Use PRAW to check if the submission URL is valid. """
-        url = self.form.get('submissionUrl')
+        url = self.form.get("submissionUrl")
         if not isinstance(url, str):
-            raise TypeError('{} is not a string'.format(url))
+            raise TypeError("{} is not a string".format(url))
         url = self.ensure_protocol(url)
         if not reddit.get_submission(sub_url=url):
-            raise ValueError('Invalid submission url: {}'.format(url))
+            raise ValueError("Invalid submission url: {}".format(url))
 
     def _validate_raffle_not_exists(self):
         """ Checks that the submission URL given has not already been made
         into a verified raffle. """
-        url = self.ensure_protocol(self.form.get('submissionUrl'))
+        url = self.ensure_protocol(self.form.get("submissionUrl"))
         sub_id = reddit.submission_id_from_url(url)
-        has_existing_raffle = Raffle.query \
-                                    .filter(Raffle.submission_id == sub_id) \
-                                    .filter(Raffle.user_id != None) \
-                                    .scalar()
+        has_existing_raffle = (
+            Raffle.query.filter(Raffle.submission_id == sub_id)
+            .filter(Raffle.user_id != None)
+            .scalar()
+        )
         if has_existing_raffle:
             raise ValueError("Raffle already exists for {}".format(sub_id))
 
@@ -76,29 +84,33 @@ class RaffleFormValidator():
         """ Check that ignoredUsers is a list, and all of its contents
         are valid Reddit usernames. """
         try:
-            users_list = ast.literal_eval(self.form.get('ignoredUsers'))
+            users_list = ast.literal_eval(self.form.get("ignoredUsers"))
             assert isinstance(users_list, list)
         except:
-            raise TypeError('users_list is of type {}. Expected: list'
-                            .format(type(self.form.get('ignoredUsers'))))
+            raise TypeError(
+                "users_list is of type {}. Expected: list".format(
+                    type(self.form.get("ignoredUsers"))
+                )
+            )
 
-        USERNAME_REGEX = r'\A[\w-]+\Z'
+        USERNAME_REGEX = r"\A[\w-]+\Z"
         for username in users_list:
-            if (len(username) < 3) or \
-               (len(username) > 20) or \
-               (not re.match(USERNAME_REGEX, username)):
-                raise ValueError('Invalid username: {}'.format(username))
+            if (
+                (len(username) < 3)
+                or (len(username) > 20)
+                or (not re.match(USERNAME_REGEX, username))
+            ):
+                raise ValueError("Invalid username: {}".format(username))
 
     def _sanitize_url(self):
-        self.form['submissionUrl'] = self.\
-            ensure_protocol(self.form['submissionUrl'])
+        self.form["submissionUrl"] = self.ensure_protocol(self.form["submissionUrl"])
 
     def _cast_int_values(self):
         for key in self.INT_KEYS:
             self.form[key] = int(self.form[key])
 
     def _cast_ignored_users_list(self):
-        self.form['ignoredUsers'] = ast.literal_eval(self.form['ignoredUsers'])
+        self.form["ignoredUsers"] = ast.literal_eval(self.form["ignoredUsers"])
 
     @staticmethod
     def try_cast_int(x):
@@ -109,6 +121,6 @@ class RaffleFormValidator():
 
     @staticmethod
     def ensure_protocol(url):
-        if not url.startswith('http'):
-            return 'https://' + url
+        if not url.startswith("http"):
+            return "https://" + url
         return url
