@@ -5,7 +5,7 @@ from app.db.models import Raffle, User
 import pytest
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def app():
     test_app = create_app(TestConfig)
     context = test_app.app_context()
@@ -14,7 +14,7 @@ def app():
     context.pop()
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def db(app, request):
     _db.app = app
     _db.create_all()
@@ -22,7 +22,7 @@ def db(app, request):
     _db.drop_all()
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope="function")
 def db_session(db, request):
     connection = db.engine.connect()
     transaction = connection.begin()
@@ -37,7 +37,7 @@ def db_session(db, request):
 
 @pytest.fixture
 def user(db_session):
-    user = User(username='test_user')
+    user = User(username="test_user")
     db_session.add(user)
     db_session.commit()
     return user
@@ -45,15 +45,17 @@ def user(db_session):
 
 @pytest.fixture
 def raffle(db_session, user):
-    raffle = Raffle(submission_id='test_id',
-                    submission_title='test_title',
-                    submission_author='test_author',
-                    subreddit='test_subreddit',
-                    winner_count=1,
-                    min_account_age=0,
-                    min_comment_karma=0,
-                    min_link_karma=0,
-                    user_id=user.id)
+    raffle = Raffle(
+        submission_id="test_id",
+        submission_title="test_title",
+        submission_author="test_author",
+        subreddit="test_subreddit",
+        winner_count=1,
+        min_account_age=0,
+        min_comment_karma=0,
+        min_link_karma=0,
+        user_id=user.id,
+    )
     db_session.add(raffle)
     db_session.commit()
     return raffle

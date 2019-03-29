@@ -4,17 +4,17 @@ import praw
 import prawcore
 
 SETTINGS = {
-    'client_id': config.REDDIT_CLIENT_ID,
-    'client_secret': config.REDDIT_CLIENT_SECRET,
-    'user_agent': config.REDDIT_USER_AGENT,
-    'redirect_uri': config.REDDIT_REDIRECT_URI
+    "client_id": config.REDDIT_CLIENT_ID,
+    "client_secret": config.REDDIT_CLIENT_SECRET,
+    "user_agent": config.REDDIT_USER_AGENT,
+    "redirect_uri": config.REDDIT_REDIRECT_URI,
 }
 
 
 def get_auth_url():
     """ Returns the Reddit URL used to obtain permissions from the user. """
     r = praw.Reddit(**SETTINGS)
-    return r.auth.url(config.REDDIT_AUTH_SCOPES, 'authorized', 'permanent')
+    return r.auth.url(config.REDDIT_AUTH_SCOPES, "authorized", "permanent")
 
 
 def authorize(code):
@@ -30,7 +30,7 @@ def get_username(refresh_token):
     return r.user.me().name
 
 
-@cache.memoize(timeout=60*3)
+@cache.memoize(timeout=60 * 3)
 def get_user_submissions(refresh_token):
     """ Return the Redditor's submissions ordered latest to oldest. """
     r = praw.Reddit(**SETTINGS, refresh_token=refresh_token)
@@ -44,7 +44,7 @@ def get_submission(sub_url):
     the URL is invalid. """
     r = praw.Reddit(**SETTINGS)
     sub_id = submission_id_from_url(sub_url)
-    cache_key = 'submission_data_{}'.format(sub_id)
+    cache_key = "submission_data_{}".format(sub_id)
     cached = cache.get(cache_key)
     if cached:
         return cached
@@ -63,12 +63,12 @@ def submission_id_from_url(url):
 
 def _serialize(submission):
     """ Extracts the needed submission data and inserts them in a dict. """
-    REDDIT_BASE_URL = 'https://www.reddit.com'
+    REDDIT_BASE_URL = "https://www.reddit.com"
     return {
-        'id': submission.id,
-        'author': submission.author.name if submission.author else None,
-        'title': submission.title,
-        'url': REDDIT_BASE_URL + submission.permalink,
-        'subreddit': submission.subreddit.display_name,
-        'created_at_utc': submission.created_utc
+        "id": submission.id,
+        "author": submission.author.name if submission.author else None,
+        "title": submission.title,
+        "url": REDDIT_BASE_URL + submission.permalink,
+        "subreddit": submission.subreddit.display_name,
+        "created_at_utc": submission.created_utc,
     }

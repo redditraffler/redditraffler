@@ -6,36 +6,36 @@ from flask import (
     render_template,
     request,
     session,
-    url_for
+    url_for,
 )
 from app.util import reddit
 from app.extensions import db
 from app.db.models import User
 
-auth = Blueprint('auth', __name__)
+auth = Blueprint("auth", __name__)
 
 
-@auth.route('/logout', methods=['POST'])
+@auth.route("/logout", methods=["POST"])
 def logout():
     session.clear()
-    return redirect(url_for('base.index'))
+    return redirect(url_for("base.index"))
 
 
-@auth.route('/redirect')
+@auth.route("/redirect")
 def auth_redirect():
-    if request.args.get('error') == 'access_denied':
-        current_app.logger.info('User declined Reddit authorization')
-        return redirect(url_for('base.index'))
-    if ('reddit_refresh_token' in session) and ('reddit_username' in session):
-        current_app.logger.info('User already logged in')
-        return redirect(url_for('base.index'))
+    if request.args.get("error") == "access_denied":
+        current_app.logger.info("User declined Reddit authorization")
+        return redirect(url_for("base.index"))
+    if ("reddit_refresh_token" in session) and ("reddit_username" in session):
+        current_app.logger.info("User already logged in")
+        return redirect(url_for("base.index"))
 
     try:
-        refresh_token = reddit.authorize(request.args.get('code'))
+        refresh_token = reddit.authorize(request.args.get("code"))
         username = reddit.get_username(refresh_token)
 
-        session['reddit_refresh_token'] = refresh_token
-        session['reddit_username'] = username
+        session["reddit_refresh_token"] = refresh_token
+        session["reddit_username"] = username
 
         if not User.query.filter_by(username=username).scalar():
             user = User(username=username)
@@ -43,7 +43,7 @@ def auth_redirect():
             db.session.commit()
             current_app.logger.info("Created user '{}'".format(username))
     except:
-        current_app.logger.exception('Exception in auth redirect')
+        current_app.logger.exception("Exception in auth redirect")
         abort(500)
 
-    return redirect(url_for('raffles.new'))
+    return redirect(url_for("raffles.new"))
