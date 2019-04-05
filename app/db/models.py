@@ -32,12 +32,10 @@ class Raffle(db.Model):
     min_account_age = db.Column(db.Integer)
     min_comment_karma = db.Column(db.Integer)
     min_link_karma = db.Column(db.Integer)
+    ignored_users = db.Column(db.Text, nullable=True)
 
     winners = db.relationship(
         "Winner", backref="raffle", lazy=True, cascade="all, delete-orphan"
-    )
-    ignored_users = db.relationship(
-        "IgnoredUser", backref="raffle", lazy=True, cascade="all, delete-orphan"
     )
 
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True, index=True)
@@ -65,6 +63,9 @@ class Raffle(db.Model):
                 res[col.key] = getattr(self, col.key)
         res["created_at_readable"] = self.created_at_readable()
         return res
+
+    def ignored_users_list(self):
+        return self.ignored_users.split(",")
 
 
 class Winner(db.Model):
