@@ -81,12 +81,12 @@
             <div class="column is-half">
                 <div class="has-text-centered">
                     <p><i class="fas fa-ban fa-2x has-text-reddit"></i></p>
-                    <p class="is-size-3">{{ raffle.ignored_users | length }}</p>
+                    <p class="is-size-3">{{ raffle.ignored_users_list() | length }}</p>
                     <p class="is-size-6">Ignored User(s)</p>
                     <p>
-                        {% for user in raffle.ignored_users %}
+                        {% for username in raffle.ignored_users_list() %}
                         <span class="tag is-reddit is-rounded">
-                            {{ user.username }}
+                            {{ username }}
                         </span>
                         {% endfor %}
                     </p>
