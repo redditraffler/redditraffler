@@ -93,7 +93,7 @@ def _save_results_to_db(raffle_params, winners, submission, user):
         min_comment_karma=raffle_params["min_comment_karma"],
         min_link_karma=raffle_params["min_link_karma"],
         user_id=user.id if user else None,
-        ignored_users=','.join(raffle_params["ignored_users"]),
+        ignored_users=",".join(raffle_params["ignored_users"]),
     )
 
     for winner in winners:
