@@ -83,16 +83,3 @@ class Winner(db.Model):
     raffle_id = db.Column(
         db.Integer, db.ForeignKey("raffle.id"), nullable=False, index=True
     )
-
-
-class IgnoredUser(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
-    )
-    username = db.Column(db.String(64))
-
-    raffle_id = db.Column(
-        db.Integer, db.ForeignKey("raffle.id"), nullable=False, index=True
-    )
