@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ## Unreleased
 Nothing here yet!
 
+## 2019.1 (2019-04-10)
+### Changed
+- Updated Flask to v1.X
+- Ignored users are now managed better on the database level
+
 ## 2018.7 (2018-10-21)
 ### Changed
 - Replaced the raffle list in the user page with DataTables (the same kind of table as in the raffle index page).
