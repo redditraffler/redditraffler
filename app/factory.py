@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
+from app.services import rollbar
 from app.db import models
 from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
@@ -11,6 +12,7 @@ def create_app(config_object=ProdConfig):
     app = Flask("app", template_folder="views", static_folder="assets")
     app.config.from_object(config_object)
     register_error_handlers(app)
+    register_services(app)
     register_blueprints(app)
     register_extensions(app)
     register_commands(app)
@@ -39,7 +41,9 @@ def register_error_handlers(app):
     for code in [401, 404, 500]:
         app.errorhandler(code)(render_error)
 
-    return None
+
+def register_services(app):
+    rollbar.init_app(app)
 
 
 def register_blueprints(app):
@@ -48,7 +52,6 @@ def register_blueprints(app):
     app.register_blueprint(raffles.raffles, url_prefix="/raffles")
     app.register_blueprint(api.api, url_prefix="/api")
     app.register_blueprint(users.users, url_prefix="/users")
-    return None
 
 
 def register_extensions(app):
@@ -60,7 +63,6 @@ def register_extensions(app):
     cache.init_app(app, config=app.config["CACHE_CONFIG"])
     init_ssl(app)
     init_and_register_assets(app)
-    return None
 
 
 def init_and_register_assets(app):
@@ -85,7 +87,6 @@ def init_and_register_assets(app):
     )
     assets.register("js_base", js)
     assets.register("css_base", css)
-    return None
 
 
 def init_ssl(app):
