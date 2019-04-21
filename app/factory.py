@@ -1,22 +1,44 @@
 from flask import Flask, render_template
+from rollbar.logger import RollbarHandler
+from flask_assets import Bundle
+
 from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
-from app.services import rollbar
 from app.db import models
 from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
 from app.commands import delete, clear_cache
-from flask_assets import Bundle
+
+import rollbar
+import logging
 
 
 def create_app(config_object=ProdConfig):
     app = Flask("app", template_folder="views", static_folder="assets")
     app.config.from_object(config_object)
+    configure_logger(app)
     register_error_handlers(app)
-    register_services(app)
     register_blueprints(app)
     register_extensions(app)
     register_commands(app)
     return app
+
+
+def configure_logger(app):
+    env = app.config.get("ENV", "development")
+    enabled = app.config.get("ROLLBAR_ENABLED", False)
+    api_token = app.config.get("ROLLBAR_ACCESS_TOKEN")
+    rollbar.init(
+        api_token,
+        env,
+        handler="blocking",
+        enabled=enabled,
+        allow_logging_basic_config=False,
+    )
+
+    rollbar_handler = RollbarHandler(history_size=3)
+    rollbar_handler.setLevel(logging.DEBUG)
+
+    app.logger.addHandler(rollbar_handler)
 
 
 def register_error_handlers(app):
@@ -40,10 +62,6 @@ def register_error_handlers(app):
 
     for code in [401, 404, 500]:
         app.errorhandler(code)(render_error)
-
-
-def register_services(app):
-    rollbar.init_app(app)
 
 
 def register_blueprints(app):
