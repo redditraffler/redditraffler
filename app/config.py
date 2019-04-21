@@ -29,8 +29,8 @@ class BaseConfig:
     BOT_CLIENT_SECRET = os.getenv("BOT_CLIENT_SECRET")
 
 
-class DevConfig(BaseConfig):
-    ENV = "development"
+class DebugConfig(BaseConfig):
+    ENV = os.getenv("ENV", "local")
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     ASSETS_DEBUG = True
@@ -38,7 +38,7 @@ class DevConfig(BaseConfig):
 
 
 class ProdConfig(BaseConfig):
-    ENV = os.getenv("ENV") if os.getenv("ENV") else "production"
+    ENV = os.getenv("ENV", "production")
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     ROLLBAR_ENABLED = True

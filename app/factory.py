@@ -24,8 +24,8 @@ def create_app(config_object=ProdConfig):
 
 
 def configure_logger(app):
-    env = app.config.get("ENV", "development")
-    enabled = app.config.get("ROLLBAR_ENABLED", False)
+    env = app.config.get("ENV")
+    enabled = app.config.get("ROLLBAR_ENABLED")
     api_token = app.config.get("ROLLBAR_ACCESS_TOKEN")
     rollbar.init(
         api_token,
