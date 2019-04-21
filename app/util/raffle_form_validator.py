@@ -32,9 +32,7 @@ class RaffleFormValidator:
             return True
         except:
             current_app.logger.exception(
-                "Form validation failed {}".format(
-                    [(key, value) for key, value in self.form.items()]
-                )
+                "Raffle form validation failed", {"form": self.form}
             )
             return False
 

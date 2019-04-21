@@ -24,10 +24,9 @@ def logout():
 @auth.route("/redirect")
 def auth_redirect():
     if request.args.get("error") == "access_denied":
-        current_app.logger.info("User declined Reddit authorization")
+        current_app.logger.warn("User declined Reddit authorization")
         return redirect(url_for("base.index"))
     if ("reddit_refresh_token" in session) and ("reddit_username" in session):
-        current_app.logger.info("User already logged in")
         return redirect(url_for("base.index"))
 
     try:
@@ -41,9 +40,9 @@ def auth_redirect():
             user = User(username=username)
             db.session.add(user)
             db.session.commit()
-            current_app.logger.info("Created user '{}'".format(username))
+            current_app.logger.info("Created new user", {"username": username})
     except:
-        current_app.logger.exception("Exception in auth redirect")
+        current_app.logger.exception("Reddit auth redirect failure")
         abort(500)
 
     return redirect(url_for("raffles.new"))
