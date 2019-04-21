@@ -130,7 +130,10 @@ class Raffler:
                 self._disqualified_users.add(user.username.lower())
                 return False
         except:
-            current_app.logger.exception()
+            current_app.logger.exception(
+                "Error while trying to determine if user meets raffle criteria",
+                {"user": user},
+            )
             return False
 
     def _try_create_user(self, author):
@@ -145,7 +148,10 @@ class Raffler:
             )
             return user
         except (prawcore.exceptions.NotFound, AttributeError):
-            current_app.logger.exception()
+            current_app.logger.exception(
+                "Error while trying to create user from comment entry",
+                {"author": author},
+            )
             return None
 
     def _has_duplicate_comments(self, user):
