@@ -6,10 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+Nothing yet!
+
+## 2019.2 (2019-04-21)
+
 ### Changed
 
 - Dropped legacy database table (ignored_users)
-- Improved logging around Raffle creation to be able to resolve issues better
+- Improved logging around Raffle creation to be able to resolve errors better
 
 ## 2019.1 (2019-04-10)
 
