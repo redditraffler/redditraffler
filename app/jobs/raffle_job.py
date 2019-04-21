@@ -10,49 +10,56 @@ from flask import current_app, escape
 @rq.job
 def raffle(raffle_params, user):
     try:
+        current_app.logger.info(
+            "Started raffle creation",
+            {
+                "raffle_params": raffle_params,
+                "username": getattr(user, "username", None),
+            },
+        )
+
         sub_url = raffle_params["submission_url"]
         sub_id = reddit.submission_id_from_url(sub_url)
         submission = reddit.get_submission(sub_url=sub_url)
 
-        current_app.logger.info(
-            "[Job %s] Started job %s" % (sub_id, str(raffle_params))
-        )
         job = get_current_job()
         set_job_error(job, False)
 
-        current_app.logger.info("[Job %s] Fetching submission" % sub_id)
         update_job_status(job, "Fetching submission...")
         r = Raffler(**raffle_params)
 
-        current_app.logger.info("[Job %s] Fetching comments" % sub_id)
         update_job_status(job, "Fetching comments...")
         r.fetch_comments()
 
-        current_app.logger.info("[Job %s] Selecting winners" % sub_id)
         update_job_status(job, "Selecting winners...")
         r.select_winners()
 
         if user:
-            current_app.logger.info(
-                "[Job %s] Searching for any unverified"
-                "raffles for this submission..." % sub_id
-            )
             _try_remove_unverified(sub_id)
 
-        current_app.logger.info("[Job %s] Saving results" % sub_id)
         update_job_status(job, "Saving raffle results...")
+        winners = r.get_serialized_winners()
         _save_results_to_db(
             raffle_params=raffle_params,
-            winners=r.get_serialized_winners(),
+            winners=winners,
             submission=submission,
             user=user,
         )
 
-        current_app.logger.info("[Job %s] Completed" % sub_id)
+        current_app.logger.info(
+            "Successfully created and persisted raffle",
+            {
+                "sub_id": sub_id,
+                "raffle_params": raffle_params,
+                "winners": winners,
+                "username": getattr(user, "username", None),
+            },
+        )
         update_job_status(job, "Done!")
     except:
-        # TODO: Find possible exceptions raised
-        current_app.logger.exception("[Job %s] Error" % sub_id)
+        current_app.logger.exception(
+            "Error while trying to create raffle", {"raffle_params": raffle_params}
+        )
         set_job_error(job, True)
 
 
@@ -67,19 +74,17 @@ def _try_remove_unverified(sub_id):
         return
 
     try:
-        current_app.logger.info("[Job %s] Removing unverified raffle..." % sub_id)
         db.session.delete(unverified_raffle)
         db.session.commit()
         cache.delete("raffle_{}".format(sub_id))
-        current_app.logger.info(
-            "[Job %s] Successfully removed unverified " "raffle." % sub_id
-        )
+        current_app.logger.warn("Removed unverified raffle", {"sub_id": sub_id})
     except Exception:
         db.session.rollback()
         current_app.logger.exception(
-            "[Job %s] Something went wrong " "while deleting the raffle." % sub_id
+            "Something went wrong while trying to delete an unverified raffle",
+            {"sub_id": sub_id},
         )
-        raise
+        raise Exception
 
 
 def _save_results_to_db(raffle_params, winners, submission, user):

@@ -52,6 +52,13 @@ class Raffler:
                 "winner_count exceeds valid comments. winner_count: {0}, "
                 "comments: {1}".format(self.winner_count, len(self._entries))
             )
+            current_app.logger.error(
+                "Could not fetch more valid comments than number of winners to select",
+                {
+                    "winner_count": self.winner_count,
+                    "valid_comments": len(self._entries),
+                },
+            )
             raise ValueError(msg)
 
     def select_winners(self):
@@ -71,6 +78,13 @@ class Raffler:
                 "winner_count exceeds eligible winners. winner_count: {0}, "
                 "winners: {1}".format(self.winner_count, len(self._winners))
             )
+            current_app.logger.error(
+                "Could not find enough eligible winners for Raffle",
+                {
+                    "winner_count": self.winner_count,
+                    "eligible_winners_selected": len(self._winners),
+                },
+            )
             raise ValueError(msg)
 
     def get_serialized_winners(self):
@@ -87,7 +101,6 @@ class Raffler:
     def _is_valid_comment(self, comment):
         """ Returns true if the comment is in the raffle's submission, and
         it is not banned or removed. """
-        # TODO: Find possible exceptions raised
         try:
             return (
                 (comment.is_root)
@@ -96,13 +109,14 @@ class Raffler:
                 and self._is_same_submission(comment)
             )
         except:
-            current_app.logger.exception("Exception in _is_valid_comment")
+            current_app.logger.exception(
+                "Failed to check if comment is valid", {"comment": comment}
+            )
             return False
 
     def _is_valid_winner(self, user):
         """ Returns true if the user meets the raffle requirements and it
         the user only has one comment in the raffle submission. """
-        # TODO: Find possible exceptions raised
         try:
             if (
                 (user.username.lower() not in self._disqualified_users)
@@ -116,7 +130,10 @@ class Raffler:
                 self._disqualified_users.add(user.username.lower())
                 return False
         except:
-            current_app.logger.exception("Exception in _is_valid_winner")
+            current_app.logger.exception(
+                "Error while trying to determine if user meets raffle criteria",
+                {"user": user},
+            )
             return False
 
     def _try_create_user(self, author):
@@ -131,6 +148,10 @@ class Raffler:
             )
             return user
         except (prawcore.exceptions.NotFound, AttributeError):
+            current_app.logger.exception(
+                "Error while trying to create user from comment entry",
+                {"author": author},
+            )
             return None
 
     def _has_duplicate_comments(self, user):

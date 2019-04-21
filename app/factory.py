@@ -1,20 +1,44 @@
 from flask import Flask, render_template
+from rollbar.logger import RollbarHandler
+from flask_assets import Bundle
+
 from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
 from app.db import models
 from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
 from app.commands import delete, clear_cache
-from flask_assets import Bundle
+
+import rollbar
+import logging
 
 
 def create_app(config_object=ProdConfig):
     app = Flask("app", template_folder="views", static_folder="assets")
     app.config.from_object(config_object)
+    configure_logger(app)
     register_error_handlers(app)
     register_blueprints(app)
     register_extensions(app)
     register_commands(app)
     return app
+
+
+def configure_logger(app):
+    env = app.config.get("ENV")
+    enabled = app.config.get("ROLLBAR_ENABLED")
+    api_token = app.config.get("ROLLBAR_ACCESS_TOKEN")
+    rollbar.init(
+        api_token,
+        env,
+        handler="blocking",
+        enabled=enabled,
+        allow_logging_basic_config=False,
+    )
+
+    rollbar_handler = RollbarHandler(history_size=3)
+    rollbar_handler.setLevel(logging.DEBUG)
+
+    app.logger.addHandler(rollbar_handler)
 
 
 def register_error_handlers(app):
@@ -39,8 +63,6 @@ def register_error_handlers(app):
     for code in [401, 404, 500]:
         app.errorhandler(code)(render_error)
 
-    return None
-
 
 def register_blueprints(app):
     app.register_blueprint(base.base)
@@ -48,7 +70,6 @@ def register_blueprints(app):
     app.register_blueprint(raffles.raffles, url_prefix="/raffles")
     app.register_blueprint(api.api, url_prefix="/api")
     app.register_blueprint(users.users, url_prefix="/users")
-    return None
 
 
 def register_extensions(app):
@@ -60,7 +81,6 @@ def register_extensions(app):
     cache.init_app(app, config=app.config["CACHE_CONFIG"])
     init_ssl(app)
     init_and_register_assets(app)
-    return None
 
 
 def init_and_register_assets(app):
@@ -85,7 +105,6 @@ def init_and_register_assets(app):
     )
     assets.register("js_base", js)
     assets.register("css_base", css)
-    return None
 
 
 def init_ssl(app):

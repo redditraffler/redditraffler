@@ -14,6 +14,8 @@ class BaseConfig:
         "CACHE_REDIS_URL": os.getenv("REDIS_URL"),
         "CACHE_DEFAULT_TIMEOUT": 60 * 60 * 24,  # 1 day
     }
+    ROLLBAR_ACCESS_TOKEN = os.getenv("ROLLBAR_ACCESS_TOKEN")
+    ROLLBAR_ENABLED = False
 
     REDDIT_CLIENT_ID = os.getenv("REDDIT_CLIENT_ID")
     REDDIT_CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET")
@@ -27,17 +29,19 @@ class BaseConfig:
     BOT_CLIENT_SECRET = os.getenv("BOT_CLIENT_SECRET")
 
 
-class DevConfig(BaseConfig):
-    ENV = "development"
+class DebugConfig(BaseConfig):
+    ENV = os.getenv("ENV", "local")
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     ASSETS_DEBUG = True
+    ROLLBAR_ENABLED = True
 
 
 class ProdConfig(BaseConfig):
-    ENV = os.getenv("ENV") if os.getenv("ENV") else "production"
+    ENV = os.getenv("ENV", "production")
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
+    ROLLBAR_ENABLED = True
 
 
 class TestConfig(BaseConfig):
