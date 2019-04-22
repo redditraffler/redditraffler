@@ -1,5 +1,4 @@
 from flask import Flask, render_template
-from rollbar.logger import RollbarHandler
 from flask_assets import Bundle
 
 from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
@@ -7,9 +6,7 @@ from app.db import models
 from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
 from app.commands import delete, clear_cache
-
-import rollbar
-import logging
+from app.logging import configure_logger
 
 
 def create_app(config_object=ProdConfig):
@@ -21,24 +18,6 @@ def create_app(config_object=ProdConfig):
     register_extensions(app)
     register_commands(app)
     return app
-
-
-def configure_logger(app):
-    env = app.config.get("ENV")
-    enabled = app.config.get("ROLLBAR_ENABLED")
-    api_token = app.config.get("ROLLBAR_ACCESS_TOKEN")
-    rollbar.init(
-        api_token,
-        env,
-        handler="blocking",
-        enabled=enabled,
-        allow_logging_basic_config=False,
-    )
-
-    rollbar_handler = RollbarHandler(history_size=3)
-    rollbar_handler.setLevel(logging.DEBUG)
-
-    app.logger.addHandler(rollbar_handler)
 
 
 def register_error_handlers(app):
