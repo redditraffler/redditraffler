@@ -19,13 +19,17 @@ def _get_log_level_from_config(app):
 
 
 def _configure_main_logger(app, log_level):
-    app.logger.setLevel(logging.INFO)
+    app.logger.setLevel(log_level)
 
 
 def _configure_rollbar(app, log_level):
-    env = app.config.get("ENV")
-    enabled = app.config.get("ROLLBAR_ENABLED")
-    api_token = app.config.get("ROLLBAR_ACCESS_TOKEN")
+    try:
+        env = app.config["ENV"]
+        enabled = app.config["ROLLBAR_ENABLED"]
+        api_token = app.config["ROLLBAR_ACCESS_TOKEN"]
+    except KeyError:
+        raise KeyError("Could not get Rollbar config from app config object")
+
     rollbar.init(
         api_token,
         env,
