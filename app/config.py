@@ -6,14 +6,21 @@ load_dotenv()
 
 class BaseConfig:
     SECRET_KEY = os.getenv("SECRET_KEY")
+    LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+
     RQ_REDIS_URL = os.getenv("REDIS_URL")
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
     CACHE_CONFIG = {
         "CACHE_TYPE": "redis",
         "CACHE_KEY_PREFIX": "redditraffler_",
         "CACHE_REDIS_URL": os.getenv("REDIS_URL"),
         "CACHE_DEFAULT_TIMEOUT": 60 * 60 * 24,  # 1 day
     }
+    ROLLBAR_ACCESS_TOKEN = os.getenv("ROLLBAR_ACCESS_TOKEN")
+    ROLLBAR_ENABLED = False
+
     ROLLBAR_ACCESS_TOKEN = os.getenv("ROLLBAR_ACCESS_TOKEN")
     ROLLBAR_ENABLED = False
 
