@@ -24,7 +24,7 @@ jobs:
       - checkout
       - run: sudo sed -i '/jessie-updates/d' /etc/apt/sources.list # https://github.com/debuerreotype/docker-debian-artifacts/issues/66
       - run: sudo apt update
-      - run: sudo apt-get install postgresql-client-9.6
+      - run: sudo apt install postgresql-client
 
       # Download and cache dependencies
       - restore_cache:
