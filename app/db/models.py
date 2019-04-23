@@ -10,7 +10,7 @@ class User(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-    username = db.Column(db.String(64), index=True, unique=True)
+    username = db.Column(db.Text, index=True, unique=True)
 
     raffles = db.relationship("Raffle", backref="creator", lazy=True)
 
@@ -24,10 +24,10 @@ class Raffle(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-    submission_id = db.Column(db.String(64), index=True, unique=True)
-    submission_title = db.Column(db.String(128))
-    submission_author = db.Column(db.String(64))
-    subreddit = db.Column(db.String(64))
+    submission_id = db.Column(db.Text, index=True, unique=True)
+    submission_title = db.Column(db.Text)
+    submission_author = db.Column(db.Text)
+    subreddit = db.Column(db.Text)
     winner_count = db.Column(db.Integer)
     min_account_age = db.Column(db.Integer)
     min_comment_karma = db.Column(db.Integer)
@@ -74,11 +74,11 @@ class Winner(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-    username = db.Column(db.String(64))
+    username = db.Column(db.Text)
     account_age = db.Column(db.Integer)
     comment_karma = db.Column(db.Integer)
     link_karma = db.Column(db.Integer)
-    comment_url = db.Column(db.String(128))
+    comment_url = db.Column(db.Text)
 
     raffle_id = db.Column(
         db.Integer, db.ForeignKey("raffle.id"), nullable=False, index=True

@@ -6,10 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+Nothing here yet!
+
+## 2019.2
+
 ### Changed
 
 - Dropped legacy database table (ignored_users)
 - Improved logging around Raffle creation to be able to resolve issues better
+
+### Fixed
+
+- Fixed an issue where threads with long titles would error out and fail to save
 
 ## 2019.1 (2019-04-10)
 
