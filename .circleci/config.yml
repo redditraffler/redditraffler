@@ -36,8 +36,6 @@ jobs:
       - run:
           name: run migrations
           command: pipenv run flask db upgrade
-            . venv/bin/activate
-            flask db upgrade
 
       - run:
           name: run tests
