@@ -1,0 +1,2 @@
+web: PYTHONUNBUFFERED=true flask run
+worker: PYTHONUNBUFFERED=true flask rq worker
