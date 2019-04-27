@@ -24,7 +24,7 @@ def logout():
 @auth.route("/redirect")
 def auth_redirect():
     if request.args.get("error") == "access_denied":
-        current_app.logger.warn("User declined Reddit authorization")
+        current_app.logger.warning("User declined Reddit authorization")
         return redirect(url_for("base.index"))
     if ("reddit_refresh_token" in session) and ("reddit_username" in session):
         return redirect(url_for("base.index"))
