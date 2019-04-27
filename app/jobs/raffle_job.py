@@ -77,7 +77,7 @@ def _try_remove_unverified(sub_id):
         db.session.delete(unverified_raffle)
         db.session.commit()
         cache.delete("raffle_{}".format(sub_id))
-        current_app.logger.warn("Removed unverified raffle", {"sub_id": sub_id})
+        current_app.logger.warning("Removed unverified raffle", {"sub_id": sub_id})
     except Exception:
         db.session.rollback()
         current_app.logger.exception(

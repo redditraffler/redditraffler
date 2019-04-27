@@ -1,0 +1,33 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Flask-SSLify = {editable = true, ref = "8c70d29474bb06688c398ccf51d0bf90503d287a", git = "https://github.com/timorthi/flask-sslify.git"}
+flask = "==1.0.2"
+flask-assets = "==0.12"
+flask-caching = "==1.7.1"
+flask-limiter = "==1.0.1"
+flask-migrate = "==2.4.0"
+"flask-rq2" = "==18.3"
+flask-sqlalchemy = "==2.4.0"
+praw = "==6.1.1"
+newrelic = "==4.18.0.118"
+rollbar = "==0.14.7"
+gunicorn = "==19.9.0"
+pytest = "==4.4.1"
+pytest-flask = "==0.14.0"
+pytest-mock = "==1.10.4"
+python-dotenv = "==0.10.1"
+flask-wtf = "==0.14.2"
+"psycopg2-binary" = "==2.8.2"
+cssmin = "==0.2.0"
+jsmin = "==2.2.2"
+
+[dev-packages]
+black = "==19.3b0"
+honcho = "==1.0.1"
+
+[requires]
+python_version = "3.6"
