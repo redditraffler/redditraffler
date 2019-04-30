@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask_assets import Bundle
+from pprint import pformat
 
 from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
 from app.db import models
@@ -13,6 +14,7 @@ def create_app(config_object=ProdConfig):
     app = Flask("app", template_folder="views", static_folder="assets")
     app.config.from_object(config_object)
     configure_logger(app)
+    app.logger.debug(pformat(app.config))
     register_error_handlers(app)
     register_blueprints(app)
     register_extensions(app)
@@ -55,6 +57,7 @@ def register_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
     rq.init_app(app)
+    rq.default_result_ttl = 30
     limiter.init_app(app)
     csrf.init_app(app)
     cache.init_app(app, config=app.config["CACHE_CONFIG"])
