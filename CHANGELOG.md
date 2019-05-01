@@ -6,9 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
-Nothing here yet!
+### Changed
 
-## 2019.2
+- Specific error messages will now be shown to the user when a raffle fails to create.
+
+## 2019.2 (2019-04-22)
 
 ### Changed
 

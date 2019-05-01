@@ -16,27 +16,65 @@ def patch_raffler_class(monkeypatch):
     yield
 
 
-def test_raffle_guest_db_saving(db_session, client):
-    job = raffle.queue(raffler_params(), None)
+class TestRaffle:
+    class TestSuccessfulRaffle:
+        def test_raffle_guest_db_saving(self, db_session, client):
+            job = raffle.queue(raffler_params(), None)
 
-    saved_raffle = Raffle.query.filter_by(submission_id="abc123").first()
-    assert saved_raffle
-    assert not saved_raffle.creator
-    assert len(saved_raffle.winners) == 1
-    assert saved_raffle.winners[0].username == "test-user"
+            saved_raffle = Raffle.query.filter_by(submission_id="abc123").first()
+            assert saved_raffle
+            assert not saved_raffle.creator
+            assert len(saved_raffle.winners) == 1
+            assert saved_raffle.winners[0].username == "test-user"
 
+        def test_raffle_verified_db_saving(self, db_session, client):
+            user = User(username="verified_redditor")
+            db_session.add(user)
+            db_session.commit()
+            job = raffle.queue(raffler_params(), user)
 
-def test_raffle_verified_db_saving(db_session, client):
-    user = User(username="verified_redditor")
-    db_session.add(user)
-    db_session.commit()
-    job = raffle.queue(raffler_params(), user)
+            saved_raffle = Raffle.query.filter_by(submission_id="abc123").first()
+            assert saved_raffle
+            assert saved_raffle.creator.username == "verified_redditor"
+            assert len(saved_raffle.winners) == 1
+            assert saved_raffle.winners[0].username == "test-user"
 
-    saved_raffle = Raffle.query.filter_by(submission_id="abc123").first()
-    assert saved_raffle
-    assert saved_raffle.creator.username == "verified_redditor"
-    assert len(saved_raffle.winners) == 1
-    assert saved_raffle.winners[0].username == "test-user"
+    class TestFailure:
+        @pytest.fixture
+        def job(self, mocker):
+            job = mocker.Mock()
+            job.meta = {}
+            job.save_meta = mocker.Mock()
+            yield job
+
+        @pytest.fixture
+        def get_current_job(self, mocker, job):
+            get_current_job = mocker.patch("app.jobs.raffle_job.get_current_job")
+            get_current_job.return_value = job
+            yield get_current_job
+
+        @pytest.fixture
+        def reddit(self, mocker):
+            reddit = mocker.patch("app.jobs.raffle_job.reddit")
+            reddit.submission_id_from_url = mocker.Mock()
+            reddit.get_submission = mocker.Mock(return_value=_stub_submission(""))
+            yield reddit
+
+        @pytest.fixture
+        def raffler(self, mocker):
+            raffler = mocker.patch("app.jobs.raffle_job.Raffler")
+            raffler.return_value = mocker.Mock()
+            raffler.return_value.fetch_comments = mocker.Mock(
+                side_effect=ValueError("Some Random Error")
+            )
+            yield raffler
+
+        def test_set_error_message_to_job(
+            self, mocker, reddit, raffler, job, get_current_job
+        ):
+            raffle.queue(raffler_params(), None)
+            assert job.meta.get("status") == "Error: Some Random Error"
+            assert job.meta.get("error") == True
 
 
 def _stub_raffler_init(

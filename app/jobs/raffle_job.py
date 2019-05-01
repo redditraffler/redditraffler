@@ -10,6 +10,7 @@ from flask import current_app, escape
 @rq.job
 def raffle(raffle_params, user):
     try:
+        job = None
         current_app.logger.info(
             "Started raffle creation",
             {
@@ -56,11 +57,13 @@ def raffle(raffle_params, user):
             },
         )
         update_job_status(job, "Done!")
-    except:
+    except Exception as e:
         current_app.logger.exception(
             "Error while trying to create raffle", {"raffle_params": raffle_params}
         )
-        set_job_error(job, True)
+        if job:
+            update_job_status(job, f"Error: {str(e)}")
+            set_job_error(job, True)
 
 
 def _try_remove_unverified(sub_id):
