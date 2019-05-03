@@ -1,7 +1,6 @@
 from app.extensions import db
 from datetime import datetime
 from sqlalchemy import inspect
-from flask import current_app
 
 
 class User(db.Model):
@@ -32,6 +31,7 @@ class Raffle(db.Model):
     min_account_age = db.Column(db.Integer)
     min_comment_karma = db.Column(db.Integer)
     min_link_karma = db.Column(db.Integer)
+    min_combined_karma = db.Column(db.Integer, nullable=False)
     ignored_users = db.Column(db.Text, nullable=True)
 
     winners = db.relationship(
