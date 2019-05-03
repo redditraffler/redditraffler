@@ -349,6 +349,25 @@ function validateOnEnter(event) {
   }
 }
 
+function handleCombinedKarmaCheckEvent() {
+  var $splitKarmaInputGroup = $("#split-karma-input");
+  var $combinedKarmaInputGroup = $("#combined-karma-input");
+
+  var groupToHide, groupToShow;
+  if (this.checked) {
+    groupToHide = $splitKarmaInputGroup;
+    groupToShow = $combinedKarmaInputGroup;
+  } else {
+    groupToHide = $combinedKarmaInputGroup;
+    groupToShow = $splitKarmaInputGroup;
+  }
+
+  groupToHide.hide();
+  groupToHide.find("input").each(function() {
+    $(this).val(this.defaultValue);
+  });
+  groupToShow.show();
+}
 
 var ignoredUsersList = [];
 $(function() {
