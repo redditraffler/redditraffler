@@ -188,9 +188,18 @@ function validateUrl() {
 
 function getFormDataForSubmit() {
   var $form = $("#raffle-form");
+  var useCombinedKarma = $("#combined-karma-checkbox").prop("checked");
   var data = $form.serializeArray();
   data.push({ name: "ignoredUsers", value: JSON.stringify(ignoredUsersList) });
-  return data;
+
+  return data.filter(function(obj) {
+    var name = obj.name;
+    if (useCombinedKarma) {
+      return !["minComment", "minLink"].includes(name);
+    } else {
+      return !["minCombined"].includes(name);
+    }
+  });
 }
 
 function submitForm() {
