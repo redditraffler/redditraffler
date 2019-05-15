@@ -100,6 +100,7 @@ def _save_results_to_db(raffle_params, winners, submission, user):
         min_account_age=raffle_params["min_account_age"],
         min_comment_karma=raffle_params["min_comment_karma"],
         min_link_karma=raffle_params["min_link_karma"],
+        min_combined_karma=raffle_params["min_combined_karma"],
         user_id=user.id if user else None,
         ignored_users=",".join(raffle_params["ignored_users"]),
     )
