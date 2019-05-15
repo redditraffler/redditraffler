@@ -13,6 +13,7 @@ class Raffler:
         min_account_age,
         min_comment_karma,
         min_link_karma,
+        min_combined_karma,
         ignored_users,
     ):
         """ Initialize a Reddit instance and helper data structures,
@@ -27,8 +28,11 @@ class Raffler:
         self.submission = self.reddit.submission(url=submission_url)
         self.winner_count = int(winner_count)
         self.min_account_age = int(min_account_age)
-        self.min_comment_karma = int(min_comment_karma)
-        self.min_link_karma = int(min_link_karma)
+        self.min_comment_karma = int(min_comment_karma) if min_comment_karma else None
+        self.min_link_karma = int(min_link_karma) if min_link_karma else None
+        self.min_combined_karma = (
+            int(min_combined_karma) if min_combined_karma else None
+        )
 
         self._winners = {}
         self._entries = set()
@@ -115,8 +119,7 @@ class Raffler:
             if (
                 (user.username.lower() not in self._disqualified_users)
                 and (user.age >= self.min_account_age)
-                and (user.comment_karma >= self.min_comment_karma)
-                and (user.link_karma >= self.min_link_karma)
+                and self._user_has_sufficient_karma(user)
                 and (not self._has_duplicate_comments(user))
             ):
                 return True
@@ -129,6 +132,14 @@ class Raffler:
                 {"user": user},
             )
             return False
+
+    def _user_has_sufficient_karma(self, user):
+        if self.min_combined_karma:
+            return (user.comment_karma + user.link_karma) >= self.min_combined_karma
+        else:
+            return (user.comment_karma >= self.min_comment_karma) and (
+                user.link_karma >= self.min_link_karma
+            )
 
     def _try_create_user(self, author):
         """ Utility function to make sure the author of an entry isn't banned
