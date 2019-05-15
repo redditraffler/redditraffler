@@ -61,6 +61,15 @@
                     <p class="is-size-6">Minimum Account Age</p>
                 </div>
             </div>
+            {% if raffle.min_combined_karma %}
+            <div class="column">
+                <div class="has-text-centered">
+                    <p><i class="far fa-comments fa-2x has-text-reddit"></i> <i class="fas fa-plus has-text-reddit"></i> <i class="fas fa-link fa-2x has-text-reddit"></i></p>
+                    <p class="is-size-3">{{ raffle.min_combined_karma }}</p>
+                    <p class="is-size-6">Minimum Combined Karma</p>
+                </div>
+            </div>
+            {% else %}
             <div class="column">
                 <div class="has-text-centered">
                     <p><i class="far fa-comments fa-2x has-text-reddit"></i></p>
@@ -75,6 +84,7 @@
                     <p class="is-size-6">Minimum Link Karma</p>
                 </div>
             </div>
+            {% endif %}
         </div>
         {% if raffle.ignored_users %}
         <div class="columns is-centered">
