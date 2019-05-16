@@ -13,6 +13,7 @@ class Raffler:
         min_account_age,
         min_comment_karma,
         min_link_karma,
+        min_combined_karma,
         ignored_users,
     ):
         """ Initialize a Reddit instance and helper data structures,
@@ -27,8 +28,11 @@ class Raffler:
         self.submission = self.reddit.submission(url=submission_url)
         self.winner_count = int(winner_count)
         self.min_account_age = int(min_account_age)
-        self.min_comment_karma = int(min_comment_karma)
-        self.min_link_karma = int(min_link_karma)
+        self.min_comment_karma = int(min_comment_karma) if min_comment_karma else None
+        self.min_link_karma = int(min_link_karma) if min_link_karma else None
+        self.min_combined_karma = (
+            int(min_combined_karma) if min_combined_karma else None
+        )
 
         self._winners = {}
         self._entries = set()
@@ -48,18 +52,15 @@ class Raffler:
                 self._entries.add(comment)
 
         if len(self._entries) < self.winner_count:
-            msg = (
-                "winner_count exceeds valid comments. winner_count: {0}, "
-                "comments: {1}".format(self.winner_count, len(self._entries))
-            )
+            err_msg = "Could not fetch enough valid comments to select winners"
             current_app.logger.error(
-                "Could not fetch more valid comments than number of winners to select",
+                err_msg,
                 {
                     "winner_count": self.winner_count,
                     "valid_comments": len(self._entries),
                 },
             )
-            raise ValueError(msg)
+            raise ValueError(err_msg)
 
     def select_winners(self):
         """ Loop over the internal set of entries to find comments whose
@@ -74,18 +75,15 @@ class Raffler:
                 self._winners.update({user: entry})
 
         if len(self._winners) < self.winner_count:
-            msg = (
-                "winner_count exceeds eligible winners. winner_count: {0}, "
-                "winners: {1}".format(self.winner_count, len(self._winners))
-            )
+            err_msg = "Could not find enough eligible winners for this raffle"
             current_app.logger.error(
-                "Could not find enough eligible winners for Raffle",
+                err_msg,
                 {
                     "winner_count": self.winner_count,
                     "eligible_winners_selected": len(self._winners),
                 },
             )
-            raise ValueError(msg)
+            raise ValueError(err_msg)
 
     def get_serialized_winners(self):
         result = []
@@ -121,8 +119,7 @@ class Raffler:
             if (
                 (user.username.lower() not in self._disqualified_users)
                 and (user.age >= self.min_account_age)
-                and (user.comment_karma >= self.min_comment_karma)
-                and (user.link_karma >= self.min_link_karma)
+                and self._user_has_sufficient_karma(user)
                 and (not self._has_duplicate_comments(user))
             ):
                 return True
@@ -135,6 +132,14 @@ class Raffler:
                 {"user": user},
             )
             return False
+
+    def _user_has_sufficient_karma(self, user):
+        if self.min_combined_karma:
+            return (user.comment_karma + user.link_karma) >= self.min_combined_karma
+        else:
+            return (user.comment_karma >= self.min_comment_karma) and (
+                user.link_karma >= self.min_link_karma
+            )
 
     def _try_create_user(self, author):
         """ Utility function to make sure the author of an entry isn't banned

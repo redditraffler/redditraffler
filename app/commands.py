@@ -4,7 +4,7 @@ from app.extensions import db, cache
 import click
 
 
-@click.command()
+@click.command(name="delete")
 @click.option("--raffle_id", required=True, help="ID of the raffle to remove")
 @with_appcontext
 def delete(raffle_id):
@@ -27,7 +27,7 @@ def delete(raffle_id):
             click.echo(e)
 
 
-@click.command()
+@click.command(name="clear_cache")
 @with_appcontext
 def clear_cache():
     cache.clear()

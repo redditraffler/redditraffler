@@ -99,7 +99,8 @@ def _raffle_params_from_form(form):
         "submission_url": form["submissionUrl"],
         "winner_count": form["winnerCount"],
         "min_account_age": form["minAge"],
-        "min_comment_karma": form["minComment"],
-        "min_link_karma": form["minLink"],
+        "min_comment_karma": form.get("minComment"),
+        "min_link_karma": form.get("minLink"),
+        "min_combined_karma": form.get("minCombined"),
         "ignored_users": form["ignoredUsers"],
     }

@@ -29,6 +29,7 @@ def unsanitized_form():
 def test_run_valid(base_form, mocker):
     class_path = "app.util.raffle_form_validator.RaffleFormValidator"
     mocker.patch(class_path + "._validate_required_keys")
+    mocker.patch(class_path + "._validate_karma_keys")
     mocker.patch(class_path + "._validate_int_values")
     mocker.patch(class_path + "._validate_submission_url")
     mocker.patch(class_path + "._validate_raffle_not_exists")
@@ -37,7 +38,7 @@ def test_run_valid(base_form, mocker):
     assert v.run()
 
 
-def test_run_invalid(client, base_form, mocker):
+def test_run_invalid(app, base_form, mocker):
     mock = mocker.patch(
         "app.util.raffle_form_validator.RaffleFormValidator" "._validate_required_keys"
     )
@@ -56,6 +57,36 @@ def test_validate_required_keys_invalid(base_form):
     v = RaffleFormValidator(base_form)
     with pytest.raises(KeyError):
         v._validate_required_keys()
+
+
+class TestValidateKarmaKeys:
+    @pytest.fixture
+    def valid_form(self, base_form):
+        base_form.update({"minCombined": 0})
+        yield base_form
+
+    @pytest.fixture
+    def invalid_form_missing_keys(self, base_form):
+        yield base_form
+
+    @pytest.fixture
+    def invalid_form_both_keys(self, base_form):
+        base_form.update({"minCombined": 0, "minLink": 0, "minComment": 0})
+        yield base_form
+
+    def test_valid_form(self, valid_form):
+        v = RaffleFormValidator(valid_form)
+        v._validate_karma_keys()
+
+    def test_invalid_form_missing_keys(self, invalid_form_missing_keys):
+        v = RaffleFormValidator(invalid_form_missing_keys)
+        with pytest.raises(KeyError):
+            v._validate_karma_keys()
+
+    def test_invalid_form_both_keys_present(self, invalid_form_both_keys):
+        v = RaffleFormValidator(invalid_form_both_keys)
+        with pytest.raises(KeyError):
+            v._validate_karma_keys()
 
 
 def test_validate_int_values_valid_ints(form_valid_ints):
@@ -152,4 +183,5 @@ def test_get_sanitized_form(unsanitized_form):
     assert form["submissionUrl"].startswith("https")
     assert isinstance(form["ignoredUsers"], list)
     for key in RaffleFormValidator.INT_KEYS:
-        assert isinstance(form[key], int)
+        if key in form:
+            assert isinstance(form[key], int)

@@ -10,6 +10,7 @@ from flask import current_app, escape
 @rq.job
 def raffle(raffle_params, user):
     try:
+        job = None
         current_app.logger.info(
             "Started raffle creation",
             {
@@ -56,11 +57,13 @@ def raffle(raffle_params, user):
             },
         )
         update_job_status(job, "Done!")
-    except:
+    except Exception as e:
         current_app.logger.exception(
             "Error while trying to create raffle", {"raffle_params": raffle_params}
         )
-        set_job_error(job, True)
+        if job:
+            update_job_status(job, f"Error: {str(e)}")
+            set_job_error(job, True)
 
 
 def _try_remove_unverified(sub_id):
@@ -77,7 +80,7 @@ def _try_remove_unverified(sub_id):
         db.session.delete(unverified_raffle)
         db.session.commit()
         cache.delete("raffle_{}".format(sub_id))
-        current_app.logger.warn("Removed unverified raffle", {"sub_id": sub_id})
+        current_app.logger.warning("Removed unverified raffle", {"sub_id": sub_id})
     except Exception:
         db.session.rollback()
         current_app.logger.exception(
@@ -97,6 +100,7 @@ def _save_results_to_db(raffle_params, winners, submission, user):
         min_account_age=raffle_params["min_account_age"],
         min_comment_karma=raffle_params["min_comment_karma"],
         min_link_karma=raffle_params["min_link_karma"],
+        min_combined_karma=raffle_params["min_combined_karma"],
         user_id=user.id if user else None,
         ignored_users=",".join(raffle_params["ignored_users"]),
     )

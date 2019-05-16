@@ -8,7 +8,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 Nothing here yet!
 
-## 2019.2
+## 2019.3 (2019-05-15)
+
+### Added
+
+- Winners can now be selected by minimum combined karma (link karma + comment karma)
+
+### Changed
+
+- Specific error messages will now be shown to the user when a raffle fails to create.
+
+## 2019.2 (2019-04-22)
 
 ### Changed
 
