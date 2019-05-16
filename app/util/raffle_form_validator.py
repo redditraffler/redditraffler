@@ -6,15 +6,9 @@ import re
 
 
 class RaffleFormValidator:
-    REQUIRED_KEYS = {
-        "submissionUrl",
-        "winnerCount",
-        "minAge",
-        "minComment",
-        "minLink",
-        "ignoredUsers",
-    }
-    INT_KEYS = {"minAge", "winnerCount", "minComment", "minLink"}
+    REQUIRED_KEYS = {"submissionUrl", "winnerCount", "minAge", "ignoredUsers"}
+    INT_KEYS = {"minAge", "winnerCount", "minComment", "minLink", "minCombined"}
+    KARMA_KEYS = {"split": ["minComment", "minLink"], "combined": ["minCombined"]}
 
     def __init__(self, form):
         """ form must be a dict. """
@@ -25,6 +19,7 @@ class RaffleFormValidator:
         else False. """
         try:
             self._validate_required_keys()
+            self._validate_karma_keys()
             self._validate_int_values()
             self._validate_submission_url()
             self._validate_raffle_not_exists()
@@ -47,9 +42,31 @@ class RaffleFormValidator:
             if key not in self.form.keys():
                 raise KeyError("Missing key {}".format(key))
 
+    def _validate_karma_keys(self):
+        """ Performs an XOR check on (minComment, minLink) and (minCombined) form keys """
+        form_keys = self.form.keys()
+        subarray_in_array = lambda subarr, arr: all(s in arr for s in subarr)
+        split_keys_in_form = subarray_in_array(self.KARMA_KEYS["split"], form_keys)
+        combined_keys_in_form = subarray_in_array(
+            self.KARMA_KEYS["combined"], form_keys
+        )
+
+        if not split_keys_in_form and not combined_keys_in_form:
+            raise KeyError(
+                "Either both split karma keys or the combined karma key must be present"
+            )
+
+        if split_keys_in_form and combined_keys_in_form:
+            raise KeyError(
+                "Cannot have both karma keys and combined karma keys in the same form"
+            )
+
     def _validate_int_values(self):
         """ Check if all integer keys have proper values. """
-        for key in self.INT_KEYS:
+        for key, val in self.form.items():
+            if key not in self.INT_KEYS:
+                continue
+
             val = self.try_cast_int(self.form.get(key))
             if not isinstance(val, int):
                 raise TypeError("Invalid type for key {}: {}".format(key, val))
@@ -104,8 +121,9 @@ class RaffleFormValidator:
         self.form["submissionUrl"] = self.ensure_protocol(self.form["submissionUrl"])
 
     def _cast_int_values(self):
-        for key in self.INT_KEYS:
-            self.form[key] = int(self.form[key])
+        for key in self.form:
+            if key in self.INT_KEYS:
+                self.form[key] = int(self.form[key])
 
     def _cast_ignored_users_list(self):
         self.form["ignoredUsers"] = ast.literal_eval(self.form["ignoredUsers"])

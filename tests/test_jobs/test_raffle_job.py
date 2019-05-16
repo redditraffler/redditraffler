@@ -84,6 +84,7 @@ def _stub_raffler_init(
     min_account_age,
     min_comment_karma,
     min_link_karma,
+    min_combined_karma,
     ignored_users,
 ):
     return None

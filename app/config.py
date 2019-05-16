@@ -39,7 +39,7 @@ class DebugConfig(BaseConfig):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     ASSETS_DEBUG = True
-    ROLLBAR_ENABLED = os.getenv("ROLLBAR_ENABLED", False)
+    ROLLBAR_ENABLED = os.getenv("ROLLBAR_ENABLED", False) in [True, "True"]
 
 
 class ProdConfig(BaseConfig):

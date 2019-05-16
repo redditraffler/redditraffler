@@ -1,7 +1,6 @@
 from app.extensions import db
 from datetime import datetime
 from sqlalchemy import inspect
-from flask import current_app
 
 
 class User(db.Model):
@@ -10,7 +9,7 @@ class User(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-    username = db.Column(db.Text, index=True, unique=True)
+    username = db.Column(db.Text, index=True, unique=True, nullable=False)
 
     raffles = db.relationship("Raffle", backref="creator", lazy=True)
 
@@ -24,14 +23,15 @@ class Raffle(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-    submission_id = db.Column(db.Text, index=True, unique=True)
-    submission_title = db.Column(db.Text)
-    submission_author = db.Column(db.Text)
-    subreddit = db.Column(db.Text)
-    winner_count = db.Column(db.Integer)
-    min_account_age = db.Column(db.Integer)
-    min_comment_karma = db.Column(db.Integer)
-    min_link_karma = db.Column(db.Integer)
+    submission_id = db.Column(db.Text, index=True, unique=True, nullable=False)
+    submission_title = db.Column(db.Text, nullable=False)
+    submission_author = db.Column(db.Text, nullable=False)
+    subreddit = db.Column(db.Text, nullable=False)
+    winner_count = db.Column(db.Integer, nullable=False)
+    min_account_age = db.Column(db.Integer, nullable=False)
+    min_comment_karma = db.Column(db.Integer, nullable=True)
+    min_link_karma = db.Column(db.Integer, nullable=True)
+    min_combined_karma = db.Column(db.Integer, nullable=True)
     ignored_users = db.Column(db.Text, nullable=True)
 
     winners = db.relationship(
@@ -74,11 +74,11 @@ class Winner(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-    username = db.Column(db.Text)
-    account_age = db.Column(db.Integer)
-    comment_karma = db.Column(db.Integer)
-    link_karma = db.Column(db.Integer)
-    comment_url = db.Column(db.Text)
+    username = db.Column(db.Text, nullable=False)
+    account_age = db.Column(db.Integer, nullable=False)
+    comment_karma = db.Column(db.Integer, nullable=False)
+    link_karma = db.Column(db.Integer, nullable=False)
+    comment_url = db.Column(db.Text, nullable=False)
 
     raffle_id = db.Column(
         db.Integer, db.ForeignKey("raffle.id"), nullable=False, index=True
