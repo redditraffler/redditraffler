@@ -138,9 +138,9 @@ class Raffler:
             return False
 
     def _user_has_sufficient_karma(self, user):
-        if self.min_combined_karma:
+        if self.min_combined_karma is not None:
             return (user.comment_karma + user.link_karma) >= self.min_combined_karma
-        else:
+        elif self.min_comment_karma is not None and self.min_comment_karma is not None:
             return (user.comment_karma >= self.min_comment_karma) and (
                 user.link_karma >= self.min_link_karma
             )
