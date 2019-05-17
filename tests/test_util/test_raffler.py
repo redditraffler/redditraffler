@@ -10,7 +10,7 @@ def prawReddit(mocker):
 
 class TestRaffler:
     class TestInit:
-        def test_set_correct_values(self, mocker):
+        def test_set_correct_values(self):
             params = raffler_params()
             r = Raffler(**params)
             assert r.winner_count == params["winner_count"]
@@ -20,6 +20,37 @@ class TestRaffler:
             assert r.min_link_karma == params["min_link_karma"]
             assert isinstance(r._winners, dict)
             assert isinstance(r._entries, set)
+
+        class TestSetCorrectNullableFields:
+            def test_set_nullable_combined_karma(self):
+                params = {
+                    "submission_url": "https://redd.it/4re9cx",
+                    "winner_count": 5,
+                    "min_account_age": 0,
+                    "min_combined_karma": None,
+                    "min_comment_karma": 0,
+                    "min_link_karma": 0,
+                    "ignored_users": ["TestUser"],
+                }
+                r = Raffler(**params)
+                assert r.min_comment_karma == 0
+                assert r.min_link_karma == 0
+                assert r.min_combined_karma == None
+
+            def test_set_nullable_split_karma(self):
+                params = {
+                    "submission_url": "https://redd.it/4re9cx",
+                    "winner_count": 5,
+                    "min_account_age": 0,
+                    "min_combined_karma": 0,
+                    "min_comment_karma": None,
+                    "min_link_karma": None,
+                    "ignored_users": ["TestUser"],
+                }
+                r = Raffler(**params)
+                assert r.min_comment_karma == None
+                assert r.min_link_karma == None
+                assert r.min_combined_karma == 0
 
     class TestUserHasSufficientKarma:
         @pytest.fixture
