@@ -61,7 +61,7 @@
                     <p class="is-size-6">Minimum Account Age</p>
                 </div>
             </div>
-            {% if raffle.min_combined_karma %}
+            {% if raffle.min_combined_karma is not none %}
             <div class="column">
                 <div class="has-text-centered">
                     <p><i class="far fa-comments fa-2x has-text-reddit"></i> <i class="fas fa-plus has-text-reddit"></i> <i class="fas fa-link fa-2x has-text-reddit"></i></p>
