@@ -28,10 +28,14 @@ class Raffler:
         self.submission = self.reddit.submission(url=submission_url)
         self.winner_count = int(winner_count)
         self.min_account_age = int(min_account_age)
-        self.min_comment_karma = int(min_comment_karma) if min_comment_karma else None
-        self.min_link_karma = int(min_link_karma) if min_link_karma else None
+        self.min_comment_karma = (
+            int(min_comment_karma) if min_comment_karma is not None else None
+        )
+        self.min_link_karma = (
+            int(min_link_karma) if min_link_karma is not None else None
+        )
         self.min_combined_karma = (
-            int(min_combined_karma) if min_combined_karma else None
+            int(min_combined_karma) if min_combined_karma is not None else None
         )
 
         self._winners = {}
