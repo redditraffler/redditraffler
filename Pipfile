@@ -28,6 +28,7 @@ jsmin = "==2.2.2"
 [dev-packages]
 black = "==19.3b0"
 honcho = "==1.0.1"
+"flake8" = "*"
 
 [requires]
 python_version = "3.6"
