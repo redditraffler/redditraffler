@@ -1,8 +1,6 @@
 import pytest
-import praw
-import inspect
 
-from app.services.reddit_service import with_reddit_instance, RedditService
+from app.services.reddit_service import with_reddit_instance
 
 
 class TestWithRedditInstance:

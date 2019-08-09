@@ -1,4 +1,5 @@
 import praw
+import prawcore
 import functools
 
 from praw.models import Submission
@@ -46,7 +47,8 @@ class RedditService:
 
     @with_reddit_instance
     def authorize(self, reddit, code):
-        """ Given a valid code from Reddit's OAuth redirect, returns a refresh token for the user. """
+        """ Given a valid code from Reddit's OAuth redirect, returns a refresh token \
+            for the user. """
         return reddit.auth.authorize(code)
 
     @with_reddit_instance
@@ -69,12 +71,13 @@ class RedditService:
         except (prawcore.exceptions.NotFound, praw.exceptions.ClientException):
             return None
 
-    def _extract_submission_info(submission):
-        return {
-            "id": submission.id,
-            "author": submission.author.name if submission.author else None,
-            "title": submission.title,
-            "url": f"https://www.reddit.com{submission.permalink}",
-            "subreddit": submission.subreddit.display_name,
-            "created_at_utc": submission.created_utc,
-        }
+
+def _extract_submission_info(submission):
+    return {
+        "id": submission.id,
+        "author": submission.author.name if submission.author else None,
+        "title": submission.title,
+        "url": f"https://www.reddit.com{submission.permalink}",
+        "subreddit": submission.subreddit.display_name,
+        "created_at_utc": submission.created_utc,
+    }
