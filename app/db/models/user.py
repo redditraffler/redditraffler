@@ -1,6 +1,7 @@
 from datetime import datetime
 from flask import current_app
 
+from app.util import CryptoHelper
 from app.extensions import db
 
 
@@ -46,3 +47,33 @@ class User(db.Model):
         db.session.commit()
         current_app.logger.info("Created new user", {"username": username})
         return new_user
+
+    def set_refresh_token(self, refresh_token):
+        """
+        Given a raw Reddit refresh token, encrypts and saves it for this user.
+
+        Args:
+            refresh_token (string): Reddit refresh token
+        """
+        if not refresh_token:
+            raise ValueError("Refresh token cannot be empty")
+
+        encrypted_token_bytes = CryptoHelper.encrypt(refresh_token)
+        self.refresh_token_enc = encrypted_token_bytes
+        db.session.add(self)
+        db.session.commit()
+
+    def get_refresh_token(self):
+        """
+        Returns the user's refresh token as a decrypted string.
+
+        Raises:
+            AttributeError: When the user doesn't have a saved refresh token
+
+        Returns:
+            str: The decrypted refresh token
+        """
+        if not self.refresh_token_enc:
+            raise AttributeError("User does not have a saved refresh token")
+
+        return CryptoHelper.decrypt(self.refresh_token_enc).decode()
