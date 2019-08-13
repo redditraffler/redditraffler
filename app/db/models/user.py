@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import current_app
 
-from app.util import CryptoHelper
+from app.util import CryptoHelper, JwtHelper
 from app.extensions import db
 
 
@@ -77,3 +77,13 @@ class User(db.Model):
             raise AttributeError("User does not have a saved refresh token")
 
         return CryptoHelper.decrypt(self.refresh_token_enc).decode()
+
+    def get_jwt(self):
+        """
+        Returns a JWT containing the user ID and the username.
+
+        Returns:
+            bytes: Payload encoded as a JWT bytestring
+        """
+        payload = {"user_id": self.id, "username": self.username}
+        return JwtHelper.encode(payload)

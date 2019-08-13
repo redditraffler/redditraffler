@@ -1,11 +1,13 @@
 from app.db.models import User
 
+import jwt as pyjwt
 import pytest
 
 
 @pytest.fixture
-def app_with_enc_key(app):
+def app_with_keys(app):
     app.config["ENC_KEY"] = b"oAG2nvtnITkBD1UJulsNUm52mMLyJ5FscwiUspxvUdM="
+    app.config["SECRET_KEY"] = "haha what"
     yield app
 
 
@@ -45,11 +47,11 @@ class TestUser:
             assert new_user_count == old_user_count + 1
 
     class TestSetRefreshToken:
-        def test_requires_nonempty_refresh_token(self, user, app_with_enc_key):
+        def test_requires_nonempty_refresh_token(self, user, app_with_keys):
             with pytest.raises(ValueError):
                 user.set_refresh_token("")
 
-        def test_encrypts_token_and_saves(self, user, app_with_enc_key, db_session):
+        def test_encrypts_token_and_saves(self, user, app_with_keys, db_session):
             assert user.refresh_token_enc is None
             user.set_refresh_token("hey_this_is_some_refresh_token")
             saved_token = db_session.query(User).first().refresh_token_enc
@@ -57,12 +59,21 @@ class TestUser:
             assert type(saved_token) == bytes
 
     class TestGetRefreshToken:
-        def test_user_must_have_token(self, user, app_with_enc_key):
+        def test_user_must_have_token(self, user, app_with_keys):
             with pytest.raises(AttributeError):
                 user.get_refresh_token()
 
         def test_retrieves_plaintext_refresh_token(
-            self, user_with_refresh_token, app_with_enc_key
+            self, user_with_refresh_token, app_with_keys
         ):
             refresh_token_str = user_with_refresh_token.get_refresh_token()
             assert refresh_token_str == "hello world decoder!"
+
+    class TestGetJwt:
+        def test_encodes_user_info(self, user, app_with_keys):
+            jwt = user.get_jwt()
+            assert pyjwt.decode(jwt, key="haha what", algorithms=["HS256"]) == {
+                "user_id": user.id,
+                "username": user.username,
+            }
+
