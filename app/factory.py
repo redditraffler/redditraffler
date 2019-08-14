@@ -3,13 +3,11 @@ from flask_assets import Bundle
 from pprint import pformat
 
 from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
-from app.db import models
 from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
 from app.commands import delete, clear_cache
 from app.logging import configure_logger
 from app.services import init_services
-from app.views import init_views
 
 
 def create_app(config_object=ProdConfig):
@@ -18,7 +16,6 @@ def create_app(config_object=ProdConfig):
     configure_logger(app)
     app.logger.debug(pformat(app.config))
     init_services(app)
-    init_views(app)
     register_error_handlers(app)
     register_blueprints(app)
     register_extensions(app)
