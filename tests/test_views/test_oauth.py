@@ -5,6 +5,8 @@ from app.views.oauth import (
 )
 import pytest
 
+pytestmark = pytest.mark.skip  # Skip while this view is not in use
+
 
 class TestGetRedditOauthUrl:
     @pytest.fixture
