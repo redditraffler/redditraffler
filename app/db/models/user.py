@@ -21,6 +21,20 @@ class User(db.Model):
         return "<User {}>".format(self.username)
 
     @classmethod
+    def find_by_jwt(cls, jwt):
+        """
+        Given a JWT, queries the database using the user_id in the decoded JWT payload
+
+        Args:
+            jwt (obj): The user's JWT
+
+        Returns:
+            User: The user identified by the JWT
+        """
+        user_id = JwtHelper.decode(jwt)["user_id"]
+        return cls.query.get(user_id)
+
+    @classmethod
     def find_or_create(cls, username):
         """
         Given a username, try to find the user by username or create the user if

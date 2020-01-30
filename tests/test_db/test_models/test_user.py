@@ -24,6 +24,27 @@ def get_users_count(session):
 
 
 class TestUser:
+    class TestFindByJwt:
+        def test_returns_user_for_valid_jwt(self, app_with_keys, db_session):
+            test_user = User(id=145, username="test")
+            db_session.add(test_user)
+            db_session.commit()
+
+            jwt = pyjwt.encode(
+                {"user_id": 145},
+                key=app_with_keys.config["SECRET_KEY"],
+                algorithm="HS256",
+            )
+            assert User.find_by_jwt(jwt) == test_user
+
+        def test_returns_nil_when_user_not_found(self, app_with_keys, db_session):
+            jwt = pyjwt.encode(
+                {"user_id": 529},
+                key=app_with_keys.config["SECRET_KEY"],
+                algorithm="HS256",
+            )
+            assert User.find_by_jwt(jwt) is None
+
     class TestFindOrCreate:
         def test_minimum_username_length(self):
             with pytest.raises(ValueError):
