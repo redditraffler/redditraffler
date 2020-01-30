@@ -1,148 +1,97 @@
-{% extends "layouts/base.html" %} {% block styles %}
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='css/base/index.css') }}"
-/>
-{% endblock %} {% block content %}
+{% extends "layouts/base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base/index.css') }}">
+{% endblock %}
+
+{% block content %}
 <section id="hero" class="hero hero-bg is-medium is-reddit">
-  <div class="hero-body">
-    <div class="container has-text-centered">
-      <img
-        src="{{ url_for('static', filename='img/brand_textonly_white.svg') }}"
-      />
-      <p class="subtitle">the raffle system for reddit submissions</p>
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <img src="{{ url_for('static', filename='img/brand_textonly_white.svg') }}" />
+            <p class="subtitle">the raffle system for reddit submissions</p>
+        </div>
     </div>
-  </div>
 </section>
 
 <section class="section">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-three-quarters">
-        <div class="content has-text-justified">
-          <p>
-            redditraffler helps you select winners for your Reddit-based
-            contest. When you host raffles (or giveaways, contests, sweepstakes)
-            via Reddit submissions, you can use redditraffler to select winners
-            for "comment-to-enter" type contests.
-          </p>
-          <p>
-            The idea behind redditraffler is that participants should know that
-            the winners for your contest were chosen in a fair, random manner
-            without any human intervention. As a contest host, you can log in
-            with your Reddit account so that we can verify that you're the one
-            who's generating the results.
-          </p>
-          <p>
-            In the spirit of fairness and transparency, the source code for this
-            website is
-            <a href="https://github.com/timorthi/redditraffler">open-source</a>.
-          </p>
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-three-quarters">
+                <div class="content has-text-justified">
+                    <p>redditraffler helps you select winners for your Reddit-based contest. When you host raffles (or giveaways, contests, sweepstakes) via Reddit submissions, you can use redditraffler to select winners for "comment-to-enter" type contests.</p>
+                    <p>The idea behind redditraffler is that participants should know that the winners for your contest were chosen in a fair, random manner without any human intervention. As a contest host, you can log in with your Reddit account so that we can verify that you're the one who's generating the results.</p>
+                    <p>In the spirit of fairness and transparency, the source code for this website is <a href="https://github.com/timorthi/redditraffler">open-source</a>.</p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>
 
 <section class="section">
-  <div class="container">
-    <div class="columns is-vcentered is-centered">
-      <div class="column is-one-quarter">
-        <div class="content has-text-centered">
-          <img
-            src="{{ url_for('static', filename='img/gears.svg') }}"
-            class="fi-svg"
-          />
+    <div class="container">
+        <div class="columns is-vcentered is-centered">
+            <div class="column is-one-quarter">
+                <div class="content has-text-centered">
+                    <img src="{{ url_for('static', filename='img/gears.svg') }}" class="fi-svg">
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="content has-text-justified">
+                    <p class="title has-text-reddit">How it works</p>
+                    <p>
+                        redditraffler retrieves your submission's top-level comments, along with their authors, in a random order.
+                    </p>
+                    <p>
+                        With the user criteria that you'll specify, such as minimum comment karma, redditraffler will choose one or more winners for you based on how many you'd like.
+                    </p>
+                    <p>
+                        The results of your raffle will be saved and be available to view for as long as this website is running. An example of what a raffle results page would look like can be found <a href="{{ url_for('raffles.show', submission_id='4re9cx') }}">here</a>.
+                    </p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="column is-half">
-        <div class="content has-text-justified">
-          <p class="title has-text-reddit">How it works</p>
-          <p>
-            redditraffler retrieves your submission's top-level comments, along
-            with their authors, in a random order.
-          </p>
-          <p>
-            With the user criteria that you'll specify, such as minimum comment
-            karma, redditraffler will choose one or more winners for you based
-            on how many you'd like.
-          </p>
-          <p>
-            The results of your raffle will be saved and be available to view
-            for as long as this website is running. An example of what a raffle
-            results page would look like can be found
-            <a href="{{ url_for('raffles.show', submission_id='4re9cx') }}"
-              >here</a
-            >.
-          </p>
-        </div>
-      </div>
     </div>
-  </div>
 </section>
 
 <section class="section">
-  <div class="container">
-    <div class="columns is-vcentered is-centered has-column-reverse">
-      <div class="column is-half">
-        <div class="content has-text-justified">
-          <p class="title has-text-reddit">Getting Started</p>
-          <p>
-            The usage criteria for redditraffler is simple. You'll need a Reddit
-            submission that is <strong>public</strong> and
-            <strong>has valid comments</strong>. For an example of what a
-            redditraffler-compatible submission would look like, see
-            <a href="https://redd.it/4re9cx">this /r/Overwatch giveaway</a>.
-          </p>
-          <p>
-            Apart from that, all you'll need is a small set of requirements that
-            entrants need to meet in order to be eligible as a winner for your
-            contest.
-          </p>
-          <p>
-            For detailed information about the process, see our
-            <a href="{{ url_for('base.about') }}">about</a> page.
-          </p>
+    <div class="container">
+        <div class="columns is-vcentered is-centered has-column-reverse">
+            <div class="column is-half">
+                <div class="content has-text-justified">
+                    <p class="title has-text-reddit">Getting Started</p>
+                    <p>
+                        The usage criteria for redditraffler is simple. You'll need a Reddit submission that is <strong>public</strong> and <strong>has valid comments</strong>. For an example of what a redditraffler-compatible submission would look like, see <a href="https://redd.it/4re9cx">this /r/Overwatch giveaway</a>.
+                    </p>
+                    <p>
+                        Apart from that, all you'll need is a small set of requirements that entrants need to meet in order to be eligible as a winner for your contest.
+                    </p>
+                    <p>
+                        For detailed information about the process, see our <a href="{{ url_for('base.about') }}">about</a> page.
+                    </p>
+                </div>
+            </div>
+            <div class="column is-one-quarter">
+                <div class="content has-text-centered">
+                    <img src="{{ url_for('static', filename='img/rocket.svg') }}" class="fi-svg">
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="column is-one-quarter">
-        <div class="content has-text-centered">
-          <img
-            src="{{ url_for('static', filename='img/rocket.svg') }}"
-            class="fi-svg"
-          />
-        </div>
-      </div>
     </div>
-  </div>
 </section>
 
 <div id="#cta" class="box cta-box is-reddit">
-  <a name="create"></a>
-  <div class="container has-text-centered">
-    <h1 class="title cta-title">Ready to begin?</h1>
-    {% if 'jwt' in session and 'reddit_username' in session %}
-    <a
-      class="button is-reddit-button is-outlined"
-      href="{{ url_for('raffles.new') }}"
-    >
-      <i class="fab fa-reddit fa-fw"></i> Continue as /u/{{
-        session["reddit_username"]
-      }}</a
-    >
-    {% else %}
-    <a
-      class="button is-reddit-button is-outlined"
-      href="{{ reddit_login_url }}"
-    >
-      <i class="fab fa-reddit fa-fw"></i> Login with Reddit</a
-    >
-    <a
-      class="button is-reddit-button is-outlined"
-      href=" {{ url_for('raffles.new') }}"
-      >Continue as Guest</a
-    >
-    {% endif %}
-  </div>
+    <a name="create"></a>
+    <div class="container has-text-centered">
+        <h1 class="title cta-title">Ready to begin?</h1>
+        {% if 'reddit_refresh_token' in session %}
+        <a class="button is-reddit-button is-outlined" href="{{ url_for('raffles.new') }}">
+            <i class="fab fa-reddit fa-fw"></i> Continue as /u/{{ session['reddit_username'] }}</a>
+        {% else %}
+        <a class="button is-reddit-button is-outlined" href="{{ reddit_login_url }}">
+            <i class="fab fa-reddit fa-fw"></i> Login with Reddit</a>
+        <a class="button is-reddit-button is-outlined" href=" {{ url_for('raffles.new') }}">Continue as Guest</a>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
