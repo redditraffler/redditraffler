@@ -1,22 +1,35 @@
-from flask import url_for, session
+from flask import url_for
 from app.util import reddit
 from app.util.raffle_form_validator import RaffleFormValidator
-from app.routes import api
 from app.jobs.raffle_job import raffle
 
 
-def test_submissions_no_token(client):
-    res = client.get(url_for("api.submissions"))
-    assert res.status_code == 401
+class TestSubmissions:
+    def test_unauthorized_with_no_login(self, client):
+        res = client.get(url_for("api.submissions"))
+        assert res.status_code == 401
 
+    def test_unauthorized_when_user_not_found(self, client):
+        with client.session_transaction() as session:
+            session["jwt"] = "somejwt"
 
-def test_submissions(client, monkeypatch):
-    with client.session_transaction() as session:
-        session["reddit_refresh_token"] = "test_token"
+        res = client.get(url_for("api.submissions"))
+        assert res.status_code == 401
 
-    monkeypatch.setattr(reddit, "get_user_submissions", lambda x: [])
-    res = client.get(url_for("api.submissions"))
-    assert res.status_code == 200
+    def test_successful_fetch(self, client, mocker):
+        mocker.patch("app.db.models.User.find_by_jwt", lambda x: mocker.Mock())
+        mocker.patch(
+            "app.services.reddit_service.get_submissions_for_user", lambda x: []
+        )
+        mocker.patch("app.util.JwtHelper.decode")
+
+        with client.session_transaction() as session:
+            session["jwt"] = "somejwt"
+            session["reddit_username"] = "some_username"
+
+        res = client.get(url_for("api.submissions"))
+        assert res.status_code == 200
+        assert res.get_json() == []
 
 
 def test_submission_no_params(client):

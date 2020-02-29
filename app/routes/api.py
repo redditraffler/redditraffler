@@ -1,24 +1,28 @@
-from flask import abort, Blueprint, jsonify, redirect, request, session, url_for
+from flask import abort, Blueprint, jsonify, request, session, url_for
 from sqlalchemy.orm import load_only
 from app.util import reddit
 from app.util.raffle_form_validator import RaffleFormValidator
 from app.extensions import rq
 from app.db.models import Raffle, User
 from app.jobs.raffle_job import raffle
+from app.util.request_helper import RequestHelper
+from app.services import reddit_service
 
 
 api = Blueprint("api", __name__)
 
 
 @api.route("/submissions")
+@RequestHelper.require_login
 def submissions():
     """ Return the user's Reddit submissions that are not already made
     into raffles. """
-    if "reddit_refresh_token" not in session:
+    user = User.find_by_jwt(session["jwt"])
+    if not user:
         abort(401)
 
-    submissions = reddit.get_user_submissions(session["reddit_refresh_token"])
-    return jsonify(_filter_submissions(submissions) if submissions else None)
+    submissions = reddit_service.get_submissions_for_user(user.get_refresh_token())
+    return jsonify(_filter_submissions(submissions) if submissions else [])
 
 
 @api.route("/submission")
