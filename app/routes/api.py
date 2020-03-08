@@ -56,17 +56,20 @@ def status():
 
 
 @api.route("/raffles/new", methods=["POST"])
+@RequestHelper.require_login
 def new_raffle():
     """ Accepts a form with key values in raffles/new.html. Returns 422 if
     form validation fails, else queues job and returns 202. """
-    form = request.form.to_dict()
-    validator = RaffleFormValidator(form)
+    validator = RaffleFormValidator(request.form.to_dict())
     if not validator.run():
         return jsonify({"message": "Form validation failed."}), 422
+
     form = validator.get_sanitized_form()
-    user = _try_get_user_from_session()
-    sub_id = reddit.submission_id_from_url(form["submissionUrl"])
+    user = User.find_by_jwt(session["jwt"])
+    sub_id = reddit_service.get_submission_by_url(form["submissionUrl"])["id"]
+
     raffle.queue(raffle_params=_raffle_params_from_form(form), user=user, job_id=sub_id)
+
     return jsonify({"url": url_for("raffles.status", job_id=sub_id)}), 202
 
 

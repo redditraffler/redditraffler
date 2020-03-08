@@ -58,20 +58,24 @@ def test_submission_valid_submission(client, monkeypatch, db_session):
     assert res.status_code == 200
 
 
-def test_post_new_raffle_no_params(client):
-    assert client.post(url_for("api.new_raffle")).status_code == 422
+class TestNewRaffle:
+    def test_no_params(self, authed_client):
+        assert authed_client.post(url_for("api.new_raffle")).status_code == 422
 
+    def test_params_failed_validation(self, authed_client):
+        res = authed_client.post(url_for("api.new_raffle"), data=_invalid_form_params())
+        assert res.status_code == 422
 
-def test_post_new_raffle_invalid_params(client):
-    res = client.post(url_for("api.new_raffle"), data=_invalid_form_params())
-    assert res.status_code == 422
-
-
-def test_post_new_raffle_valid_params(client, monkeypatch):
-    monkeypatch.setattr(RaffleFormValidator, "run", lambda x: True)
-    monkeypatch.setattr(raffle, "queue", _stub_raffle_job)
-    res = client.post(url_for("api.new_raffle"), data=_valid_form_params())
-    assert res.status_code == 202
+    def test_valid_params(self, authed_client, mocker):
+        mocker.patch(
+            "app.util.raffle_form_validator.RaffleFormValidator.run", lambda x: True
+        )
+        mocker.patch(
+            "app.services.reddit_service.get_submission_by_url"
+        ).return_value = {"id": "1a2b3c"}
+        mocker.patch("app.jobs.raffle_job.raffle.queue")
+        res = authed_client.post(url_for("api.new_raffle"), data=_valid_form_params())
+        assert res.status_code == 202
 
 
 def test_get_user_raffles_invalid_user(client, db_session):

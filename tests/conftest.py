@@ -59,3 +59,14 @@ def raffle(db_session, user):
     db_session.add(raffle)
     db_session.commit()
     return raffle
+
+
+@pytest.fixture
+def authed_client(client, db_session, mocker):
+    with client.session_transaction() as session:
+        session["jwt"] = "some_jwt"
+        session["reddit_username"] = "some_username"
+
+    jwt_decode = mocker.patch("app.util.jwt_helper.JwtHelper.decode")
+    jwt_decode.return_value = {"user_id": 9999, "username": "redditraffler-test"}
+    yield client
