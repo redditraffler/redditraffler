@@ -1,11 +1,9 @@
 from flask import abort, Blueprint, jsonify, request, session, url_for
-from sqlalchemy.orm import load_only
-from app.util import reddit
-from app.util.raffle_form_validator import RaffleFormValidator
+
 from app.extensions import rq
 from app.db.models import Raffle, User
 from app.jobs.raffle_job import raffle
-from app.util.request_helper import RequestHelper
+from app.util import RequestHelper, RaffleFormValidator
 from app.services import reddit_service
 
 
@@ -27,20 +25,24 @@ def submissions():
 
 @api.route("/submission")
 def submission():
-    """ Accepts a `url` parameter and returns the associated submission. If
-    a raffle exists for the given submission then the path to that raffle is
-    returned. """
+    """ Accepts a `url` parameter and returns the associated submission. If the
+    submission does not exist, a 404 is returned. If a raffle exists for the
+    given submission then the path to that raffle is returned. """
     if not request.args.get("url"):
         abort(400)
 
     url = request.args.get("url")
-    sub_id = reddit.submission_id_from_url(url)
+    submission = reddit_service.get_submission_by_url(url)
+    if not submission:
+        abort(404)
 
-    if Raffle.query.filter_by(submission_id=sub_id).scalar():
+    sub_id = submission["id"]
+    has_existing_raffle = Raffle.query.filter_by(submission_id=sub_id).scalar()
+
+    if has_existing_raffle:
         return jsonify({"url": url_for("raffles.show", submission_id=sub_id)}), 303
     else:
-        submission = reddit.get_submission(sub_url=url)
-        return jsonify(submission) if submission else abort(404)
+        return jsonify(submission)
 
 
 @api.route("/job_status")

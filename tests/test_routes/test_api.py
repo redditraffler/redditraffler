@@ -1,7 +1,6 @@
 from flask import url_for
-from app.util import reddit
-from app.util.raffle_form_validator import RaffleFormValidator
-from app.jobs.raffle_job import raffle
+
+get_submission_by_url_path = "app.services.reddit_service.get_submission_by_url"
 
 
 class TestSubmissions:
@@ -32,30 +31,25 @@ class TestSubmissions:
         assert res.get_json() == []
 
 
-def test_submission_no_params(client):
-    res = client.get(url_for("api.submission"))
-    assert res.status_code == 400
+class TestSubmission:
+    def test_no_params(self, authed_client):
+        res = authed_client.get(url_for("api.submission"))
+        assert res.status_code == 400
 
+    def test_invalid_submission(self, authed_client, mocker):
+        mocker.patch(get_submission_by_url_path).return_value = None
+        res = authed_client.get(url_for("api.submission", url="some_url"))
+        assert res.status_code == 404
 
-def test_submission_invalid_submission(client, monkeypatch, db_session):
-    monkeypatch.setattr(reddit, "submission_id_from_url", lambda x: None)
-    monkeypatch.setattr(reddit, "get_submission", lambda sub_url: None)
-    res = client.get(url_for("api.submission", url="some_url"))
-    assert res.status_code == 404
+    def test_is_existing_raffle(self, authed_client, mocker, raffle):
+        mocker.patch(get_submission_by_url_path).return_value = {"id": "test_id"}
+        res = authed_client.get(url_for("api.submission", url="some_url"))
+        assert res.status_code == 303
 
-
-def test_submission_existing_raffle(client, monkeypatch, db_session, raffle):
-    monkeypatch.setattr(reddit, "submission_id_from_url", lambda x: "test_id")
-    monkeypatch.setattr(reddit, "get_submission", lambda sub_url: None)
-    res = client.get(url_for("api.submission", url="some_url"))
-    assert res.status_code == 303
-
-
-def test_submission_valid_submission(client, monkeypatch, db_session):
-    monkeypatch.setattr(reddit, "submission_id_from_url", lambda x: None)
-    monkeypatch.setattr(reddit, "get_submission", lambda sub_url: "something")
-    res = client.get(url_for("api.submission", url="some_url"))
-    assert res.status_code == 200
+    def test_valid_submission(self, authed_client, mocker):
+        mocker.patch(get_submission_by_url_path).return_value = {'id': '1a2b3c'}
+        res = authed_client.get(url_for("api.submission", url="some_url"))
+        assert res.status_code == 200
 
 
 class TestNewRaffle:
