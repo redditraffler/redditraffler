@@ -85,11 +85,7 @@ def get_user_raffles(username):
 def _filter_submissions(submissions_list):
     """ Given a submissions list, removes the submissions that were already
     made into raffles. """
-    existing_verified_raffles = (
-        Raffle.query.filter(Raffle.user_id != None)
-        .options(load_only("submission_id"))
-        .all()
-    )
+    existing_verified_raffles = Raffle.get_verified_raffles()
     excluded_ids = set([r.submission_id for r in existing_verified_raffles])
     return [sub for sub in submissions_list if sub["id"] not in excluded_ids]
 
