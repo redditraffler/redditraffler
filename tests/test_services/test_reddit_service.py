@@ -1,7 +1,5 @@
 import pytest
 
-from app.services.reddit_service import RedditService
-
 
 @pytest.fixture(autouse=True)
 def praw_reddit(self, mocker):

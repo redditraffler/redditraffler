@@ -1,49 +1,78 @@
 import praw
 import prawcore
 
-from praw.models import Submission
+from flask import current_app
+
+_reddit = None
+_auth_scopes = None
 
 
-class RedditService:
-    def init_app(self, app):
-        self.settings = {
-            "client_id": app.config["REDDIT_CLIENT_ID"],
-            "client_secret": app.config["REDDIT_CLIENT_SECRET"],
-            "user_agent": app.config["REDDIT_USER_AGENT"],
-            "redirect_uri": app.config["REDDIT_REDIRECT_URI"],
-        }
-        self.auth_scopes = app.config["REDDIT_AUTH_SCOPES"]
-        self._reddit = praw.Reddit(**self.settings)
+def _get_reddit_instance(refresh_token=None):
+    """
+    Returns an authenticated instance of praw.Reddit if a refresh_token is provided.
+    Otherwise, returns a cached praw.Reddit instance or initializes it.
 
-    def get_oauth_url(self):
-        """ Returns the URL that directs the user to Reddit's OAuth page. """
-        return self._reddit.auth.url(self.auth_scopes, "auth", "permanent")
+    Args:
+        refresh_token ([str], optional): Reddit refresh token. Defaults to None.
 
-    def authorize(self, code):
-        """ Given a valid code from Reddit's OAuth redirect, returns a refresh token \
-            for the user. """
-        return self._reddit.auth.authorize(code)
+    Returns:
+        [praw.Reddit]: A praw.Reddit instance
+    """
 
-    def get_user_from_token(self, refresh_token):
-        """ Returns the authorized Redditor. """
-        return praw.Reddit(**self.settings, refresh_token=refresh_token).user.me()
+    global _reddit
+    global _auth_scopes
 
-    def get_submissions_for_user(self, refresh_token):
-        """ Returns the submissions for the authorized Redditor. """
-        submissions = (
-            praw.Reddit(**self.settings, refresh_token=refresh_token)
-            .user.me()
-            .submissions.new()
-        )
-        return [_extract_submission_info(s) for s in submissions]
+    _auth_scopes = current_app.config["REDDIT_AUTH_SCOPES"]
+    settings = {
+        "client_id": current_app.config["REDDIT_CLIENT_ID"],
+        "client_secret": current_app.config["REDDIT_CLIENT_SECRET"],
+        "user_agent": current_app.config["REDDIT_USER_AGENT"],
+        "redirect_uri": current_app.config["REDDIT_REDIRECT_URI"],
+    }
 
-    def get_submission_by_url(self, url):
-        try:
-            submission_id = Submission.id_from_url(url)
-            submission = self._reddit.submission(submission_id)
-            return _extract_submission_info(submission)
-        except (prawcore.exceptions.NotFound, praw.exceptions.ClientException):
-            return None
+    if refresh_token is not None:
+        return praw.Reddit(**settings, refresh_token=refresh_token)
+
+    if _reddit is not None:
+        return _reddit
+
+    _reddit = praw.Reddit(**settings)
+    return _reddit
+
+
+def get_oauth_url():
+    """ Returns the URL that directs the user to Reddit's OAuth page. """
+    reddit = _get_reddit_instance()
+    return reddit.auth.url(_auth_scopes, "auth", "permanent")
+
+
+def authorize(code):
+    """ Given a valid code from Reddit's OAuth redirect, returns a refresh token \
+        for the user. """
+    reddit = _get_reddit_instance()
+    return reddit.auth.authorize(code)
+
+
+def get_user_from_token(refresh_token):
+    """ Returns the authorized Redditor. """
+    return _get_reddit_instance(refresh_token).user.me()
+
+
+def get_submissions_for_user(refresh_token):
+    """ Returns the submissions for the authorized Redditor. """
+    authed_reddit = _get_reddit_instance(refresh_token)
+    submissions = authed_reddit.user.me().submissions.new()
+    return [_extract_submission_info(s) for s in submissions]
+
+
+def get_submission_by_url(url):
+    reddit = _get_reddit_instance()
+    try:
+        submission_id = praw.models.Submission.id_from_url(url)
+        submission = reddit.submission(submission_id)
+        return _extract_submission_info(submission)
+    except (prawcore.exceptions.NotFound, praw.exceptions.ClientException):
+        return None
 
 
 def _extract_submission_info(submission):

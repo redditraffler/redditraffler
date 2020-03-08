@@ -1,5 +1,5 @@
-from flask import abort, Blueprint, redirect, render_template, request, session, url_for
-from app.util import reddit
+from flask import Blueprint, render_template
+from app.services import reddit_service
 
 base = Blueprint("base", __name__)
 
@@ -9,7 +9,7 @@ def index():
     return render_template(
         "base/index.html",
         title="the raffle system for reddit submissions",
-        reddit_login_url=reddit.get_auth_url(),
+        reddit_login_url=reddit_service.get_oauth_url(),
     )
 
 

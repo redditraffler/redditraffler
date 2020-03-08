@@ -16,11 +16,11 @@ class TestSubmissions:
         assert res.status_code == 401
 
     def test_successful_fetch(self, client, mocker):
-        mocker.patch("app.db.models.User.find_by_jwt", lambda x: mocker.Mock())
+        mocker.patch("app.db.models.user.User.find_by_jwt", lambda x: mocker.Mock())
         mocker.patch(
             "app.services.reddit_service.get_submissions_for_user", lambda x: []
         )
-        mocker.patch("app.util.JwtHelper.decode")
+        mocker.patch("app.util.jwt_helper.decode")
 
         with client.session_transaction() as session:
             session["jwt"] = "somejwt"
@@ -47,7 +47,7 @@ class TestSubmission:
         assert res.status_code == 303
 
     def test_valid_submission(self, authed_client, mocker):
-        mocker.patch(get_submission_by_url_path).return_value = {'id': '1a2b3c'}
+        mocker.patch(get_submission_by_url_path).return_value = {"id": "1a2b3c"}
         res = authed_client.get(url_for("api.submission", url="some_url"))
         assert res.status_code == 200
 

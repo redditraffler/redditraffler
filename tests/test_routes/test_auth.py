@@ -1,7 +1,8 @@
-from flask import url_for, session
-from app.db.models import User
-
 import pytest
+
+from flask import url_for, session
+
+from app.db.models.user import User
 
 
 class TestLogout:

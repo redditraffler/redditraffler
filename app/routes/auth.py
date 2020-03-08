@@ -1,6 +1,6 @@
 from flask import abort, Blueprint, current_app, redirect, request, session, url_for
 
-from app.db.models import User
+from app.db.models.user import User
 from app.services import reddit_service
 
 auth = Blueprint("auth", __name__)

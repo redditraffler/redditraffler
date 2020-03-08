@@ -1,4 +1,4 @@
-from app.db.models import User
+from app.db.models import user as user_module
 
 import jwt as pyjwt
 import pytest
@@ -20,13 +20,13 @@ def user_with_refresh_token(user):
 
 
 def get_users_count(session):
-    return session.query(User).count()
+    return session.query(user_module.User).count()
 
 
 class TestUser:
     class TestFindByJwt:
         def test_returns_user_for_valid_jwt(self, app_with_keys, db_session):
-            test_user = User(id=145, username="test")
+            test_user = user_module.User(id=145, username="test")
             db_session.add(test_user)
             db_session.commit()
 
@@ -35,7 +35,7 @@ class TestUser:
                 key=app_with_keys.config["SECRET_KEY"],
                 algorithm="HS256",
             )
-            assert User.find_by_jwt(jwt) == test_user
+            assert user_module.User.find_by_jwt(jwt) == test_user
 
         def test_returns_nil_when_user_not_found(self, app_with_keys, db_session):
             jwt = pyjwt.encode(
@@ -43,16 +43,16 @@ class TestUser:
                 key=app_with_keys.config["SECRET_KEY"],
                 algorithm="HS256",
             )
-            assert User.find_by_jwt(jwt) is None
+            assert user_module.User.find_by_jwt(jwt) is None
 
     class TestFindOrCreate:
         def test_minimum_username_length(self):
             with pytest.raises(ValueError):
-                User.find_or_create("a")
+                user_module.User.find_or_create("a")
 
         def test_returns_existing_user(self, user, db_session):
             old_user_count = get_users_count(db_session)
-            user = User.find_or_create("test_user")
+            user = user_module.User.find_or_create("test_user")
             new_user_count = get_users_count(db_session)
 
             assert user.username == "test_user"
@@ -60,7 +60,7 @@ class TestUser:
 
         def test_creates_new_user(self, db_session):
             old_user_count = get_users_count(db_session)
-            user = User.find_or_create("hey_i_am_a_new_test_user")
+            user = user_module.User.find_or_create("hey_i_am_a_new_test_user")
             new_user_count = get_users_count(db_session)
 
             assert user.username == "hey_i_am_a_new_test_user"
@@ -75,7 +75,7 @@ class TestUser:
         def test_encrypts_token_and_saves(self, user, app_with_keys, db_session):
             assert user.refresh_token_enc is None
             user.set_refresh_token("hey_this_is_some_refresh_token")
-            saved_token = db_session.query(User).first().refresh_token_enc
+            saved_token = db_session.query(user_module.User).first().refresh_token_enc
             assert saved_token is not None
             assert type(saved_token) == bytes
 

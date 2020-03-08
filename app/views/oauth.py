@@ -4,7 +4,7 @@
 from flask import Blueprint, jsonify, request
 
 from app.services import reddit_service
-from app.db.models import User
+from app.db.models.user import User
 
 oauth = Blueprint("oauth", __name__)
 

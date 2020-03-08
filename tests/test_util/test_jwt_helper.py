@@ -1,4 +1,4 @@
-from app.util import JwtHelper
+from app.util import jwt_helper
 
 import pytest
 import jwt
@@ -16,7 +16,7 @@ def app_with_secret_key(app):
 class TestJwtHelper:
     def test_encode(self):
         payload = {"a": 1, "b": 2}
-        encoded_payload = JwtHelper.encode(payload)
+        encoded_payload = jwt_helper.encode(payload)
         assert (
             jwt.decode(encoded_payload, TEST_SECRET_KEY, algorithms=["HS256"])
             == payload
@@ -25,5 +25,7 @@ class TestJwtHelper:
     def test_decode(self):
         encoded_payload = b"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoidGVzdCJ9.\
             YDNkA80OW1qGmzYjUU3Ie06F7VTiDWI0Ektw6R-92VE"
-        decoded = jwt.decode(encoded_payload, TEST_SECRET_KEY, algorithms=["HS256"])
+        decoded = jwt.decode(
+            encoded_payload, TEST_SECRET_KEY, algorithms=["HS256"]
+        )
         assert decoded == {"user": "test"}

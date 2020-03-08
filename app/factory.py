@@ -7,7 +7,6 @@ from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
 from app.commands import delete, clear_cache
 from app.logging import configure_logger
-from app.services import init_services
 
 
 def create_app(config_object=ProdConfig):
@@ -15,7 +14,6 @@ def create_app(config_object=ProdConfig):
     app.config.from_object(config_object)
     configure_logger(app)
     app.logger.debug(pformat(app.config))
-    init_services(app)
     register_error_handlers(app)
     register_blueprints(app)
     register_extensions(app)
