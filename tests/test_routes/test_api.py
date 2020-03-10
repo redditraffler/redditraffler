@@ -1,64 +1,75 @@
-from flask import url_for, session
-from app.util import reddit
-from app.util.raffle_form_validator import RaffleFormValidator
-from app.routes import api
-from app.jobs.raffle_job import raffle
+from flask import url_for
+
+get_submission_by_url_path = "app.services.reddit_service.get_submission_by_url"
 
 
-def test_submissions_no_token(client):
-    res = client.get(url_for("api.submissions"))
-    assert res.status_code == 401
+class TestSubmissions:
+    def test_unauthorized_with_no_login(self, client):
+        res = client.get(url_for("api.submissions"))
+        assert res.status_code == 401
+
+    def test_unauthorized_when_user_not_found(self, client):
+        with client.session_transaction() as session:
+            session["jwt"] = "somejwt"
+
+        res = client.get(url_for("api.submissions"))
+        assert res.status_code == 401
+
+    def test_successful_fetch(self, client, mocker):
+        mocker.patch("app.db.models.user.User.find_by_jwt", lambda x: mocker.Mock())
+        mocker.patch(
+            "app.services.reddit_service.get_submissions_for_user", lambda x: []
+        )
+        mocker.patch("app.util.jwt_helper.decode")
+
+        with client.session_transaction() as session:
+            session["jwt"] = "somejwt"
+            session["reddit_username"] = "some_username"
+
+        res = client.get(url_for("api.submissions"))
+        assert res.status_code == 200
+        assert res.get_json() == []
 
 
-def test_submissions(client, monkeypatch):
-    with client.session_transaction() as session:
-        session["reddit_refresh_token"] = "test_token"
+class TestSubmission:
+    def test_no_params(self, authed_client):
+        res = authed_client.get(url_for("api.submission"))
+        assert res.status_code == 400
 
-    monkeypatch.setattr(reddit, "get_user_submissions", lambda x: [])
-    res = client.get(url_for("api.submissions"))
-    assert res.status_code == 200
+    def test_invalid_submission(self, authed_client, mocker):
+        mocker.patch(get_submission_by_url_path).return_value = None
+        res = authed_client.get(url_for("api.submission", url="some_url"))
+        assert res.status_code == 404
 
+    def test_is_existing_raffle(self, authed_client, mocker, raffle):
+        mocker.patch(get_submission_by_url_path).return_value = {"id": "test_id"}
+        res = authed_client.get(url_for("api.submission", url="some_url"))
+        assert res.status_code == 303
 
-def test_submission_no_params(client):
-    res = client.get(url_for("api.submission"))
-    assert res.status_code == 400
-
-
-def test_submission_invalid_submission(client, monkeypatch, db_session):
-    monkeypatch.setattr(reddit, "submission_id_from_url", lambda x: None)
-    monkeypatch.setattr(reddit, "get_submission", lambda sub_url: None)
-    res = client.get(url_for("api.submission", url="some_url"))
-    assert res.status_code == 404
-
-
-def test_submission_existing_raffle(client, monkeypatch, db_session, raffle):
-    monkeypatch.setattr(reddit, "submission_id_from_url", lambda x: "test_id")
-    monkeypatch.setattr(reddit, "get_submission", lambda sub_url: None)
-    res = client.get(url_for("api.submission", url="some_url"))
-    assert res.status_code == 303
+    def test_valid_submission(self, authed_client, mocker):
+        mocker.patch(get_submission_by_url_path).return_value = {"id": "1a2b3c"}
+        res = authed_client.get(url_for("api.submission", url="some_url"))
+        assert res.status_code == 200
 
 
-def test_submission_valid_submission(client, monkeypatch, db_session):
-    monkeypatch.setattr(reddit, "submission_id_from_url", lambda x: None)
-    monkeypatch.setattr(reddit, "get_submission", lambda sub_url: "something")
-    res = client.get(url_for("api.submission", url="some_url"))
-    assert res.status_code == 200
+class TestNewRaffle:
+    def test_no_params(self, authed_client):
+        assert authed_client.post(url_for("api.new_raffle")).status_code == 422
 
+    def test_params_failed_validation(self, authed_client):
+        res = authed_client.post(url_for("api.new_raffle"), data=_invalid_form_params())
+        assert res.status_code == 422
 
-def test_post_new_raffle_no_params(client):
-    assert client.post(url_for("api.new_raffle")).status_code == 422
-
-
-def test_post_new_raffle_invalid_params(client):
-    res = client.post(url_for("api.new_raffle"), data=_invalid_form_params())
-    assert res.status_code == 422
-
-
-def test_post_new_raffle_valid_params(client, monkeypatch):
-    monkeypatch.setattr(RaffleFormValidator, "run", lambda x: True)
-    monkeypatch.setattr(raffle, "queue", _stub_raffle_job)
-    res = client.post(url_for("api.new_raffle"), data=_valid_form_params())
-    assert res.status_code == 202
+    def test_valid_params(self, authed_client, mocker):
+        mocker.patch(
+            "app.util.raffle_form_validator.RaffleFormValidator.run", lambda x: True
+        )
+        mocker.patch(
+            "app.services.reddit_service.get_submission_by_url"
+        ).return_value = {"id": "1a2b3c"}
+        mocker.patch("app.jobs.raffle_job.raffle.queue")
+        res = authed_client.post(url_for("api.new_raffle"), data=_valid_form_params())
+        assert res.status_code == 202
 
 
 def test_get_user_raffles_invalid_user(client, db_session):

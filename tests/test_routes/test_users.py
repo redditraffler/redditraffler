@@ -1,5 +1,5 @@
 from flask import url_for
-from app.db.models import User
+from app.db.models.user import User
 
 
 def test_show_valid_user(client, db_session):

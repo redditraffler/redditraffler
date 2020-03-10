@@ -3,7 +3,6 @@ from flask_assets import Bundle
 from pprint import pformat
 
 from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
-from app.db import models
 from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
 from app.commands import delete, clear_cache

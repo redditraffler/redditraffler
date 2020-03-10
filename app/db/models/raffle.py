@@ -1,20 +1,7 @@
-from app.extensions import db
-from datetime import datetime
 from sqlalchemy import inspect
+from datetime import datetime
 
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
-    )
-    username = db.Column(db.Text, index=True, unique=True, nullable=False)
-
-    raffles = db.relationship("Raffle", backref="creator", lazy=True)
-
-    def __repr__(self):
-        return "<User {}>".format(self.username)
+from app.extensions import db
 
 
 class Raffle(db.Model):
@@ -23,6 +10,7 @@ class Raffle(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
+
     submission_id = db.Column(db.Text, index=True, unique=True, nullable=False)
     submission_title = db.Column(db.Text, nullable=False)
     submission_author = db.Column(db.Text, nullable=False)
@@ -42,6 +30,10 @@ class Raffle(db.Model):
 
     def __repr__(self):
         return "<Raffle {}>".format(self.submission_id)
+
+    @classmethod
+    def get_verified_raffles(cls):
+        return cls.query.filter(cls.user_id is not None).all()
 
     def is_verified(self):
         return self.creator and (self.submission_author == self.creator.username)
@@ -66,20 +58,3 @@ class Raffle(db.Model):
 
     def ignored_users_list(self):
         return self.ignored_users.split(",")
-
-
-class Winner(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(
-        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
-    )
-    username = db.Column(db.Text, nullable=False)
-    account_age = db.Column(db.Integer, nullable=False)
-    comment_karma = db.Column(db.Integer, nullable=False)
-    link_karma = db.Column(db.Integer, nullable=False)
-    comment_url = db.Column(db.Text, nullable=False)
-
-    raffle_id = db.Column(
-        db.Integer, db.ForeignKey("raffle.id"), nullable=False, index=True
-    )

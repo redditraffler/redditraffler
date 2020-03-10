@@ -1,9 +1,11 @@
-from app.util import reddit
+import pytest
+
+from app.services import reddit_service
 from app.util.raffler import Raffler
 from app.jobs.raffle_job import raffle
-from app.db.models import Raffle, User
+from app.db.models.raffle import Raffle
+from app.db.models.user import User
 from tests.helpers import raffler_params
-import pytest
 
 
 @pytest.fixture(autouse=True)
@@ -12,14 +14,14 @@ def patch_raffler_class(monkeypatch):
     monkeypatch.setattr(Raffler, "fetch_comments", lambda x: True)
     monkeypatch.setattr(Raffler, "select_winners", lambda x: True)
     monkeypatch.setattr(Raffler, "get_serialized_winners", _stub_winners)
-    monkeypatch.setattr(reddit, "get_submission", _stub_submission)
+    monkeypatch.setattr(reddit_service, "get_submission_by_url", _stub_submission)
     yield
 
 
 class TestRaffle:
     class TestSuccessfulRaffle:
         def test_raffle_guest_db_saving(self, db_session, client):
-            job = raffle.queue(raffler_params(), None)
+            raffle.queue(raffler_params(), None)
 
             saved_raffle = Raffle.query.filter_by(submission_id="abc123").first()
             assert saved_raffle
@@ -31,7 +33,7 @@ class TestRaffle:
             user = User(username="verified_redditor")
             db_session.add(user)
             db_session.commit()
-            job = raffle.queue(raffler_params(), user)
+            raffle.queue(raffler_params(), user)
 
             saved_raffle = Raffle.query.filter_by(submission_id="abc123").first()
             assert saved_raffle
@@ -55,9 +57,10 @@ class TestRaffle:
 
         @pytest.fixture
         def reddit(self, mocker):
-            reddit = mocker.patch("app.jobs.raffle_job.reddit")
-            reddit.submission_id_from_url = mocker.Mock()
-            reddit.get_submission = mocker.Mock(return_value=_stub_submission(""))
+            reddit = mocker.patch("app.services.reddit_service")
+            reddit.get_submission_by_url = mocker.Mock(
+                return_value=_stub_submission("")
+            )
             yield reddit
 
         @pytest.fixture

@@ -1,8 +1,10 @@
-from flask import current_app
-from app.util import reddit
-from app.db.models import Raffle
 import ast
 import re
+
+from flask import current_app
+
+from app.services import reddit_service
+from app.db.models.raffle import Raffle
 
 
 class RaffleFormValidator:
@@ -43,7 +45,8 @@ class RaffleFormValidator:
                 raise KeyError("Missing key {}".format(key))
 
     def _validate_karma_keys(self):
-        """ Performs an XOR check on (minComment, minLink) and (minCombined) form keys """
+        """ Performs an XOR check on (minComment, minLink) and (minCombined) form keys
+        """
         form_keys = self.form.keys()
         subarray_in_array = lambda subarr, arr: all(s in arr for s in subarr)
         split_keys_in_form = subarray_in_array(self.KARMA_KEYS["split"], form_keys)
@@ -79,21 +82,21 @@ class RaffleFormValidator:
         if not isinstance(url, str):
             raise TypeError("{} is not a string".format(url))
         url = self.ensure_protocol(url)
-        if not reddit.get_submission(sub_url=url):
+        if not reddit_service.get_submission_by_url(url):
             raise ValueError("Invalid submission url: {}".format(url))
 
     def _validate_raffle_not_exists(self):
         """ Checks that the submission URL given has not already been made
         into a verified raffle. """
         url = self.ensure_protocol(self.form.get("submissionUrl"))
-        sub_id = reddit.submission_id_from_url(url)
+        submission = reddit_service.get_submission_by_url(url)
         has_existing_raffle = (
-            Raffle.query.filter(Raffle.submission_id == sub_id)
-            .filter(Raffle.user_id != None)
+            Raffle.query.filter(Raffle.submission_id == submission["id"])
+            .filter(Raffle.user_id is not None)
             .scalar()
         )
         if has_existing_raffle:
-            raise ValueError("Raffle already exists for {}".format(sub_id))
+            raise ValueError("Raffle already exists for {}".format(submission["id"]))
 
     def _validate_ignored_users_list(self):
         """ Check that ignoredUsers is a list, and all of its contents

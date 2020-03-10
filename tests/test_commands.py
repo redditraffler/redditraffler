@@ -17,7 +17,7 @@ class TestDelete:
 
     class TestValidRaffleId:
         def test_deletes_raffle(self, runner, mocker, db_session, raffle):
-            click_confirm_mock = mocker.patch("app.commands.click.confirm")
+            mocker.patch("app.commands.click.confirm")
 
             result = runner.invoke(delete, ["--raffle_id", raffle.submission_id])
 
@@ -29,7 +29,7 @@ class TestDelete:
 
     class TestDeleteFailed:
         def test_rolled_back(self, runner, mocker, raffle):
-            click_confirm_mock = mocker.patch("app.commands.click.confirm")
+            mocker.patch("app.commands.click.confirm")
             delete_mock = mocker.patch("app.commands.db.session.delete")
             delete_mock.side_effect = ValueError("some random error")
             rollback_mock = mocker.patch("app.commands.db.session.rollback")

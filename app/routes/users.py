@@ -1,7 +1,5 @@
 from flask import abort, Blueprint, render_template
-from app.extensions import db
-from app.db.models import User, Raffle
-from sqlalchemy import desc
+from app.db.models.user import User
 
 users = Blueprint("users", __name__)
 

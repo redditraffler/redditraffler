@@ -1,42 +1,50 @@
-from flask import abort, Blueprint, jsonify, redirect, request, session, url_for
-from sqlalchemy.orm import load_only
-from app.util import reddit
-from app.util.raffle_form_validator import RaffleFormValidator
+from flask import abort, Blueprint, jsonify, request, session, url_for
+
 from app.extensions import rq
-from app.db.models import Raffle, User
 from app.jobs.raffle_job import raffle
+from app.util import request_helper
+from app.util.raffle_form_validator import RaffleFormValidator
+from app.services import reddit_service
+from app.db.models.raffle import Raffle
+from app.db.models.user import User
 
 
 api = Blueprint("api", __name__)
 
 
 @api.route("/submissions")
+@request_helper.require_login
 def submissions():
     """ Return the user's Reddit submissions that are not already made
     into raffles. """
-    if "reddit_refresh_token" not in session:
+    user = User.find_by_jwt(session["jwt"])
+    if not user:
         abort(401)
 
-    submissions = reddit.get_user_submissions(session["reddit_refresh_token"])
-    return jsonify(_filter_submissions(submissions) if submissions else None)
+    submissions = reddit_service.get_submissions_for_user(user.get_refresh_token())
+    return jsonify(_filter_submissions(submissions) if submissions else [])
 
 
 @api.route("/submission")
 def submission():
-    """ Accepts a `url` parameter and returns the associated submission. If
-    a raffle exists for the given submission then the path to that raffle is
-    returned. """
+    """ Accepts a `url` parameter and returns the associated submission. If the
+    submission does not exist, a 404 is returned. If a raffle exists for the
+    given submission then the path to that raffle is returned. """
     if not request.args.get("url"):
         abort(400)
 
     url = request.args.get("url")
-    sub_id = reddit.submission_id_from_url(url)
+    submission = reddit_service.get_submission_by_url(url)
+    if not submission:
+        abort(404)
 
-    if Raffle.query.filter_by(submission_id=sub_id).scalar():
+    sub_id = submission["id"]
+    has_existing_raffle = Raffle.query.filter_by(submission_id=sub_id).scalar()
+
+    if has_existing_raffle:
         return jsonify({"url": url_for("raffles.show", submission_id=sub_id)}), 303
     else:
-        submission = reddit.get_submission(sub_url=url)
-        return jsonify(submission) if submission else abort(404)
+        return jsonify(submission)
 
 
 @api.route("/job_status")
@@ -55,14 +63,16 @@ def status():
 def new_raffle():
     """ Accepts a form with key values in raffles/new.html. Returns 422 if
     form validation fails, else queues job and returns 202. """
-    form = request.form.to_dict()
-    validator = RaffleFormValidator(form)
+    validator = RaffleFormValidator(request.form.to_dict())
     if not validator.run():
         return jsonify({"message": "Form validation failed."}), 422
+
     form = validator.get_sanitized_form()
-    user = _try_get_user_from_session()
-    sub_id = reddit.submission_id_from_url(form["submissionUrl"])
+    user = User.find_by_jwt(session["jwt"]) if 'jwt' in session else None
+    sub_id = reddit_service.get_submission_by_url(form["submissionUrl"])["id"]
+
     raffle.queue(raffle_params=_raffle_params_from_form(form), user=user, job_id=sub_id)
+
     return jsonify({"url": url_for("raffles.status", job_id=sub_id)}), 202
 
 
@@ -78,11 +88,7 @@ def get_user_raffles(username):
 def _filter_submissions(submissions_list):
     """ Given a submissions list, removes the submissions that were already
     made into raffles. """
-    existing_verified_raffles = (
-        Raffle.query.filter(Raffle.user_id != None)
-        .options(load_only("submission_id"))
-        .all()
-    )
+    existing_verified_raffles = Raffle.get_verified_raffles()
     excluded_ids = set([r.submission_id for r in existing_verified_raffles])
     return [sub for sub in submissions_list if sub["id"] not in excluded_ids]
 
