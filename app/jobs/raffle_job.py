@@ -1,10 +1,12 @@
-from app.extensions import db, rq, cache
-from app.db.models import Raffle, Winner
-from app.jobs.util import update_job_status, set_job_error
-from app.util import reddit
-from app.util.raffler import Raffler
 from rq import get_current_job
 from flask import current_app, escape
+
+from app.extensions import db, rq, cache
+from app.db.models.raffle import Raffle
+from app.db.models.winner import Winner
+from app.jobs.util import update_job_status, set_job_error
+from app.services import reddit_service
+from app.util.raffler import Raffler
 
 
 @rq.job
@@ -20,8 +22,8 @@ def raffle(raffle_params, user):
         )
 
         sub_url = raffle_params["submission_url"]
-        sub_id = reddit.submission_id_from_url(sub_url)
-        submission = reddit.get_submission(sub_url=sub_url)
+        submission = reddit_service.get_submission_by_url(sub_url)
+        sub_id = submission["id"]
 
         job = get_current_job()
         set_job_error(job, False)

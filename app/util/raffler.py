@@ -1,8 +1,10 @@
-from flask import current_app
-from app.config import BaseConfig as config
 from datetime import datetime
+
+from flask import current_app
 import praw
 import prawcore
+
+from app.config import BaseConfig as config
 
 
 class Raffler:

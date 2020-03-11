@@ -1,7 +1,7 @@
-from flask import abort, Blueprint, render_template, request, Markup
-from app.util import reddit
-from app.db.models import User, Raffle
+from flask import abort, Blueprint, render_template, Markup
+from app.services import reddit_service
 from app.extensions import rq, cache, db
+from app.db.models.raffle import Raffle
 
 raffles = Blueprint("raffles", __name__)
 
@@ -17,7 +17,9 @@ def index():
 @raffles.route("/new")
 def new():
     return render_template(
-        "raffles/new.html", title="New Raffle", reddit_login_url=reddit.get_auth_url()
+        "raffles/new.html",
+        title="New Raffle",
+        reddit_login_url=reddit_service.get_oauth_url(),
     )
 
 

@@ -1,8 +1,10 @@
+import pytest
+
 from app.config import TestConfig
 from app.factory import create_app
 from app.extensions import db as _db
-from app.db.models import Raffle, User
-import pytest
+from app.db.models.raffle import Raffle
+from app.db.models.user import User
 
 
 @pytest.fixture(scope="session")
@@ -59,3 +61,14 @@ def raffle(db_session, user):
     db_session.add(raffle)
     db_session.commit()
     return raffle
+
+
+@pytest.fixture
+def authed_client(client, db_session, mocker):
+    with client.session_transaction() as session:
+        session["jwt"] = "some_jwt"
+        session["reddit_username"] = "some_username"
+
+    jwt_decode = mocker.patch("app.util.jwt_helper.decode")
+    jwt_decode.return_value = {"user_id": 9999, "username": "redditraffler-test"}
+    yield client

@@ -1,7 +1,8 @@
 from flask.cli import with_appcontext
-from app.db.models import Raffle
-from app.extensions import db, cache
 import click
+
+from app.db.models.raffle import Raffle
+from app.extensions import db, cache
 
 
 @click.command(name="delete")

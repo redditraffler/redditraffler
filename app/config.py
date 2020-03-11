@@ -6,6 +6,7 @@ load_dotenv()
 
 class BaseConfig:
     SECRET_KEY = os.getenv("SECRET_KEY")
+    ENC_KEY = os.getenv("ENC_KEY")
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
     RQ_REDIS_URL = os.getenv("REDIS_URL")

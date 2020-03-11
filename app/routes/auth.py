@@ -1,16 +1,7 @@
-from flask import (
-    abort,
-    Blueprint,
-    current_app,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-)
-from app.util import reddit
-from app.extensions import db
-from app.db.models import User
+from flask import abort, Blueprint, current_app, redirect, request, session, url_for
+
+from app.db.models.user import User
+from app.services import reddit_service
 
 auth = Blueprint("auth", __name__)
 
@@ -26,23 +17,23 @@ def auth_redirect():
     if request.args.get("error") == "access_denied":
         current_app.logger.warning("User declined Reddit authorization")
         return redirect(url_for("base.index"))
-    if ("reddit_refresh_token" in session) and ("reddit_username" in session):
+    if ("jwt" in session) and ("reddit_username" in session):
         return redirect(url_for("base.index"))
 
     try:
-        refresh_token = reddit.authorize(request.args.get("code"))
-        username = reddit.get_username(refresh_token)
+        auth_code = request.args.get("code")
+        refresh_token = reddit_service.authorize(auth_code)
+        reddit_user = reddit_service.get_user_from_token(refresh_token)
+        username = reddit_user.name
 
-        session["reddit_refresh_token"] = refresh_token
+        user = User.find_or_create(username)
+        user.set_refresh_token(refresh_token)
+        jwt = user.get_jwt()
+
+        session["jwt"] = jwt
         session["reddit_username"] = username
 
-        if not User.query.filter_by(username=username).scalar():
-            user = User(username=username)
-            db.session.add(user)
-            db.session.commit()
-            current_app.logger.info("Created new user", {"username": username})
+        return redirect(url_for("raffles.new"))
     except:
         current_app.logger.exception("Reddit auth redirect failure")
         abort(500)
-
-    return redirect(url_for("raffles.new"))
