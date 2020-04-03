@@ -92,7 +92,7 @@ class RaffleFormValidator:
         submission = reddit_service.get_submission_by_url(url)
         has_existing_raffle = (
             Raffle.query.filter(Raffle.submission_id == submission["id"])
-            .filter(Raffle.user_id is not None)
+            .filter(Raffle.user_id.isnot(None))
             .scalar()
         )
         if has_existing_raffle:
