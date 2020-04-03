@@ -68,7 +68,7 @@ def new_raffle():
         return jsonify({"message": "Form validation failed."}), 422
 
     form = validator.get_sanitized_form()
-    user = User.find_by_jwt(session["jwt"]) if 'jwt' in session else None
+    user = User.find_by_jwt(session["jwt"]) if "jwt" in session else None
     sub_id = reddit_service.get_submission_by_url(form["submissionUrl"])["id"]
 
     raffle.queue(raffle_params=_raffle_params_from_form(form), user=user, job_id=sub_id)
@@ -91,13 +91,6 @@ def _filter_submissions(submissions_list):
     existing_verified_raffles = Raffle.get_verified_raffles()
     excluded_ids = set([r.submission_id for r in existing_verified_raffles])
     return [sub for sub in submissions_list if sub["id"] not in excluded_ids]
-
-
-def _try_get_user_from_session():
-    if "reddit_username" in session:
-        return User.query.filter_by(username=session["reddit_username"]).first()
-    else:
-        return None
 
 
 def _raffle_params_from_form(form):

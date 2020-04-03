@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 Nothing here yet!
 
+## 2020.2 (2020-04-02)
+
+### Fixed
+
+- Fixed an issue where users could not create a raffle for a submission that has an existing unverified raffle
+
 ## 2020.1 (2020-03-10)
 
 ### Security

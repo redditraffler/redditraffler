@@ -33,7 +33,7 @@ class Raffle(db.Model):
 
     @classmethod
     def get_verified_raffles(cls):
-        return cls.query.filter(cls.user_id is not None).all()
+        return cls.query.filter(cls.user_id.isnot(None)).all()
 
     def is_verified(self):
         return self.creator and (self.submission_author == self.creator.username)
