@@ -97,7 +97,8 @@ class User(db.Model):
         Returns a JWT containing the user ID and the username.
 
         Returns:
-            bytes: Payload encoded as a JWT bytestring
+            str: Payload encoded as a JWT string
         """
         payload = {"user_id": self.id, "username": self.username}
-        return jwt_helper.encode(payload)
+        jwt_bytes = jwt_helper.encode(payload)
+        return jwt_bytes.decode()
