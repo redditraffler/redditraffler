@@ -1,6 +1,3 @@
-# NOTE: This module/blueprint should only be used as an API backend for an SPA
-# front-end. It's currently a dead code path.
-
 from flask import Blueprint, jsonify, request
 
 from app.extensions import csrf
