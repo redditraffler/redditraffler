@@ -55,6 +55,7 @@ class TestAuthorizeOauthCode:
         def test_returns_jwt_on_success(self, client, working_authorize, mocker):
             mocker.patch("app.views.oauth.reddit_service.get_user_from_token")
             user_instance = mocker.Mock()
+            user_instance.username = "testUser"
             user_instance.get_jwt.return_value = "some jwt"
             mocker.patch(
                 "app.views.oauth.User.find_or_create"
@@ -65,3 +66,4 @@ class TestAuthorizeOauthCode:
             )
             assert res.status_code == 200
             assert res.get_json().get("jwt") == "some jwt"
+            assert res.get_json().get("username") == "testUser"

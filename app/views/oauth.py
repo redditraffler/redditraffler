@@ -34,4 +34,4 @@ def authorize_oauth_code():
     user.set_refresh_token(refresh_token)
     jwt = user.get_jwt()
 
-    return jsonify(jwt=jwt)
+    return jsonify(jwt=jwt, username=user.username)
