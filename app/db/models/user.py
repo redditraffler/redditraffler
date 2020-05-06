@@ -102,3 +102,18 @@ class User(db.Model):
         payload = {"user_id": self.id, "username": self.username}
         jwt_bytes = jwt_helper.encode(payload)
         return jwt_bytes.decode()
+
+    def get_profile(self):
+        raffles = self.raffles
+        raffle_submission_ids = [raf.submission_id for raf in raffles]
+
+        # Vanity stats
+        raffle_count = len(self.raffles)
+        winners_selected = sum([raf.winner_count for raf in raffles])
+
+        return dict(
+            created_at=self.created_at.isoformat(),
+            raffle_submission_ids=raffle_submission_ids,
+            raffle_count=raffle_count,
+            winners_selected=winners_selected,
+        )
