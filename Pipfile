@@ -36,6 +36,7 @@ cryptography = "==2.8"
 black = "==19.3b0"
 honcho = "==1.0.1"
 "flake8" = "*"
+factory-boy = "*"
 
 [requires]
 python_version = "3.6"
