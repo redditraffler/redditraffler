@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import current_app
 import praw
 import prawcore
+import random
 
 from app.config import BaseConfig as config
 
@@ -75,7 +76,9 @@ class Raffler:
         succeeded in finding enough winners to match `winner_count`.
         """
         while (len(self._entries) > 0) and (len(self._winners) < self.winner_count):
-            entry = self._entries.pop()
+            entry = random.choice(tuple(self._entries))
+            self._entries.remove(entry)
+
             user = self._try_create_user(entry.author)
             if user and self._is_valid_winner(user):
                 self._winners.update({user: entry})

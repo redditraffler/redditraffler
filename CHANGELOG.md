@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 Nothing here yet!
 
+## 2020.3 (2020-05-11)
+
+### Fixed
+
+- Fixed an issue where the selected winners would be mostly the same across multiple raffle runs.
+
 ## 2020.2 (2020-04-02)
 
 ### Fixed
