@@ -1,11 +1,17 @@
 import pytest
 
 from app.commands import delete, clear_cache
+from tests.factories import RaffleFactory
 
 
 @pytest.fixture
 def runner(app):
     yield app.test_cli_runner()
+
+
+@pytest.fixture
+def raffle():
+    return RaffleFactory()
 
 
 class TestDelete:

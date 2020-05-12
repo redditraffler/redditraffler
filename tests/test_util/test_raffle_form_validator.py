@@ -1,6 +1,7 @@
 import pytest
 
 from app.util.raffle_form_validator import RaffleFormValidator
+from tests.factories import RaffleFactory
 
 
 @pytest.fixture
@@ -23,6 +24,11 @@ def unsanitized_form():
         "minLink": "0",
         "ignoredUsers": "[]",
     }
+
+
+@pytest.fixture
+def raffle():
+    return RaffleFactory()
 
 
 def test_run_valid(base_form, mocker):

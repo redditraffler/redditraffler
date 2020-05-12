@@ -3,8 +3,7 @@ import pytest
 from app.config import TestConfig
 from app.factory import create_app
 from app.extensions import db as _db
-from app.db.models.raffle import Raffle
-from app.db.models.user import User
+from tests.helpers import scoped_session
 
 
 @pytest.fixture(scope="session")
@@ -24,43 +23,15 @@ def db(app, request):
     _db.drop_all()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session", autouse=True)
 def db_session(db, request):
     connection = db.engine.connect()
-    transaction = connection.begin()
-    options = dict(bind=connection, binds={})
-    session = db.create_scoped_session(options=options)
+    session = scoped_session
+    session.configure(bind=connection)
     db.session = session
     yield session
-    transaction.rollback()
     connection.close()
     session.remove()
-
-
-@pytest.fixture
-def user(db_session):
-    user = User(username="test_user")
-    db_session.add(user)
-    db_session.commit()
-    return user
-
-
-@pytest.fixture
-def raffle(db_session, user):
-    raffle = Raffle(
-        submission_id="test_id",
-        submission_title="test_title",
-        submission_author="test_author",
-        subreddit="test_subreddit",
-        winner_count=1,
-        min_account_age=0,
-        min_comment_karma=0,
-        min_link_karma=0,
-        user_id=user.id,
-    )
-    db_session.add(raffle)
-    db_session.commit()
-    return raffle
 
 
 @pytest.fixture

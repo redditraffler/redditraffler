@@ -1,7 +1,8 @@
-from app.db.models import user as user_module
-
 import jwt as pyjwt
 import pytest
+
+from app.db.models import user as user_module
+from tests.factories import UserFactory
 
 
 @pytest.fixture
@@ -9,6 +10,11 @@ def app_with_keys(app):
     app.config["ENC_KEY"] = b"oAG2nvtnITkBD1UJulsNUm52mMLyJ5FscwiUspxvUdM="
     app.config["SECRET_KEY"] = "haha what"
     yield app
+
+
+@pytest.fixture
+def user():
+    return UserFactory()
 
 
 @pytest.fixture
@@ -52,10 +58,10 @@ class TestUser:
 
         def test_returns_existing_user(self, user, db_session):
             old_user_count = get_users_count(db_session)
-            user = user_module.User.find_or_create("test_user")
+            user_from_db = user_module.User.find_or_create(user.username)
             new_user_count = get_users_count(db_session)
 
-            assert user.username == "test_user"
+            assert user.username == user_from_db.username
             assert old_user_count == new_user_count
 
         def test_creates_new_user(self, db_session):
@@ -75,7 +81,9 @@ class TestUser:
         def test_encrypts_token_and_saves(self, user, app_with_keys, db_session):
             assert user.refresh_token_enc is None
             user.set_refresh_token("hey_this_is_some_refresh_token")
-            saved_token = db_session.query(user_module.User).first().refresh_token_enc
+            saved_token = (
+                db_session.query(user_module.User).get(user.id).refresh_token_enc
+            )
             assert saved_token is not None
             assert type(saved_token) == bytes
 
@@ -97,4 +105,3 @@ class TestUser:
                 "user_id": user.id,
                 "username": user.username,
             }
-
