@@ -4,8 +4,8 @@ from app.services import reddit_service
 from app.util.raffler import Raffler
 from app.jobs.raffle_job import raffle
 from app.db.models.raffle import Raffle
-from app.db.models.user import User
 from tests.helpers import raffler_params
+from tests.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)
@@ -29,10 +29,13 @@ class TestRaffle:
             assert len(saved_raffle.winners) == 1
             assert saved_raffle.winners[0].username == "test-user"
 
-        def test_raffle_verified_db_saving(self, db_session, client):
-            user = User(username="verified_redditor")
-            db_session.add(user)
+            # Delete the saved row
+            db_session.delete(saved_raffle)
             db_session.commit()
+
+        def test_raffle_verified_db_saving(self, db_session, client):
+            user = UserFactory(username="verified_redditor")
+
             raffle.queue(raffler_params(), user)
 
             saved_raffle = Raffle.query.filter_by(submission_id="abc123").first()
@@ -40,6 +43,10 @@ class TestRaffle:
             assert saved_raffle.creator.username == "verified_redditor"
             assert len(saved_raffle.winners) == 1
             assert saved_raffle.winners[0].username == "test-user"
+
+            # Delete the saved row
+            db_session.delete(saved_raffle)
+            db_session.commit()
 
     class TestFailure:
         @pytest.fixture
