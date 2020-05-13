@@ -109,11 +109,11 @@ class User(db.Model):
 
         # Vanity stats
         raffle_count = len(self.raffles)
-        winners_selected = sum([raf.winner_count for raf in raffles])
+        num_winners_selected = sum([raf.winner_count for raf in raffles])
 
         return dict(
             created_at=self.created_at.isoformat(),
             raffle_submission_ids=raffle_submission_ids,
             raffle_count=raffle_count,
-            winners_selected=winners_selected,
+            num_winners_selected=num_winners_selected,
         )
