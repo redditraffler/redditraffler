@@ -19,8 +19,6 @@ class BaseConfig:
         "CACHE_REDIS_URL": os.getenv("REDIS_URL"),
         "CACHE_DEFAULT_TIMEOUT": 60 * 60 * 24,  # 1 day
     }
-    ROLLBAR_ACCESS_TOKEN = os.getenv("ROLLBAR_ACCESS_TOKEN")
-    ROLLBAR_ENABLED = False
 
     ROLLBAR_ACCESS_TOKEN = os.getenv("ROLLBAR_ACCESS_TOKEN")
     ROLLBAR_ENABLED = False
