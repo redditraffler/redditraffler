@@ -1,4 +1,5 @@
 version: 2.1
+
 jobs:
   build-and-test:
     docker:
@@ -33,3 +34,9 @@ jobs:
       - store_artifacts:
           path: test-reports
           destination: test-reports
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build-and-test
