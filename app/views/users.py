@@ -4,7 +4,7 @@ from app.extensions import csrf
 from app.db.models.user import User
 
 user = Blueprint("api_users", __name__)
-csrf.exempt(user)
+# csrf.exempt(user)
 
 
 @user.route("/<username>")

@@ -5,7 +5,7 @@ from app.services import reddit_service
 from app.db.models.user import User
 
 oauth = Blueprint("oauth", __name__)
-csrf.exempt(oauth)
+# csrf.exempt(oauth)
 
 
 MISSING_AUTH_CODE_MESSAGE = "Authorization code is required."
