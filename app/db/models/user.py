@@ -97,7 +97,23 @@ class User(db.Model):
         Returns a JWT containing the user ID and the username.
 
         Returns:
-            bytes: Payload encoded as a JWT bytestring
+            str: Payload encoded as a JWT string
         """
         payload = {"user_id": self.id, "username": self.username}
-        return jwt_helper.encode(payload)
+        jwt_bytes = jwt_helper.encode(payload)
+        return jwt_bytes.decode()
+
+    def get_profile(self):
+        raffles = self.raffles
+        raffle_submission_ids = [raf.submission_id for raf in raffles]
+
+        # Vanity stats
+        raffle_count = len(self.raffles)
+        num_winners_selected = sum([raf.winner_count for raf in raffles])
+
+        return dict(
+            created_at=self.created_at.isoformat(),
+            raffle_submission_ids=raffle_submission_ids,
+            raffle_count=raffle_count,
+            num_winners_selected=num_winners_selected,
+        )

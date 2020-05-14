@@ -1,6 +1,19 @@
 from flask import url_for
+import pytest
+
+from tests.factories import RaffleFactory
 
 get_submission_by_url_path = "app.services.reddit_service.get_submission_by_url"
+
+
+@pytest.fixture
+def unverified_raffle():
+    return RaffleFactory(unverified=True)
+
+
+@pytest.fixture
+def raffle():
+    return RaffleFactory()
 
 
 class TestSubmissions:
@@ -41,8 +54,11 @@ class TestSubmission:
         res = authed_client.get(url_for("api.submission", url="some_url"))
         assert res.status_code == 404
 
-    def test_is_existing_raffle(self, authed_client, mocker, raffle):
-        mocker.patch(get_submission_by_url_path).return_value = {"id": "test_id"}
+    def test_is_existing_raffle(self, authed_client, mocker, unverified_raffle):
+        mocker.patch(get_submission_by_url_path).return_value = {
+            "id": unverified_raffle.submission_id
+        }
+
         res = authed_client.get(url_for("api.submission", url="some_url"))
         assert res.status_code == 303
 
@@ -77,7 +93,8 @@ def test_get_user_raffles_invalid_user(client, db_session):
     assert res.status_code == 404
 
 
-def test_get_user_raffles_valid_user(client, db_session, user, raffle):
+def test_get_user_raffles_valid_user(client, db_session, raffle):
+    user = raffle.creator
     res = client.get(url_for("api.get_user_raffles", username=user.username))
     assert res.status_code == 200
     assert len(res.json) == len(user.raffles)
