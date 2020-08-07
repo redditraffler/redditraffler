@@ -13,7 +13,7 @@ jobs:
           POSTGRES_USERNAME: circleci_test_user
           POSTGRES_PASSWORD: circle
 
-      - image: redis
+      - image: circleci/redis:4.0.14-alpine # should match Heroku Redis version
 
     working_directory: ~/repo
 
