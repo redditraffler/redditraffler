@@ -6,10 +6,15 @@ jobs:
       - image: circleci/python:3.6.1
         environment:
           PIPENV_VENV_IN_PROJECT: true
-          DATABASE_URL: postgresql://root@localhost/circle_test
+          DATABASE_URL: postgresql://test:rr@localhost/redditraffler_test
 
-      - image: circleci/postgres:9.6.5-alpine-ram
-      - image: redis
+      - image: postgres:12.3-alpine # should match Heroku Postgres version
+        environment:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: rr
+          POSTGRES_DB: redditraffler_test
+
+      - image: circleci/redis:4.0.14-alpine # should match Heroku Redis version
 
     working_directory: ~/repo
 

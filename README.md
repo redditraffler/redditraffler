@@ -16,8 +16,7 @@ redditraffler is a [Flask](https://github.com/pallets/flask) app with jQuery for
 
 - Python 3.6+
 - pipenv
-- Redis
-- PostgreSQL 9.4+
+- Docker and Docker Compose (for Redis and PostgreSQL)
 - 2 Reddit API keys (one web app, one script app)
 
 ## Installation
@@ -30,39 +29,30 @@ $ pipenv install --dev
 
 ## Configuration
 
-For the app to run properly, you'll need to provide configuration values for your database, Redis, and your Reddit app+bot credentials. See [app/config.py](app/config.py) for the required environmental variables.
+For the app to run properly, you'll need to provide configuration values via a `.env` file at the app's root directory. Use [`.env.example`](./.env.example) as a template for your `.env` file.
 
-You can load these environmental variables in manually or you can create a `.env` file in the app root. See [python-dotenv](https://github.com/theskumar/python-dotenv) for more information.
-
-## Database Setup
-
-We use Postgres in production so it'd be a good idea to do the same for development.
-Once you have your database set up and app config pointing to it, you'll need to run the database migrations.
-
-```
-$ FLASK_APP=runserver.py flask db upgrade
-```
+For the full list of environment variables used by the app, see [`app/config.py`](app/config.py).
 
 ## Starting The App
 
-Set `$FLASK_APP`:
+Spin up the Docker containers for Postgres and Redis:
 
 ```
-$ export FLASK_APP=runserver.py
+$ docker-compose up
 ```
 
 To start up the development server:
 
 ```
-$ pipenv run honcho start -f Procfile.dev
+$ bin/start
 ```
 
-This will start up a web server and worker process.
+This will run migrations to keep the database schema up to date, then start up the Flask web server and a worker process.
 
 ## Testing
 
 Run the app's tests with
 
 ```
-$ pytest
+$ pipenv run test
 ```
