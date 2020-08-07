@@ -12,7 +12,7 @@ start = "honcho start -f Procfile.dev"
 Flask-SSLify = {editable = true, ref = "8c70d29474bb06688c398ccf51d0bf90503d287a", git = "https://github.com/timorthi/flask-sslify.git"}
 flask = "==1.0.2"
 flask-assets = "==0.12"
-flask-caching = "==1.7.1"
+flask-caching = "==1.9.0"
 flask-limiter = "==1.0.1"
 flask-migrate = "==2.5.3"
 "flask-rq2" = "==18.3"
