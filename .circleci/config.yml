@@ -6,7 +6,9 @@ jobs:
       - image: circleci/python:3.6.1
         environment:
           PIPENV_VENV_IN_PROJECT: true
-          DATABASE_URL: postgresql://root@localhost/circle_test
+          POSTGRES_USERNAME: circleci_test_user
+          POSTGRES_PASSWORD: circle
+          DATABASE_URL: postgresql://circleci_test_user:circle@localhost/circle_test
 
       - image: circleci/postgres:12.3 # should match Heroku Postgres
       - image: redis
