@@ -16,8 +16,7 @@ redditraffler is a [Flask](https://github.com/pallets/flask) app with jQuery for
 
 - Python 3.6+
 - pipenv
-- Redis
-- PostgreSQL 9.4+
+- Docker and Docker Compose (for Redis and PostgreSQL)
 - 2 Reddit API keys (one web app, one script app)
 
 ## Installation
@@ -34,35 +33,26 @@ For the app to run properly, you'll need to provide configuration values for you
 
 You can load these environmental variables in manually or you can create a `.env` file in the app root. See [python-dotenv](https://github.com/theskumar/python-dotenv) for more information.
 
-## Database Setup
-
-We use Postgres in production so it'd be a good idea to do the same for development.
-Once you have your database set up and app config pointing to it, you'll need to run the database migrations.
-
-```
-$ FLASK_APP=runserver.py flask db upgrade
-```
-
 ## Starting The App
 
-Set `$FLASK_APP`:
+Spin up the Docker containers for Postgres and Redis:
 
 ```
-$ export FLASK_APP=runserver.py
+$ docker-compose up
 ```
 
 To start up the development server:
 
 ```
-$ pipenv run honcho start -f Procfile.dev
+$ bin/start
 ```
 
-This will start up a web server and worker process.
+This will run migrations to keep the database schema up to date, then start up the Flask web server and a worker process.
 
 ## Testing
 
 Run the app's tests with
 
 ```
-$ pytest
+$ pipenv run test
 ```
