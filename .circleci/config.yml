@@ -8,7 +8,7 @@ jobs:
           PIPENV_VENV_IN_PROJECT: true
           DATABASE_URL: postgresql://root@localhost/circle_test
 
-      - image: circleci/postgres:9.6.5-alpine-ram
+      - image: circleci/postgres:12.3 # should match Heroku Postgres
       - image: redis
 
     working_directory: ~/repo
