@@ -29,9 +29,9 @@ $ pipenv install --dev
 
 ## Configuration
 
-For the app to run properly, you'll need to provide configuration values for your database, Redis, and your Reddit app+bot credentials. See [app/config.py](app/config.py) for the required environmental variables.
+For the app to run properly, you'll need to provide configuration values via a `.env` file at the app's root directory. Use [`.env.example`](./.env.example) as a template for your `.env` file.
 
-You can load these environmental variables in manually or you can create a `.env` file in the app root. See [python-dotenv](https://github.com/theskumar/python-dotenv) for more information.
+For the full list of environment variables used by the app, see [`app/config.py`](app/config.py).
 
 ## Starting The App
 
