@@ -1,0 +1,9 @@
+{
+  "name": "redditraffler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:timorthi/redditraffler.git",
+  "author": "Timothy Ng",
+  "license": "MIT",
+  "private": true
+}
