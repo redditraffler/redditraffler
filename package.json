@@ -6,6 +6,9 @@
   "author": "Timothy Ng",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "build": "webpack"
+  },
   "devDependencies": {
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
