@@ -124,7 +124,7 @@ def register_webpack_context_processor(app):
         Returns:
             str: the path to the target file within the app's static folder
         """
-        path_to_manifest = f"{app.static_folder}/manifest.json"
+        path_to_manifest = f"{app.static_folder}/js_build/manifest.json"
         entrypoint_file_name = f"{entrypoint}.js"
 
         with open(path_to_manifest, "r") as manifest_file:
@@ -135,7 +135,9 @@ def register_webpack_context_processor(app):
                 f"Entrypoint '{entrypoint_file_name}' not found in manifest.json"
             )
 
-        return url_for("static", filename=manifest_json[entrypoint_file_name])
+        return url_for(
+            "static", filename=f"js_build/{manifest_json[entrypoint_file_name]}"
+        )
 
     # Register url_for_webpack_output as a context processor
     app.context_processor(lambda: dict(url_for_webpack_output=url_for_webpack_output))
