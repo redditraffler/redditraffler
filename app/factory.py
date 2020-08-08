@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 from flask_assets import Bundle
 from pprint import pformat
+import json
 
 from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
 from app.routes import base, auth, raffles, api, users
@@ -19,6 +20,7 @@ def create_app(config_object=ProdConfig):
     register_blueprints(app)
     register_extensions(app)
     register_commands(app)
+    register_webpack_context_processor(app)
     return app
 
 
@@ -104,3 +106,36 @@ def init_ssl(app):
 def register_commands(app):
     app.cli.add_command(delete)
     app.cli.add_command(clear_cache)
+
+
+def register_webpack_context_processor(app):
+    """Adds the url_for_webpack_output utility function in Jinja templates
+    """
+
+    def url_for_webpack_output(entrypoint: str):
+        """
+
+        Args:
+            entrypoint (str): Webpack entrypoint name
+
+        Raises:
+            KeyError: If the entrypoint does not exist within the manifest
+
+        Returns:
+            str: the path to the target file within the app's static folder
+        """
+        path_to_manifest = f"{app.static_folder}/manifest.json"
+        entrypoint_file_name = f"{entrypoint}.js"
+
+        with open(path_to_manifest, "r") as manifest_file:
+            manifest_json = json.load(open(path_to_manifest, "r"))
+
+        if entrypoint_file_name not in manifest_json:
+            raise KeyError(
+                f"Entrypoint '{entrypoint_file_name}' not found in manifest.json"
+            )
+
+        return url_for("static", filename=manifest_json[entrypoint_file_name])
+
+    # Register url_for_webpack_output as a context processor
+    app.context_processor(lambda: dict(url_for_webpack_output=url_for_webpack_output))
