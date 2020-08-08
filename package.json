@@ -5,5 +5,9 @@
   "repository": "git@github.com:timorthi/redditraffler.git",
   "author": "Timothy Ng",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
 }
