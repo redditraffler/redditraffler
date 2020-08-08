@@ -1,2 +1,3 @@
 web: PYTHONUNBUFFERED=true flask run
 worker: PYTHONUNBUFFERED=true flask rq worker
+webpack_dev_server: yarn run debug
