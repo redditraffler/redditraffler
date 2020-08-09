@@ -11,9 +11,8 @@
     "yarn": "1.x"
   },
   "scripts": {
-    "build": "webpack",
-    "debug": "webpack-dev-server",
-    "heroku-postbuild": "webpack"
+    "debug": "webpack-dev-server --config webpack.dev.js",
+    "heroku-postbuild": "webpack --config webpack.prod.js"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
