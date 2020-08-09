@@ -8,7 +8,7 @@
   "private": true,
   "engines": {
     "node": "12.x",
-    "yarn": "2.x"
+    "yarn": "1.x"
   },
   "scripts": {
     "build": "webpack",
@@ -20,6 +20,7 @@
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
-    "webpack-manifest-plugin": "^2.2.0"
+    "webpack-manifest-plugin": "^2.2.0",
+    "webpack-merge": "^5.1.1"
   }
 }
