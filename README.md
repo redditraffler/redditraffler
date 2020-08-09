@@ -18,13 +18,15 @@ redditraffler is a [Flask](https://github.com/pallets/flask) app with jQuery for
 - pipenv
 - Docker and Docker Compose (for Redis and PostgreSQL)
 - 2 Reddit API keys (one web app, one script app)
+- Yarn 1.x
 
 ## Installation
 
-```
+```sh
 $ git clone git@github.com:timorthi/redditraffler.git
 $ cd redditraffler
-$ pipenv install --dev
+$ pipenv install --dev # install python dependencies
+$ yarn install --dev # install node dependencies
 ```
 
 ## Configuration
@@ -37,13 +39,13 @@ For the full list of environment variables used by the app, see [`app/config.py`
 
 Spin up the Docker containers for Postgres and Redis:
 
-```
+```sh
 $ docker-compose up
 ```
 
 To start up the development server:
 
-```
+```sh
 $ bin/start
 ```
 
@@ -53,6 +55,6 @@ This will run migrations to keep the database schema up to date, then start up t
 
 Run the app's tests with
 
-```
+```sh
 $ pipenv run test
 ```
