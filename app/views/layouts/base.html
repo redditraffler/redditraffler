@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="redditraffler is an automated raffle system for Reddit submissions. Use redditraffler to help you choose winners for your Reddit contests, raffles, and giveaways!">
-    <meta name="author" content="Timothy Ng">
-    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="redditraffler is an automated raffle system for Reddit submissions. Use redditraffler to help you choose winners for your Reddit contests, raffles, and giveaways!"
+    />
+    <meta name="author" content="Timothy Ng" />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/favicon.ico') }}"
+    />
     <title>redditraffler - {{ title }}</title>
-    {% assets "css_base" %} <link rel="stylesheet" href="{{ ASSET_URL }}"> {% endassets %}
-    {% if config['ENV'] == 'production' %}
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77153949-3"></script>
+    {% assets "css_base" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}" />
+    {% endassets %} {% if config['ENV'] == 'production' %}
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-77153949-3"
+    ></script>
     <script src="{{ url_for('static', filename='js/gtag.js') }}"></script>
-    {% endif %}
-    {% block styles %} {% endblock %}
-</head>
+    {% endif %} {% block styles %} {% endblock %}
+  </head>
 
-<body>
-    {% include 'layouts/header.html' %}
-
-    {% block content %} {% endblock %}
-
-    {% include 'layouts/footer.html' %}
-</body>
-    {% assets "js_base" %} <script type="text/javascript" src="{{ ASSET_URL }}"></script> {% endassets %}
-    {% block js %} {% endblock %}
+  <body>
+    {% include 'layouts/header.html' %} {% block content %} {% endblock %} {%
+    include 'layouts/footer.html' %}
+  </body>
+  {% assets "js_base" %}
+  <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+  {% endassets %}
+  <script src="{{ url_for_webpack_output('main') }} "></script>
+  {% block js %} {% endblock %}
 </html>

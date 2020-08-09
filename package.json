@@ -1,0 +1,25 @@
+{
+  "name": "redditraffler",
+  "version": "1.0.0",
+  "main": "app/js/index.js",
+  "repository": "git@github.com:timorthi/redditraffler.git",
+  "author": "Timothy Ng",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": "12.x",
+    "yarn": "1.x"
+  },
+  "scripts": {
+    "debug": "webpack-dev-server --config webpack.dev.js",
+    "heroku-postbuild": "webpack --config webpack.prod.js"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-manifest-plugin": "^2.2.0",
+    "webpack-merge": "^5.1.1"
+  }
+}
