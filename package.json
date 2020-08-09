@@ -6,9 +6,14 @@
   "author": "Timothy Ng",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": "12.x",
+    "yarn": "2.x"
+  },
   "scripts": {
     "build": "webpack",
-    "debug": "webpack-dev-server"
+    "debug": "webpack-dev-server",
+    "heroku-postbuild": "webpack"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
