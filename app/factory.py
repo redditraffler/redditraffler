@@ -124,6 +124,9 @@ def register_webpack_context_processor(app):
         Returns:
             str: the path to the target file within the app's static folder
         """
+        if app.config["TESTING"] or app.config["ENV"] == "test":
+            return None
+
         path_to_manifest = f"{app.static_folder}/js_build/manifest.json"
         entrypoint_file_name = f"{entrypoint}.js"
 
