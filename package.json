@@ -26,6 +26,7 @@
     "webpack-merge": "^5.1.1"
   },
   "dependencies": {
-    "jquery": "^3.5.1"
+    "jquery": "^3.5.1",
+    "moment": "^2.27.0"
   }
 }
