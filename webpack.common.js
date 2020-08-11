@@ -6,7 +6,10 @@ const targetPath = path.resolve(__dirname, "app/assets/js_build");
 module.exports.targetPath = targetPath;
 
 module.exports = {
-  entry: "./app/js/index.js",
+  entry: {
+    main: "./app/js/index.js",
+    "layouts/footer": "./app/js/pages/layouts/footer.js",
+  },
   output: {
     filename: "[name].[contenthash].js",
     path: targetPath,
