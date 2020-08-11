@@ -79,7 +79,6 @@ def init_and_register_assets(app):
         "js/jquery-3.3.1.min.js",
         "js/fontawesome-v5.0.0.min.js",
         "js/sweetalert2.min.js",
-        "js/layouts/header.js",
         filters="jsmin",
         output="dist/base.js",
     )

@@ -9,6 +9,7 @@ module.exports = {
   entry: {
     main: "./app/js/index.js",
     "layouts/footer": "./app/js/pages/layouts/footer.js",
+    "layouts/header": "./app/js/pages/layouts/header.js",
   },
   output: {
     filename: "[name].[contenthash].js",

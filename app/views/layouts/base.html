@@ -33,7 +33,7 @@
   {% endassets %}
 
   <script src="{{ url_for_webpack_output('main') }} "></script>
+  <script src="{{ url_for_webpack_output('layouts/header') }} "></script>
   <script src="{{ url_for_webpack_output('layouts/footer') }} "></script>
-
   {% block js %} {% endblock %}
 </html>
