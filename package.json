@@ -12,6 +12,7 @@
   },
   "scripts": {
     "debug": "webpack-dev-server --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
     "heroku-postbuild": "webpack --config webpack.prod.js"
   },
   "devDependencies": {
