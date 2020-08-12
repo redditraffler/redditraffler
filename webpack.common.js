@@ -8,8 +8,7 @@ module.exports.targetPath = targetPath;
 module.exports = {
   entry: {
     main: "./app/js/index.js",
-    "layouts/footer": "./app/js/pages/layouts/footer.js",
-    "layouts/header": "./app/js/pages/layouts/header.js",
+    "layouts/base": "./app/js/pages/layouts/base.js",
   },
   output: {
     filename: "[name].[contenthash].js",
