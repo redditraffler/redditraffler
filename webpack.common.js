@@ -7,7 +7,6 @@ module.exports.targetPath = targetPath;
 
 module.exports = {
   entry: {
-    main: "./app/js/index.js",
     "layouts/base": "./app/js/pages/layouts/base.js",
   },
   output: {
@@ -16,7 +15,13 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin({ verbose: true, dry: false }),
-    new ManifestPlugin(),
+    new ManifestPlugin({
+      generate: (seed, files, entrypoints) => {
+        // https://github.com/danethurber/webpack-manifest-plugin/issues/181
+        // Generates a manifest in the format of { [entrypoint: string]: Array<string> }
+        return entrypoints;
+      },
+    }),
   ],
   module: {
     rules: [
@@ -31,5 +36,10 @@ module.exports = {
         },
       },
     ],
+  },
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    },
   },
 };

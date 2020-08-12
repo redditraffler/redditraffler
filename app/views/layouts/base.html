@@ -30,9 +30,6 @@
   </body>
   {% assets "js_base" %}
   <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-  {% endassets %}
-
-  <script src="{{ url_for_webpack_output('main') }} "></script>
-  <script src="{{ url_for_webpack_output('layouts/base') }} "></script>
-  {% block js %} {% endblock %}
+  {% endassets %} {{ import_webpack_entrypoint('layouts/base') | safe}} {% block
+  js %} {% endblock %}
 </html>

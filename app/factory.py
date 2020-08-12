@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for
 from flask_assets import Bundle
 from pprint import pformat
+from typing import List
 import json
 
 from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
@@ -106,10 +107,10 @@ def register_commands(app):
 
 
 def register_webpack_context_processor(app):
-    """Adds the url_for_webpack_output utility function in Jinja templates
+    """Adds the import_webpack_entrypoint utility function in Jinja templates
     """
 
-    def url_for_webpack_output(entrypoint: str):
+    def import_webpack_entrypoint(entrypoint: str) -> List[str]:
         """
 
         Args:
@@ -119,25 +120,29 @@ def register_webpack_context_processor(app):
             KeyError: If the entrypoint does not exist within the manifest
 
         Returns:
-            str: the path to the target file within the app's static folder
+            List[str]: a HTML string representing script tags to import the entrypoint's bundled files
         """
         if app.config["TESTING"] or app.config["ENV"] == "test":
             return None
 
         path_to_manifest = f"{app.static_folder}/js_build/manifest.json"
-        entrypoint_file_name = f"{entrypoint}.js"
 
         with open(path_to_manifest, "r") as manifest_file:
             manifest_json = json.load(open(path_to_manifest, "r"))
 
-        if entrypoint_file_name not in manifest_json:
-            raise KeyError(
-                f"Entrypoint '{entrypoint_file_name}' not found in manifest.json"
+        if entrypoint not in manifest_json:
+            raise KeyError(f"Entrypoint '{entrypoint}' not found in manifest.json")
+
+        script_tags = []
+        for file in manifest_json[entrypoint]:
+            path_to_file = url_for("static", filename=f"js_build/{file}")
+            script_tags.append(
+                f'<script type="text/javascript" src="{path_to_file}"></script>'
             )
 
-        return url_for(
-            "static", filename=f"js_build/{manifest_json[entrypoint_file_name]}"
-        )
+        return "".join(script_tags)
 
-    # Register url_for_webpack_output as a context processor
-    app.context_processor(lambda: dict(url_for_webpack_output=url_for_webpack_output))
+    # Register import_webpack_entrypoint as a context processor
+    app.context_processor(
+        lambda: dict(import_webpack_entrypoint=import_webpack_entrypoint)
+    )
