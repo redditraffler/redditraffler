@@ -1,4 +1,7 @@
-import moment from "moment";
+import dayjs from "dayjs";
+import dayjs_utc from "dayjs/plugin/utc";
+
+dayjs.extend(dayjs_utc);
 
 document.addEventListener("DOMContentLoaded", () => {
   // Header nav burger
@@ -22,10 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Footer
-  document.getElementById("year").innerHTML = moment().utc().format("YYYY");
+  document.getElementById("year").innerHTML = dayjs().utc().format("YYYY");
   setInterval(() => {
-    document.getElementById("clock").innerHTML = moment()
+    document.getElementById("clock").innerHTML = dayjs()
       .utc()
-      .format("MMMM Do YYYY, h:mm:ssa");
+      .format("MMMM D, YYYY h:mm:ss a");
   }, 1000);
 });

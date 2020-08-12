@@ -29,7 +29,7 @@
   "dependencies": {
     "datatables-bulma": "^1.0.1",
     "datatables.net-dt": "^1.10.21",
-    "jquery": "^3.5.1",
-    "moment": "^2.27.0"
+    "dayjs": "^1.8.33",
+    "jquery": "^3.5.1"
   }
 }
