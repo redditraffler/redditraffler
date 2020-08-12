@@ -27,6 +27,8 @@
     "webpack-merge": "^5.1.1"
   },
   "dependencies": {
+    "datatables-bulma": "^1.0.1",
+    "datatables.net-dt": "^1.10.21",
     "jquery": "^3.5.1",
     "moment": "^2.27.0"
   }
