@@ -1,18 +1,21 @@
+import $ from "jquery";
+import { escapeHtml } from "../../util";
+import { Endpoint } from "../../config";
+
 function getDateFromUnixTime(timestamp) {
   return new Date(timestamp * 1000).toDateString();
 }
 
 function initTableControl() {
-  var INITIAL_ROW_COUNT = 10;
-  var rowCount = $("#submissions > tbody > tr").length;
-  var visibleRowCount = 10;
+  const rowCount = $("#submissions > tbody > tr").length;
+  const visibleRowCount = 10;
   if (rowCount > visibleRowCount) {
     $("#table-control").show();
   }
 
   $("#submissions > tbody > tr:lt(" + visibleRowCount + ")").show();
 
-  $("#show-more").click(function() {
+  $("#show-more").click(function () {
     visibleRowCount =
       visibleRowCount + 10 <= rowCount ? visibleRowCount + 10 : rowCount;
     $("#submissions > tbody > tr:lt(" + visibleRowCount + ")").show();
@@ -23,12 +26,7 @@ function initTableControl() {
 }
 
 function showSelectedSubmission($tr) {
-  var title = escapeHtml(
-    $tr
-      .children("td:first")
-      .text()
-      .trim()
-  );
+  var title = escapeHtml($tr.children("td:first").text().trim());
 
   if ($("#submission-selection-error").length > 0) {
     $("#submission-selection-error").remove();
@@ -49,7 +47,7 @@ function showSelectedSubmission($tr) {
 
 function initTableRows() {
   var $rows = $("#submissions > tbody > tr");
-  $rows.click(function() {
+  $rows.click(function () {
     $rows.removeClass("is-selected");
     $(this).addClass("is-selected");
     $("#submission-selection").val("https://redd.it/" + $(this).attr("id"));
@@ -75,7 +73,7 @@ function buildSubmissionsTable(submissions) {
   $table.append(tableHeaders);
 
   // Add row for each submission
-  submissions.forEach(function(submission) {
+  submissions.forEach(function (submission) {
     var $tableBody = $("#submissions > tbody");
     var rowTemplate =
       "<tr id='{0}'><td>{1} <a href='{2}' target='_blank'><i class='fas fa-external-link-alt fa-fw fa-xs'></i></a></td><td>{3}</td><td>{4}</td></tr>";
@@ -95,7 +93,6 @@ function buildSubmissionsTable(submissions) {
 }
 
 function showSubmissionDetails(submission) {
-  var $container = $("#submission-url-container");
   var $inputField = $("#submission-url");
   var $msg = $("#submission-url-msg");
 
@@ -120,7 +117,6 @@ function showSubmissionDetails(submission) {
 }
 
 function showSubmissionError(url) {
-  var $container = $("#submission-url-container");
   var $inputField = $("#submission-url");
   var $msg = $("#submission-url-msg");
 
@@ -180,8 +176,8 @@ function validateUrl() {
     $.ajax({
       dataType: "json",
       data: { url: url },
-      url: "/api/submission",
-      complete: showValidationResults
+      url: Endpoint.getSubmission,
+      complete: showValidationResults,
     });
   }
 }
@@ -192,7 +188,7 @@ function getFormDataForSubmit() {
   var data = $form.serializeArray();
   data.push({ name: "ignoredUsers", value: JSON.stringify(ignoredUsersList) });
 
-  return data.filter(function(obj) {
+  return data.filter(function (obj) {
     var name = obj.name;
     if (useCombinedKarma) {
       return !["minComment", "minLink"].includes(name);
@@ -214,8 +210,8 @@ function submitForm() {
     dataType: "json",
     type: "POST",
     data: formData,
-    url: formSubmitPath,
-    complete: function(jqXHR) {
+    url: Endpoint.postFormSubmit,
+    complete: function (jqXHR) {
       switch (jqXHR.status) {
         case 202: // Redirect to status page
         case 303: // Redirect to existing raffle
@@ -231,7 +227,7 @@ function submitForm() {
           $submitBtn.removeClass("is-loading");
           $submitBtn.prop("disabled", false);
       }
-    }
+    },
   });
 }
 
@@ -273,8 +269,8 @@ function confirmForm() {
     showCancelButton: true,
     cancelButtonText: "Go Back",
     text:
-      "You won't be able to edit or remove this raffle once it's created. Please make sure you've entered the options correctly!"
-  }).then(function(result) {
+      "You won't be able to edit or remove this raffle once it's created. Please make sure you've entered the options correctly!",
+  }).then(function (result) {
     if (result.value) {
       submitForm();
     }
@@ -293,7 +289,7 @@ function removeIgnoredUser() {
   // Remove user from internal list and remove tag
   var $tag = $(this).parent("span");
   var $username = $(this).siblings("span[name='username']");
-  ignoredUsersList = ignoredUsersList.filter(function(elem) {
+  ignoredUsersList = ignoredUsersList.filter(function (elem) {
     return elem.toLowerCase() != $username.text().toLowerCase();
   });
   $tag.remove();
@@ -301,7 +297,7 @@ function removeIgnoredUser() {
 
 function setDefaultIgnoredUsers() {
   var DEFAULT_USERS = ["AutoModerator"];
-  DEFAULT_USERS.forEach(function(user) {
+  DEFAULT_USERS.forEach(function (user) {
     addIgnoredUser(user);
   });
 }
@@ -312,10 +308,8 @@ function isValidUsername(username) {
     username.length >= 3 &&
     username.length <= 20 &&
     USERNAME_REGEX.test(username) &&
-    ignoredUsersList
-      .toString()
-      .toLowerCase()
-      .indexOf(username.toLowerCase()) < 0
+    ignoredUsersList.toString().toLowerCase().indexOf(username.toLowerCase()) <
+      0
   );
 }
 
@@ -372,19 +366,19 @@ function handleCombinedKarmaCheckEvent() {
   }
 
   groupToHide.hide();
-  groupToHide.find("input").each(function() {
+  groupToHide.find("input").each(function () {
     $(this).val(this.defaultValue);
   });
   groupToShow.show();
 }
 
 var ignoredUsersList = [];
-$(function() {
+$(function () {
   if ($("#submissions").length > 0) {
     $.ajax({
       dataType: "json",
       url: "/api/submissions",
-      success: buildSubmissionsTable
+      success: buildSubmissionsTable,
     });
   }
 

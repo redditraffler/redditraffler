@@ -8,6 +8,7 @@ module.exports.targetPath = targetPath;
 module.exports = {
   entry: {
     "layouts/base": "./app/js/pages/layouts/base.js",
+    "raffles/new": "./app/js/pages/raffles/new.js",
   },
   output: {
     filename: "[name].[contenthash].js",
