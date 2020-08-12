@@ -76,7 +76,6 @@ def init_and_register_assets(app):
     assets.init_app(app)
     js = Bundle(
         "js/util.js",
-        "js/jquery-3.3.1.min.js",
         "js/fontawesome-v5.0.0.min.js",
         "js/sweetalert2.min.js",
         filters="jsmin",
