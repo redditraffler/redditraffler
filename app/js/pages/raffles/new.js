@@ -1,4 +1,5 @@
 import $ from "jquery";
+import swal from "sweetalert";
 import { escapeHtml } from "../../util";
 import { Endpoint } from "../../config";
 
@@ -263,15 +264,23 @@ function validateAndSubmitForm(event) {
 
 function confirmForm() {
   swal({
-    type: "warning",
-    confirmButtonText: "Submit",
-    confirmButtonColor: "#ff7644",
-    showCancelButton: true,
-    cancelButtonText: "Go Back",
+    icon: "warning",
+    buttons: {
+      cancel: {
+        text: "Go Back",
+        value: false,
+        visible: true,
+      },
+      confirm: {
+        text: "Submit",
+        value: true,
+        visible: true,
+      },
+    },
     text:
       "You won't be able to edit or remove this raffle once it's created. Please make sure you've entered the options correctly!",
-  }).then(function (result) {
-    if (result.value) {
+  }).then(function (confirmed) {
+    if (confirmed) {
       submitForm();
     }
   });

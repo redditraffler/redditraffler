@@ -36,6 +36,15 @@
 
 .is-label-help { padding-bottom: 1rem; }
 
+.swal-button--confirm {
+    background-color: #ff7644;
+}
+.swal-button--confirm:not([disabled]):hover,
+.swal-button--confirm:active
+ {
+    background-color: #e46a3e;
+}
+
 /* Loader */
 .la-ball-clip-rotate,
 .la-ball-clip-rotate > div {

@@ -31,6 +31,7 @@
     "datatables.net-dt": "^1.10.21",
     "dayjs": "^1.8.33",
     "jquery": "^3.5.1",
-    "redaxios": "^0.3.0"
+    "redaxios": "^0.3.0",
+    "sweetalert": "^2.1.2"
   }
 }
