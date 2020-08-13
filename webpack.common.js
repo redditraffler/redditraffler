@@ -10,6 +10,7 @@ module.exports = {
     "layouts/base": "./app/js/pages/layouts/base.js",
     "raffles/index": "./app/js/pages/raffles/index.js",
     "raffles/new": "./app/js/pages/raffles/new.js",
+    "raffles/status": "./app/js/pages/raffles/status.js",
   },
   output: {
     filename: "[name].[contenthash].js",
