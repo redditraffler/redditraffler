@@ -1,54 +1,63 @@
-{% extends "layouts/base.html" %}
-
-{% block styles %}
-<link href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bulma.min.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/users/show.css') }}">
-{% endblock %}
-
-{% block content %}
+{% extends "layouts/base.html" %} {% block styles %}
+<link
+  href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css"
+  rel="stylesheet"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/dataTables.bulma.min.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/users/show.css') }}"
+/>
+{% endblock %} {% block content %}
 <section class="hero is-small is-reddit">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <p class="title has-text-light">
-                <a href="https://reddit.com/u/{{ user.username }}">/u/{{ user.username }}</a>'s raffles
-            </p>
-        </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <p class="title has-text-light">
+        <a href="https://reddit.com/u/{{ user.username }}"
+          >/u/{{ user.username }}</a
+        >'s raffles
+      </p>
     </div>
+  </div>
 </section>
 
 <section class="section">
-    <div class="container">
-        {% if user.raffles|length > 0 %}
-         <table id="raffles" class="table" width="100%">
-            <thead>
-                <tr>
-                    <td><b>Submission Title</b></td>
-                    <td><b>Subreddit</b></td>
-                    <td><b>Created At</b></td>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        {% else %}
-        <div class="content has-text-centered">
-            <p><i class="far fa-frown fa-4x has-text-reddit"></i></p>
-            {% if session['reddit_username'] == user.username %}
-            <p>This page is empty because you haven't created any raffles with your account.</p>
-            <p>If you'd like to get started, <a href="{{ url_for('raffles.new') }}">click here!</a></p>
-            {% else %}
-            <p>This page is empty because this user hasn't created any raffles with their account. Check back some other time!</p>
-            {% endif %}
-        </div>
-        {% endif %}
+  <div class="container">
+    {% if user.raffles|length > 0 %}
+    <table id="raffles" class="table" width="100%">
+      <thead>
+        <tr>
+          <td><b>Submission Title</b></td>
+          <td><b>Subreddit</b></td>
+          <td><b>Created At</b></td>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    {% else %}
+    <div class="content has-text-centered">
+      <p><i class="far fa-frown fa-4x has-text-reddit"></i></p>
+      {% if session['reddit_username'] == user.username %}
+      <p>
+        This page is empty because you haven't created any raffles with your
+        account.
+      </p>
+      <p>
+        If you'd like to get started,
+        <a href="{{ url_for('raffles.new') }}">click here!</a>
+      </p>
+      {% else %}
+      <p>
+        This page is empty because this user hasn't created any raffles with
+        their account. Check back some other time!
+      </p>
+      {% endif %}
     </div>
+    {% endif %}
+  </div>
 </section>
-{% endblock %}
-
-{% block js %}
-<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/dataTables.bulma.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/users/show.js') }}"></script>
-{% endblock %}
-
+{% endblock %} {% block js %} {{ import_webpack_entrypoint('users/show') | safe
+}} {% endblock %}

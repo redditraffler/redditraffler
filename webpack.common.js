@@ -11,6 +11,7 @@ module.exports = {
     "raffles/index": "./app/js/pages/raffles/index.js",
     "raffles/new": "./app/js/pages/raffles/new.js",
     "raffles/status": "./app/js/pages/raffles/status.js",
+    "users/show": "./app/js/pages/users/show.js",
   },
   output: {
     filename: "[name].[contenthash].js",
