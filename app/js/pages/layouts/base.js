@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
 import dayjs_utc from "dayjs/plugin/utc";
 
+require("@fortawesome/fontawesome-free/js/all");
+
 dayjs.extend(dayjs_utc);
 
 document.addEventListener("DOMContentLoaded", () => {

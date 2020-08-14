@@ -28,8 +28,7 @@
     {% include 'layouts/header.html' %} {% block content %} {% endblock %} {%
     include 'layouts/footer.html' %}
   </body>
-  {% assets "js_base" %}
-  <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-  {% endassets %} {{ import_webpack_entrypoint('layouts/base') | safe}} {% block
-  js %} {% endblock %}
+  {% assets "js_base" %} {% endassets %} {{
+  import_webpack_entrypoint('layouts/base') | safe}} {% block js %} {% endblock
+  %}
 </html>
