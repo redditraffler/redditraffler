@@ -1,7 +1,13 @@
 import dayjs from "dayjs";
 import dayjs_utc from "dayjs/plugin/utc";
+import * as ga from "ga-gtag";
 
 require("@fortawesome/fontawesome-free/js/all");
+
+if (process.env.NODE_ENV === "development") {
+  console.log("ga installed", { GA_TRACKING_ID: process.env.GA_TRACKING_ID });
+  ga.install(process.env.GA_TRACKING_ID);
+}
 
 dayjs.extend(dayjs_utc);
 

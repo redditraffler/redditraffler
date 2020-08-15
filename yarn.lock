@@ -2013,6 +2013,25 @@ domain-browser@^1.1.1:
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
   integrity sha512-jnjyiM6eRyZl2H+W8Q/zLMA481hzi0eszAaBUzIVnmYVDBbnLxVNnfu1HgEBvCbL+71FrxMl3E6lpKH7Ge3OXA==
 
+dotenv-defaults@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv-defaults/-/dotenv-defaults-2.0.0.tgz#f48577d885c7755d2a4ce1f7f3706552c0cb367e"
+  integrity sha512-8X8gQoM+BH0L/v+GwgpeNwrthbG2uTDVr3vkbedQPLrIalZE0vxB9LbuD+7echbiP7fAY3tE+pZI11R1DtlUNg==
+  dependencies:
+    dotenv "^8.2.0"
+
+dotenv-webpack@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv-webpack/-/dotenv-webpack-2.0.0.tgz#064ae42dbb214778d8aff0c76dc97253594f9ec3"
+  integrity sha512-Omo5IpVl7XRgWXeZjxdfqOBEApJPxGLMOIx3F/w/W7ppUKgYMOXrk4eczlQrErPD4X0YRESlyGJek3O4uobRnw==
+  dependencies:
+    dotenv-defaults "^2.0.0"
+
+dotenv@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
+
 duplexify@^3.4.2, duplexify@^3.6.0:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-3.7.1.tgz#2a4df5317f6ccfd91f86d6fd25d8d8a103b88309"
@@ -2457,6 +2476,11 @@ function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
+
+ga-gtag@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ga-gtag/-/ga-gtag-1.0.1.tgz#c23d9b0619cee1eec7670f6db26dd071d614a6f4"
+  integrity sha512-wWPLuVwmfMfiK5KI7w59fN5kTONRnsSmnejoDo7+6tOulxxKgTSkB4kJcgBa3VfKAunvjopAOGp/5L/BTYZftw==
 
 gensync@^1.0.0-beta.1:
   version "1.0.0-beta.1"

@@ -1,6 +1,7 @@
 const path = require("path");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const DotenvPlugin = require("dotenv-webpack");
 
 const targetPath = path.resolve(__dirname, "app/assets/js_build");
 module.exports.targetPath = targetPath;
@@ -18,6 +19,7 @@ module.exports = {
     path: targetPath,
   },
   plugins: [
+    new DotenvPlugin({ systemvars: true }),
     new CleanWebpackPlugin({ verbose: true, dry: false }),
     new ManifestPlugin({
       generate: (seed, files, entrypoints) => {
