@@ -74,7 +74,6 @@ def register_extensions(app):
 
 def init_and_register_assets(app):
     assets.init_app(app)
-    js = Bundle("js/fontawesome-v5.0.0.min.js", filters="jsmin", output="dist/base.js")
     css = Bundle(
         "css/bulma.css",
         "css/balloon.min.css",
@@ -82,7 +81,6 @@ def init_and_register_assets(app):
         filters="cssmin",
         output="dist/base.css",
     )
-    assets.register("js_base", js)
     assets.register("css_base", css)
 
 
@@ -118,7 +116,7 @@ def register_webpack_context_processor(app):
         if app.config["TESTING"] or app.config["ENV"] == "test":
             return None
 
-        path_to_manifest = f"{app.static_folder}/js_build/manifest.json"
+        path_to_manifest = f"{app.static_folder}/dist/js/manifest.json"
 
         with open(path_to_manifest, "r") as manifest_file:
             manifest_json = json.load(open(path_to_manifest, "r"))
@@ -128,7 +126,7 @@ def register_webpack_context_processor(app):
 
         script_tags = []
         for file in manifest_json[entrypoint]:
-            path_to_file = url_for("static", filename=f"js_build/{file}")
+            path_to_file = url_for("static", filename=f"dist/js/{file}")
             script_tags.append(
                 f'<script type="text/javascript" src="{path_to_file}"></script>'
             )

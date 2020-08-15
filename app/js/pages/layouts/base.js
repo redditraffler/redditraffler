@@ -4,8 +4,7 @@ import * as ga from "ga-gtag";
 
 require("@fortawesome/fontawesome-free/js/all");
 
-if (process.env.NODE_ENV === "development") {
-  console.log("ga installed", { GA_TRACKING_ID: process.env.GA_TRACKING_ID });
+if (process.env.NODE_ENV === "production") {
   ga.install(process.env.GA_TRACKING_ID);
 }
 
