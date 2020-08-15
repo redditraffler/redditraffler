@@ -377,7 +377,7 @@ $(function () {
   if ($("#submissions").length > 0) {
     $.ajax({
       dataType: "json",
-      url: "/api/submissions",
+      url: Endpoint.getSubmissionsForCurrentUser,
       success: buildSubmissionsTable,
     });
   }
