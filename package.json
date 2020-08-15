@@ -12,14 +12,29 @@
   },
   "scripts": {
     "debug": "webpack-dev-server --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
     "heroku-postbuild": "webpack --config webpack.prod.js"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
+    "dotenv-webpack": "^2.0.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-merge": "^5.1.1"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.14.0",
+    "datatables-bulma": "^1.0.1",
+    "datatables.net-dt": "^1.10.21",
+    "dayjs": "^1.8.33",
+    "ga-gtag": "^1.0.1",
+    "jquery": "^3.5.1",
+    "redaxios": "^0.3.0",
+    "sweetalert": "^2.1.2"
   }
 }

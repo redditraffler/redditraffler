@@ -1,38 +1,39 @@
-{% extends "layouts/base.html" %}
-
-{% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/raffles/status.css') }}">
-{% endblock %}
-
-{% block content %}
+{% extends "layouts/base.html" %} {% block styles %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/raffles/status.css') }}"
+/>
+{% endblock %} {% block content %}
 <section class="hero is-small is-reddit">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <p class="title has-text-light">
-                Raffle Status
-            </p>
-        </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <p class="title has-text-light">
+        Raffle Status
+      </p>
     </div>
+  </div>
 </section>
 
 <section class="hero is-medium">
-    <div class="hero-body is-full">
-        <div class="container has-text-centered">
-            <div class="box">
-                <div id="loader" class="content la-ball-clip-rotate la-3x la-reddit la-centered">
-                    <div></div>
-                </div>
-                <div id="status-container" class="content">
-                    <p id="job-status" class="title">Fetching status...</p>
-                    <p>You'll be redirected to the results page when we're done processing your raffle.</p>
-                </div>
-            </div>
+  <div class="hero-body is-full">
+    <div class="container has-text-centered">
+      <div class="box">
+        <div
+          id="loader"
+          class="content la-ball-clip-rotate la-3x la-reddit la-centered"
+        >
+          <div></div>
         </div>
+        <div id="status-container" class="content">
+          <p id="job-status" class="title">Fetching status...</p>
+          <p>
+            You'll be redirected to the results page when we're done processing
+            your raffle.
+          </p>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
-{% endblock %}
-
-{% block js %}
-<script>var jobId = {{ job_id | tojson | safe }};</script>
-<script defer src="{{ url_for('static', filename='js/raffles/status.js') }}"></script>
-{% endblock %}
+{% endblock %} {% block js %} {{ import_webpack_entrypoint('raffles/status') |
+safe }} {% endblock %}

@@ -15,22 +15,13 @@
     <title>redditraffler - {{ title }}</title>
     {% assets "css_base" %}
     <link rel="stylesheet" href="{{ ASSET_URL }}" />
-    {% endassets %} {% if config['ENV'] == 'production' %}
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=UA-77153949-3"
-    ></script>
-    <script src="{{ url_for('static', filename='js/gtag.js') }}"></script>
-    {% endif %} {% block styles %} {% endblock %}
+    {% endassets %} {% block styles %} {% endblock %}
   </head>
 
   <body>
     {% include 'layouts/header.html' %} {% block content %} {% endblock %} {%
     include 'layouts/footer.html' %}
   </body>
-  {% assets "js_base" %}
-  <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-  {% endassets %}
-  <script src="{{ url_for_webpack_output('main') }} "></script>
-  {% block js %} {% endblock %}
+  {{ import_webpack_entrypoint('layouts/base') | safe}} {% block js %} {%
+  endblock %}
 </html>

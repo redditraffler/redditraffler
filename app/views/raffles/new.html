@@ -204,6 +204,5 @@
 {% endblock %}
 
 {% block js %}
-<script>var formSubmitPath = {{ url_for('api.new_raffle') | tojson | safe }};</script>
-<script defer src="{{ url_for('static', filename='js/raffles/new.js') }}"></script>
+{{ import_webpack_entrypoint('raffles/new') | safe }}
 {% endblock %}
