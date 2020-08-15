@@ -1,7 +1,7 @@
 import $ from "jquery";
 import swal from "sweetalert";
-import { escapeHtml } from "../../util";
-import { Endpoint } from "../../config";
+import { escapeHtml } from "~/util";
+import { Endpoint } from "~/config";
 
 function getDateFromUnixTime(timestamp) {
   return new Date(timestamp * 1000).toDateString();

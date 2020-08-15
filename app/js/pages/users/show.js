@@ -1,6 +1,7 @@
 import $ from "jquery";
 import axios from "redaxios";
-import { Endpoint } from "../../config";
+import { Endpoint } from "~/config";
+
 require("datatables-bulma");
 
 document.addEventListener("DOMContentLoaded", () => {
