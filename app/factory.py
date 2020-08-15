@@ -74,7 +74,6 @@ def register_extensions(app):
 
 def init_and_register_assets(app):
     assets.init_app(app)
-    js = Bundle("js/fontawesome-v5.0.0.min.js", filters="jsmin", output="dist/base.js")
     css = Bundle(
         "css/bulma.css",
         "css/balloon.min.css",
@@ -82,7 +81,6 @@ def init_and_register_assets(app):
         filters="cssmin",
         output="dist/base.css",
     )
-    assets.register("js_base", js)
     assets.register("css_base", css)
 
 
