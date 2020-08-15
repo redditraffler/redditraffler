@@ -40,7 +40,11 @@ class BaseConfig:
 
     TALISMAN_CSP = {
         "default-src": "'self'",
-        "img-src": ["'self' data:", "https://az743702.vo.msecnd.net"],
+        "img-src": [
+            "'self' data:",
+            "https://az743702.vo.msecnd.net",
+            "https://www.google-analytics.com/",
+        ],
         "style-src": ["'self' 'unsafe-inline'", "https://use.fontawesome.com/"],
         "font-src": "https://use.fontawesome.com/",
         "connect-src": [
@@ -51,6 +55,7 @@ class BaseConfig:
         "script-src": [
             "'self'",
             "https://www.googletagmanager.com/",
+            "https://www.google-analytics.com/ 'unsafe-inline'",
             "https://js-agent.newrelic.com/ 'unsafe-inline'",
         ],
     }
