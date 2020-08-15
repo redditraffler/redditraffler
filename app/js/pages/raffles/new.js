@@ -35,13 +35,11 @@ function showSelectedSubmission($tr) {
 
   if ($("#selected-submission").length > 0) {
     $("#selected-submission").html(
-      "<p>Your selection: &quot;{0}&quot;</p>".format(title)
+      `<p>Your selection: &quot;${title}&quot;</p>`
     );
   } else {
     $("#submissions").before(
-      "<div id='selected-submission' class='content has-text-centered'><p>Your selection: &quot;{0}&quot;</p></div>".format(
-        title
-      )
+      `<div id='selected-submission' class='content has-text-centered'><p>Your selection: &quot;${title}&quot;</p></div>`
     );
   }
 }
@@ -76,17 +74,15 @@ function buildSubmissionsTable(submissions) {
   // Add row for each submission
   submissions.forEach(function (submission) {
     var $tableBody = $("#submissions > tbody");
-    var rowTemplate =
-      "<tr id='{0}'><td>{1} <a href='{2}' target='_blank'><i class='fas fa-external-link-alt fa-fw fa-xs'></i></a></td><td>{3}</td><td>{4}</td></tr>";
-    $tableBody.append(
-      rowTemplate.format(
-        submission.id,
-        escapeHtml(submission.title),
-        submission.url,
-        submission.subreddit,
-        getDateFromUnixTime(submission.created_at_utc)
-      )
-    );
+    $tableBody.append(`
+      <tr id='${submission.id}'>
+        <td>${escapeHtml(
+          submission.title
+        )} <a href='${submission.url}' target='_blank'><i class='fas fa-external-link-alt fa-fw fa-xs'></i></a></td>
+        <td>${submission.subreddit}</td>
+        <td>${getDateFromUnixTime(submission.created_at_utc)}</td>
+      </tr>
+    `);
   });
 
   initTableControl(); // Add collapse/expand control
@@ -101,20 +97,15 @@ function showSubmissionDetails(submission) {
   $msg.empty().attr("class", "help");
   $inputField.attr("class", "input is-success");
 
-  var submissionDetailsTemplate =
-    "<a href='{0}'>'{1}'</a> in /r/{2} by {3} on {4}";
   var authorHtml = submission.author
-    ? "<a href='https://reddit.com/u/{0}'>/u/{0}</a>".format(submission.author)
+    ? `<a href='https://reddit.com/u/{0}'>/u/${submission.author}</a>`
     : "an unknown user";
-  $msg.html(
-    submissionDetailsTemplate.format(
-      submission.url,
-      escapeHtml(submission.title),
-      submission.subreddit,
-      authorHtml,
-      getDateFromUnixTime(submission.created_at_utc)
-    )
-  );
+
+  $msg.html(`
+    <a href='${submission.url}'>'${escapeHtml(submission.title)}'</a> in /r/${
+    submission.subreddit
+  } by ${authorHtml} on ${getDateFromUnixTime(submission.created_at_utc)}
+  `);
 }
 
 function showSubmissionError(url) {
@@ -288,10 +279,10 @@ function confirmForm() {
 
 function addIgnoredUser(username) {
   // Add user to internal list and add tag
-  var ignoredUserTemplate =
-    "<span class='tag is-medium is-reddit is-rounded'><span name='username'>{0}</span><a class='delete is-small'></a></span>";
   ignoredUsersList.push(username);
-  $("#ignored-users").append(ignoredUserTemplate.format(username));
+  $("#ignored-users").append(`
+    "<span class='tag is-medium is-reddit is-rounded'><span name='username'>${username}</span><a class='delete is-small'></a></span>"
+  `);
 }
 
 function removeIgnoredUser() {
