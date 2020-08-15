@@ -10,7 +10,7 @@ start = "honcho start -f Procfile.dev"
 
 [packages]
 flask = "==1.0.2"
-flask-assets = "==0.12"
+flask-assets = "==2.0"
 flask-caching = "==1.9.0"
 flask-limiter = "==1.0.1"
 flask-migrate = "==2.5.3"
