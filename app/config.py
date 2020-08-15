@@ -44,7 +44,7 @@ class BaseConfig:
         "style-src": ["'self' 'unsafe-inline'", "https://use.fontawesome.com/"],
         "font-src": "https://use.fontawesome.com/",
         "connect-src": [
-            "self",
+            "'self'",
             "localhost:*",
             "ws://localhost:8080",  # WS for Webpack Dev Server
         ],
