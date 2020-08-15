@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "cceb47518b27f508d317b7d396cff2d099fa14115cff465e18d251345ebcae0a"
+            "sha256": "a3542c45ecc1e3f1d1fa83adacecc8b162a155a78a126cd7e8774b079751e2c5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -161,8 +161,8 @@
         },
         "flask-limiter": {
             "hashes": [
-                "sha256:8cce98dcf25bf2ddbb824c2b503b4fc8e1a139154240fd2c60d9306bad8a0db8",
-                "sha256:473aa5bc97310406aa8c12ab3dc080697bcfa8cd21a6d0aba30916911bbc673c"
+                "sha256:473aa5bc97310406aa8c12ab3dc080697bcfa8cd21a6d0aba30916911bbc673c",
+                "sha256:8cce98dcf25bf2ddbb824c2b503b4fc8e1a139154240fd2c60d9306bad8a0db8"
             ],
             "index": "pypi",
             "version": "==1.0.1"
@@ -190,11 +190,6 @@
             ],
             "index": "pypi",
             "version": "==2.4.4"
-        },
-        "flask-sslify": {
-            "editable": true,
-            "git": "https://github.com/timorthi/flask-sslify.git",
-            "ref": "8c70d29474bb06688c398ccf51d0bf90503d287a"
         },
         "flask-talisman": {
             "hashes": [
