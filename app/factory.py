@@ -68,7 +68,11 @@ def register_extensions(app):
     limiter.init_app(app)
     csrf.init_app(app)
     cache.init_app(app, config=app.config["CACHE_CONFIG"])
-    talisman.init_app(app, content_security_policy=app.config["TALISMAN_CSP"])
+    talisman.init_app(
+        app,
+        content_security_policy=app.config["TALISMAN_CSP"],
+        force_https=app.config["ENV"] == "production",
+    )
     init_and_register_assets(app)
 
 
