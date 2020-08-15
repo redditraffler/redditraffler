@@ -32,6 +32,7 @@ jsmin = "==2.2.2"
 pyjwt = "==1.7.1"
 werkzeug = "==0.16.1"
 cryptography = "==2.8"
+flask-talisman = "*"
 
 [dev-packages]
 black = "==19.3b0"
