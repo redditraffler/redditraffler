@@ -38,6 +38,17 @@ class BaseConfig:
     BOT_CLIENT_ID = os.getenv("BOT_CLIENT_ID")
     BOT_CLIENT_SECRET = os.getenv("BOT_CLIENT_SECRET")
 
+    TALISMAN_CSP = {
+        "default-src": "'self'",
+        "img-src": ["'self' data:", "https://az743702.vo.msecnd.net"],
+        "style-src": ["'self' 'unsafe-inline'", "https://use.fontawesome.com/"],
+        "font-src": "https://use.fontawesome.com/",
+        "connect-src": [
+            "localhost:*",
+            "ws://localhost:8080",  # WS for Webpack Dev Server
+        ],
+    }
+
 
 class DebugConfig(BaseConfig):
     ENV = os.getenv("ENV", "local")
