@@ -55,6 +55,8 @@ class BaseConfig:
         ],
     }
 
+    # Test
+
 
 class DebugConfig(BaseConfig):
     ENV = os.getenv("ENV", "local")
