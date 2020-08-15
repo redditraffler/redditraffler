@@ -4,6 +4,10 @@ import os
 load_dotenv()
 
 
+def get_boolean_env(env: str, default: bool = False) -> bool:
+    return os.getenv(env, default) in [True, "True"]
+
+
 class BaseConfig:
     SECRET_KEY = os.getenv("SECRET_KEY")
     ENC_KEY = os.getenv("ENC_KEY")
@@ -39,8 +43,8 @@ class DebugConfig(BaseConfig):
     ENV = os.getenv("ENV", "local")
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
-    ASSETS_DEBUG = True
-    ROLLBAR_ENABLED = os.getenv("ROLLBAR_ENABLED", False) in [True, "True"]
+    ASSETS_DEBUG = get_boolean_env("ASSETS_DEBUG", True)
+    ROLLBAR_ENABLED = get_boolean_env("ROLLBAR_ENABLED")
 
 
 class ProdConfig(BaseConfig):

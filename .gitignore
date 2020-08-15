@@ -118,5 +118,3 @@ yarn-error.log*
 
 *.db
 .pytest_cache
-
-app/*/js_build/*

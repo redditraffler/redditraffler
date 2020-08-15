@@ -3,7 +3,7 @@ const ManifestPlugin = require("webpack-manifest-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const DotenvPlugin = require("dotenv-webpack");
 
-const targetPath = path.resolve(__dirname, "app/assets/js_build");
+const targetPath = path.resolve(__dirname, "app/assets/dist/js");
 module.exports.targetPath = targetPath;
 
 module.exports = {
