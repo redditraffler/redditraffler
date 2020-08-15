@@ -8,6 +8,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 Nothing here yet!
 
+## 2020.4 (2020-08-15)
+
+### Changed
+
+- Refactored a bunch of internal code to set the project up for quicker iterations
+
+### Security
+
+- Added some HTTP security headers to improve overall security of the site.
+
 ## 2020.3 (2020-05-11)
 
 ### Fixed
