@@ -18,6 +18,11 @@ module.exports = {
     filename: "[name].[contenthash].js",
     path: targetPath,
   },
+  resolve: {
+    alias: {
+      "~": path.resolve(__dirname, "app/js"),
+    },
+  },
   plugins: [
     new DotenvPlugin({ systemvars: true }),
     new CleanWebpackPlugin({ verbose: true, dry: false }),
