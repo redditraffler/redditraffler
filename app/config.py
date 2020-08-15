@@ -50,13 +50,15 @@ class BaseConfig:
         "connect-src": [
             "'self'",
             "localhost:*",
-            "ws://localhost:8080",  # WS for Webpack Dev Server
+            "ws://localhost:8080",  # WS for Webpack Dev Server,
+            "https://bam.nr-data.net/",
         ],
         "script-src": [
             "'self'",
             "https://www.googletagmanager.com/",
             "https://www.google-analytics.com/ 'unsafe-inline'",
             "https://js-agent.newrelic.com/ 'unsafe-inline'",
+            "https://bam.nr-data.net/",
         ],
     }
 
