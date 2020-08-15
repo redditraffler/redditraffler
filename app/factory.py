@@ -4,7 +4,7 @@ from pprint import pformat
 from typing import List
 import json
 
-from app.extensions import db, migrate, rq, limiter, csrf, assets, cache
+from app.extensions import db, migrate, rq, limiter, csrf, assets, cache, talisman
 from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
 from app.commands import delete, clear_cache
@@ -68,7 +68,11 @@ def register_extensions(app):
     limiter.init_app(app)
     csrf.init_app(app)
     cache.init_app(app, config=app.config["CACHE_CONFIG"])
-    init_ssl(app)
+    talisman.init_app(
+        app,
+        content_security_policy=app.config["TALISMAN_CSP"],
+        force_https=app.config["ENV"] == "production",
+    )
     init_and_register_assets(app)
 
 
@@ -82,14 +86,6 @@ def init_and_register_assets(app):
         output="dist/base.css",
     )
     assets.register("css_base", css)
-
-
-def init_ssl(app):
-    # Workaround because Flask-SSLify doesn't support app factories
-    if app.config["ENV"] == "production":
-        from flask_sslify import SSLify
-
-        SSLify(app)
 
 
 def register_commands(app):
