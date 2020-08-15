@@ -47,7 +47,7 @@ class BaseConfig:
             "localhost:*",
             "ws://localhost:8080",  # WS for Webpack Dev Server
         ],
-        "script-src": ["'self'", "https://www.googletagmanager.com/"],
+        "script-src": ["'self' 'unsafe-inline'", "https://www.googletagmanager.com/"],
     }
 
 
