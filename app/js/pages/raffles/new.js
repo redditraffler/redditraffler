@@ -98,7 +98,7 @@ function showSubmissionDetails(submission) {
   $inputField.attr("class", "input is-success");
 
   var authorHtml = submission.author
-    ? `<a href='https://reddit.com/u/{0}'>/u/${submission.author}</a>`
+    ? `<a href='https://reddit.com/u/${submission.author}'>/u/${submission.author}</a>`
     : "an unknown user";
 
   $msg.html(`
@@ -119,9 +119,7 @@ function showSubmissionError(url) {
   $msg.addClass("is-danger");
   if (url) {
     $msg.html(
-      "There is already an <a href='" +
-        url +
-        "'>existing raffle</a> for this submission"
+      `There is already an <a href='${url}'>existing raffle</a> for this submission.`
     );
   } else {
     $msg.text("This is not a valid submission URL.");
@@ -281,7 +279,7 @@ function addIgnoredUser(username) {
   // Add user to internal list and add tag
   ignoredUsersList.push(username);
   $("#ignored-users").append(`
-    "<span class='tag is-medium is-reddit is-rounded'><span name='username'>${username}</span><a class='delete is-small'></a></span>"
+    <span class='tag is-medium is-reddit is-rounded'><span name='username'>${username}</span><a class='delete is-small'></a></span>
   `);
 }
 
