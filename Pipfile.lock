@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9c32b32fc91d53692135d1cbfc350e42666f5d6e2fc0d43acc3a8da0b7aee183"
+            "sha256": "167234a39ac8ad6a8ba87b17f48e133c43df047de16260409c6c8c246a82a3f2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -339,11 +339,11 @@
         },
         "praw": {
             "hashes": [
-                "sha256:1b2ed1620293e8ff0e965161c3bbab891d43d5f51bf304c52fcd6cf20a6c5ecb",
-                "sha256:6a8f4991cca5d4ac0323d77959be904821ef8dd1bac40d8bd90853d804a9887e"
+                "sha256:6b93ad1e53385c68753203ec87f4d0053b2425b09fc8813847800a542efdfe6c",
+                "sha256:fb55e46203a771342da7cbe144fbcd8c61d825719ce1025bdd72112194a0228f"
             ],
             "index": "pypi",
-            "version": "==6.1.1"
+            "version": "==7.1.0"
         },
         "prawcore": {
             "hashes": [
