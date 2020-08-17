@@ -12,7 +12,11 @@ from app.logging import configure_logger
 
 
 def create_app(config_object=ProdConfig):
-    app = Flask("app", template_folder="views", static_folder="assets")
+    app = Flask(
+        "app",
+        template_folder=config_object.TEMPLATE_FOLDER_NAME,
+        static_folder=config_object.STATIC_FOLDER_NAME,
+    )
     app.config.from_object(config_object)
     configure_logger(app)
     app.logger.debug(pformat(app.config))
