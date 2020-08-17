@@ -16,7 +16,7 @@ $(function () {
   $("#raffles tbody tr").click(function () {
     const raffle_id = $(this).attr("data-raffle-id");
     if (raffle_id) {
-      window.location.href = `raffles/${  raffle_id}`;
+      window.location.href = `raffles/${raffle_id}`;
     }
   });
 });
