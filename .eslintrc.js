@@ -9,4 +9,11 @@ module.exports = {
     sourceType: "module",
   },
   rules: {},
+  settings: {
+    "import/resolver": {
+      webpack: {
+        config: "webpack.common.js",
+      },
+    },
+  },
 };
