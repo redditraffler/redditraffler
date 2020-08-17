@@ -30,13 +30,12 @@ const pollJobStatus = () => {
       if (error) {
         loader.style.display = "none";
         statusContainer.innerHTML = ContactUsHTML(status, job_id);
-      } else if (status == "Done!") {
+      } else if (status === "Done!") {
         loader.style.display = "none";
         statusContainer.innerHTML = JobCompleteHTML;
-        setTimeout(
-          () => (window.location.href = `/raffles/${job_id}`),
-          JOB_COMPLETE_REDIRECT_DELAY_MS
-        );
+        setTimeout(() => {
+          window.location.href = `/raffles/${job_id}`;
+        }, JOB_COMPLETE_REDIRECT_DELAY_MS);
       } else {
         // Still processing
         $("job-status").innerText = status;
@@ -44,7 +43,7 @@ const pollJobStatus = () => {
       }
     })
     .catch((err) => {
-      console.error(err);
+      console.error(err); // eslint-disable-line no-console
     });
 };
 
