@@ -3,31 +3,33 @@ import swal from "sweetalert";
 import { escapeHtml } from "~/util";
 import { Endpoint } from "~/config";
 
+let ignoredUsersList = [];
+
 function getDateFromUnixTime(timestamp) {
   return new Date(timestamp * 1000).toDateString();
 }
 
 function initTableControl() {
   const rowCount = $("#submissions > tbody > tr").length;
-  const visibleRowCount = 10;
+  let visibleRowCount = 10;
   if (rowCount > visibleRowCount) {
     $("#table-control").show();
   }
 
-  $("#submissions > tbody > tr:lt(" + visibleRowCount + ")").show();
+  $(`#submissions > tbody > tr:lt(${visibleRowCount})`).show();
 
   $("#show-more").click(function () {
     visibleRowCount =
       visibleRowCount + 10 <= rowCount ? visibleRowCount + 10 : rowCount;
-    $("#submissions > tbody > tr:lt(" + visibleRowCount + ")").show();
-    if (visibleRowCount == rowCount) {
+    $(`#submissions > tbody > tr:lt(${visibleRowCount})`).show();
+    if (visibleRowCount === rowCount) {
       $("#show-more").hide();
     }
   });
 }
 
 function showSelectedSubmission($tr) {
-  var title = escapeHtml($tr.children("td:first").text().trim());
+  const title = escapeHtml($tr.children("td:first").text().trim());
 
   if ($("#submission-selection-error").length > 0) {
     $("#submission-selection-error").remove();
@@ -45,11 +47,11 @@ function showSelectedSubmission($tr) {
 }
 
 function initTableRows() {
-  var $rows = $("#submissions > tbody > tr");
+  const $rows = $("#submissions > tbody > tr");
   $rows.click(function () {
     $rows.removeClass("is-selected");
     $(this).addClass("is-selected");
-    $("#submission-selection").val("https://redd.it/" + $(this).attr("id"));
+    $("#submission-selection").val(`https://redd.it/${$(this).attr("id")}`);
     showSelectedSubmission($(this));
   });
 }
@@ -57,23 +59,23 @@ function initTableRows() {
 function buildSubmissionsTable(submissions) {
   $("#loading-container").hide();
 
-  var $table = $("#submissions");
+  const $table = $("#submissions");
 
   if (!submissions) {
-    var noSubmissionsHtml =
+    const noSubmissionsHtml =
       "<div id='no-submission-error' class='content has-text-centered has-text-danger'><p>Either you don't have any submissions yet or all your eligible submissions are already existing raffles.</p></div>";
     $table.html(noSubmissionsHtml);
     return;
   }
 
   // Add headers
-  var tableHeaders =
+  const tableHeaders =
     "<thead><th>Title</th><th>Subreddit</th><th>Created On</th></thead>";
   $table.append(tableHeaders);
 
   // Add row for each submission
   submissions.forEach(function (submission) {
-    var $tableBody = $("#submissions > tbody");
+    const $tableBody = $("#submissions > tbody");
     $tableBody.append(`
       <tr id='${submission.id}'>
         <td>${escapeHtml(
@@ -90,14 +92,14 @@ function buildSubmissionsTable(submissions) {
 }
 
 function showSubmissionDetails(submission) {
-  var $inputField = $("#submission-url");
-  var $msg = $("#submission-url-msg");
+  const $inputField = $("#submission-url");
+  const $msg = $("#submission-url-msg");
 
   // Clear any previous messages and styling
   $msg.empty().attr("class", "help");
   $inputField.attr("class", "input is-success");
 
-  var authorHtml = submission.author
+  const authorHtml = submission.author
     ? `<a href='https://reddit.com/u/${submission.author}'>/u/${submission.author}</a>`
     : "an unknown user";
 
@@ -109,8 +111,8 @@ function showSubmissionDetails(submission) {
 }
 
 function showSubmissionError(url) {
-  var $inputField = $("#submission-url");
-  var $msg = $("#submission-url-msg");
+  const $inputField = $("#submission-url");
+  const $msg = $("#submission-url-msg");
 
   // Clear any previous messages and styling
   $msg.empty().attr("class", "help");
@@ -140,32 +142,32 @@ function showValidationResults(jqXHR) {
 }
 
 function validateUrl() {
-  var $msg = $("#submission-url-msg");
-  var url = $(this).val();
+  const $msg = $("#submission-url-msg");
+  let url = $(this).val();
 
-  var URL_REGEX = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+  const URL_REGEX = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/;
   if (!url || !URL_REGEX.test(url)) {
     window._prevUrl = url;
     showSubmissionError();
     return;
   }
 
-  var PROTOCOL_REGEX = /^((http|https):\/\/)/;
+  const PROTOCOL_REGEX = /^((http|https):\/\/)/;
   if (!PROTOCOL_REGEX.test(url)) {
-    url = "https://" + url; // Add https if protocol not present
+    url = `https://${url}`; // Add https if protocol not present
   } else {
     url = url.replace(/^http:\/\//i, "https://"); // Replace http with https
   }
 
   // Skip validation if input value hasn't changed
-  if (url != window._prevUrl) {
+  if (url !== window._prevUrl) {
     window._prevUrl = url;
     $msg.html(
       "<div class='la-ball-clip-rotate la-sm la-reddit'><div></div></div>"
     );
     $.ajax({
       dataType: "json",
-      data: { url: url },
+      data: { url },
       url: Endpoint.getSubmission,
       complete: showValidationResults,
     });
@@ -173,25 +175,24 @@ function validateUrl() {
 }
 
 function getFormDataForSubmit() {
-  var $form = $("#raffle-form");
-  var useCombinedKarma = $("#combined-karma-checkbox").prop("checked");
-  var data = $form.serializeArray();
+  const $form = $("#raffle-form");
+  const useCombinedKarma = $("#combined-karma-checkbox").prop("checked");
+  const data = $form.serializeArray();
   data.push({ name: "ignoredUsers", value: JSON.stringify(ignoredUsersList) });
 
   return data.filter(function (obj) {
-    var name = obj.name;
+    const { name } = obj;
     if (useCombinedKarma) {
       return !["minComment", "minLink"].includes(name);
-    } else {
-      return !["minCombined"].includes(name);
     }
+    return !["minCombined"].includes(name);
   });
 }
 
 function submitForm() {
-  var $submitBtn = $("#submit-btn");
-  var $submitBtnMsg = $("#submit-btn-msg");
-  var formData = getFormDataForSubmit();
+  const $submitBtn = $("#submit-btn");
+  const $submitBtnMsg = $("#submit-btn-msg");
+  const formData = getFormDataForSubmit();
 
   $submitBtn.addClass("is-loading");
   $submitBtn.prop("disabled", true);
@@ -201,7 +202,7 @@ function submitForm() {
     type: "POST",
     data: formData,
     url: Endpoint.postFormSubmit,
-    complete: function (jqXHR) {
+    complete(jqXHR) {
       switch (jqXHR.status) {
         case 202: // Redirect to status page
         case 303: // Redirect to existing raffle
@@ -219,36 +220,6 @@ function submitForm() {
       }
     },
   });
-}
-
-function validateAndSubmitForm(event) {
-  event.preventDefault();
-  // Logged in user did not select a submission
-  if (
-    $("#submission-selection").length > 0 &&
-    !$("#submission-selection").val()
-  ) {
-    if (
-      $("#submission-selection-error").length == 0 &&
-      $("#no-submission-error").length == 0
-    ) {
-      $("#submissions").before(
-        "<div id='submission-selection-error' class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>"
-      );
-    }
-    $(document).scrollTop($("#submission-selection").offset().top);
-    return;
-  }
-  // Guest user did not enter a valid submission URL
-  if (
-    $("#submission-url").length > 0 &&
-    !$("#submission-url").hasClass("is-success")
-  ) {
-    $(document).scrollTop($("#submission-url").offset().top);
-    return;
-  }
-  // Validation passed, show confirmation message for form submit
-  confirmForm();
 }
 
 function confirmForm() {
@@ -275,6 +246,36 @@ function confirmForm() {
   });
 }
 
+function validateAndSubmitForm(event) {
+  event.preventDefault();
+  // Logged in user did not select a submission
+  if (
+    $("#submission-selection").length > 0 &&
+    !$("#submission-selection").val()
+  ) {
+    if (
+      $("#submission-selection-error").length === 0 &&
+      $("#no-submission-error").length === 0
+    ) {
+      $("#submissions").before(
+        "<div id='submission-selection-error' class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>"
+      );
+    }
+    $(document).scrollTop($("#submission-selection").offset().top);
+    return;
+  }
+  // Guest user did not enter a valid submission URL
+  if (
+    $("#submission-url").length > 0 &&
+    !$("#submission-url").hasClass("is-success")
+  ) {
+    $(document).scrollTop($("#submission-url").offset().top);
+    return;
+  }
+  // Validation passed, show confirmation message for form submit
+  confirmForm();
+}
+
 function addIgnoredUser(username) {
   // Add user to internal list and add tag
   ignoredUsersList.push(username);
@@ -285,23 +286,23 @@ function addIgnoredUser(username) {
 
 function removeIgnoredUser() {
   // Remove user from internal list and remove tag
-  var $tag = $(this).parent("span");
-  var $username = $(this).siblings("span[name='username']");
+  const $tag = $(this).parent("span");
+  const $username = $(this).siblings("span[name='username']");
   ignoredUsersList = ignoredUsersList.filter(function (elem) {
-    return elem.toLowerCase() != $username.text().toLowerCase();
+    return elem.toLowerCase() !== $username.text().toLowerCase();
   });
   $tag.remove();
 }
 
 function setDefaultIgnoredUsers() {
-  var DEFAULT_USERS = ["AutoModerator"];
+  const DEFAULT_USERS = ["AutoModerator"];
   DEFAULT_USERS.forEach(function (user) {
     addIgnoredUser(user);
   });
 }
 
 function isValidUsername(username) {
-  var USERNAME_REGEX = /^[\w-]+$/;
+  const USERNAME_REGEX = /^[\w-]+$/;
   return (
     username.length >= 3 &&
     username.length <= 20 &&
@@ -312,10 +313,10 @@ function isValidUsername(username) {
 }
 
 function validateAndAddIgnoredUser() {
-  var MAX_IGNORED_USERS_COUNT = 25;
-  var $input = $("#ignored-user-input");
-  var $msg = $("#ignored-user-msg");
-  var username = $input.val();
+  const MAX_IGNORED_USERS_COUNT = 25;
+  const $input = $("#ignored-user-input");
+  const $msg = $("#ignored-user-msg");
+  const username = $input.val();
 
   // Clear any previous messages
   $msg.empty().attr("class", "help is-danger");
@@ -344,17 +345,18 @@ function validateAndAddIgnoredUser() {
 
 // Validate and add ignored user when enter is pressed
 function validateOnEnter(event) {
-  if (event.keyCode == 13) {
+  if (event.keyCode === 13) {
     event.preventDefault();
     validateAndAddIgnoredUser();
   }
 }
 
 function handleCombinedKarmaCheckEvent() {
-  var $splitKarmaInputGroup = $("#split-karma-input");
-  var $combinedKarmaInputGroup = $("#combined-karma-input");
+  const $splitKarmaInputGroup = $("#split-karma-input");
+  const $combinedKarmaInputGroup = $("#combined-karma-input");
 
-  var groupToHide, groupToShow;
+  let groupToHide;
+  let groupToShow;
   if (this.checked) {
     groupToHide = $splitKarmaInputGroup;
     groupToShow = $combinedKarmaInputGroup;
@@ -370,7 +372,6 @@ function handleCombinedKarmaCheckEvent() {
   groupToShow.show();
 }
 
-var ignoredUsersList = [];
 $(function () {
   if ($("#submissions").length > 0) {
     $.ajax({

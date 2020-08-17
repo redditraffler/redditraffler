@@ -2,6 +2,7 @@
 
 import $ from "jquery";
 import dt from "datatables.net-dt";
+
 require("datatables-bulma");
 
 $.fn.DataTable = dt;
@@ -13,9 +14,9 @@ $(function () {
   });
 
   $("#raffles tbody tr").click(function () {
-    var raffle_id = $(this).attr("data-raffle-id");
+    const raffle_id = $(this).attr("data-raffle-id");
     if (raffle_id) {
-      window.location.href = "raffles/" + raffle_id;
+      window.location.href = `raffles/${  raffle_id}`;
     }
   });
 });
