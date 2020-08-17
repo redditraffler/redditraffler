@@ -9,7 +9,6 @@ from app.routes import base, auth, raffles, api, users
 from app.config import ProdConfig
 from app.commands import delete, clear_cache
 from app.logging import configure_logger
-from app.views import oauth as oauth_view, users as users_view
 
 
 def create_app(config_object=ProdConfig):
@@ -54,10 +53,6 @@ def register_blueprints(app):
     app.register_blueprint(raffles.raffles, url_prefix="/raffles")
     app.register_blueprint(api.api, url_prefix="/api")
     app.register_blueprint(users.users, url_prefix="/users")
-
-    # JSON API
-    app.register_blueprint(oauth_view.oauth, url_prefix="/api/oauth")
-    app.register_blueprint(users_view.user, url_prefix="/api/users")
 
 
 def register_extensions(app):
