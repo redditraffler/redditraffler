@@ -20,5 +20,6 @@ module.exports = {
     "import/prefer-default-export": "off",
     "func-names": "off",
     "no-underscore-dangle": "off",
+    "object-shorthand": ["error", "properties"],
   },
 };

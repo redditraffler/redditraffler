@@ -202,7 +202,7 @@ function submitForm() {
     type: "POST",
     data: formData,
     url: Endpoint.postFormSubmit,
-    complete(jqXHR) {
+    complete: (jqXHR) => {
       switch (jqXHR.status) {
         case 202: // Redirect to status page
         case 303: // Redirect to existing raffle
