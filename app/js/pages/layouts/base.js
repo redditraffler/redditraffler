@@ -4,7 +4,7 @@ import dayjs_utc from "dayjs/plugin/utc";
 require("@fortawesome/fontawesome-free/js/all");
 
 if (process.env.NODE_ENV === "production") {
-  require("ga-gtag").install(process.env.GA_TRACKING_ID);
+  require("ga-gtag").install(process.env.GA_TRACKING_ID); // eslint-disable-line global-require
 }
 
 dayjs.extend(dayjs_utc);
