@@ -33,18 +33,14 @@ jobs:
           command: pipenv run flask db upgrade
 
       - run:
-          name: setup Code Climate test-reporter
+          name: run tests and report coverage
           command: |
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
-
-      - run:
-          name: run tests
-          command: |
             ./cc-test-reporter before-build
             pipenv run coverage run -m pytest -vv tests
             pipenv run coverage xml
-            ./cc-test-reporter after-build --debug
+            ./cc-test-reporter after-build
 
 workflows:
   version: 2
