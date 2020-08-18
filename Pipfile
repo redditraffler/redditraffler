@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [scripts]
-test = "pytest -vv"
-test_with_coverage = "coverage run -m pytest -vv"
+test = "pytest -vv tests"
+test_with_coverage = "coverage run -m pytest -vv tests"
 migrate_db = "flask db upgrade"
 start = "honcho start -f Procfile.dev"
 
