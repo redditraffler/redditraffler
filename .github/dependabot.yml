@@ -12,6 +12,9 @@ updates:
     reviewers:
       - "timorthi"
     open-pull-requests-limit: 5
+    default_labels:
+      - "Type: Maintenance"
+      - "Area: Dependencies"
 
   - package-ecosystem: "npm"
     directory: "/"
@@ -20,3 +23,6 @@ updates:
     reviewers:
       - "timorthi"
     open-pull-requests-limit: 5
+    default_labels:
+      - "Type: Maintenance"
+      - "Area: Dependencies"
