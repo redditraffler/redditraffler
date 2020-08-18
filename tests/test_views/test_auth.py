@@ -19,7 +19,7 @@ class TestAuthRedirect:
 
     @pytest.fixture
     def mock_reddit(self, mocker):
-        mock_reddit = mocker.patch("app.routes.auth.reddit_service")
+        mock_reddit = mocker.patch("app.views.auth.reddit_service")
         mock_reddit.authorize.return_value = "test_token"
         yield mock_reddit
 

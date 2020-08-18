@@ -6,18 +6,15 @@ from tests.factories import UserFactory
 
 @pytest.fixture
 def user():
-    user = UserFactory()
-    user.get_profile = lambda: {}  # Stub out get_profile()
-    return user
+    return UserFactory()
 
 
-class TestGetProfile:
-    def test_user_not_found(self, client):
-        res = client.get(url_for("api_users.get_profile", username="idk"))
-        assert res.status_code == 404
+def test_show_valid_user(client, user):
+    """ Assert that the user's profile page is shown. """
+    res = client.get(url_for("users.show", username=user.username))
+    assert res.status_code == 200
 
-    def test_user_found(self, client, user):
-        res = client.get(url_for("api_users.get_profile", username=user.username))
 
-        assert res.status_code == 200
-        assert res.json == {}
+def test_show_invalid_user(client):
+    res = client.get(url_for("users.show", username="someUnknownUser"))
+    assert res.status_code == 404

@@ -5,15 +5,18 @@ from typing import List
 import json
 
 from app.extensions import db, migrate, rq, limiter, csrf, assets, cache, talisman
-from app.routes import base, auth, raffles, api, users
+from app.views import base, auth, raffles, api, users
 from app.config import ProdConfig
 from app.commands import delete, clear_cache
 from app.logging import configure_logger
-from app.views import oauth as oauth_view, users as users_view
 
 
 def create_app(config_object=ProdConfig):
-    app = Flask("app", template_folder="views", static_folder="assets")
+    app = Flask(
+        "app",
+        template_folder=config_object.TEMPLATE_FOLDER_NAME,
+        static_folder=config_object.STATIC_FOLDER_NAME,
+    )
     app.config.from_object(config_object)
     configure_logger(app)
     app.logger.debug(pformat(app.config))
@@ -54,10 +57,6 @@ def register_blueprints(app):
     app.register_blueprint(raffles.raffles, url_prefix="/raffles")
     app.register_blueprint(api.api, url_prefix="/api")
     app.register_blueprint(users.users, url_prefix="/users")
-
-    # JSON API
-    app.register_blueprint(oauth_view.oauth, url_prefix="/api/oauth")
-    app.register_blueprint(users_view.user, url_prefix="/api/users")
 
 
 def register_extensions(app):

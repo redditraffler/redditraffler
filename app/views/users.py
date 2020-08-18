@@ -1,16 +1,14 @@
-from flask import Blueprint, jsonify
-
-from app.extensions import csrf
+from flask import abort, Blueprint, render_template
 from app.db.models.user import User
 
-user = Blueprint("api_users", __name__)
-# csrf.exempt(user)
+users = Blueprint("users", __name__)
 
 
-@user.route("/<username>")
-def get_profile(username):
-    user = User.query.filter_by(username=username).first()
+@users.route("/<username>")
+def show(username):
+    user = User.query.filter_by(username=username).one_or_none()
     if not user:
-        return jsonify(error_message=f"User '{username}' not found"), 404
-
-    return jsonify(user.get_profile())
+        abort(404)
+    return render_template(
+        "users/show.html", title="/u/%s's Raffles" % user.username, user=user
+    )

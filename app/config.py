@@ -9,6 +9,8 @@ def get_boolean_env(env: str, default: bool = False) -> bool:
 
 
 class BaseConfig:
+    TEMPLATE_FOLDER_NAME = os.getenv("TEMPLATE_FOLDER_NAME", "templates")
+    STATIC_FOLDER_NAME = os.getenv("STATIC_FOLDER_NAME", "assets")
     SECRET_KEY = os.getenv("SECRET_KEY")
     ENC_KEY = os.getenv("ENC_KEY")
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
