@@ -1,6 +1,6 @@
 # redditraffler
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/2a36d1fc5ba2728cc9f9/maintainability)](https://codeclimate.com/github/timorthi/redditraffler/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2a36d1fc5ba2728cc9f9/maintainability)](https://codeclimate.com/github/timorthi/redditraffler/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/2a36d1fc5ba2728cc9f9/test_coverage)](https://codeclimate.com/github/timorthi/redditraffler/test_coverage)
 
 redditraffler is a website that facilitates contests or giveaways using Reddit submissions as a platform.
 
