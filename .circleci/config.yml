@@ -41,8 +41,9 @@ jobs:
       - run:
           name: run tests
           command: |
-            ./cc-test-reporter before-build --debug
-            pipenv run test_with_coverage
+            ./cc-test-reporter before-build
+            pipenv run coverage run -m pytest -vv tests
+            pipenv run coverage xml
             ./cc-test-reporter after-build --debug
 
 workflows:
