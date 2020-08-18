@@ -38,6 +38,7 @@ black = "==19.3b0"
 honcho = "==1.0.1"
 "flake8" = "*"
 factory-boy = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.6"
