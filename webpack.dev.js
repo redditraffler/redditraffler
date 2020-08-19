@@ -9,5 +9,11 @@ module.exports = merge(common, {
     contentBase: common.targetPath,
     writeToDisk: true,
   },
-  plugins: [new BundleAnalyzerPlugin()],
+  plugins: [
+    new BundleAnalyzerPlugin({
+      openAnalyzer: false,
+      analyzerHost: "localhost",
+      analyzerPort: 8888,
+    }),
+  ],
 });

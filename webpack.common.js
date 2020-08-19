@@ -12,6 +12,7 @@ module.exports = {
     "raffles/index": "./app/js/pages/raffles/index.js",
     "raffles/new": "./app/js/pages/raffles/new.js",
     "raffles/status": "./app/js/pages/raffles/status.js",
+    "raffles/show": "./app/js/pages/raffles/show.js",
     "users/show": "./app/js/pages/users/show.js",
   },
   output: {
@@ -36,6 +37,10 @@ module.exports = {
   ],
   module: {
     rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
       {
         enforce: "pre",
         test: /\.js$/,
