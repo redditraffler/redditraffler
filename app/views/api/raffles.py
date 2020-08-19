@@ -18,21 +18,21 @@ def new_raffle():
     user = User.find_by_jwt(session["jwt"]) if "jwt" in session else None
     sub_id = reddit_service.get_submission_by_url(form["submissionUrl"])["id"]
 
-    raffle.queue(raffle_params=_raffle_params_from_form(form), user=user, job_id=sub_id)
+    raffle.queue(
+        raffle_params={
+            "submission_url": form["submissionUrl"],
+            "winner_count": form["winnerCount"],
+            "min_account_age": form["minAge"],
+            "min_comment_karma": form.get("minComment"),
+            "min_link_karma": form.get("minLink"),
+            "min_combined_karma": form.get("minCombined"),
+            "ignored_users": form["ignoredUsers"],
+        },
+        user=user,
+        job_id=sub_id,
+    )
 
     return jsonify({"url": url_for("raffles.status", job_id=sub_id)}), 202
-
-
-def _raffle_params_from_form(form):
-    return {
-        "submission_url": form["submissionUrl"],
-        "winner_count": form["winnerCount"],
-        "min_account_age": form["minAge"],
-        "min_comment_karma": form.get("minComment"),
-        "min_link_karma": form.get("minLink"),
-        "min_combined_karma": form.get("minCombined"),
-        "ignored_users": form["ignoredUsers"],
-    }
 
 
 RouteConfigs = [{"rule": "/raffles/new", "view_func": new_raffle, "methods": ["POST"]}]
