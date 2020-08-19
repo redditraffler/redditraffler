@@ -11,7 +11,7 @@ from app.commands import delete, clear_cache
 from app.logging import configure_logger
 
 
-def create_app(config_object=ProdConfig):
+def create_app(config_object=ProdConfig) -> Flask:
     app = Flask(
         "app",
         template_folder=config_object.TEMPLATE_FOLDER_NAME,
