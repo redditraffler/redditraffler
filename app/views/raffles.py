@@ -6,14 +6,6 @@ from app.db.models.raffle import Raffle
 raffles = Blueprint("raffles", __name__)
 
 
-@raffles.route("")
-def index():
-    raffles = Raffle.query.all()
-    return render_template(
-        "raffles/index.html", title="View All Raffles", raffles=raffles
-    )
-
-
 @raffles.route("/new")
 def new():
     return render_template(
