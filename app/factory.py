@@ -78,11 +78,7 @@ def register_extensions(app):
 def init_and_register_assets(app):
     assets.init_app(app)
     css = Bundle(
-        "css/bulma.css",
-        "css/balloon.min.css",
-        "css/app.css",
-        filters="cssmin",
-        output="dist/base.css",
+        "css/bulma.css", "css/app.css", filters="cssmin", output="dist/base.css"
     )
     assets.register("css_base", css)
 
