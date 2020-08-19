@@ -17,7 +17,6 @@
         <a class="navbar-item" href="{{ url_for('base.index') }}">Home</a>
         <a class="navbar-item" href="{{ url_for('base.about') }}">About</a>
         <a class="navbar-item" href="{{ url_for('base.faq') }}">FAQ</a>
-        <a class="navbar-item" href="{{ url_for('raffles.index') }}">Raffles</a>
         <a
           class="navbar-item"
           href="{% if 'jwt' in session %} {{
@@ -44,7 +43,7 @@
         </div>
         <form
           id="logout-form"
-          style="display:none"
+          style="display: none;"
           action="{{ url_for('auth.logout') }}"
           method="POST"
         >

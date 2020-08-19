@@ -10,10 +10,6 @@ def raffle():
     return RaffleFactory()
 
 
-def test_index(client):
-    assert client.get(url_for("raffles.index")).status_code == 200
-
-
 def test_get_new(client):
     assert client.get(url_for("raffles.new")).status_code == 200
 
