@@ -110,7 +110,7 @@ def register_webpack_context_processor(app):
         path_to_manifest = f"{app.static_folder}/dist/js/manifest.json"
 
         with open(path_to_manifest, "r") as manifest_file:
-            manifest_json = json.load(open(path_to_manifest, "r"))
+            manifest_json = json.load(manifest_file)
 
         if entrypoint not in manifest_json:
             raise KeyError(f"Entrypoint '{entrypoint}' not found in manifest.json")
