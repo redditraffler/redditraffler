@@ -38,3 +38,20 @@ def _invalid_form_params():
 
 def _stub_raffle_job(raffle_params, user, job_id):
     return [raffle_params, user, job_id]
+
+
+class TestVanityMetrics:
+    def test_returns_result_of_vanity_metrics_call(self, client, mocker):
+        TEST_VANITY_METRICS = {
+            "num_total_verified_raffles": 1,
+            "num_total_winners": 1,
+            "top_recent_subreddits": ["/r/ok"],
+        }
+        mocker.patch(
+            "app.db.models.raffle.Raffle.get_vanity_metrics",
+            lambda: TEST_VANITY_METRICS,
+        )
+        res = client.get(url_for("api.vanity_metrics"))
+
+        assert res.status_code == 200
+        assert res.get_json() == TEST_VANITY_METRICS
