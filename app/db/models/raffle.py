@@ -1,5 +1,5 @@
-from sqlalchemy import inspect
-from datetime import datetime
+from sqlalchemy import inspect, func
+from datetime import datetime, timedelta
 
 from app.extensions import db
 
@@ -35,6 +35,42 @@ class Raffle(db.Model):
     def get_verified_raffles(cls):
         return cls.query.filter(cls.user_id.isnot(None)).all()
 
+    @classmethod
+    def get_vanity_metrics(cls) -> dict:
+        result = (
+            cls.query.with_entities(cls.subreddit, cls.winner_count, cls.created_at)
+            .filter(cls.user_id.isnot(None))
+            .order_by(cls.created_at.desc())
+        ).all()
+
+        # Basic Raffle and Winner stats
+        num_total_verified_raffles = len(result)
+        num_total_winners = sum([raffle.winner_count for raffle in result])
+
+        # Get the top 3 subreddits with the most raffles in the last 30 days
+        thirty_days_ago = datetime.now() - timedelta(days=30)
+        num_raffles_by_subreddit = (
+            cls.query.with_entities(cls.subreddit, func.count())
+            .filter(cls.created_at > thirty_days_ago)
+            .group_by(cls.subreddit)
+            .order_by(func.count().desc())
+            .all()
+        )
+        top_recent_subreddits = [
+            {"subreddit": subreddit, "num_raffles": num_raffles}
+            for subreddit, num_raffles in num_raffles_by_subreddit
+        ]  # Reshape the tuples from the db call into a named dict
+        num_recent_subreddits_to_show = min(
+            len(top_recent_subreddits), 3
+        )  # Possible that we have raffles for fewer than 3 subreddits
+        top_recent_subreddits = top_recent_subreddits[:num_recent_subreddits_to_show]
+
+        return {
+            "num_total_verified_raffles": num_total_verified_raffles,
+            "num_total_winners": num_total_winners,
+            "top_recent_subreddits": top_recent_subreddits,
+        }
+
     def is_verified(self):
         return self.creator and (self.submission_author == self.creator.username)
 
@@ -58,3 +94,4 @@ class Raffle(db.Model):
 
     def ignored_users_list(self):
         return self.ignored_users.split(",")
+
