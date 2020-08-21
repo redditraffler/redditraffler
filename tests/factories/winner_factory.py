@@ -17,4 +17,4 @@ class WinnerFactory(SQLAlchemyModelFactory):
     account_age = factory.Faker("pyint", min_value=1, max_value=3650)
     comment_karma = factory.Faker("pyint", min_value=1, max_value=3650)
     link_karma = factory.Faker("pyint", min_value=1, max_value=3650)
-    comment_url = factory.LazyFunction("url")
+    comment_url = factory.Faker("url")
