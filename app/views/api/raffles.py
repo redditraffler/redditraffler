@@ -2,6 +2,7 @@ from flask import jsonify, request, session, url_for
 
 from app.jobs.raffle_job import raffle
 from app.util.raffle_form_validator import RaffleFormValidator
+from app.util import cache_helper
 from app.services import reddit_service
 from app.db.models.user import User
 from app.db.models.raffle import Raffle
@@ -35,7 +36,7 @@ def new_raffle():
     return jsonify({"url": url_for("raffles.status", job_id=sub_id)}), 202
 
 
-def vanity_metrics():
+def get_raffle_stats():
     metrics = cache_helper.fetch(
         "raffle_vanity_metrics",
         value_generator=Raffle.get_vanity_metrics,
@@ -46,6 +47,6 @@ def vanity_metrics():
 
 RouteConfigs = [
     {"rule": "/raffles/new", "view_func": new_raffle, "methods": ["POST"]},
-    {"rule": "/raffles/metrics", "view_func": vanity_metrics},
+    {"rule": "/raffles/stats", "view_func": get_raffle_stats},
 ]
 
