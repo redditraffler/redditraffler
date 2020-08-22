@@ -1,7 +1,7 @@
 import $ from "jquery";
 import swal from "sweetalert";
 import { escapeHtml } from "~/util";
-import { Endpoint } from "~/config";
+import { Endpoint } from "~/api";
 
 let ignoredUsersList = [];
 

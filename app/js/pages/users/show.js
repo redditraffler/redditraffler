@@ -1,6 +1,6 @@
 import $ from "jquery";
 import axios from "redaxios";
-import { Endpoint } from "~/config";
+import { Endpoint } from "~/api";
 
 require("datatables-bulma");
 

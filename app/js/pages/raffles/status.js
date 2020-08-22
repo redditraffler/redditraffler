@@ -1,5 +1,5 @@
 import axios from "redaxios";
-import { Endpoint } from "~/config";
+import { Endpoint } from "~/api";
 
 const POLL_RATE_MS = 1000;
 const JOB_COMPLETE_REDIRECT_DELAY_MS = 1500;
