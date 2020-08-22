@@ -37,7 +37,8 @@ def new_raffle():
 
 def get_raffle_stats():
     return jsonify(
-        metrics=Raffle.get_vanity_metrics(), recent_raffles=Raffle.get_recent_raffles()
+        metrics=Raffle.get_vanity_metrics(),
+        recent_raffles=[r.as_dict() for r in Raffle.get_recent_raffles()],
     )
 
 

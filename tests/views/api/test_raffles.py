@@ -1,5 +1,8 @@
 from flask import url_for
 
+from tests.factories import RaffleFactory
+from app.db.models.raffle import Raffle
+
 
 class TestNewRaffle:
     def test_no_params(self, authed_client):
@@ -51,15 +54,12 @@ class TestGetRaffleStats:
             "app.db.models.raffle.Raffle.get_vanity_metrics",
             lambda: TEST_VANITY_METRICS,
         )
-        mocker.patch(
-            "app.db.models.raffle.Raffle.get_recent_raffles",
-            lambda: [{"some": "raffle"}],
-        )
+        raffle = RaffleFactory.create()
 
         res = client.get(url_for("api.get_raffle_stats"))
 
         assert res.status_code == 200
-        assert res.get_json() == {
-            "metrics": TEST_VANITY_METRICS,
-            "recent_raffles": [{"some": "raffle"}],
-        }
+
+        res_json = res.get_json()
+        assert res_json["metrics"] == TEST_VANITY_METRICS
+        assert res_json["recent_raffles"] == [raffle.as_dict()]
