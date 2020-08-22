@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from app.db.models.raffle import Raffle
 from tests.factories import RaffleFactory
 
@@ -25,4 +27,25 @@ class TestRaffle:
                 {"subreddit": "/r/top2subreddit", "num_raffles": 3},
                 {"subreddit": "/r/top3subreddit", "num_raffles": 2},
             ]
+
+    class TestGetRecentRaffles:
+        def test_returns_with_default_params(self):
+            RaffleFactory.create(unverified=True)
+            RaffleFactory.create(created_at=datetime.now() - timedelta(days=31))
+            expected_raffle = RaffleFactory.create()
+
+            result = Raffle.get_recent_raffles()
+
+            assert result == [expected_raffle]
+
+        def test_returns_with_params(self):
+            expected_raffle = RaffleFactory.create(
+                unverified=True, created_at=(datetime.now() - timedelta(days=59))
+            )
+
+            result = Raffle.get_recent_raffles(
+                include_unverified=True, oldest_raffle_age_days=60
+            )
+
+            assert result == [expected_raffle]
 

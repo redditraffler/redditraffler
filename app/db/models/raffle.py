@@ -1,3 +1,4 @@
+from typing import List
 from sqlalchemy import inspect, func
 from datetime import datetime, timedelta
 
@@ -70,6 +71,30 @@ class Raffle(db.Model):
             "num_total_winners": num_total_winners,
             "top_recent_subreddits": top_recent_subreddits,
         }
+
+    @classmethod
+    def get_recent_raffles(
+        cls, include_unverified=False, oldest_raffle_age_days=30
+    ) -> List["Raffle"]:
+        """Returns a list of raffles that were created no earlier than
+        oldest_raffle_age_days ago. Use include_unverified to filter
+        unverified raffles from the result set.
+
+        Returns:
+            List[Raffle]: The raffles meeting the given criteria
+        """
+        oldest_raffle_age_days_ago = datetime.now() - timedelta(
+            days=oldest_raffle_age_days
+        )
+
+        return (
+            cls.query.filter(
+                cls.created_at > oldest_raffle_age_days_ago,
+                True if include_unverified else cls.user_id.isnot(None),
+            )
+            .order_by(cls.created_at.desc())
+            .all()
+        )
 
     def is_verified(self):
         return self.creator and (self.submission_author == self.creator.username)
