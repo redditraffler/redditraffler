@@ -23,13 +23,15 @@ def db(app, request):
     _db.drop_all()
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def db_session(db, request):
     connection = db.engine.connect()
     session = scoped_session
     session.configure(bind=connection)
     db.session = session
+    session.begin_nested()
     yield session
+    session.rollback()
     connection.close()
     session.remove()
 

@@ -1,6 +1,6 @@
 from flask import abort, Blueprint, render_template, Markup
 from app.services import reddit_service
-from app.extensions import rq, cache, db
+from app.extensions import rq, db
 from app.db.models.raffle import Raffle
 
 raffles = Blueprint("raffles", __name__)
@@ -24,21 +24,9 @@ def status(job_id):
 
 @raffles.route("/<submission_id>")
 def show(submission_id):
-    raffle = _raffle_from_cache(submission_id)
+    raffle = Raffle.query.filter_by(submission_id=submission_id).first()
     if not raffle:
         abort(404)
+
     title = Markup('Results For "%s"' % raffle.submission_title)
     return render_template("raffles/show.html", title=title, raffle=raffle)
-
-
-def _raffle_from_cache(sub_id):
-    cache_key = "raffle_{}".format(sub_id)
-    cached = cache.get(cache_key)
-    if not cached:
-        raffle = Raffle.query.filter_by(submission_id=sub_id).first()
-        if raffle:
-            cache.set(cache_key, raffle)
-    else:
-        db.session.add(cached)
-        raffle = cached
-    return raffle

@@ -11,7 +11,7 @@ from app.commands import delete, clear_cache
 from app.logging import configure_logger
 
 
-def create_app(config_object=ProdConfig):
+def create_app(config_object=ProdConfig) -> Flask:
     app = Flask(
         "app",
         template_folder=config_object.TEMPLATE_FOLDER_NAME,
@@ -110,7 +110,7 @@ def register_webpack_context_processor(app):
         path_to_manifest = f"{app.static_folder}/dist/js/manifest.json"
 
         with open(path_to_manifest, "r") as manifest_file:
-            manifest_json = json.load(open(path_to_manifest, "r"))
+            manifest_json = json.load(manifest_file)
 
         if entrypoint not in manifest_json:
             raise KeyError(f"Entrypoint '{entrypoint}' not found in manifest.json")
