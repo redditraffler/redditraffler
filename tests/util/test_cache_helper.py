@@ -11,7 +11,6 @@ def cache_mock(mocker: MockerFixture):
 
 class TestFetch:
     def test_cache_hit(self, mocker: MockerFixture, cache_mock):
-        cache_mock.cache.has = mocker.Mock(return_value=True)
         cache_mock.get = mocker.Mock(return_value="someValue")
 
         result = cache_helper.fetch("someKey")
@@ -19,7 +18,7 @@ class TestFetch:
         assert result == "someValue"
 
     def test_cache_miss_no_generator(self, mocker: MockerFixture, cache_mock):
-        cache_mock.cache.has = mocker.Mock(return_value=False)
+        cache_mock.get = mocker.Mock(return_value=None)
         cache_mock.set = mocker.Mock()
 
         result = cache_helper.fetch("someKey2")
@@ -28,7 +27,7 @@ class TestFetch:
         cache_mock.set.assert_not_called()
 
     def test_cache_miss_with_generator(self, mocker: MockerFixture, cache_mock):
-        cache_mock.cache.has = mocker.Mock(return_value=False)
+        cache_mock.get = mocker.Mock(return_value=None)
         cache_mock.set = mocker.Mock(return_value=True)
 
         some_expensive_fn = mocker.Mock(return_value={"some": "info"})
@@ -43,7 +42,7 @@ class TestFetch:
     def test_cache_miss_with_generator_failed_set(
         self, mocker: MockerFixture, cache_mock
     ):
-        cache_mock.cache.has = mocker.Mock(return_value=False)
+        cache_mock.get = mocker.Mock(return_value=None)
         cache_mock.set = mocker.Mock(return_value=False)
 
         some_expensive_fn = mocker.Mock(return_value=5)

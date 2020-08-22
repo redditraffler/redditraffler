@@ -4,9 +4,10 @@ from app.extensions import cache
 
 
 def fetch(key, value_generator=None, ttl_seconds=None):
-    if cache.cache.has(key):  # Need to access the base cache object to use .has
+    cached_value = cache.get(key)
+    if cached_value:
         current_app.logger.debug(f"Using cached value for '{key}'")
-        return cache.get(key)
+        return cached_value
 
     if not (value_generator and ttl_seconds):
         current_app.logger.debug(
