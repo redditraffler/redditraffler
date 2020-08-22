@@ -36,7 +36,12 @@ def new_raffle():
 
 
 def vanity_metrics():
-    return jsonify(Raffle.get_vanity_metrics())
+    metrics = cache_helper.fetch(
+        "raffle_vanity_metrics",
+        value_generator=Raffle.get_vanity_metrics,
+        ttl_seconds=60 * 60,  # One hour
+    )
+    return jsonify(metrics)
 
 
 RouteConfigs = [

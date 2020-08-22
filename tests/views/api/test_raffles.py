@@ -51,6 +51,7 @@ class TestVanityMetrics:
             "app.db.models.raffle.Raffle.get_vanity_metrics",
             lambda: TEST_VANITY_METRICS,
         )
+
         res = client.get(url_for("api.vanity_metrics"))
 
         assert res.status_code == 200
