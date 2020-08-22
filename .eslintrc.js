@@ -16,6 +16,9 @@ module.exports = {
     jsx: true,
   },
   settings: {
+    react: {
+      version: "detect",
+    },
     "import/resolver": {
       webpack: {
         config: "webpack.common.js",
