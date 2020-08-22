@@ -53,4 +53,3 @@ class TestFetch:
                 value_generator=some_expensive_fn,
                 ttl_seconds=60,
             )
-
