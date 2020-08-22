@@ -16,6 +16,10 @@
 </section>
 
 <section class="section">
+  <div id="raffle-stats-root"></div>
+</section>
+
+<section class="section">
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-three-quarters">
@@ -144,4 +148,5 @@
     {% endif %}
   </div>
 </div>
-{% endblock %}
+{% endblock %} {% block js %} {{ import_webpack_entrypoint('base/index') | safe
+}} {% endblock %}

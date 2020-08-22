@@ -9,6 +9,7 @@ module.exports.targetPath = targetPath;
 module.exports = {
   entry: {
     "layouts/base": "./app/js/pages/layouts/base.js",
+    "base/index": "./app/js/pages/base/index.js",
     "raffles/index": "./app/js/pages/raffles/index.js",
     "raffles/new": "./app/js/pages/raffles/new.js",
     "raffles/status": "./app/js/pages/raffles/status.js",
