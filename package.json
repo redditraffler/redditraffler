@@ -50,6 +50,7 @@
     "react": "^16.13.1",
     "react-bulma-components": "^3.4.0",
     "react-dom": "^16.13.1",
+    "react-use": "^15.3.3",
     "redaxios": "^0.3.0",
     "sweetalert": "^2.1.2"
   }
