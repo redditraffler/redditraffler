@@ -29,6 +29,7 @@
     "eslint-import-resolver-webpack": "^0.12.2",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-react": "^7.20.6",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
     "webpack-bundle-analyzer": "^3.8.0",
@@ -45,6 +46,9 @@
     "dayjs": "^1.8.33",
     "ga-gtag": "^1.0.1",
     "jquery": "^3.5.1",
+    "react": "^16.13.1",
+    "react-bulma-components": "^3.4.0",
+    "react-dom": "^16.13.1",
     "redaxios": "^0.3.0",
     "sweetalert": "^2.1.2"
   }

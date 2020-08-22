@@ -23,6 +23,7 @@ module.exports = {
     alias: {
       "~": path.resolve(__dirname, "app/js"),
     },
+    extensions: [".js", ".jsx"],
   },
   plugins: [
     new DotenvPlugin({ systemvars: true }),
