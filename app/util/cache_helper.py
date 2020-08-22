@@ -4,7 +4,7 @@ from app.extensions import cache
 
 
 def fetch(key, value_generator=None, ttl_seconds=None):
-    if cache.has(key):
+    if cache.cache.has(key):  # Need to access the base cache object to use .has
         return cache.get(key)
 
     if not (value_generator and ttl_seconds):
