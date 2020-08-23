@@ -44,6 +44,7 @@
     "@babel/runtime": "^7.11.2",
     "@fortawesome/fontawesome-free": "^5.14.0",
     "balloon-css": "^1.2.0",
+    "bulma": "0.8.2",
     "datatables-bulma": "^1.0.1",
     "datatables.net-dt": "^1.10.21",
     "dayjs": "^1.8.33",
