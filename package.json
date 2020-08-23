@@ -32,6 +32,8 @@
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-react": "^7.20.6",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.3",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
     "webpack-bundle-analyzer": "^3.8.0",
