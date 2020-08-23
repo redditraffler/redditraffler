@@ -23,8 +23,10 @@ module.exports = {
   resolve: {
     alias: {
       "~": path.resolve(__dirname, "app/js"),
+      Assets: path.resolve(__dirname, "app/assets"),
     },
-    extensions: [".js", ".jsx"],
+    extensions: [".js", ".jsx", ".css"],
+    modules: ["node_modules"],
   },
   plugins: [
     new DotenvPlugin({ systemvars: true }),
@@ -40,8 +42,14 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/i,
+        enforce: "pre",
+        test: /\.(s?)css$/i,
         use: ["style-loader", "css-loader"],
+      },
+      {
+        enforce: "pre",
+        test: /\.s[ca]ss$/i,
+        use: ["sass-loader"],
       },
       {
         enforce: "pre",

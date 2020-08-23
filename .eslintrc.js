@@ -24,6 +24,7 @@ module.exports = {
         config: "webpack.common.js",
       },
     },
+    "import/ignore": [/\.(scss|less|css)$/],
   },
   rules: {
     camelcase: "off",
