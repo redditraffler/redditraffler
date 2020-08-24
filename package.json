@@ -42,7 +42,7 @@
     "balloon-css": "^1.2.0",
     "datatables-bulma": "^1.0.1",
     "datatables.net-dt": "^1.10.21",
-    "dayjs": "^1.8.33",
+    "dayjs": "^1.8.34",
     "ga-gtag": "^1.0.1",
     "jquery": "^3.5.1",
     "redaxios": "^0.3.0",
