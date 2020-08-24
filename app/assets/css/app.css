@@ -12,22 +12,34 @@ html {
   background-color: #363636;
 }
 
-a { color: #ff7644; }
+a {
+  color: #ff7644;
+}
 
-section { background-color: whitesmoke; }
+section {
+  background-color: whitesmoke;
+}
 
-.column.is-same-height { display: flex; }
+.column.is-same-height {
+  display: flex;
+}
 
-.is-white { background-color: white; }
+.is-white {
+  background-color: white;
+}
 
 .is-reddit {
   background-color: #ff7644;
   color: white;
 }
 
-.has-text-reddit { color: #ff7644; }
+.has-text-reddit {
+  color: #ff7644;
+}
 
-.reddit-button { color: inherit; }
+.reddit-button {
+  color: inherit;
+}
 .reddit-button:hover,
 .reddit-button:active {
   color: #ff4500;
@@ -74,8 +86,10 @@ a.navbar-link:hover {
   background-color: #ff7644;
 }
 
-a.navbar-link::after {
+a.navbar-link::after,
+a.navbar-link:not(.is-arrowless)::after {
   border-color: white;
+  border-width: 2px;
 }
 
 a.navbar-item:hover,
@@ -129,7 +143,7 @@ a.navbar-item.is-active {
   }
 
   .navbar-item.has-dropdown:hover .navbar-item:hover {
-    text-decoration: underline
+    text-decoration: underline;
   }
   /* End User dropdown overrides */
   /* Burger menu overrides */

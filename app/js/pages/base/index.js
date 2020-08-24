@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import RaffleStats from "~/components/RaffleStats";
+import "@assets/css/base/index.css";
 
 document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(

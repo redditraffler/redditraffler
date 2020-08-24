@@ -1,5 +1,7 @@
+import "@assets/css/raffles/status.css";
+
 import axios from "redaxios";
-import { Endpoint } from "~/api";
+import { Endpoint } from "@js/api";
 
 const POLL_RATE_MS = 1000;
 const JOB_COMPLETE_REDIRECT_DELAY_MS = 1500;
