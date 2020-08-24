@@ -48,7 +48,7 @@ module.exports = {
       {
         enforce: "pre",
         test: /\.(s?)css$/i,
-        use: ["css-loader", MiniCssExtractPlugin.loader],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
         enforce: "pre",
