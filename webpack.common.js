@@ -23,8 +23,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      "~": path.resolve(__dirname, "app/js"),
-      Assets: path.resolve(__dirname, "app/assets"),
+      "@js": path.resolve(__dirname, "app/js"),
+      "@assets": path.resolve(__dirname, "app/assets"),
     },
     extensions: [".js", ".jsx", ".css"],
     modules: ["node_modules"],
