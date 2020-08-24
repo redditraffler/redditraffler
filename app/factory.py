@@ -1,11 +1,10 @@
 from flask import Flask, render_template, url_for
-from flask_assets import Bundle
 from pprint import pformat
 from typing import List
 import json
 import re
 
-from app.extensions import db, migrate, rq, limiter, csrf, assets, cache, talisman
+from app.extensions import db, migrate, rq, limiter, csrf, cache, talisman
 from app.views import base, auth, raffles, api, users
 from app.config import ProdConfig
 from app.commands import delete, clear_cache
@@ -73,15 +72,6 @@ def register_extensions(app):
         content_security_policy=app.config["TALISMAN_CSP"],
         force_https=app.config["ENV"] == "production",
     )
-    init_and_register_assets(app)
-
-
-def init_and_register_assets(app):
-    assets.init_app(app)
-    css = Bundle(
-        "css/bulma.css", "css/app.css", filters="cssmin", output="dist/base.css"
-    )
-    assets.register("css_base", css)
 
 
 def register_commands(app):
@@ -103,7 +93,8 @@ def register_webpack_context_processor(app):
             KeyError: If the entrypoint does not exist within the manifest
 
         Returns:
-            List[str]: a HTML string representing script & style tags to import the entrypoint's bundled files
+            List[str]: a HTML string representing script & style tags to import the
+            entrypoint's bundled files
         """
         if app.config["TESTING"] or app.config["ENV"] == "test":
             return None
