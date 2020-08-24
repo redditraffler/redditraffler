@@ -3,6 +3,7 @@ from flask_assets import Bundle
 from pprint import pformat
 from typing import List
 import json
+import re
 
 from app.extensions import db, migrate, rq, limiter, csrf, assets, cache, talisman
 from app.views import base, auth, raffles, api, users
@@ -102,12 +103,12 @@ def register_webpack_context_processor(app):
             KeyError: If the entrypoint does not exist within the manifest
 
         Returns:
-            List[str]: a HTML string representing script tags to import the entrypoint's bundled files
+            List[str]: a HTML string representing script & style tags to import the entrypoint's bundled files
         """
         if app.config["TESTING"] or app.config["ENV"] == "test":
             return None
 
-        path_to_manifest = f"{app.static_folder}/dist/js/manifest.json"
+        path_to_manifest = f"{app.static_folder}/dist/manifest.json"
 
         with open(path_to_manifest, "r") as manifest_file:
             manifest_json = json.load(manifest_file)
@@ -115,14 +116,20 @@ def register_webpack_context_processor(app):
         if entrypoint not in manifest_json:
             raise KeyError(f"Entrypoint '{entrypoint}' not found in manifest.json")
 
-        script_tags = []
+        import_tags = []
         for file in manifest_json[entrypoint]:
-            path_to_file = url_for("static", filename=f"dist/js/{file}")
-            script_tags.append(
-                f'<script type="text/javascript" src="{path_to_file}"></script>'
-            )
+            path_to_file = url_for("static", filename=f"dist/{file}")
+            is_css = re.search(r"\.css$", file)
 
-        return "".join(script_tags)
+            if is_css:
+                import_tags.append(f'<link rel="stylesheet" href="{path_to_file}" />')
+            else:
+                import_tags.append(
+                    f'<script defer type="text/javascript" src="{path_to_file}">\
+                        </script>'
+                )
+
+        return "".join(import_tags)
 
     # Register import_webpack_entrypoint as a context processor
     app.context_processor(
