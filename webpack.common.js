@@ -2,8 +2,9 @@ const path = require("path");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const DotenvPlugin = require("dotenv-webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const targetPath = path.resolve(__dirname, "app/assets/dist/js");
+const targetPath = path.resolve(__dirname, "app/assets/dist");
 module.exports.targetPath = targetPath;
 
 module.exports = {
@@ -38,13 +39,16 @@ module.exports = {
         return entrypoints;
       },
     }),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css",
+    }),
   ],
   module: {
     rules: [
       {
         enforce: "pre",
         test: /\.(s?)css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ["css-loader", MiniCssExtractPlugin.loader],
       },
       {
         enforce: "pre",
