@@ -32,7 +32,7 @@ pyjwt = "==1.7.1"
 werkzeug = "==1.0.1"
 cryptography = "==3.0"
 flask-talisman = "==0.7.0"
-rq = "==1.4"
+rq = "==1.5.1"
 
 [dev-packages]
 black = "==19.3b0"
