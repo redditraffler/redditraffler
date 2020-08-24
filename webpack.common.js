@@ -26,8 +26,8 @@ module.exports = {
       "@js": path.resolve(__dirname, "app/js"),
       "@assets": path.resolve(__dirname, "app/assets"),
     },
-    extensions: [".js", ".jsx", ".css"],
-    modules: ["node_modules"],
+    extensions: [".js", ".jsx", ".css", ".scss"],
+    modules: ["node_modules", "app/assets/css"],
   },
   plugins: [
     new DotenvPlugin({ systemvars: true }),
@@ -47,13 +47,8 @@ module.exports = {
     rules: [
       {
         enforce: "pre",
-        test: /\.(s?)css$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
-      },
-      {
-        enforce: "pre",
-        test: /\.s[ca]ss$/i,
-        use: ["sass-loader"],
+        test: /\.(sc|sa|c)ss$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
         enforce: "pre",
