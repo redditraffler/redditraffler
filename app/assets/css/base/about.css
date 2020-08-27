@@ -1,27 +1,32 @@
+.fi-svg {
+  width: 10rem;
+  height: 10rem;
+}
+
 #criteria-list {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 #contact-container p {
-    margin: 1rem;
+  margin: 1rem;
 }
 
 #contact-container p:nth-child(2) {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 #contact-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 #contact-list li {
-    display: inline;
+  display: inline;
 }
 
 #contact-list li:not(:last-child) {
-    padding-right: 1rem;
+  padding-right: 1rem;
 }
 
 .contact-link {

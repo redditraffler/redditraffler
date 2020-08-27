@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Removed the 'Raffles' page.
+- The "Getting Started" and "How It Works" sections have been moved to the About page.
 
 ## 2020.4 (2020-08-15)
 

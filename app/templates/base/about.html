@@ -1,71 +1,173 @@
-{% extends "layouts/base.html" %}
-
-{% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/base/about.css') }}">
-{% endblock %}
-
-{% block content %}
+{% extends "layouts/base.html" %} {% block styles %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/base/about.css') }}"
+/>
+{% endblock %} {% block content %}
 <section class="hero is-small is-reddit">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <p class="title has-text-light">
-                About
-            </p>
-        </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <p class="title has-text-light">About</p>
     </div>
+  </div>
 </section>
 
 <section class="section">
-    <div class="container">
-        <div class="columns is-centered">
-            <div class="column is-three-quarters">
-                <div class="content has-text-justified">
-                    <p class="title has-text-reddit has-text-centered">In A Nutshell</p>
-                    <p>
-                        Inspired by a <a href="https://redd.it/4re9cx">giveaway on /r/Overwatch</a> and many other "comment-to-enter" contests on Reddit, redditraffler is a free service created to serve as an impartial platform that hosts can use to select winners for their contests. redditraffler will keep a record of the winners as well as the criteria used to select them.
-                    </p>
-                    <p>
-                        redditraffler's job is straightforward: given a Reddit submission and a set of user-defined parameters, redditraffler will randomly select winners for contest hosts and save the results. These results will be available on redditraffler.com itself and can be viewed by anyone.
-                    </p>
-                    <p>
-                        For an example of what a raffle results page would look like, have a look at <a href="{{ url_for('raffles.show', submission_id='4re9cx') }}">this page</a>.
-                    </p>
-                    <p>
-                        Need help with using the site? Check out our <a href="{{ url_for('base.faq') }}">FAQ</a>!
-                    </p>
-                </div>
-            </div>
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-three-quarters">
+        <div class="content has-text-justified">
+          <p class="title has-text-reddit has-text-centered">In A Nutshell</p>
+          <p>
+            Inspired by a
+            <a href="https://redd.it/4re9cx">giveaway on /r/Overwatch</a> and
+            many other "comment-to-enter" contests on Reddit, redditraffler is a
+            free service created to serve as an impartial platform that hosts
+            can use to select winners for their contests. redditraffler will
+            keep a record of the winners as well as the criteria used to select
+            them.
+          </p>
+          <p>
+            redditraffler's job is straightforward: given a Reddit submission
+            and a set of user-defined parameters, redditraffler will randomly
+            select winners for contest hosts and save the results. These results
+            will be available on redditraffler.com itself and can be viewed by
+            anyone.
+          </p>
+          <p>
+            For an example of what a raffle results page would look like, have a
+            look at
+            <a href="{{ url_for('raffles.show', submission_id='4re9cx') }}"
+              >this page</a
+            >.
+          </p>
+          <p>
+            Need help with using the site? Check out our
+            <a href="{{ url_for('base.faq') }}">FAQ</a>!
+          </p>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <section class="section">
-    <div class="container">
-        <div class="columns is-centered">
-            <div class="column is-three-quarters">
-                <div id="contact-container" class="content has-text-centered">
-                    <a name="contact"></a>
-                    <p class="title has-text-reddit has-text-centered">Contact</p>
-                    <p>
-                        redditraffler is developed and maintained by <a href="https://reddit.com/u/xozzo">/u/xozzo</a>. You may contact him via:
-                    </p>
-                    <ul id="contact-list">
-                        <li>
-                            <a class="contact-link github" href="https://github.com/timorthi/redditraffler"><i class="fab fa-github fa-fw"></i> GitHub</a>
-                        </li>
-                        <li>
-                            <a class="contact-link mail" href="mailto:admin@redditraffler.com"><i class="far fa-envelope fa-fw"></i> E-mail</a>
-                        </li>
-                        <li>
-                            <a class="contact-link reddit" href="https://www.reddit.com/u/xozzo"><i class="fab fa-reddit fa-fw"></i> Reddit</a>
-                        </li>
-                    </ul>
-                    <p>
-                        redditraffler is a free service and it will always be free. However, there is overhead associated with keeping the website running. If you'd like to support the website, you can <a href="https://ko-fi.com/Z8Z1A9FB">buy me a coffee</a>. Any donations will be put into maintaining and improving the website. Thank you in advance! :)
-                    </p>
-                </div>
-            </div>
+  <div class="container">
+    <div class="columns is-vcentered is-centered">
+      <div class="column is-one-quarter">
+        <div class="content has-text-centered">
+          <img
+            src="{{ url_for('static', filename='img/gears.svg') }}"
+            class="fi-svg"
+          />
         </div>
+      </div>
+      <div class="column is-half">
+        <div class="content has-text-justified">
+          <p class="title has-text-reddit">How it works</p>
+          <p>
+            redditraffler retrieves your submission's top-level comments, along
+            with their authors, in a random order.
+          </p>
+          <p>
+            With the user criteria that you'll specify, such as minimum comment
+            karma, redditraffler will choose one or more winners for you based
+            on how many you'd like.
+          </p>
+          <p>
+            The results of your raffle will be saved and be available to view
+            for as long as this website is running. An example of what a raffle
+            results page would look like can be found
+            <a href="{{ url_for('raffles.show', submission_id='4re9cx') }}"
+              >here</a
+            >.
+          </p>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-vcentered is-centered has-column-reverse">
+      <div class="column is-half">
+        <div class="content has-text-justified">
+          <p class="title has-text-reddit">Getting Started</p>
+          <p>
+            The usage criteria for redditraffler is simple. You'll need a Reddit
+            submission that is <strong>public</strong> and
+            <strong>has valid comments</strong>. For an example of what a
+            redditraffler-compatible submission would look like, see
+            <a href="https://redd.it/4re9cx">this /r/Overwatch giveaway</a>.
+          </p>
+          <p>
+            Apart from that, all you'll need is a small set of requirements that
+            entrants need to meet in order to be eligible as a winner for your
+            contest.
+          </p>
+          <p>
+            For detailed information about the process, see our
+            <a href="{{ url_for('base.about') }}">about</a> page.
+          </p>
+        </div>
+      </div>
+      <div class="column is-one-quarter">
+        <div class="content has-text-centered">
+          <img
+            src="{{ url_for('static', filename='img/rocket.svg') }}"
+            class="fi-svg"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-three-quarters">
+        <div id="contact-container" class="content has-text-centered">
+          <a name="contact"></a>
+          <p class="title has-text-reddit has-text-centered">Contact</p>
+          <p>
+            redditraffler is developed and maintained by
+            <a href="https://reddit.com/u/xozzo">/u/xozzo</a>. You may contact
+            him via:
+          </p>
+          <ul id="contact-list">
+            <li>
+              <a
+                class="contact-link github"
+                href="https://github.com/timorthi/redditraffler"
+                ><i class="fab fa-github fa-fw"></i> GitHub</a
+              >
+            </li>
+            <li>
+              <a class="contact-link mail" href="mailto:admin@redditraffler.com"
+                ><i class="far fa-envelope fa-fw"></i> E-mail</a
+              >
+            </li>
+            <li>
+              <a
+                class="contact-link reddit"
+                href="https://www.reddit.com/u/xozzo"
+                ><i class="fab fa-reddit fa-fw"></i> Reddit</a
+              >
+            </li>
+          </ul>
+          <p>
+            redditraffler is a free service and it will always be free. However,
+            there is overhead associated with keeping the website running. If
+            you'd like to support the website, you can
+            <a href="https://ko-fi.com/Z8Z1A9FB">buy me a coffee</a>. Any
+            donations will be put into maintaining and improving the website.
+            Thank you in advance! :)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 {% endblock %}
