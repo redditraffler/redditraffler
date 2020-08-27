@@ -1,9 +1,9 @@
 #hero p {
-    color: #f0f0f0;
+  color: #f0f0f0;
 }
 
 #hero img {
-    width: 15rem;
+  width: 15rem;
 }
 
 .hero-bg {
@@ -13,37 +13,33 @@
   background-attachment: fixed;
 }
 
-.fi-svg {
-    width: 10rem;
-    height: 10rem;
-}
-
 .is-reddit-button {
-    border-color: #ffd1c1;
-    color: #fafafa;
-    background-color: inherit;
-    transition: 0.3s;
+  border-color: #ffd1c1;
+  color: #fafafa;
+  background-color: inherit;
+  transition: 0.3s;
 }
 
-.is-reddit-button:hover, .is-reddit-button:focus {
-    border-color: transparent;
-    background-color: whitesmoke;
-    color: #ff4500;
+.is-reddit-button:hover,
+.is-reddit-button:focus {
+  border-color: transparent;
+  background-color: whitesmoke;
+  color: #ff4500;
 }
 
 .box.cta-box {
-    border-radius: 0;
-    margin-bottom: 0;
-    background-color: #ff7644;
+  border-radius: 0;
+  margin-bottom: 0;
+  background-color: #ff7644;
 }
 
 .cta-title {
-    color: white;
+  color: white;
 }
 
 @media only screen and (max-width: 768px) {
-    .has-column-reverse {
-        display: flex;
-        flex-direction: column-reverse;
-    }
+  .has-column-reverse {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }
