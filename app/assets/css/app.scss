@@ -9,6 +9,8 @@
 
 @use "~react-bulma-components/src/index.sass";
 
+$reddit: #ff7644;
+
 html {
   height: 100%;
   background-color: #363636;
@@ -31,12 +33,12 @@ section {
 }
 
 .is-reddit {
-  background-color: #ff7644;
+  background-color: $reddit;
   color: white;
 }
 
 .has-text-reddit {
-  color: #ff7644;
+  color: $reddit;
 }
 
 .reddit-button {
@@ -48,14 +50,14 @@ section {
 }
 
 .message.is-reddit div.message-header {
-  background-color: #ff7644;
+  background-color: $reddit;
   color: white;
 }
 
 .message.is-reddit div.message-body {
   color: #363636;
   background-color: #ffdcd0;
-  border-color: #ff7644;
+  border-color: $reddit;
 }
 /**** End General ****/
 
@@ -85,7 +87,7 @@ a.navbar-link {
 a.navbar-link:hover {
   color: white;
   text-decoration: none;
-  background-color: #ff7644;
+  background-color: $reddit;
 }
 
 a.navbar-link::after,
@@ -121,7 +123,7 @@ a.navbar-item.is-active {
 
 .navbar-dropdown {
   border-top: none;
-  background-color: #ff7644;
+  background-color: $reddit;
 }
 
 .navbar-dropdown a.navbar-item:hover {
@@ -150,7 +152,7 @@ a.navbar-item.is-active {
   /* End User dropdown overrides */
   /* Burger menu overrides */
   .navbar-menu {
-    background-color: #ff7644;
+    background-color: $reddit;
   }
 
   nav .button,
