@@ -1,9 +1,4 @@
-{% extends "layouts/base.html" %} {% block styles %}
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='css/base/index.css') }}"
-/>
-{% endblock %} {% block content %}
+{% extends "layouts/base.html" %} {% block content %}
 <section id="hero" class="hero hero-bg is-medium is-reddit">
   <div class="hero-body">
     <div class="container has-text-centered">
@@ -13,6 +8,10 @@
       <p class="subtitle">the raffle system for reddit submissions</p>
     </div>
   </div>
+</section>
+
+<section class="section">
+  <div id="raffle-stats-root"></div>
 </section>
 
 <section class="section">
@@ -144,4 +143,5 @@
     {% endif %}
   </div>
 </div>
-{% endblock %}
+{% endblock %} {% block js %} {{ import_webpack_entrypoint('base/index') | safe
+}} {% endblock %}

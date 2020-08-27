@@ -2,13 +2,15 @@ const path = require("path");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const DotenvPlugin = require("dotenv-webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const targetPath = path.resolve(__dirname, "app/assets/dist/js");
+const targetPath = path.resolve(__dirname, "app/assets/dist");
 module.exports.targetPath = targetPath;
 
 module.exports = {
   entry: {
     "layouts/base": "./app/js/pages/layouts/base.js",
+    "base/index": "./app/js/pages/base/index.js",
     "raffles/index": "./app/js/pages/raffles/index.js",
     "raffles/new": "./app/js/pages/raffles/new.js",
     "raffles/status": "./app/js/pages/raffles/status.js",
@@ -21,8 +23,11 @@ module.exports = {
   },
   resolve: {
     alias: {
-      "~": path.resolve(__dirname, "app/js"),
+      "@js": path.resolve(__dirname, "app/js"),
+      "@assets": path.resolve(__dirname, "app/assets"),
     },
+    extensions: [".js", ".jsx", ".css", ".scss"],
+    modules: ["node_modules", "app/assets/css"],
   },
   plugins: [
     new DotenvPlugin({ systemvars: true }),
@@ -34,26 +39,31 @@ module.exports = {
         return entrypoints;
       },
     }),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css",
+    }),
   ],
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        enforce: "pre",
+        test: /\.(sc|sa|c)ss$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
         enforce: "pre",
-        test: /\.js$/,
+        test: /\.js(x?)$/,
         exclude: /node_modules/,
         loader: "eslint-loader",
       },
       {
-        test: /\.js$/,
+        test: /\.js(x?)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env"],
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+            plugins: ["@babel/plugin-transform-runtime"],
           },
         },
       },

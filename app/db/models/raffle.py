@@ -47,6 +47,7 @@ class Raffle(db.Model):
         # Basic Raffle and Winner stats
         num_total_verified_raffles = len(result)
         num_total_winners = sum([raffle.winner_count for raffle in result])
+        num_total_subreddits = len(set([raffle.subreddit for raffle in result]))
 
         # Get the top 3 subreddits with the most raffles in the last 30 days
         thirty_days_ago = datetime.now() - timedelta(days=30)
@@ -69,6 +70,7 @@ class Raffle(db.Model):
         return {
             "num_total_verified_raffles": num_total_verified_raffles,
             "num_total_winners": num_total_winners,
+            "num_total_subreddits": num_total_subreddits,
             "top_recent_subreddits": top_recent_subreddits,
         }
 

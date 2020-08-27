@@ -1,6 +1,9 @@
+import "datatables-bulma/css/dataTables.bulma.css";
+import "@assets/css/users/show.css";
+
 import $ from "jquery";
 import axios from "redaxios";
-import { Endpoint } from "~/config";
+import { Endpoint } from "@js/api";
 
 require("datatables-bulma");
 

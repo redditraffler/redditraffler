@@ -1,7 +1,10 @@
+import "@assets/css/raffles/new.css";
+
 import $ from "jquery";
 import swal from "sweetalert";
-import { escapeHtml } from "~/util";
-import { Endpoint } from "~/config";
+
+import { escapeHtml } from "@js/util";
+import { Endpoint } from "@js/api";
 
 let ignoredUsersList = [];
 

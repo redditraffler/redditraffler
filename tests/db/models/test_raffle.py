@@ -21,7 +21,11 @@ class TestRaffle:
             num_winners_in_db = db_session.execute(
                 "select count(*) from winner"
             ).first()[0]
+            num_distinct_subreddits_in_db = db_session.execute(
+                "select count(distinct subreddit) from raffle"
+            ).first()[0]
             assert result["num_total_winners"] == num_winners_in_db
+            assert result["num_total_subreddits"] == num_distinct_subreddits_in_db
             assert result["top_recent_subreddits"] == [
                 {"subreddit": "/r/topsubreddit", "num_raffles": 4},
                 {"subreddit": "/r/top2subreddit", "num_raffles": 3},

@@ -13,15 +13,13 @@
       href="{{ url_for('static', filename='img/favicon.ico') }}"
     />
     <title>redditraffler - {{ title }}</title>
-    {% assets "css_base" %}
-    <link rel="stylesheet" href="{{ ASSET_URL }}" />
-    {% endassets %} {% block styles %} {% endblock %}
+    {% block styles %} {% endblock %} {{
+    import_webpack_entrypoint('layouts/base') | safe}} {% block js %} {%
+    endblock %}
   </head>
 
   <body>
     {% include 'layouts/header.html' %} {% block content %} {% endblock %} {%
     include 'layouts/footer.html' %}
   </body>
-  {{ import_webpack_entrypoint('layouts/base') | safe}} {% block js %} {%
-  endblock %}
 </html>

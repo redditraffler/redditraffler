@@ -6,7 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
-Nothing here yet!
+### Added
+
+- Added some vanity metrics to the home page.
+
+### Changed
+
+- Removed the 'Raffles' page.
 
 ## 2020.4 (2020-08-15)
 

@@ -2,8 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "~/*": ["app/js/*"]
-    }
+      "@js/*": ["app/js/*"],
+      "@assets/*": ["app/assets/*"]
+    },
+    "jsx": "react"
   },
   "exclude": ["node_modules"]
 }

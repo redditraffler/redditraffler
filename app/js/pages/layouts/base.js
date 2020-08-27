@@ -1,6 +1,9 @@
 import dayjs from "dayjs";
 import dayjs_utc from "dayjs/plugin/utc";
 
+import "bulma/css/bulma.css";
+import "@assets/css/app.scss";
+
 require("@fortawesome/fontawesome-free/js/all");
 
 if (process.env.NODE_ENV === "production") {
