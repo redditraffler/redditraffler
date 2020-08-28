@@ -5,3 +5,6 @@ export const escapeHtml = (str) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+
+export const getRandomElement = (arr) =>
+  arr[Math.floor(Math.random() * arr.length)];
