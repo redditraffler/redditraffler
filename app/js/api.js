@@ -7,11 +7,11 @@ export const Endpoint = {
   getJobStatus: "/api/job_status",
   getRafflesForUser: (username) => `/api/users/${username}/raffles`,
   showRaffle: (raffleId) => `/raffles/${raffleId}`,
-  getRaffleStats: "/api/raffles/stats",
+  getRaffleMetrics: "/api/raffles/metrics",
 };
 
-export const getRaffleStats = async () => {
-  const { data } = await axios.get(Endpoint.getRaffleStats);
+export const getRaffleMetrics = async () => {
+  const { data } = await axios.get(Endpoint.getRaffleMetrics);
 
   return data;
 };

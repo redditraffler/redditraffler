@@ -8,7 +8,7 @@ import Container from "react-bulma-components/lib/components/container";
 import Heading from "react-bulma-components/lib/components/heading";
 import Tile from "react-bulma-components/lib/components/tile";
 
-import { getRaffleStats } from "@js/api";
+import { getRaffleMetrics } from "@js/api";
 import { colors } from "@js/theme";
 
 const StatHeading = styled(Heading)`
@@ -23,22 +23,22 @@ const EqualHeightBox = styled(Box)`
   border-radius: 10px;
 `;
 
-const RaffleStats = () => {
-  const { loading, error, value: metrics } = useAsync(getRaffleStats);
+const RaffleMetrics = () => {
+  const { loading, error, value: metrics } = useAsync(getRaffleMetrics);
 
   if (error) {
     return (
       <Container>
         <Columns centered>
           <Columns.Column size="one-quarter">
-            <Box size="one-quarter">Couldn&apos;t fetch raffle stats :(</Box>
+            <Box size="one-quarter">Couldn&apos;t fetch raffle metrics :(</Box>
           </Columns.Column>
         </Columns>
       </Container>
     );
   }
 
-  const stats = [
+  const metricsForDisplay = [
     {
       displayValue: metrics?.num_total_subreddits?.toLocaleString(),
       label: "communities served",
@@ -65,7 +65,7 @@ const RaffleStats = () => {
                 </Tile>
               ) : (
                 <React.Fragment>
-                  {stats.map(({ displayValue, label }) => {
+                  {metricsForDisplay.map(({ displayValue, label }) => {
                     return (
                       <Tile kind="child" key={label}>
                         <StatHeading>{displayValue}</StatHeading>
@@ -85,4 +85,4 @@ const RaffleStats = () => {
   );
 };
 
-export default RaffleStats;
+export default RaffleMetrics;

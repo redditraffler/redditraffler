@@ -3,11 +3,11 @@ import ReactDOM from "react-dom";
 
 import "@assets/css/base/index.css";
 
-import RaffleStats from "@js/components/RaffleStats";
+import RaffleMetrics from "@js/components/RaffleMetrics";
 
 document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
-    <RaffleStats />,
+    <RaffleMetrics />,
     document.getElementById("raffle-stats-root")
   );
 });

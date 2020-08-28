@@ -43,7 +43,7 @@ def _stub_raffle_job(raffle_params, user, job_id):
     return [raffle_params, user, job_id]
 
 
-class TestGetRaffleStats:
+class TestGetRaffleMetrics:
     def test_returns_expected_results(self, client, mocker):
         TEST_VANITY_METRICS = {
             "num_total_verified_raffles": 1,
@@ -55,7 +55,7 @@ class TestGetRaffleStats:
             lambda: TEST_VANITY_METRICS,
         )
 
-        res = client.get(url_for("api.get_raffle_stats"))
+        res = client.get(url_for("api.get_raffle_metrics"))
 
         assert res.status_code == 200
         assert res.get_json() == TEST_VANITY_METRICS
