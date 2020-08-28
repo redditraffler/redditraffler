@@ -36,14 +36,16 @@ def new_raffle():
 
 
 def get_raffle_stats():
-    return jsonify(
-        metrics=Raffle.get_vanity_metrics(),
-        recent_raffles=[r.as_dict() for r in Raffle.get_recent_raffles()],
-    )
+    return jsonify(Raffle.get_vanity_metrics())
+
+
+def get_recent_raffles():
+    return jsonify([r.as_dict() for r in Raffle.get_recent_raffles()])
 
 
 RouteConfigs = [
     {"rule": "/raffles/new", "view_func": new_raffle, "methods": ["POST"]},
     {"rule": "/raffles/stats", "view_func": get_raffle_stats},
+    {"rule": "/raffles/recent", "view_func": get_recent_raffles},
 ]
 

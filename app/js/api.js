@@ -11,9 +11,7 @@ export const Endpoint = {
 };
 
 export const getRaffleStats = async () => {
-  const {
-    data: { metrics, recent_raffles },
-  } = await axios.get(Endpoint.getRaffleStats);
+  const { data } = await axios.get(Endpoint.getRaffleStats);
 
-  return { metrics, recent_raffles };
+  return data;
 };

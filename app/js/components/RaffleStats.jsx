@@ -24,7 +24,7 @@ const EqualHeightBox = styled(Box)`
 `;
 
 const RaffleStats = () => {
-  const { loading, error, value } = useAsync(getRaffleStats);
+  const { loading, error, value: metrics } = useAsync(getRaffleStats);
 
   if (error) {
     return (
@@ -40,15 +40,15 @@ const RaffleStats = () => {
 
   const stats = [
     {
-      displayValue: value?.metrics?.num_total_subreddits?.toLocaleString(),
+      displayValue: metrics?.num_total_subreddits?.toLocaleString(),
       label: "communities served",
     },
     {
-      displayValue: value?.metrics?.num_total_verified_raffles?.toLocaleString(),
+      displayValue: metrics?.num_total_verified_raffles?.toLocaleString(),
       label: "raffles created",
     },
     {
-      displayValue: value?.metrics?.num_total_winners?.toLocaleString(),
+      displayValue: metrics?.num_total_winners?.toLocaleString(),
       label: "lucky winners",
     },
   ];

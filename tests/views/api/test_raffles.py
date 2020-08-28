@@ -54,12 +54,19 @@ class TestGetRaffleStats:
             "app.db.models.raffle.Raffle.get_vanity_metrics",
             lambda: TEST_VANITY_METRICS,
         )
-        raffle = RaffleFactory.create()
 
         res = client.get(url_for("api.get_raffle_stats"))
 
         assert res.status_code == 200
+        assert res.get_json() == TEST_VANITY_METRICS
 
-        res_json = res.get_json()
-        assert res_json["metrics"] == TEST_VANITY_METRICS
-        assert res_json["recent_raffles"] == [raffle.as_dict()]
+
+class TestGetRecentRaffles:
+    def test_returns_expected_results(self, client, mocker):
+        raffle = RaffleFactory.create(uses_combined_karma=True)
+
+        res = client.get(url_for("api.get_recent_raffles"))
+
+        assert res.status_code == 200
+        assert res.get_json() == [raffle.as_dict()]
+
