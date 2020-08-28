@@ -53,6 +53,7 @@
     "dayjs": "^1.8.34",
     "ga-gtag": "^1.0.1",
     "jquery": "^3.5.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-bulma-components": "^3.4.0",
     "react-dom": "^16.13.1",
