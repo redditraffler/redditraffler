@@ -16,10 +16,7 @@ const StatHeading = styled(Heading)`
   text-align: center;
 `;
 
-const EqualHeightBox = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+const MetricsBox = styled(Box)`
   border-radius: 10px;
 `;
 
@@ -57,7 +54,7 @@ const RaffleMetrics = () => {
     <Container>
       <Columns centered breakpoint="desktop">
         <Columns.Column size={6}>
-          <EqualHeightBox>
+          <MetricsBox>
             <Tile kind="parent" style={{ alignItems: "center" }}>
               {loading ? (
                 <Tile kind="child">
@@ -78,7 +75,7 @@ const RaffleMetrics = () => {
                 </React.Fragment>
               )}
             </Tile>
-          </EqualHeightBox>
+          </MetricsBox>
         </Columns.Column>
       </Columns>
     </Container>
