@@ -8,10 +8,15 @@ export const Endpoint = {
   getRafflesForUser: (username) => `/api/users/${username}/raffles`,
   showRaffle: (raffleId) => `/raffles/${raffleId}`,
   getRaffleMetrics: "/api/raffles/metrics",
+  getRecentRaffles: "/api/raffles/recent",
 };
 
 export const getRaffleMetrics = async () => {
   const { data } = await axios.get(Endpoint.getRaffleMetrics);
+  return data;
+};
 
+export const getRecentRaffles = async () => {
+  const { data } = await axios.get(Endpoint.getRecentRaffles);
   return data;
 };
