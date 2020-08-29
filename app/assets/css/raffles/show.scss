@@ -1,0 +1,56 @@
+@use '../_variables.sass';
+
+.hero a {
+  color: inherit;
+  text-decoration: underline;
+}
+.hero a:hover {
+  color: #e2e0e0;
+}
+
+#subtitle {
+  margin-bottom: 0.5rem;
+}
+
+#verified-tag {
+  background-color: #ff7644;
+  border: 1px solid white;
+  color: white;
+}
+
+.banner {
+  color: white;
+  padding: 0.5rem 0;
+}
+
+.banner.is-red {
+  background-color: #ff3e3e;
+}
+
+.banner .content p {
+  padding: 0 1rem;
+  margin: 0;
+}
+
+.tag.is-reddit {
+  background-color: #ffe8e0;
+  color: variables.$bulmaDarkGrayText;
+}
+
+.card {
+  transition: 0.2s ease;
+}
+.card:hover {
+  background-color: #fcf0ec;
+}
+
+.card-icon {
+  margin-right: 2px;
+}
+
+@media only screen and (min-width: 1408px) {
+  .card {
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
