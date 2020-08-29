@@ -55,17 +55,15 @@ const RecentRaffles = () => {
             Recent Raffles
           </Heading>
           {raffles.map(
-            ({ created_at, submission_title, submission_id, subreddit }) => {
-              return (
-                <RaffleListItem
-                  key={submission_id}
-                  created_at={created_at}
-                  submission_title={submission_title}
-                  submission_id={submission_id}
-                  subreddit={subreddit}
-                />
-              );
-            }
+            ({ created_at, submission_title, submission_id, subreddit }) => (
+              <RaffleListItem
+                key={submission_id}
+                created_at={created_at}
+                submission_title={submission_title}
+                submission_id={submission_id}
+                subreddit={subreddit}
+              />
+            )
           )}
         </Columns.Column>
       </Columns>
