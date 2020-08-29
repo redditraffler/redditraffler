@@ -1,6 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Renders an Emoji.
+ * Reference: https://medium.com/@seanmcp/%EF%B8%8F-how-to-use-emojis-in-react-d23bbf608bf7
+ * @param {} props
+ */
 const Emoji = (props) => (
   <span
     className="emoji"

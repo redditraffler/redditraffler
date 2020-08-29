@@ -22,6 +22,9 @@ const ShowMoreButtonContainer = styled("div")`
   margin-top: 2rem;
 `;
 
+/**
+ * The main container for the RecentRaffles component.
+ */
 const RecentRaffles = () => {
   const { loading, error, value: raffles } = useAsync(() =>
     getFromApi(Endpoint.getRecentRaffles)

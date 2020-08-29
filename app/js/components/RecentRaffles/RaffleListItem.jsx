@@ -41,6 +41,9 @@ const RaffleListItemContainer = styled(Box)`
   }
 `;
 
+/**
+ * Displays a single raffle item in the RecentRaffles list component.
+ */
 const RaffleListItem = ({
   createdAt,
   submissionTitle,
