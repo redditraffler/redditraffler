@@ -6,9 +6,6 @@ export const escapeHtml = (str) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 
-export const getRandomElement = (arr) =>
-  arr[Math.floor(Math.random() * arr.length)];
-
 export const truncateStringAfterLength = (truncateThreshold, string) => {
   const indexToCutOffString = truncateThreshold - 3;
   if (string.length < indexToCutOffString) {
