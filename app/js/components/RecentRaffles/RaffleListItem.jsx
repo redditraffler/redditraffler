@@ -9,7 +9,7 @@ import Element from "react-bulma-components/lib/components/element";
 import Tile from "react-bulma-components/lib/components/tile";
 import Heading from "react-bulma-components/lib/components/heading";
 
-import { getRandomElement, truncateStringAfterLength } from "@js/util";
+import { truncateStringAfterLength } from "@js/util";
 import { colors } from "@js/theme";
 
 import Emoji from "../Emoji";
@@ -48,7 +48,13 @@ const RaffleListItem = ({
   subreddit,
   ...props
 }) => {
-  const createdAtDayjs = dayjs(created_at * 1000);
+  const created_at_ms = created_at * 1000;
+  const createdAtDayjs = dayjs(created_at_ms);
+  // Determine the emoji using the epoch, so each raffle will always have the same emoji assigned to it
+  const emojiForRaffleItem =
+    RaffleListItemEmojis[
+      Math.round(created_at_ms % RaffleListItemEmojis.length)
+    ];
 
   return (
     <RaffleListItemContainer {...props}>
@@ -57,7 +63,7 @@ const RaffleListItem = ({
           <Tile kind="parent" size={1}>
             <VCenteredTile kind="child">
               <Emoji
-                symbol={getRandomElement(RaffleListItemEmojis)}
+                symbol={emojiForRaffleItem}
                 style={{ display: "block", fontSize: "3rem" }}
               />
             </VCenteredTile>
