@@ -8,7 +8,7 @@ import Loader from "react-bulma-components/lib/components/loader";
 import Heading from "react-bulma-components/lib/components/heading";
 import Button from "react-bulma-components/lib/components/button";
 
-import { getRecentRaffles } from "@js/api";
+import { Endpoint, getFromApi } from "@js/api";
 import { colors } from "@js/theme";
 
 import RaffleListItem from "./RaffleListItem";
@@ -23,7 +23,9 @@ const ShowMoreButtonContainer = styled("div")`
 `;
 
 const RecentRaffles = () => {
-  const { loading, error, value: raffles } = useAsync(getRecentRaffles);
+  const { loading, error, value: raffles } = useAsync(() =>
+    getFromApi(Endpoint.getRecentRaffles)
+  );
   const [numRafflesToDisplay, setNumRafflesToDisplay] = useState(
     DEFAULT_NUM_RAFFLES_TO_DISPLAY
   );

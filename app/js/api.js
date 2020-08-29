@@ -11,12 +11,11 @@ export const Endpoint = {
   getRecentRaffles: "/api/raffles/recent",
 };
 
-export const getRaffleMetrics = async () => {
-  const { data } = await axios.get(Endpoint.getRaffleMetrics);
-  return data;
-};
-
-export const getRecentRaffles = async () => {
-  const { data } = await axios.get(Endpoint.getRecentRaffles);
+/**
+ * A simple wrapper to perform a GET and return the data as-is.
+ * @param {*} endpoint
+ */
+export const getFromApi = async (endpoint) => {
+  const { data } = await axios.get(endpoint);
   return data;
 };

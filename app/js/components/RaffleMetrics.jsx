@@ -8,7 +8,7 @@ import Container from "react-bulma-components/lib/components/container";
 import Heading from "react-bulma-components/lib/components/heading";
 import Tile from "react-bulma-components/lib/components/tile";
 
-import { getRaffleMetrics } from "@js/api";
+import { Endpoint, getFromApi } from "@js/api";
 import { colors } from "@js/theme";
 
 const StatHeading = styled(Heading)`
@@ -21,7 +21,9 @@ const MetricsBox = styled(Box)`
 `;
 
 const RaffleMetrics = () => {
-  const { loading, error, value: metrics } = useAsync(getRaffleMetrics);
+  const { loading, error, value: metrics } = useAsync(() =>
+    getFromApi(Endpoint.getRaffleMetrics)
+  );
 
   if (error) {
     return (
