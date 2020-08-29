@@ -54,7 +54,7 @@ const RaffleMetrics = () => {
 
   return (
     <Container>
-      <Columns centered breakpoint="desktop">
+      <Columns centered>
         <Columns.Column size={6}>
           <MetricsBox>
             <Tile kind="parent" style={{ alignItems: "center" }}>
