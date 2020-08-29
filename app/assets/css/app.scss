@@ -33,7 +33,7 @@ section {
   background-color: white;
 }
 
-.is-reddit {
+.is-reddit.is-reddit {
   background-color: $reddit;
   color: white;
 }
@@ -63,8 +63,12 @@ section {
 /**** End General ****/
 
 /**** Header ****/
-#nav-container {
-  width: 70%;
+.navbar-brand {
+  padding-left: 5rem;
+}
+
+.navbar-menu {
+  padding-right: 5rem;
 }
 
 #brand:hover {
@@ -134,8 +138,12 @@ a.navbar-item.is-active {
 /* End User dropdown overrides */
 
 @media only screen and (max-width: 1023px) {
-  #nav-container {
-    width: 100%;
+  .navbar-brand {
+    padding-left: 0;
+  }
+
+  .navbar-menu {
+    padding-right: 0;
   }
 
   /* User dropdown overrides */

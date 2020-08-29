@@ -1,64 +1,63 @@
 <nav class="navbar is-reddit" role="navigation" aria-label="main navigation">
-  <div id="nav-container" class="container">
-    <div class="navbar-brand">
-      <a id="brand" class="navbar-item" href="{{ url_for('base.index') }}">
-        <img src="{{ url_for('static', filename='img/brand_white.svg') }}" />
-      </a>
+  <div class="navbar-brand">
+    <a id="brand" class="navbar-item" href="{{ url_for('base.index') }}">
+      <img src="{{ url_for('static', filename='img/brand_white.svg') }}" />
+    </a>
 
-      <button class="button navbar-burger is-reddit" data-target="navMenu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </div>
+    <a
+      role="button"
+      class="navbar-burger is-reddit"
+      data-target="navMenu"
+      aria-expanded="false"
+    >
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
 
-    <div id="navMenu" class="navbar-menu">
-      <div class="navbar-end">
-        <a class="navbar-item" href="{{ url_for('base.index') }}">Home</a>
-        <a class="navbar-item" href="{{ url_for('base.about') }}">About</a>
-        <a class="navbar-item" href="{{ url_for('base.faq') }}">FAQ</a>
-        <a
-          class="navbar-item"
-          href="{% if 'jwt' in session %} {{
+  <div id="navMenu" class="navbar-menu">
+    <div class="navbar-end">
+      <a class="navbar-item" href="{{ url_for('base.index') }}">Home</a>
+      <a class="navbar-item" href="{{ url_for('base.about') }}">About</a>
+      <a class="navbar-item" href="{{ url_for('base.faq') }}">FAQ</a>
+      <a
+        class="navbar-item"
+        href="{% if 'jwt' in session %} {{
             url_for('raffles.new')
           }} {% else %} {{ url_for('base.index',_anchor='create') }} {% endif %}"
-          >Create</a
-        >
-        {% if 'jwt' in session and 'reddit_username' in session %}
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            {{ session["reddit_username"] }}
+        >Create</a
+      >
+      {% if 'jwt' in session and 'reddit_username' in session %}
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link"> {{ session["reddit_username"] }} </a>
+        <div class="navbar-dropdown">
+          <a
+            class="navbar-item"
+            href="{{ url_for('users.show', username=session['reddit_username']) }}"
+          >
+            Profile
           </a>
-          <div class="navbar-dropdown">
-            <a
-              class="navbar-item"
-              href="{{ url_for('users.show', username=session['reddit_username']) }}"
-            >
-              Profile
-            </a>
-            <a id="logout" class="navbar-item">
-              Log Out
-            </a>
-          </div>
+          <a id="logout" class="navbar-item"> Log Out </a>
         </div>
-        <form
-          id="logout-form"
-          style="display: none;"
-          action="{{ url_for('auth.logout') }}"
-          method="POST"
-        >
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-        </form>
-        {% endif %}
-        <a
-          id="nav-github"
-          class="navbar-item"
-          title="View on GitHub"
-          href="https://github.com/timorthi/redditraffler"
-        >
-          <i class="fab fa-github fa-fw fa-lg"></i>
-        </a>
       </div>
+      <form
+        id="logout-form"
+        style="display: none"
+        action="{{ url_for('auth.logout') }}"
+        method="POST"
+      >
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      </form>
+      {% endif %}
+      <a
+        id="nav-github"
+        class="navbar-item"
+        title="View on GitHub"
+        href="https://github.com/timorthi/redditraffler"
+      >
+        <i class="fab fa-github fa-fw fa-lg"></i>
+      </a>
     </div>
   </div>
 </nav>
