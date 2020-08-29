@@ -8,3 +8,12 @@ export const escapeHtml = (str) =>
 
 export const getRandomElement = (arr) =>
   arr[Math.floor(Math.random() * arr.length)];
+
+export const truncateStringAfterLength = (truncateThreshold, string) => {
+  const indexToCutOffString = truncateThreshold - 3;
+  if (string.length < indexToCutOffString) {
+    return string;
+  }
+
+  return `${string.substring(0, indexToCutOffString)}...`;
+};
