@@ -7,13 +7,15 @@ export const Endpoint = {
   getJobStatus: "/api/job_status",
   getRafflesForUser: (username) => `/api/users/${username}/raffles`,
   showRaffle: (raffleId) => `/raffles/${raffleId}`,
-  getRaffleStats: "/api/raffles/stats",
+  getRaffleMetrics: "/api/raffles/metrics",
+  getRecentRaffles: "/api/raffles/recent",
 };
 
-export const getRaffleStats = async () => {
-  const {
-    data: { metrics, recent_raffles },
-  } = await axios.get(Endpoint.getRaffleStats);
-
-  return { metrics, recent_raffles };
+/**
+ * A simple wrapper to perform a GET and return the data as-is.
+ * @param {*} endpoint
+ */
+export const getFromApi = async (endpoint) => {
+  const { data } = await axios.get(endpoint);
+  return data;
 };

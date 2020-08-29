@@ -5,3 +5,12 @@ export const escapeHtml = (str) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+
+export const truncateStringAfterLength = (truncateThreshold, string) => {
+  const indexToCutOffString = truncateThreshold - 3;
+  if (string.length < indexToCutOffString) {
+    return string;
+  }
+
+  return `${string.substring(0, indexToCutOffString)}...`;
+};

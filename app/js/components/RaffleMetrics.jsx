@@ -8,7 +8,7 @@ import Container from "react-bulma-components/lib/components/container";
 import Heading from "react-bulma-components/lib/components/heading";
 import Tile from "react-bulma-components/lib/components/tile";
 
-import { getRaffleStats } from "@js/api";
+import { Endpoint, getFromApi } from "@js/api";
 import { colors } from "@js/theme";
 
 const StatHeading = styled(Heading)`
@@ -16,48 +16,47 @@ const StatHeading = styled(Heading)`
   text-align: center;
 `;
 
-const EqualHeightBox = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+const MetricsBox = styled(Box)`
   border-radius: 10px;
 `;
 
-const RaffleStats = () => {
-  const { loading, error, value } = useAsync(getRaffleStats);
+const RaffleMetrics = () => {
+  const { loading, error, value: metrics } = useAsync(() =>
+    getFromApi(Endpoint.getRaffleMetrics)
+  );
 
   if (error) {
     return (
       <Container>
         <Columns centered>
           <Columns.Column size="one-quarter">
-            <Box size="one-quarter">Couldn&apos;t fetch raffle stats :(</Box>
+            <Box size="one-quarter">Couldn&apos;t fetch raffle metrics :(</Box>
           </Columns.Column>
         </Columns>
       </Container>
     );
   }
 
-  const stats = [
+  const metricsForDisplay = [
     {
-      displayValue: value?.metrics?.num_total_subreddits?.toLocaleString(),
+      displayValue: metrics?.num_total_subreddits?.toLocaleString(),
       label: "communities served",
     },
     {
-      displayValue: value?.metrics?.num_total_verified_raffles?.toLocaleString(),
+      displayValue: metrics?.num_total_verified_raffles?.toLocaleString(),
       label: "raffles created",
     },
     {
-      displayValue: value?.metrics?.num_total_winners?.toLocaleString(),
+      displayValue: metrics?.num_total_winners?.toLocaleString(),
       label: "lucky winners",
     },
   ];
 
   return (
     <Container>
-      <Columns centered breakpoint="desktop">
+      <Columns centered>
         <Columns.Column size={6}>
-          <EqualHeightBox>
+          <MetricsBox>
             <Tile kind="parent" style={{ alignItems: "center" }}>
               {loading ? (
                 <Tile kind="child">
@@ -65,7 +64,7 @@ const RaffleStats = () => {
                 </Tile>
               ) : (
                 <React.Fragment>
-                  {stats.map(({ displayValue, label }) => {
+                  {metricsForDisplay.map(({ displayValue, label }) => {
                     return (
                       <Tile kind="child" key={label}>
                         <StatHeading>{displayValue}</StatHeading>
@@ -78,11 +77,11 @@ const RaffleStats = () => {
                 </React.Fragment>
               )}
             </Tile>
-          </EqualHeightBox>
+          </MetricsBox>
         </Columns.Column>
       </Columns>
     </Container>
   );
 };
 
-export default RaffleStats;
+export default RaffleMetrics;

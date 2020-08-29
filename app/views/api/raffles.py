@@ -35,15 +35,29 @@ def new_raffle():
     return jsonify({"url": url_for("raffles.status", job_id=sub_id)}), 202
 
 
-def get_raffle_stats():
+def get_raffle_metrics():
+    return jsonify(Raffle.get_vanity_metrics())
+
+
+def get_recent_raffles():
+    # Don't expose more fields than we need to.
     return jsonify(
-        metrics=Raffle.get_vanity_metrics(),
-        recent_raffles=[r.as_dict() for r in Raffle.get_recent_raffles()],
+        [
+            {
+                "created_at": r.created_at.timestamp(),
+                "submission_title": r.submission_title,
+                "submission_id": r.submission_id,
+                "subreddit": r.subreddit,
+                "url_path": url_for("raffles.show", submission_id=r.submission_id),
+            }
+            for r in Raffle.get_recent_raffles()
+        ]
     )
 
 
 RouteConfigs = [
     {"rule": "/raffles/new", "view_func": new_raffle, "methods": ["POST"]},
-    {"rule": "/raffles/stats", "view_func": get_raffle_stats},
+    {"rule": "/raffles/metrics", "view_func": get_raffle_metrics},
+    {"rule": "/raffles/recent", "view_func": get_recent_raffles},
 ]
 

@@ -8,8 +8,7 @@
 /**** General ****/
 
 @use "~react-bulma-components/src/index.sass";
-
-$reddit: #ff7644;
+@use './_variables.sass';
 
 html {
   height: 100%;
@@ -21,7 +20,7 @@ a {
 }
 
 section {
-  background-color: whitesmoke;
+  background-color: variables.$whitesmoke;
 }
 
 .column.is-same-height {
@@ -32,13 +31,13 @@ section {
   background-color: white;
 }
 
-.is-reddit {
-  background-color: $reddit;
+.is-reddit.is-reddit {
+  background-color: variables.$reddit;
   color: white;
 }
 
 .has-text-reddit {
-  color: $reddit;
+  color: variables.$reddit;
 }
 
 .reddit-button {
@@ -50,20 +49,24 @@ section {
 }
 
 .message.is-reddit div.message-header {
-  background-color: $reddit;
+  background-color: variables.$reddit;
   color: white;
 }
 
 .message.is-reddit div.message-body {
   color: #363636;
   background-color: #ffdcd0;
-  border-color: $reddit;
+  border-color: variables.$reddit;
 }
 /**** End General ****/
 
 /**** Header ****/
-#nav-container {
-  width: 70%;
+.navbar-brand {
+  padding-left: 5rem;
+}
+
+.navbar-menu {
+  padding-right: 5rem;
 }
 
 #brand:hover {
@@ -87,7 +90,7 @@ a.navbar-link {
 a.navbar-link:hover {
   color: white;
   text-decoration: none;
-  background-color: $reddit;
+  background-color: variables.$reddit;
 }
 
 a.navbar-link::after,
@@ -123,7 +126,7 @@ a.navbar-item.is-active {
 
 .navbar-dropdown {
   border-top: none;
-  background-color: $reddit;
+  background-color: variables.$reddit;
 }
 
 .navbar-dropdown a.navbar-item:hover {
@@ -133,8 +136,12 @@ a.navbar-item.is-active {
 /* End User dropdown overrides */
 
 @media only screen and (max-width: 1023px) {
-  #nav-container {
-    width: 100%;
+  .navbar-brand {
+    padding-left: 0;
+  }
+
+  .navbar-menu {
+    padding-right: 0;
   }
 
   /* User dropdown overrides */
@@ -152,7 +159,7 @@ a.navbar-item.is-active {
   /* End User dropdown overrides */
   /* Burger menu overrides */
   .navbar-menu {
-    background-color: $reddit;
+    background-color: variables.$reddit;
   }
 
   nav .button,
