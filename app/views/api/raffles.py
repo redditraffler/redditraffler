@@ -40,7 +40,19 @@ def get_raffle_metrics():
 
 
 def get_recent_raffles():
-    return jsonify([r.as_dict() for r in Raffle.get_recent_raffles()])
+    # Don't expose more fields than we need to.
+    return jsonify(
+        [
+            {
+                "created_at": r.created_at.timestamp(),
+                "submission_title": r.submission_title,
+                "submission_id": r.submission_id,
+                "subreddit": r.subreddit,
+                "url_path": url_for("raffles.show", submission_id=r.submission_id),
+            }
+            for r in Raffle.get_recent_raffles()
+        ]
+    )
 
 
 RouteConfigs = [

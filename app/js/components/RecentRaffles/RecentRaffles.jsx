@@ -72,17 +72,24 @@ const RecentRaffles = () => {
           </Heading>
           {raffles.map(
             (
-              { created_at, submission_title, submission_id, subreddit },
+              {
+                created_at,
+                submission_title,
+                submission_id,
+                subreddit,
+                url_path,
+              },
               index
             ) => {
               const shouldShowRaffle = index + 1 <= numRafflesToDisplay;
               return shouldShowRaffle ? (
                 <RaffleListItem
                   key={index}
-                  created_at={created_at}
-                  submission_title={submission_title}
-                  submission_id={submission_id}
+                  createdAt={created_at}
+                  submissionTitle={submission_title}
+                  submissionId={submission_id}
                   subreddit={subreddit}
+                  urlPath={url_path}
                 />
               ) : null;
             }

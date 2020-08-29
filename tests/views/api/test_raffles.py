@@ -1,7 +1,6 @@
 from flask import url_for
 
 from tests.factories import RaffleFactory
-from app.db.models.raffle import Raffle
 
 
 class TestNewRaffle:
@@ -68,5 +67,13 @@ class TestGetRecentRaffles:
         res = client.get(url_for("api.get_recent_raffles"))
 
         assert res.status_code == 200
-        assert res.get_json() == [raffle.as_dict()]
+        assert res.get_json() == [
+            {
+                "created_at": raffle.created_at.timestamp(),
+                "submission_title": raffle.submission_title,
+                "submission_id": raffle.submission_id,
+                "subreddit": raffle.subreddit,
+                "url_path": url_for("raffles.show", submission_id=raffle.submission_id),
+            }
+        ]
 

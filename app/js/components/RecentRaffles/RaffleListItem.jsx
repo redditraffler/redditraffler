@@ -42,23 +42,22 @@ const RaffleListItemContainer = styled(Box)`
 `;
 
 const RaffleListItem = ({
-  created_at,
-  submission_title,
-  submission_id,
+  createdAt,
+  submissionTitle,
+  submissionId,
   subreddit,
+  urlPath,
   ...props
 }) => {
-  const created_at_ms = created_at * 1000;
-  const createdAtDayjs = dayjs(created_at_ms);
+  const createdAtMs = createdAt * 1000;
+  const createdAtDayjs = dayjs(createdAtMs);
   // Determine the emoji using the epoch, so each raffle will always have the same emoji assigned to it
   const emojiForRaffleItem =
-    RaffleListItemEmojis[
-      Math.round(created_at_ms % RaffleListItemEmojis.length)
-    ];
+    RaffleListItemEmojis[Math.round(createdAtMs % RaffleListItemEmojis.length)];
 
   return (
     <RaffleListItemContainer {...props}>
-      <a href={`/raffles/${submission_id}`}>
+      <a href={urlPath}>
         <Tile kind="ancestor">
           <Tile kind="parent" size={1}>
             <VCenteredTile kind="child">
@@ -75,9 +74,9 @@ const RaffleListItem = ({
                   renderAs="p"
                   className="is-size-6 has-text-weight-medium"
                   style={{ marginBottom: "0.5rem" }}
-                  title={submission_title}
+                  title={submissionTitle}
                 >
-                  {truncateStringAfterLength(100, submission_title)}
+                  {truncateStringAfterLength(100, submissionTitle)}
                 </Element>
                 <Heading heading renderAs="p">
                   /r/{subreddit}
@@ -103,10 +102,11 @@ const RaffleListItem = ({
 };
 
 RaffleListItem.propTypes = {
-  created_at: PropTypes.number.isRequired,
-  submission_title: PropTypes.string.isRequired,
-  submission_id: PropTypes.string.isRequired,
+  createdAt: PropTypes.number.isRequired,
+  submissionTitle: PropTypes.string.isRequired,
+  submissionId: PropTypes.string.isRequired,
   subreddit: PropTypes.string.isRequired,
+  urlPath: PropTypes.string.isRequired,
 };
 
 export default RaffleListItem;
