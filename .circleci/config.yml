@@ -51,7 +51,7 @@ jobs:
             pipenv run coverage xml
             ./cc-test-reporter format-coverage --output /tmp/codeclimate_backend.json
 
-      - persist-to-workspace:
+      - persist_to_workspace:
           root: /tmp
           paths:
             - codeclimate_backend.json
