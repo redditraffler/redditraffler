@@ -13,7 +13,7 @@
   "scripts": {
     "debug": "webpack-dev-server --config webpack.dev.js",
     "lint": "eslint ./app/js",
-    "test": "jest ./app/js",
+    "test": "jest ./app/js/*",
     "build": "webpack --config webpack.prod.js",
     "heroku-postbuild": "webpack --config webpack.prod.js"
   },
