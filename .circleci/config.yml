@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build-and-test:
+  build-and-test-python:
     docker:
       - image: circleci/python:3.6.1
         environment:
@@ -42,8 +42,28 @@ jobs:
             pipenv run coverage xml
             ./cc-test-reporter after-build
 
+  build-and-test-js:
+    docker:
+      - image: cimg/node:12.18
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: yarn install --dev
+
+      - run:
+          name: run tests
+          command: yarn test
+
 workflows:
   version: 2
-  build-and-test:
+  build-and-test-python:
     jobs:
-      - build-and-test
+      - build-and-test-python
+
+  build-and-test-js:
+    jobs:
+      - build-and-test-js
