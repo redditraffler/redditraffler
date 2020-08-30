@@ -57,7 +57,7 @@ jobs:
       - run:
           name: run tests
           command: yarn test
-
+        
 workflows:
   version: 2
   build-and-test-python:
