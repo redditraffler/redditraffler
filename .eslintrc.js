@@ -7,6 +7,7 @@ module.exports = {
   extends: [
     "airbnb-base",
     "plugin:react/recommended",
+    "plugin:jest-dom/recommended",
     "prettier",
     "prettier/react",
   ],
