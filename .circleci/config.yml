@@ -98,16 +98,13 @@ jobs:
 
       - run: ./cc-test-reporter upload-coverage
 
-
-
-
 workflows:
   version: 2
   build-and-test:
     jobs:
       - build-and-test-backend
       - build-and-test-frontend
-      - aggregate-and-report-coverage
+      - aggregate-and-report-coverage:
           requires:
             - build-and-test-backend
             - build-and-test-frontend
