@@ -38,6 +38,7 @@
     "eslint-plugin-jest-dom": "^3.1.7",
     "eslint-plugin-react": "^7.20.6",
     "jest": "^26.4.2",
+    "jest-styled-components": "^7.0.3",
     "mini-css-extract-plugin": "^0.11.0",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.3",
