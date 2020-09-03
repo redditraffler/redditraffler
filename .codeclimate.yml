@@ -1,0 +1,5 @@
+exclude_patterns:
+  - "tests/"
+  - "bin/"
+  - "node_modules/"
+  - "app/js/**/*.test.*"
