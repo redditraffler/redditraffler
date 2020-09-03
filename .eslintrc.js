@@ -8,10 +8,11 @@ module.exports = {
     "airbnb-base",
     "plugin:react/recommended",
     "plugin:jest-dom/recommended",
+    "plugin:jsx-a11y/recommended",
     "prettier",
     "prettier/react",
   ],
-  plugins: ["react"],
+  plugins: ["react", "jsx-a11y"],
   parserOptions: {
     ecmaVersion: 11,
     sourceType: "module",
