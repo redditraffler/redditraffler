@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when the API call fails returns the error message 1`] = `
+<div
+  class="container"
+>
+  <div
+    class="columns is-multiline is-centered"
+  >
+    <div
+      class="column is-one-quarter"
+    >
+      <div
+        class="box"
+      >
+        Couldn't fetch raffle metrics :(
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`when the API call is in progress returns the skeleton 1`] = `
+.c0 {
+  border-radius: 10px;
+}
+
+<div
+  class="container"
+>
+  <div
+    class="columns is-multiline is-centered"
+  >
+    <div
+      class="column is-6"
+    >
+      <div
+        class="box c0"
+      >
+        <div
+          class="tile is-parent"
+          style="align-items: center;"
+        >
+          <div
+            class="tile is-child"
+          >
+            <span>
+              <span
+                class="react-loading-skeleton css-1vmnjpn-skeletonStyles-Skeleton"
+                style="height: 30px;"
+              >
+                ‌
+              </span>
+              <span
+                class="react-loading-skeleton css-1vmnjpn-skeletonStyles-Skeleton"
+                style="height: 30px;"
+              >
+                ‌
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`when the API call is successful returns the metrics container 1`] = `
+.c1 {
+  color: #ff7644;
+  text-align: center;
+}
+
+.c0 {
+  border-radius: 10px;
+}
+
+<div
+  class="container"
+>
+  <div
+    class="columns is-multiline is-centered"
+  >
+    <div
+      class="column is-6"
+    >
+      <div
+        class="box c0"
+      >
+        <div
+          class="tile is-parent"
+          style="align-items: center;"
+        >
+          <div
+            class="tile is-child"
+          >
+            <h1
+              class="c1 title"
+            >
+              1,234
+            </h1>
+            <h1
+              class="subtitle"
+              style="text-align: center;"
+            >
+              communities served
+            </h1>
+          </div>
+          <div
+            class="tile is-child"
+          >
+            <h1
+              class="c1 title"
+            >
+              123
+            </h1>
+            <h1
+              class="subtitle"
+              style="text-align: center;"
+            >
+              raffles created
+            </h1>
+          </div>
+          <div
+            class="tile is-child"
+          >
+            <h1
+              class="c1 title"
+            >
+              456
+            </h1>
+            <h1
+              class="subtitle"
+              style="text-align: center;"
+            >
+              lucky winners
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
