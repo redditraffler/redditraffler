@@ -10,6 +10,7 @@ on:
 jobs:
   build-and-test-backend:
     name: Build and test Python app
+    runs-on: ubuntu-latest
     container: python:3.6.12-alpine
     env:
       PIPENV_VENV_IN_PROJECT: true
@@ -25,6 +26,7 @@ jobs:
 
   build-and-test-frontend:
     name: Build and test JavaScript components
+    runs-on: ubuntu-latest
     container: node:12.18.3-alpine
     steps:
       - uses: actions/checkout@v2
@@ -35,6 +37,7 @@ jobs:
 
   aggregate-and-report-coverage:
     name: Aggregate and upload coverage reports
+    runs-on: ubuntu-latest
     needs: [build-and-test-backend, build-and-test-frontend]
     steps:
       - run: echo "Hello world!"
