@@ -14,7 +14,6 @@ jobs:
     container: python:3.6.12
     env:
       PIPENV_VENV_IN_PROJECT: true
-      DATABASE_URL: postgresql://test:rr@localhost/redditraffler_test
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
