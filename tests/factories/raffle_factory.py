@@ -38,10 +38,15 @@ class RaffleFactory(SQLAlchemyModelFactory):
                     raffle=obj,
                     comment_karma=factory.Faker(
                         "pyint",
-                        min_value=obj.min_comment_karma or obj.min_combined_karma,
+                        min_value=obj.min_comment_karma
+                        if obj.min_comment_karma is not None
+                        else obj.min_combined_karma,
                     ),
                     link_karma=factory.Faker(
-                        "pyint", min_value=obj.min_link_karma or obj.min_combined_karma
+                        "pyint",
+                        min_value=obj.min_link_karma
+                        if obj.min_link_karma is not None
+                        else obj.min_combined_karma,
                     ),
                 )
             )
