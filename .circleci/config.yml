@@ -1,7 +1,16 @@
 version: 2.1
 
+commands:
+  install-codeclimate-test-reporter:
+    description: "Downloads Codeclimate's test reporter binary"
+    steps:
+      - run:
+          name: download cc-test-reporter binary
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
 jobs:
-  build-and-test:
+  build-and-test-backend:
     docker:
       - image: circleci/python:3.6.1
         environment:
@@ -32,18 +41,70 @@ jobs:
           name: run migrations
           command: pipenv run flask db upgrade
 
+      - install-codeclimate-test-reporter
+
       - run:
-          name: run tests and report coverage
+          name: run tests and format coverage
           command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
             ./cc-test-reporter before-build
             pipenv run coverage run -m pytest -vv tests
             pipenv run coverage xml
-            ./cc-test-reporter after-build
+            ./cc-test-reporter format-coverage --output /tmp/codeclimate_backend.json
+
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - codeclimate_backend.json
+
+  build-and-test-frontend:
+    docker:
+      - image: cimg/node:12.18
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: yarn install --dev
+
+      - install-codeclimate-test-reporter
+
+      - run:
+          name: run tests and format coverage
+          command: |
+            ./cc-test-reporter before-build
+            yarn test --coverage
+            ./cc-test-reporter format-coverage --output /tmp/codeclimate_frontend.json
+
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - codeclimate_frontend.json
+
+  aggregate-and-report-coverage:
+    docker:
+      - image: cimg/base:2020.01
+
+    working_directory: ~
+
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+
+      - install-codeclimate-test-reporter
+
+      - run: ./cc-test-reporter sum-coverage --parts 2 /tmp/workspace/codeclimate_frontend.json /tmp/workspace/codeclimate_backend.json
+
+      - run: ./cc-test-reporter upload-coverage
 
 workflows:
   version: 2
   build-and-test:
     jobs:
-      - build-and-test
+      - build-and-test-backend
+      - build-and-test-frontend
+      - aggregate-and-report-coverage:
+          requires:
+            - build-and-test-backend
+            - build-and-test-frontend
