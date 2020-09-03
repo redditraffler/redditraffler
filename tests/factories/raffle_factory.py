@@ -19,7 +19,7 @@ class RaffleFactory(SQLAlchemyModelFactory):
     submission_id = factory.LazyFunction(lambda: Faker().pystr(max_chars=10).lower())
     submission_title = factory.Faker("sentence")
     submission_author = factory.Sequence(lambda n: f"RedditAuthor{n}")
-    subreddit = factory.LazyFunction(lambda: f"/r/{Faker().word()}")
+    subreddit = factory.Faker("word")
     winner_count = factory.Faker("pyint", min_value=1, max_value=25)
     min_account_age = factory.Faker("pyint", max_value=1000)
     min_comment_karma = factory.Faker("pyint", max_value=1000)
@@ -38,10 +38,15 @@ class RaffleFactory(SQLAlchemyModelFactory):
                     raffle=obj,
                     comment_karma=factory.Faker(
                         "pyint",
-                        min_value=obj.min_comment_karma or obj.min_combined_karma,
+                        min_value=obj.min_comment_karma
+                        if obj.min_comment_karma is not None
+                        else obj.min_combined_karma,
                     ),
                     link_karma=factory.Faker(
-                        "pyint", min_value=obj.min_link_karma or obj.min_combined_karma
+                        "pyint",
+                        min_value=obj.min_link_karma
+                        if obj.min_link_karma is not None
+                        else obj.min_combined_karma,
                     ),
                 )
             )

@@ -1,5 +1,5 @@
 from rq import get_current_job
-from flask import current_app, escape
+from flask import current_app
 
 from app.extensions import db, rq, cache
 from app.db.models.raffle import Raffle
@@ -95,7 +95,7 @@ def _try_remove_unverified(sub_id):
 def _save_results_to_db(raffle_params, winners, submission, user):
     raffle = Raffle(
         submission_id=submission["id"],
-        submission_title=escape(submission["title"]),
+        submission_title=submission["title"],
         submission_author=submission["author"],
         subreddit=submission["subreddit"],
         winner_count=raffle_params["winner_count"],

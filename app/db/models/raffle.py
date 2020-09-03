@@ -1,6 +1,7 @@
 from typing import List
 from sqlalchemy import inspect, func
 from datetime import datetime, timedelta
+import html
 
 from app.extensions import db
 
@@ -117,6 +118,7 @@ class Raffle(db.Model):
             elif col.key not in exclude:
                 res[col.key] = getattr(self, col.key)
         res["created_at_readable"] = self.created_at_readable()
+        res["submission_title"] = html.unescape(res["submission_title"])
         return res
 
     def ignored_users_list(self):

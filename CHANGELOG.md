@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - Fixed an issue where some raffles in the Recent Raffles list did not have accompanying emojis.
+- Fixed an issue where the raffles in the Recent Raffles list were showing escaped HTML characters.
 
 ## 2020.5 (2020-09-01)
 
