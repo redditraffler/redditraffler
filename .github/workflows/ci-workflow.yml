@@ -1,0 +1,42 @@
+name: Run tests and report coverage
+
+on:
+  push:
+    branches:
+      - staging
+  pull_request:
+    # Intentionally blank; no config
+
+jobs:
+  build-and-test-backend:
+    name: Build and test Python app
+    container: python:3.6.12-alpine
+    env:
+      PIPENV_VENV_IN_PROJECT: true
+      DATABASE_URL: postgresql://test:rr@localhost/redditraffler_test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo pip install
+          pipenv install --dev
+      - name: Run tests
+        name: pipenv run test
+
+
+  build-and-test-frontend:
+    name: Build and test JavaScript components
+    container: node:12.18.3-alpine
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install --dev
+      - name: Run tests
+        run: yarn test
+
+
+  aggregate-and-report-coverage:
+    name: Aggregate and upload coverage reports
+    needs: [build-and-test-backend, build-and-test-frontend]
+    steps:
+      - run: echo "Hello world!"
