@@ -21,8 +21,7 @@ jobs:
           sudo pip install
           pipenv install --dev
       - name: Run tests
-        name: pipenv run test
-
+        run: pipenv run test
 
   build-and-test-frontend:
     name: Build and test JavaScript components
@@ -33,7 +32,6 @@ jobs:
         run: yarn install --dev
       - name: Run tests
         run: yarn test
-
 
   aggregate-and-report-coverage:
     name: Aggregate and upload coverage reports
