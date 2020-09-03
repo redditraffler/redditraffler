@@ -56,7 +56,7 @@ const RaffleListItem = ({
   const createdAtDayjs = dayjs(createdAtMs);
   // Determine the emoji using the epoch, so each raffle will always have the same emoji assigned to it
   const emojiForRaffleItem =
-    RaffleListItemEmojis[Math.round(createdAtMs % RaffleListItemEmojis.length)];
+    RaffleListItemEmojis[Math.floor(createdAtMs % RaffleListItemEmojis.length)];
 
   return (
     <RaffleListItemContainer {...props}>
