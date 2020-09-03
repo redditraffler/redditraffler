@@ -84,10 +84,18 @@ class TestConfig(BaseConfig):
     ENV = "test"
     TESTING = True
     DEBUG = True
+    RATELIMIT_ENABLED = False
+    WTF_CSRF_ENABLED = False
+
+    CACHE_CONFIG = {"CACHE_TYPE": "null", "CACHE_NO_NULL_WARNING": True}
+
     SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/redditraffler-test.db"
+
     RQ_ASYNC = False
     RQ_CONNECTION_CLASS = "fakeredis.FakeStrictRedis"
     RQ_REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
-    RATELIMIT_ENABLED = False
-    WTF_CSRF_ENABLED = False
-    CACHE_CONFIG = {"CACHE_TYPE": "null", "CACHE_NO_NULL_WARNING": True}
+
+    REDDIT_CLIENT_ID = os.getenv("REDDIT_CLIENT_ID", "testId")
+    REDDIT_CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET", "testSecret")
+    REDDIT_REDIRECT_URI = os.getenv("REDDIT_REDIRECT_URI", "testRedirectURI")
+    REDDIT_USER_AGENT = os.getenv("REDDIT_USER_AGENT", "testUserAgent")
