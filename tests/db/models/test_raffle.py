@@ -53,3 +53,35 @@ class TestRaffle:
 
             assert result == [expected_raffle]
 
+    class TestAsDict:
+        def test_returns_expected_fields(self):
+            test_timestamp = datetime.now()
+            raffle = RaffleFactory.create(
+                created_at=test_timestamp,
+                submission_id="abc",
+                submission_title="hello this &amp; that and y&#39;all gotta see this &lt;&gt;&quot;",
+                submission_author="testUser",
+                subreddit="somecommunity",
+                winner_count=1,
+                min_account_age=0,
+                min_comment_karma=0,
+                min_link_karma=0,
+            )
+
+            result = raffle.as_dict()
+
+            assert result == {
+                "user_id": None,
+                "created_at": test_timestamp.timestamp(),
+                "created_at_readable": raffle.created_at_readable(),
+                "submission_id": "abc",
+                "submission_title": "hello this & that and y'all gotta see this <>\"",
+                "submission_author": "testUser",
+                "subreddit": "somecommunity",
+                "winner_count": 1,
+                "min_account_age": 0,
+                "min_comment_karma": 0,
+                "min_link_karma": 0,
+                "min_combined_karma": None,
+                "ignored_users": None,
+            }
