@@ -12,6 +12,7 @@
   },
   "scripts": {
     "debug": "webpack-dev-server --config webpack.dev.js",
+    "analyze_bundle": "BUNDLE_ANALYZER_ENABLED=true webpack --config webpack.prod.js",
     "lint": "eslint ./app/js",
     "test": "jest ./app/js/*",
     "build": "webpack --config webpack.prod.js",
