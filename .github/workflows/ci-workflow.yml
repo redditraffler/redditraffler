@@ -16,12 +16,25 @@ jobs:
       PIPENV_VENV_IN_PROJECT: true
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
+      - name: Install Pipenv dependencies
         run: |
           pip install pipenv
           pipenv install --dev
+      - name: Install Code Climate test reporter
+        run: |
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
       - name: Run tests
-        run: pipenv run test
+        run: |
+        ./cc-test-reporter before-build
+        pipenv run coverage run -m pytest -vv tests
+        pipenv run coverage xml
+        ./cc-test-reporter format-coverage --output /tmp/codeclimate_backend_coverage.json
+      - name: Store Backend Coverage Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: codeclimate_frontend_coverage
+          path: /tmp/codeclimate_backend_coverage.json
 
   build-and-test-frontend:
     name: Build and test JavaScript components
@@ -29,14 +42,38 @@ jobs:
     container: node:12.18.3-alpine
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
+      - name: Install Yarn dependencies
         run: yarn install --dev
+      - name: Install Code Climate test reporter
+        run: |
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
       - name: Run tests
-        run: yarn test
+        run: |
+        ./cc-test-reporter before-build
+        yarn test --coverage
+        ./cc-test-reporter format-coverage --output /tmp/codeclimate_frontend_coverage.json
+      - name: Store Frontend Coverage Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: codeclimate_frontend_coverage
+          path: /tmp/codeclimate_frontend_coverage.json
+
 
   aggregate-and-report-coverage:
     name: Aggregate and upload coverage reports
     runs-on: ubuntu-latest
     needs: [build-and-test-backend, build-and-test-frontend]
     steps:
-      - run: echo "Hello world!"
+      - name: Download Coverage Result Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: /tmp
+      - name: Install Code Climate test reporter
+        run: |
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+      - name: Sum coverage
+        run: ./cc-test-reporter sum-coverage --parts 2 /tmp/codeclimate_frontend_coverage/codeclimate_frontend_coverage.json /tmp/codeclimate_frontend_coverage/codeclimate_frontend_coverage.json
+      - name: Upload coverage
+        run: ./cc-test-reporter upload-coverage
