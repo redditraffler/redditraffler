@@ -25,7 +25,7 @@ jobs:
           path: |
             ${{ env.PIP_CACHE_DIR }}
             ${{ env.PIPENV_CACHE_DIR }}
-          key: ${{ hashFiles('Pipfile.lock', 'Pipfile') }}-w
+          key: python-deps-${{ hashFiles('Pipfile.lock', 'Pipfile') }}
 
       - name: Install Pipenv dependencies
         run: |
@@ -66,7 +66,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ./node_modules
-          key: ${{ hashFiles('yarn.lock', 'package.json') }}
+          key: node-deps-${{ hashFiles('yarn.lock', 'package.json') }}
 
       - name: Install Yarn dependencies
         run: yarn install --dev
