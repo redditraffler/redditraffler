@@ -14,7 +14,6 @@ jobs:
     container: python:3.6.12
     env:
       PIPENV_VENV_IN_PROJECT: true
-      PIP_CACHE_DIR: ~/.cache/pip
       PIPENV_CACHE_DIR: ~/.cache/pipenv
     steps:
       - uses: actions/checkout@v2
@@ -22,16 +21,13 @@ jobs:
       - name: Check pip cache
         uses: actions/cache@v2
         with:
-          path: |
-            ${{ env.PIP_CACHE_DIR }}
-            ${{ env.PIPENV_CACHE_DIR }}
-          key: ${{ hashFiles('Pipfile.lock', 'Pipfile') }}-
+          path: ${{ env.PIPENV_CACHE_DIR }}
+          key: ${{ hashFiles('Pipfile.lock', 'Pipfile') }}?
 
       - name: Install Pipenv dependencies
         run: |
           pip install pipenv
           pipenv install --dev
-          ls -al ${{ env.PIP_CACHE_DIR }}
           ls -al ${{ env.PIPENV_CACHE_DIR }}
 
       - name: Install Code Climate test reporter
