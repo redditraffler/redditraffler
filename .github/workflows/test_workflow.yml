@@ -1,4 +1,4 @@
-name: Run tests and report coverage
+name: Test
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-test-backend:
-    name: Build and test Python app
+    name: Test Python app
     runs-on: ubuntu-latest
     container: python:3.6.12
     env:
@@ -51,7 +51,7 @@ jobs:
           path: /tmp/codeclimate_backend_coverage.json
 
   build-and-test-frontend:
-    name: Build and test JavaScript components
+    name: Test JavaScript components
     runs-on: ubuntu-latest
     container: node:12.18.3
     steps:
@@ -89,7 +89,7 @@ jobs:
           path: /tmp/codeclimate_frontend_coverage.json
 
   aggregate-and-report-coverage:
-    name: Aggregate and upload coverage reports
+    name: Upload coverage reports
     runs-on: ubuntu-latest
     needs: [build-and-test-backend, build-and-test-frontend]
     env:
