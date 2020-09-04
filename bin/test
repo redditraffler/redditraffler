@@ -1,0 +1,9 @@
+#!/bin/sh
+
+export FLASK_APP=runserver.py
+
+echo "Running db migrations..."
+pipenv run migrate_db
+
+echo "Running tests..."
+pipenv run test
