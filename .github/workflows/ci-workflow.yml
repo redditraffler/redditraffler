@@ -30,8 +30,7 @@ jobs:
       - name: Install Pipenv dependencies
         run: |
           pip install pipenv
-          pipenv install --dev
-          ls -al ${{ env.PIPENV_CACHE_DIR }}
+          pipenv install --dev --verbose
 
       - name: Install Code Climate test reporter
         run: |
