@@ -3,7 +3,6 @@ import pytest
 from app.config import TestConfig
 from app.factory import create_app
 from app.extensions import db as _db
-from tests.helpers import scoped_session
 
 
 @pytest.fixture(scope="session")
@@ -26,9 +25,7 @@ def db(app, request):
 @pytest.fixture(scope="function", autouse=True)
 def db_session(db, request):
     connection = db.engine.connect()
-    session = scoped_session
-    session.configure(bind=connection)
-    db.session = session
+    session = db.session
     session.begin_nested()
     yield session
     session.rollback()
