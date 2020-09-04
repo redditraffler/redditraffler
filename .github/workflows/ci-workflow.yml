@@ -43,11 +43,8 @@ jobs:
   build-and-test-frontend:
     name: Build and test JavaScript components
     runs-on: ubuntu-latest
-    container: node:12.18.3-slim
+    container: node:12.18.3
     steps:
-      - run: git --version
-      - run: curl --version
-      - run: yarn --version
       # - name: Install latest Git
       #   run: |
       #     apt-get update
@@ -62,7 +59,13 @@ jobs:
       #     exec bash
       #     git --version
 
-      - uses: actions/checkout@v2
+      # - uses: actions/checkout@v2
+
+      - name: Checkout
+        run: |
+          git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
+          git fetch origin $GITHUB_REF:temporary-ci-branch
+          git checkout $GITHUB_SHA
 
       - name: Install Yarn dependencies
         run: yarn install --dev
