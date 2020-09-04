@@ -22,14 +22,14 @@ jobs:
           pipenv install --dev
       - name: Install Code Climate test reporter
         run: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        chmod +x ./cc-test-reporter
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
       - name: Run tests
         run: |
-        ./cc-test-reporter before-build
-        pipenv run coverage run -m pytest -vv tests
-        pipenv run coverage xml
-        ./cc-test-reporter format-coverage --output /tmp/codeclimate_backend_coverage.json
+          ./cc-test-reporter before-build
+          pipenv run coverage run -m pytest -vv tests
+          pipenv run coverage xml
+          ./cc-test-reporter format-coverage --output /tmp/codeclimate_backend_coverage.json
       - name: Store Backend Coverage Results
         uses: actions/upload-artifact@v2
         with:
@@ -46,13 +46,13 @@ jobs:
         run: yarn install --dev
       - name: Install Code Climate test reporter
         run: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        chmod +x ./cc-test-reporter
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
       - name: Run tests
         run: |
-        ./cc-test-reporter before-build
-        yarn test --coverage
-        ./cc-test-reporter format-coverage --output /tmp/codeclimate_frontend_coverage.json
+          ./cc-test-reporter before-build
+          yarn test --coverage
+          ./cc-test-reporter format-coverage --output /tmp/codeclimate_frontend_coverage.json
       - name: Store Frontend Coverage Results
         uses: actions/upload-artifact@v2
         with:
@@ -71,9 +71,9 @@ jobs:
           path: /tmp
       - name: Install Code Climate test reporter
         run: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        chmod +x ./cc-test-reporter
-      - name: Sum coverage
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+        - name: Sum coverage
         run: ./cc-test-reporter sum-coverage --parts 2 /tmp/codeclimate_frontend_coverage/codeclimate_frontend_coverage.json /tmp/codeclimate_frontend_coverage/codeclimate_frontend_coverage.json
       - name: Upload coverage
         run: ./cc-test-reporter upload-coverage
