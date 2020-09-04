@@ -39,7 +39,7 @@ jobs:
   build-and-test-frontend:
     name: Build and test JavaScript components
     runs-on: ubuntu-latest
-    container: node:12.18.3-alpine
+    container: node:12.18.3
     steps:
       - uses: actions/checkout@v2
       - name: Install Yarn dependencies
@@ -58,7 +58,6 @@ jobs:
         with:
           name: codeclimate_frontend_coverage
           path: /tmp/codeclimate_frontend_coverage.json
-
 
   aggregate-and-report-coverage:
     name: Aggregate and upload coverage reports
