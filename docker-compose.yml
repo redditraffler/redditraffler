@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  postgres:
-    container_name: redditraffler_postgres
+  postgres_dev:
+    container_name: redditraffler_postgres_dev
     restart: always
     image: postgres:12.3-alpine # should match Heroku Postgres version
     ports:
@@ -13,6 +13,17 @@ services:
       POSTGRES_DB: redditraffler_dev
     volumes:
       - db_data:/var/lib/postgresql/data
+
+  postgres_test:
+    container_name: redditraffler_postgres_test
+    restart: always
+    image: postgres:12.3-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: rr_test
+      POSTGRES_DB: redditraffler_test
 
   redis:
     container_name: redditraffler_redis
