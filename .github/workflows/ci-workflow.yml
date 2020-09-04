@@ -59,7 +59,7 @@ jobs:
         run: |
           ./cc-test-reporter before-build
           yarn test --coverage
-          ./cc-test-reporter format-coverage --output /tmp/codeclimate_frontend_coverage.json
+          ./cc-test-reporter format-coverage --debug --output /tmp/codeclimate_frontend_coverage.json
 
       - name: Store Frontend Coverage Results
         uses: actions/upload-artifact@v2
