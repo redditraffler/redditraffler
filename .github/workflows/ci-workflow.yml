@@ -45,17 +45,25 @@ jobs:
     runs-on: ubuntu-latest
     container: node:12.18.3
     steps:
-      # Need to install Git >= 2.18 to checkout using git in order to cc-test-reporter to get Git metadata
-      - name: Install Git >= 2.18
-        run: |
-          apt-add-repository ppa:git-core/ppa
-          apt-get update
-          apt-get install git -y
-
       - uses: actions/checkout@v2
 
       - name: Install Yarn dependencies
         run: yarn install --dev
+
+      # Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs that info.
+      - name: Set ENV for codeclimate (pull_request)
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/$GITHUB_HEAD_REF:refs/remotes/origin/$GITHUB_HEAD_REF
+          echo "::set-env name=GIT_BRANCH::$GITHUB_HEAD_REF"
+          echo "::set-env name=GIT_COMMIT_SHA::$(git rev-parse origin/$GITHUB_HEAD_REF)"
+
+      # Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs that info.
+      - name: Set ENV for codeclimate (push)
+        if: github.event_name == 'push'
+        run: |
+          echo "::set-env name=GIT_BRANCH::$GITHUB_REF"
+          echo "::set-env name=GIT_COMMIT_SHA::$GITHUB_SHA"
 
       - name: Install Code Climate test reporter
         run: |
