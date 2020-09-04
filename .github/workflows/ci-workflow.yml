@@ -31,6 +31,8 @@ jobs:
         run: |
           pip install pipenv
           pipenv install --dev
+          ls -al ${{ env.PIP_CACHE_DIR }}
+          ls -al ${{ env.PIPENV_CACHE_DIR }}
 
       - name: Install Code Climate test reporter
         run: |
