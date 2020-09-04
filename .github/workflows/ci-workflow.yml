@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     container: python:3.6.12
     env:
-      # PIPENV_VENV_IN_PROJECT: true
+      PIPENV_VENV_IN_PROJECT: true
       PIP_CACHE_DIR: /tmp/pip_cache
       PIPENV_CACHE_DIR: /tmp/pipenv_cache
     steps:
@@ -30,7 +30,7 @@ jobs:
       - name: Install Pipenv dependencies
         run: |
           pip install pipenv
-          pipenv install --dev --verbose
+          pipenv install --dev --deploy
 
       - name: Install Code Climate test reporter
         run: |
