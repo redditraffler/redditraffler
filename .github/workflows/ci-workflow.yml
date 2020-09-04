@@ -43,8 +43,11 @@ jobs:
   build-and-test-frontend:
     name: Build and test JavaScript components
     runs-on: ubuntu-latest
-    container: cimg/node:12.18.3
+    container: node:12.18.3-slim
     steps:
+      - run: git --version
+      - run: curl --version
+      - run: yarn --version
       # - name: Install latest Git
       #   run: |
       #     apt-get update
