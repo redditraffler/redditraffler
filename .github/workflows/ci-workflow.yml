@@ -14,18 +14,14 @@ jobs:
     container: python:3.6.12
     env:
       PIPENV_VENV_IN_PROJECT: true
+      PIP_CACHE_DIR: ~/.cache/pip
     steps:
       - uses: actions/checkout@v2
-
-      - name: Get pip cache dir
-        id: get-pip-cache-dir
-        run: |
-          echo "::set-output name=dir::$(pip cache dir)"
 
       - name: Check pip cache
         uses: actions/cache@v2
         with:
-          path: ${{ steps.get-pip-cache-dir.outputs.dir }}
+          path: ${{ env.PIP_CACHE_DIR }}
           key: ${{ hashFiles('Pipfile.lock', 'Pipfile') }}
 
       - name: Install Pipenv dependencies
