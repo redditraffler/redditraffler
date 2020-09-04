@@ -52,6 +52,12 @@ jobs:
           git fetch origin $GITHUB_REF:temporary-ci-branch
           git checkout $GITHUB_SHA
 
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: ${{ hashFiles('yarn.lock', 'package.json') }}
+
       - name: Install Yarn dependencies
         run: yarn install --dev
 
