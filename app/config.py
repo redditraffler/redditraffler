@@ -69,7 +69,6 @@ class DebugConfig(BaseConfig):
     ENV = os.getenv("ENV", "local")
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
-    ASSETS_DEBUG = get_boolean_env("ASSETS_DEBUG", True)
     ROLLBAR_ENABLED = get_boolean_env("ROLLBAR_ENABLED")
 
 
