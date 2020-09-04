@@ -48,7 +48,7 @@ jobs:
       - name: Install latest Git
         run: |
           apt-get update
-          apt-get install libz-dev libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake gcc
+          apt-get install libz-dev libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake gcc -y
           mkdir tmp
           cd /tmp
           curl -o git.tar.gz https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.26.2.tar.gz
