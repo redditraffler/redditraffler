@@ -88,7 +88,8 @@ class TestConfig(BaseConfig):
 
     CACHE_CONFIG = {"CACHE_TYPE": "null", "CACHE_NO_NULL_WARNING": True}
 
-    SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/redditraffler-test.db"
+    # SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/redditraffler-test.db"
+    SQLALCHEMY_DATABASE_URI = os.getenv("TEST_DATABASE_URL")
 
     RQ_ASYNC = False
     RQ_CONNECTION_CLASS = "fakeredis.FakeStrictRedis"
