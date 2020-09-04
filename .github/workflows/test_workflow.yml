@@ -1,0 +1,112 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - staging
+  pull_request:
+    # Intentionally blank; no config
+
+jobs:
+  build-and-test-backend:
+    name: Test Python app
+    runs-on: ubuntu-latest
+    container: python:3.6.12
+    env:
+      PIPENV_VENV_IN_PROJECT: true
+      PIP_CACHE_DIR: /tmp/pip_cache
+      PIPENV_CACHE_DIR: /tmp/pipenv_cache
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check pip cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ env.PIP_CACHE_DIR }}
+            ${{ env.PIPENV_CACHE_DIR }}
+          key: python-deps-${{ hashFiles('Pipfile.lock', 'Pipfile') }}
+
+      - name: Install Pipenv dependencies
+        run: |
+          pip install pipenv
+          pipenv install --dev --deploy
+
+      - name: Install Code Climate test reporter
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+
+      - name: Run tests
+        run: |
+          ./cc-test-reporter before-build
+          pipenv run coverage run -m pytest -vv tests
+          pipenv run coverage xml
+          ./cc-test-reporter format-coverage --output /tmp/codeclimate_backend_coverage.json
+
+      - name: Store Backend Coverage Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: codeclimate_frontend_coverage
+          path: /tmp/codeclimate_backend_coverage.json
+
+  build-and-test-frontend:
+    name: Test JavaScript components
+    runs-on: ubuntu-latest
+    container: node:12.18.3
+    steps:
+      # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
+      - name: Checkout
+        run: |
+          git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
+          git fetch origin $GITHUB_REF:temporary-ci-branch
+          git checkout $GITHUB_SHA
+
+      - name: Check node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: node-deps-${{ hashFiles('yarn.lock', 'package.json') }}
+
+      - name: Install Yarn dependencies
+        run: yarn install --dev
+
+      - name: Install Code Climate test reporter
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+
+      - name: Run tests
+        run: |
+          ./cc-test-reporter before-build
+          yarn test --coverage
+          ./cc-test-reporter format-coverage --output /tmp/codeclimate_frontend_coverage.json
+
+      - name: Store Frontend Coverage Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: codeclimate_frontend_coverage
+          path: /tmp/codeclimate_frontend_coverage.json
+
+  aggregate-and-report-coverage:
+    name: Upload coverage reports
+    runs-on: ubuntu-latest
+    needs: [build-and-test-backend, build-and-test-frontend]
+    env:
+      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+    steps:
+      - name: Download Coverage Result Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: /tmp
+
+      - name: Install Code Climate test reporter
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+
+      - name: Sum coverage
+        run: ./cc-test-reporter sum-coverage --parts 2 /tmp/codeclimate_frontend_coverage/codeclimate_frontend_coverage.json /tmp/codeclimate_frontend_coverage/codeclimate_frontend_coverage.json
+
+      - name: Upload coverage
+        run: ./cc-test-reporter upload-coverage
