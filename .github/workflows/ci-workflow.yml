@@ -48,8 +48,8 @@ jobs:
       # Need to install Git >= 2.18 to checkout using git in order to cc-test-reporter to get Git metadata
       - name: Install Git >= 2.18
         run: |
+          apt-add-repository ppa:git-core/ppa
           apt-get update
-          apt-get upgrade -y
           apt-get install git -y
 
       - uses: actions/checkout@v2
