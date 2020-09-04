@@ -25,7 +25,7 @@ jobs:
       - name: Check pip cache
         uses: actions/cache@v2
         with:
-          path: ${{ steps.pip-cache.outputs.dir }}
+          path: ${{ steps.get-pip-cache-dir.outputs.dir }}
           key: ${{ hashFiles('Pipfile.lock', 'Pipfile') }}
 
       - name: Install Pipenv dependencies
