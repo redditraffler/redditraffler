@@ -52,7 +52,7 @@ jobs:
           git fetch origin $GITHUB_REF:temporary-ci-branch
           git checkout $GITHUB_SHA
 
-      - name: Cache dependencies
+      - name: Check node_modules cache
         uses: actions/cache@v2
         with:
           path: ./node_modules
