@@ -47,6 +47,7 @@ jobs:
     steps:
       - name: Install latest Git
         run: |
+          apt-get update
           apt-get install software-properties-common -y
           add-apt-repository ppa:git-core/ppa
           apt-get update
