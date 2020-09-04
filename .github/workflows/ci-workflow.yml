@@ -22,8 +22,10 @@ jobs:
       - name: Check pip cache
         uses: actions/cache@v2
         with:
-          path: ${{ env.PIPENV_CACHE_DIR }}
-          key: ${{ hashFiles('Pipfile.lock', 'Pipfile') }}?
+          path: |
+            ${{ env.PIP_CACHE_DIR }}
+            ${{ env.PIPENV_CACHE_DIR }}
+          key: ${{ hashFiles('Pipfile.lock', 'Pipfile') }}-w
 
       - name: Install Pipenv dependencies
         run: |
