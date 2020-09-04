@@ -73,7 +73,7 @@ jobs:
         run: |
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
-        - name: Sum coverage
+      - name: Sum coverage
         run: ./cc-test-reporter sum-coverage --parts 2 /tmp/codeclimate_frontend_coverage/codeclimate_frontend_coverage.json /tmp/codeclimate_frontend_coverage/codeclimate_frontend_coverage.json
       - name: Upload coverage
         run: ./cc-test-reporter upload-coverage
