@@ -14,7 +14,8 @@ jobs:
     container: python:3.6.12
     env:
       PIPENV_VENV_IN_PROJECT: true
-      PIPENV_CACHE_DIR: ~/.cache/pipenv
+      PIP_CACHE_DIR: /tmp/pip_cache
+      PIPENV_CACHE_DIR: /tmp/pipenv_cache
     steps:
       - uses: actions/checkout@v2
 
