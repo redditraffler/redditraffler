@@ -17,6 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Get pip cache dir
+        id: get-pip-cache-dir
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+
+      - name: Check pip cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ hashFiles('Pipfile.lock', 'Pipfile') }}
+
       - name: Install Pipenv dependencies
         run: |
           pip install pipenv
