@@ -25,7 +25,7 @@ jobs:
           path: |
             ${{ env.PIP_CACHE_DIR }}
             ${{ env.PIPENV_CACHE_DIR }}
-          key: ${{ hashFiles('Pipfile.lock', 'Pipfile') }}
+          key: ${{ hashFiles('Pipfile.lock', 'Pipfile') }}-
 
       - name: Install Pipenv dependencies
         run: |
