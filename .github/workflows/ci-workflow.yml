@@ -43,21 +43,21 @@ jobs:
   build-and-test-frontend:
     name: Build and test JavaScript components
     runs-on: ubuntu-latest
-    container: node:12.18.3
+    container: cimg/node:12.18.3
     steps:
-      - name: Install latest Git
-        run: |
-          apt-get update
-          apt-get install libz-dev libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake gcc -y
-          mkdir tmp
-          cd /tmp
-          curl -o git.tar.gz https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.26.2.tar.gz
-          tar -zxf git.tar.gz
-          cd git-*
-          make prefix=/usr/local all
-          make prefix=/usr/local install
-          exec bash
-          git --version
+      # - name: Install latest Git
+      #   run: |
+      #     apt-get update
+      #     apt-get install libz-dev libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext cmake gcc -y
+      #     mkdir tmp
+      #     cd /tmp
+      #     curl -o git.tar.gz https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.26.2.tar.gz
+      #     tar -zxf git.tar.gz
+      #     cd git-*
+      #     make prefix=/usr/local all
+      #     make prefix=/usr/local install
+      #     exec bash
+      #     git --version
 
       - uses: actions/checkout@v2
 
