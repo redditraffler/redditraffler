@@ -3,6 +3,7 @@ import pytest
 from app.config import TestConfig
 from app.factory import create_app
 from app.extensions import db as _db
+from app.db.models import raffle, user, winner
 
 
 @pytest.fixture(scope="session")
@@ -27,6 +28,15 @@ def db_session(db):
     yield session
     connection.close()
     session.remove()
+
+
+@pytest.fixture(scope="class", autouse=True)
+def truncate_db_after_each_class(db):
+    """ Reset the test DB to a clean slate after each class. """
+    models = [winner.Winner, raffle.Raffle, user.User]  # Specify models with FKs first
+    for model in models:
+        db.session.query(model).delete()
+    db.session.commit()
 
 
 @pytest.fixture
