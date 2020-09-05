@@ -67,8 +67,7 @@ jobs:
       - name: Checkout
         run: |
           git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
-          git fetch origin $GITHUB_REF:temporary-ci-branch
-          git checkout $GITHUB_SHA
+          git checkout -b temp-ci-branch
 
       - name: Check node_modules cache
         uses: actions/cache@v2
