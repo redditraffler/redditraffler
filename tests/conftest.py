@@ -24,9 +24,7 @@ def db(app):
 def db_session(db):
     connection = db.engine.connect()
     session = db.session
-    session.begin_nested()
     yield session
-    session.rollback()
     connection.close()
     session.remove()
 
