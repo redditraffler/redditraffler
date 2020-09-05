@@ -12,7 +12,7 @@ updates:
     reviewers:
       - "timorthi"
     open-pull-requests-limit: 10
-    default_labels:
+    labels:
       - "Type: Maintenance"
       - "Area: Dependencies"
 
@@ -23,6 +23,6 @@ updates:
     reviewers:
       - "timorthi"
     open-pull-requests-limit: 10
-    default_labels:
+    labels:
       - "Type: Maintenance"
       - "Area: Dependencies"
