@@ -25,7 +25,9 @@ jobs:
       PIPENV_CACHE_DIR: /tmp/pipenv_cache
       TEST_DATABASE_URL: postgres://ci_test:ci@postgres/redditraffler_ci_test
     steps:
-      - uses: actions/checkout@v2
+      # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
+      - name: Checkout
+        run: git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
 
       - name: Check pip cache
         uses: actions/cache@v2
@@ -65,9 +67,7 @@ jobs:
     steps:
       # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
       - name: Checkout
-        run: |
-          git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
-          git checkout -b temp-ci-branch
+        run: git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
 
       - name: Check node_modules cache
         uses: actions/cache@v2
