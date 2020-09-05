@@ -29,10 +29,6 @@ class TestRaffle:
             assert len(saved_raffle.winners) == 1
             assert saved_raffle.winners[0].username == "test-user"
 
-            # Have to manually delete, raffle job seems to be bypassing the db_session's transaction?
-            db_session.delete(saved_raffle)
-            db_session.commit()
-
         def test_raffle_verified_db_saving(self, db_session, client):
             user = UserFactory(username="verified_redditor")
 
@@ -43,10 +39,6 @@ class TestRaffle:
             assert saved_raffle.creator.username == "verified_redditor"
             assert len(saved_raffle.winners) == 1
             assert saved_raffle.winners[0].username == "test-user"
-
-            # Have to manually delete, raffle job seems to be bypassing the db_session's transaction?
-            db_session.delete(saved_raffle)
-            db_session.commit()
 
     class TestFailure:
         @pytest.fixture
