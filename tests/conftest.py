@@ -8,14 +8,12 @@ from app.extensions import db as _db
 @pytest.fixture(scope="session")
 def app():
     test_app = create_app(TestConfig)
-    context = test_app.app_context()
-    context.push()
-    yield test_app
-    context.pop()
+    with test_app.app_context():
+        yield test_app
 
 
 @pytest.fixture(scope="session")
-def db(app, request):
+def db(app):
     _db.app = app
     _db.create_all()
     yield _db
@@ -23,7 +21,7 @@ def db(app, request):
 
 
 @pytest.fixture(scope="function", autouse=True)
-def db_session(db, request):
+def db_session(db):
     connection = db.engine.connect()
     session = db.session
     session.begin_nested()
