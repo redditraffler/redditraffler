@@ -1,4 +1,5 @@
 from flask import jsonify, request, session, url_for
+from datetime import timezone
 
 from app.jobs.raffle_job import raffle
 from app.util.raffle_form_validator import RaffleFormValidator
@@ -44,7 +45,7 @@ def get_recent_raffles():
     return jsonify(
         [
             {
-                "created_at": r.created_at.timestamp(),
+                "created_at": r.created_at.replace(tzinfo=timezone.utc).timestamp(),
                 "submission_title": r.submission_title,
                 "submission_id": r.submission_id,
                 "subreddit": r.subreddit,

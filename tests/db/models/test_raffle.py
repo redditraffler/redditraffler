@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from app.db.models.raffle import Raffle
 from tests.factories import RaffleFactory
@@ -72,7 +72,7 @@ class TestRaffle:
 
             assert result == {
                 "user_id": None,
-                "created_at": test_timestamp.timestamp(),
+                "created_at": test_timestamp.replace(tzinfo=timezone.utc).timestamp(),
                 "created_at_readable": raffle.created_at_readable(),
                 "submission_id": "abc",
                 "submission_title": "hello this & that and y'all gotta see this <>\"",
