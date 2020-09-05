@@ -8,7 +8,7 @@ on:
     # Intentionally blank; no config
 
 jobs:
-  build-and-test-backend:
+  test-backend:
     name: Test Python app
     runs-on: ubuntu-latest
     container: python:3.6.12
@@ -60,7 +60,7 @@ jobs:
           name: codeclimate_backend_coverage
           path: /tmp/codeclimate_backend_coverage.json
 
-  build-and-test-frontend:
+  test-frontend:
     name: Test JavaScript components
     runs-on: ubuntu-latest
     container: node:12.18.3
@@ -98,7 +98,7 @@ jobs:
   aggregate-and-report-coverage:
     name: Upload coverage reports
     runs-on: ubuntu-latest
-    needs: [build-and-test-backend, build-and-test-frontend]
+    needs: [test-backend, test-frontend]
     env:
       CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
     steps:
