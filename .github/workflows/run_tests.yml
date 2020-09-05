@@ -95,6 +95,27 @@ jobs:
           name: codeclimate_frontend_coverage
           path: /tmp/codeclimate_frontend_coverage.json
 
+  build-frontend:
+    name: Test Webpack build
+    runs-on: ubuntu-latest
+    container: node:12.18.3
+    steps:
+      # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
+      - name: Checkout
+        run: git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
+
+      - name: Check node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: node-deps-${{ hashFiles('yarn.lock', 'package.json') }}
+
+      - name: Install Yarn dependencies
+        run: yarn install --dev
+
+      - name: Build project
+        run: yarn build
+
   aggregate-and-report-coverage:
     name: Upload coverage reports
     runs-on: ubuntu-latest
