@@ -55,7 +55,7 @@ jobs:
       - name: Store Backend Coverage Results
         uses: actions/upload-artifact@v2
         with:
-          name: codeclimate_frontend_coverage
+          name: codeclimate_backend_coverage
           path: /tmp/codeclimate_backend_coverage.json
 
   build-and-test-frontend:
