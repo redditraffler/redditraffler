@@ -8,7 +8,7 @@ on:
     # Intentionally blank; no config
 
 jobs:
-  build-and-test-backend:
+  test-backend:
     name: Test Python app
     runs-on: ubuntu-latest
     container: python:3.6.12
@@ -25,7 +25,9 @@ jobs:
       PIPENV_CACHE_DIR: /tmp/pipenv_cache
       TEST_DATABASE_URL: postgres://ci_test:ci@postgres/redditraffler_ci_test
     steps:
-      - uses: actions/checkout@v2
+      # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
+      - name: Clone repo
+        run: git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
 
       - name: Check pip cache
         uses: actions/cache@v2
@@ -58,17 +60,14 @@ jobs:
           name: codeclimate_backend_coverage
           path: /tmp/codeclimate_backend_coverage.json
 
-  build-and-test-frontend:
+  test-frontend:
     name: Test JavaScript components
     runs-on: ubuntu-latest
     container: node:12.18.3
     steps:
       # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
-      - name: Checkout
-        run: |
-          git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
-          git fetch origin $GITHUB_REF:temporary-ci-branch
-          git checkout $GITHUB_SHA
+      - name: Clone repo
+        run: git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
 
       - name: Check node_modules cache
         uses: actions/cache@v2
@@ -96,10 +95,31 @@ jobs:
           name: codeclimate_frontend_coverage
           path: /tmp/codeclimate_frontend_coverage.json
 
+  build-frontend:
+    name: Test Webpack build
+    runs-on: ubuntu-latest
+    container: node:12.18.3
+    steps:
+      # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
+      - name: Clone repo
+        run: git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
+
+      - name: Check node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: node-deps-${{ hashFiles('yarn.lock', 'package.json') }}
+
+      - name: Install Yarn dependencies
+        run: yarn install --dev
+
+      - name: Build project
+        run: yarn build
+
   aggregate-and-report-coverage:
     name: Upload coverage reports
     runs-on: ubuntu-latest
-    needs: [build-and-test-backend, build-and-test-frontend]
+    needs: [test-backend, test-frontend]
     env:
       CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
     steps:
