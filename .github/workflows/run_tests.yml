@@ -26,7 +26,7 @@ jobs:
       TEST_DATABASE_URL: postgres://ci_test:ci@postgres/redditraffler_ci_test
     steps:
       # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
-      - name: Checkout
+      - name: Clone repo
         run: git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
 
       - name: Check pip cache
@@ -66,7 +66,7 @@ jobs:
     container: node:12.18.3
     steps:
       # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
-      - name: Checkout
+      - name: Clone repo
         run: git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
 
       - name: Check node_modules cache
@@ -101,7 +101,7 @@ jobs:
     container: node:12.18.3
     steps:
       # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
-      - name: Checkout
+      - name: Clone repo
         run: git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
 
       - name: Check node_modules cache
