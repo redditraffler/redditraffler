@@ -1,6 +1,12 @@
-from sqlalchemy import orm
+from app.db.models import raffle, user, winner
+from app.extensions import db
 
-scoped_session = orm.scoped_session(orm.sessionmaker())
+
+def truncate_db():
+    models = [winner.Winner, raffle.Raffle, user.User]  # Specify models with FKs first
+    for model in models:
+        db.session.query(model).delete()
+    db.session.commit()
 
 
 def raffler_params():
