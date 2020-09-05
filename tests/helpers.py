@@ -1,8 +1,3 @@
-from sqlalchemy import orm
-
-scoped_session = orm.scoped_session(orm.sessionmaker())
-
-
 def raffler_params():
     return {
         "submission_url": "https://redd.it/4re9cx",

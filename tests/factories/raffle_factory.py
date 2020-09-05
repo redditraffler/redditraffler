@@ -3,7 +3,7 @@ from factory.alchemy import SQLAlchemyModelFactory
 from faker import Faker
 
 from app.db.models.raffle import Raffle
-from tests.helpers import scoped_session
+from app.extensions import db
 
 from .winner_factory import WinnerFactory
 
@@ -11,7 +11,7 @@ from .winner_factory import WinnerFactory
 class RaffleFactory(SQLAlchemyModelFactory):
     class Meta:
         model = Raffle
-        sqlalchemy_session = scoped_session
+        sqlalchemy_session = db.session
 
     id = factory.Sequence(lambda n: n)
     creator = factory.SubFactory("tests.factories.user_factory.UserFactory")

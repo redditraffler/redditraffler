@@ -3,20 +3,18 @@ import pytest
 from app.config import TestConfig
 from app.factory import create_app
 from app.extensions import db as _db
-from tests.helpers import scoped_session
+from app.db.models import raffle, user, winner
 
 
 @pytest.fixture(scope="session")
 def app():
     test_app = create_app(TestConfig)
-    context = test_app.app_context()
-    context.push()
-    yield test_app
-    context.pop()
+    with test_app.app_context():
+        yield test_app
 
 
 @pytest.fixture(scope="session")
-def db(app, request):
+def db(app):
     _db.app = app
     _db.create_all()
     yield _db
@@ -24,16 +22,21 @@ def db(app, request):
 
 
 @pytest.fixture(scope="function", autouse=True)
-def db_session(db, request):
+def db_session(db):
     connection = db.engine.connect()
-    session = scoped_session
-    session.configure(bind=connection)
-    db.session = session
-    session.begin_nested()
+    session = db.session
     yield session
-    session.rollback()
     connection.close()
     session.remove()
+
+
+@pytest.fixture(scope="class", autouse=True)
+def truncate_db_after_each_class(db):
+    """ Reset the test DB to a clean slate after each class. """
+    models = [winner.Winner, raffle.Raffle, user.User]  # Specify models with FKs first
+    for model in models:
+        db.session.query(model).delete()
+    db.session.commit()
 
 
 @pytest.fixture
