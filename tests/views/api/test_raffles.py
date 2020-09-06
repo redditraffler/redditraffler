@@ -1,4 +1,5 @@
 from flask import url_for
+from datetime import timezone
 
 from tests.factories import RaffleFactory
 
@@ -69,7 +70,9 @@ class TestGetRecentRaffles:
         assert res.status_code == 200
         assert res.get_json() == [
             {
-                "created_at": raffle.created_at.timestamp(),
+                "created_at": raffle.created_at.replace(
+                    tzinfo=timezone.utc
+                ).timestamp(),
                 "submission_title": raffle.submission_title,
                 "submission_id": raffle.submission_id,
                 "subreddit": raffle.subreddit,

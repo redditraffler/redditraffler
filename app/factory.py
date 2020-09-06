@@ -7,7 +7,7 @@ import re
 from app.extensions import db, migrate, rq, limiter, csrf, cache, talisman
 from app.views import base, auth, raffles, api, users
 from app.config import ProdConfig
-from app.commands import delete, clear_cache
+from app.commands import delete, clear_cache, unescape_submission_titles
 from app.logging import configure_logger
 
 
@@ -77,6 +77,7 @@ def register_extensions(app):
 def register_commands(app):
     app.cli.add_command(delete)
     app.cli.add_command(clear_cache)
+    app.cli.add_command(unescape_submission_titles)
 
 
 def register_webpack_context_processor(app):

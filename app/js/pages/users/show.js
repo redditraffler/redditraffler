@@ -4,6 +4,7 @@ import "@assets/css/users/show.css";
 import $ from "jquery";
 import axios from "redaxios";
 import { Endpoint } from "@js/api";
+import { escapeHtml } from "@js/util";
 
 require("datatables-bulma");
 
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }) => {
         const row = document.createElement("tr");
         row.innerHTML = `
-          <td>${submission_title}</td>
+          <td>${escapeHtml(submission_title)}</td>
           <td>${subreddit}</td>
           <td data-sort='${created_at}'>${created_at_readable}</td>
         `;
