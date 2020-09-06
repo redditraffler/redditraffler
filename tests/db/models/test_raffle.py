@@ -59,7 +59,7 @@ class TestRaffle:
             raffle = RaffleFactory.create(
                 created_at=test_timestamp,
                 submission_id="abc",
-                submission_title="hello this &amp; that and y&#39;all gotta see this &lt;&gt;&quot;",
+                submission_title="hello world",
                 submission_author="testUser",
                 subreddit="somecommunity",
                 winner_count=1,
@@ -75,7 +75,7 @@ class TestRaffle:
                 "created_at": test_timestamp.replace(tzinfo=timezone.utc).timestamp(),
                 "created_at_readable": raffle.created_at_readable(),
                 "submission_id": "abc",
-                "submission_title": "hello this & that and y'all gotta see this <>\"",
+                "submission_title": "hello world",
                 "submission_author": "testUser",
                 "subreddit": "somecommunity",
                 "winner_count": 1,
