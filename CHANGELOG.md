@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+Nothing here!
+
+## 2020.6 (2020-09-07)
+
 ### Changed
 
 - For verified raffles, the author of the selected submission will be automatically ignored.
