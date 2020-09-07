@@ -49,13 +49,27 @@ function showSelectedSubmission($tr) {
   }
 }
 
+/**
+ * Registers event handlers on the submission selection table
+ */
 function initTableRows() {
   const $rows = $("#submissions > tbody > tr");
   $rows.click(function () {
+    const $clickedRow = $(this);
+
+    // Highlights the selected row
     $rows.removeClass("is-selected");
-    $(this).addClass("is-selected");
-    $("#submission-selection").val(`https://redd.it/${$(this).attr("id")}`);
-    showSelectedSubmission($(this));
+    $clickedRow.addClass("is-selected");
+
+    $("#submission-selection").val(`https://redd.it/${$clickedRow.attr("id")}`); // Set submissionUrl in the form
+    showSelectedSubmission($clickedRow); // Display the selected submission to the user
+
+    /* eslint-disable no-use-before-define */
+    // Rebuild the ignored users list with the submission author
+    removeAllIgnoredUsers();
+    setDefaultIgnoredUsers();
+    addIgnoredUser($clickedRow.attr("data-submission-author"));
+    /* eslint-enable */
   });
 }
 
@@ -80,7 +94,7 @@ function buildSubmissionsTable(submissions) {
   submissions.forEach(function (submission) {
     const $tableBody = $("#submissions > tbody");
     $tableBody.append(`
-      <tr id='${submission.id}'>
+      <tr id='${submission.id}' data-submission-author='${submission.author}'>
         <td>${escapeHtml(
           submission.title
         )} <a href='${submission.url}' target='_blank'><i class='fas fa-external-link-alt fa-fw fa-xs'></i></a></td>
@@ -285,6 +299,12 @@ function addIgnoredUser(username) {
   $("#ignored-users").append(`
     <span class='tag is-medium is-reddit is-rounded'><span name='username'>${username}</span><a class='delete is-small'></a></span>
   `);
+}
+
+function removeAllIgnoredUsers() {
+  ignoredUsersList = [];
+  const ignoredUsersContainer = document.getElementById("ignored-users");
+  ignoredUsersContainer.innerHTML = null;
 }
 
 function removeIgnoredUser() {

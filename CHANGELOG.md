@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Changed
+
+- For verified raffles, the author of the selected submission will be automatically ignored.
+
 ### Fixed
 
 - Fixed an issue where some raffles in the Recent Raffles list did not have accompanying emojis.
