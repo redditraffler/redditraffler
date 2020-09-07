@@ -2,7 +2,7 @@
   "name": "redditraffler",
   "version": "1.0.0",
   "main": "app/js/index.js",
-  "repository": "git@github.com:timorthi/redditraffler.git",
+  "repository": "git@github.com:redditraffler/redditraffler.git",
   "author": "Timothy Ng",
   "license": "MIT",
   "private": true,
