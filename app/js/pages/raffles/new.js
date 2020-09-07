@@ -290,6 +290,12 @@ function addIgnoredUser(username) {
   `);
 }
 
+function removeAllIgnoredUsers() {
+  ignoredUsersList = [];
+  const ignoredUsersContainer = document.getElementById("ignored-users");
+  ignoredUsersContainer.innerHTML = null;
+}
+
 function removeIgnoredUser() {
   // Remove user from internal list and remove tag
   const $tag = $(this).parent("span");
