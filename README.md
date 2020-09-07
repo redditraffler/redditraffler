@@ -8,7 +8,7 @@ Read more about it at https://redditraffler.com.
 
 ## Issues
 
-The issue tracker for this project is on [GitHub](https://github.com/timorthi/redditraffler/issues).
+The issue tracker for this project is on [GitHub](https://github.com/redditraffler/redditraffler/issues).
 
 Non-development related questions or issues can be forwarded to me on [Reddit](https://reddit.com/u/xozzo) or via [e-mail](mailto:admin@redditraffler.com).
 
@@ -25,7 +25,7 @@ redditraffler is a [Flask](https://github.com/pallets/flask) app with jQuery for
 ## Installation
 
 ```sh
-$ git clone git@github.com:timorthi/redditraffler.git
+$ git clone git@github.com:redditraffler/redditraffler.git
 $ cd redditraffler
 $ pipenv install --dev # install python dependencies
 $ yarn install --dev # install node dependencies
