@@ -49,6 +49,9 @@ function showSelectedSubmission($tr) {
   }
 }
 
+/**
+ * Registers event handlers on the submission selection table
+ */
 function initTableRows() {
   const $rows = $("#submissions > tbody > tr");
   $rows.click(function () {
