@@ -19,7 +19,10 @@ def create_app(config_object=ProdConfig) -> Flask:
     )
     app.config.from_object(config_object)
     configure_logger(app)
-    app.logger.debug(pformat(app.config))
+
+    if app.config["DEBUG_CONFIG"]:
+        app.logger.debug(pformat(app.config))
+
     register_error_handlers(app)
     register_blueprints(app)
     register_extensions(app)

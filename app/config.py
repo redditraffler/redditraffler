@@ -14,6 +14,7 @@ class BaseConfig:
     SECRET_KEY = os.getenv("SECRET_KEY")
     ENC_KEY = os.getenv("ENC_KEY")
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+    DEBUG_CONFIG = get_boolean_env("DEBUG_CONFIG")
 
     RQ_REDIS_URL = os.getenv("REDIS_URL")
 
