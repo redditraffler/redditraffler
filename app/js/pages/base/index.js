@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import "@assets/css/base/index.css";
+import "@assets/css/base/index";
 
 import RaffleMetrics from "@js/components/RaffleMetrics";
 import RecentRaffles from "@js/components/RecentRaffles";
