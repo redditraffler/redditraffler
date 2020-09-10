@@ -42,10 +42,10 @@
 </section>
 
 <section class="section" id="cta-section">
-  <div class="container">
-    <a name="create"></a>
-    <div class="container has-text-centered">
-      <h1 class="title cta-title">Hosting a raffle?</h1>
+  <a name="create"></a>
+  <div class="container has-text-centered">
+    <h1 class="title cta-title">Hosting a raffle?</h1>
+    <div class="buttons are-medium">
       {% if 'jwt' in session and 'reddit_username' in session %}
       <a class="button is-reddit-button" href="{{ url_for('raffles.new') }}">
         <i class="fab fa-reddit fa-fw"></i> Continue as /u/{{
