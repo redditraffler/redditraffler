@@ -41,6 +41,28 @@
   </div>
 </section>
 
+<section class="section" id="cta-section">
+  <a name="create"></a>
+  <div class="container has-text-centered">
+    <h1 class="title cta-title">Hosting a raffle?</h1>
+    <div class="buttons are-medium">
+      {% if 'jwt' in session and 'reddit_username' in session %}
+      <a class="button is-reddit-button" href="{{ url_for('raffles.new') }}">
+        <i class="fab fa-reddit fa-fw"></i> Continue as /u/{{
+        session['reddit_username'] }}</a
+      >
+      {% else %}
+      <a class="button is-reddit-button" href="{{ reddit_login_url }}">
+        <i class="fab fa-reddit fa-fw"></i> Login with Reddit</a
+      >
+      <a class="button is-reddit-button" href=" {{ url_for('raffles.new') }}"
+        >Continue as Guest</a
+      >
+      {% endif %}
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div id="raffle-metrics-root"></div>
 </section>
@@ -48,33 +70,5 @@
 <section class="section">
   <div id="recent-raffles-root"></div>
 </section>
-
-<div id="#cta" class="box cta-box is-reddit">
-  <a name="create"></a>
-  <div class="container has-text-centered">
-    <h1 class="title cta-title">Hosting a raffle?</h1>
-    {% if 'jwt' in session and 'reddit_username' in session %}
-    <a
-      class="button is-reddit-button is-outlined"
-      href="{{ url_for('raffles.new') }}"
-    >
-      <i class="fab fa-reddit fa-fw"></i> Continue as /u/{{
-      session['reddit_username'] }}</a
-    >
-    {% else %}
-    <a
-      class="button is-reddit-button is-outlined"
-      href="{{ reddit_login_url }}"
-    >
-      <i class="fab fa-reddit fa-fw"></i> Login with Reddit</a
-    >
-    <a
-      class="button is-reddit-button is-outlined"
-      href=" {{ url_for('raffles.new') }}"
-      >Continue as Guest</a
-    >
-    {% endif %}
-  </div>
-</div>
 {% endblock %} {% block js %} {{ import_webpack_entrypoint('base/index') | safe
 }} {% endblock %}
