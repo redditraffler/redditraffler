@@ -20,15 +20,17 @@
 }
 
 .is-reddit-button {
-  border-color: #ffd1c1;
+  border-color: variables.$reddit-light;
   color: #fafafa;
   background-color: variables.$reddit;
   transition: 0.3s;
+  box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.25);
 }
 
 .is-reddit-button:hover,
 .is-reddit-button:focus {
-  border-color: transparent;
+  border-color: variables.$reddit-light;
+  background-color: variables.$reddit-dark;
   color: #fafafa;
 }
 
