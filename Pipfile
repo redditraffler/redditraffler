@@ -5,9 +5,9 @@ name = "pypi"
 
 [scripts]
 test = "pytest -vv tests"
-lint = "flake8"
 migrate_db = "flask db upgrade"
 start = "honcho start -f Procfile.dev"
+lint = "flake8"
 
 [packages]
 flask = "==1.1.2"
