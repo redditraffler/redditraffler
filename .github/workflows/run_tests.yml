@@ -39,9 +39,7 @@ jobs:
           pipenv install --dev --deploy
 
       - name: Run linter
-        run: |
-          cat Pipfile
-          pipenv run lint
+        run: pipenv run lint
 
       - name: Install Code Climate test reporter
         run: |
