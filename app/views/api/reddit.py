@@ -26,4 +26,3 @@ def get_reddit_submission():
 
 
 RouteConfigs = [{"rule": "/submission", "view_func": get_reddit_submission}]
-

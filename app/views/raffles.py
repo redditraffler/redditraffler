@@ -1,6 +1,6 @@
 from flask import abort, Blueprint, render_template, Markup
 from app.services import reddit_service
-from app.extensions import rq, db
+from app.extensions import rq
 from app.db.models.raffle import Raffle
 
 raffles = Blueprint("raffles", __name__)
