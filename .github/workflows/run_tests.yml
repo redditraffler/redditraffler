@@ -28,7 +28,8 @@ jobs:
       # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
       - name: Clone repo
         run: |
-          git clone https://github.com/$GITHUB_REPOSITORY.git .
+          git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
+          git fetch origin $GITHUB_REF:temporary-ci-branch
           git checkout $GITHUB_SHA
 
       - name: Install Pipenv dependencies
