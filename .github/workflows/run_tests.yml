@@ -29,7 +29,7 @@ jobs:
       - name: Clone repo
         run: |
           git clone https://github.com/$GITHUB_REPOSITORY.git .
-          git checkout $GITHUB_REF
+          git checkout $GITHUB_SHA
 
       - name: Install Pipenv dependencies
         run: |
