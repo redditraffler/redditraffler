@@ -8,3 +8,4 @@ include =
   ./app/**
 exclude =
   ./app/db/migrations/**
+  ./.venv/**
