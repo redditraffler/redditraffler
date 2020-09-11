@@ -29,14 +29,6 @@ jobs:
       - name: Clone repo
         run: git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
 
-      - name: Check pip cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ${{ env.PIP_CACHE_DIR }}
-            ${{ env.PIPENV_CACHE_DIR }}
-          key: python-deps-${{ hashFiles('Pipfile.lock', 'Pipfile') }}
-
       - name: Install Pipenv dependencies
         run: |
           pip install pipenv
@@ -45,7 +37,6 @@ jobs:
       - name: Run linter
         run: |
           cat Pipfile
-          ls -al
           pipenv run lint
 
       - name: Install Code Climate test reporter
