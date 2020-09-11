@@ -11,7 +11,8 @@ def fetch(key, value_generator=None, ttl_seconds=None):
 
     if not (value_generator and ttl_seconds):
         current_app.logger.debug(
-            "Cache missed and either value_generator or ttl_seconds are missing. Short circuiting."
+            "Cache missed and either value_generator or ttl_seconds are missing. Short \
+                circuiting."
         )
         return None
 

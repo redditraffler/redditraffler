@@ -48,18 +48,23 @@ class RaffleFormValidator:
         """ Performs an XOR check on (minComment, minLink) and (minCombined) form keys
         """
         form_keys = self.form.keys()
-        subarray_in_array = lambda subarr, arr: all(s in arr for s in subarr)
-        split_keys_in_form = subarray_in_array(self.KARMA_KEYS["split"], form_keys)
-        combined_keys_in_form = subarray_in_array(
+
+        def is_subarray_in_array(subarray, array):
+            return all(s in array for s in subarray)
+
+        is_split_keys_in_form = is_subarray_in_array(
+            self.KARMA_KEYS["split"], form_keys
+        )
+        is_combined_keys_in_form = is_subarray_in_array(
             self.KARMA_KEYS["combined"], form_keys
         )
 
-        if not split_keys_in_form and not combined_keys_in_form:
+        if not is_split_keys_in_form and not is_combined_keys_in_form:
             raise KeyError(
                 "Either both split karma keys or the combined karma key must be present"
             )
 
-        if split_keys_in_form and combined_keys_in_form:
+        if is_split_keys_in_form and is_combined_keys_in_form:
             raise KeyError(
                 "Cannot have both karma keys and combined karma keys in the same form"
             )

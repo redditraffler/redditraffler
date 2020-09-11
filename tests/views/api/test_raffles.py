@@ -79,4 +79,3 @@ class TestGetRecentRaffles:
                 "url_path": url_for("raffles.show", submission_id=raffle.submission_id),
             }
         ]
-

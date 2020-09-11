@@ -1,6 +1,5 @@
 import pytest
 
-from sqlalchemy import desc
 from flask import url_for, session
 
 from app.db.models.user import User

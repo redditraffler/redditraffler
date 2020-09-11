@@ -76,7 +76,7 @@ class TestRaffle:
         ):
             raffle.queue(raffler_params(), None)
             assert job.meta.get("status") == "Error: Some Random Error"
-            assert job.meta.get("error") == True
+            assert job.meta.get("error") is True
 
 
 def _stub_raffler_init(

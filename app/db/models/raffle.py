@@ -1,7 +1,6 @@
 from typing import List
 from sqlalchemy import inspect, func
 from datetime import datetime, timedelta, timezone
-import html
 
 from app.extensions import db
 
@@ -124,4 +123,3 @@ class Raffle(db.Model):
 
     def ignored_users_list(self):
         return self.ignored_users.split(",")
-

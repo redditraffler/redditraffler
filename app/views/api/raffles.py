@@ -61,4 +61,3 @@ RouteConfigs = [
     {"rule": "/raffles/metrics", "view_func": get_raffle_metrics},
     {"rule": "/raffles/recent", "view_func": get_recent_raffles},
 ]
-

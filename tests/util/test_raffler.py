@@ -16,7 +16,7 @@ class TestRaffler:
             assert r.winner_count == params["winner_count"]
             assert r.min_account_age == params["min_account_age"]
             assert r.min_comment_karma == params["min_comment_karma"]
-            assert r.min_combined_karma == None
+            assert r.min_combined_karma is None
             assert r.min_link_karma == params["min_link_karma"]
             assert isinstance(r._winners, dict)
             assert isinstance(r._entries, set)
@@ -35,7 +35,7 @@ class TestRaffler:
                 r = Raffler(**params)
                 assert r.min_comment_karma == 0
                 assert r.min_link_karma == 0
-                assert r.min_combined_karma == None
+                assert r.min_combined_karma is None
 
             def test_set_nullable_split_karma(self):
                 params = {
@@ -48,8 +48,8 @@ class TestRaffler:
                     "ignored_users": ["TestUser"],
                 }
                 r = Raffler(**params)
-                assert r.min_comment_karma == None
-                assert r.min_link_karma == None
+                assert r.min_comment_karma is None
+                assert r.min_link_karma is None
                 assert r.min_combined_karma == 0
 
     class TestUserHasSufficientKarma:
@@ -64,17 +64,17 @@ class TestRaffler:
         class TestMinCombinedKarma:
             def test_user_passes_check(self, winner):
                 r = Raffler(**raffler_params_combined_karma())
-                assert r._user_has_sufficient_karma(winner) == True
+                assert r._user_has_sufficient_karma(winner) is True
 
             def test_user_fails_check(self, loser):
                 r = Raffler(**raffler_params_combined_karma())
-                assert r._user_has_sufficient_karma(loser) == False
+                assert r._user_has_sufficient_karma(loser) is False
 
         class TestMinCommentAndLinkKarma:
             def test_user_passes_check(self, winner):
                 r = Raffler(**raffler_params())
-                assert r._user_has_sufficient_karma(winner) == True
+                assert r._user_has_sufficient_karma(winner) is True
 
             def test_user_fails_check(self, loser):
                 r = Raffler(**raffler_params())
-                assert r._user_has_sufficient_karma(loser) == False
+                assert r._user_has_sufficient_karma(loser) is False

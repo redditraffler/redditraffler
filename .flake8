@@ -1,3 +1,11 @@
 [flake8]
+verbose = 2
+count = True
+format = pylint
 max-line-length = 88
 ignore = E722, W503
+include =
+  ./app/**
+exclude =
+  ./app/db/migrations/**
+  ./.venv/**

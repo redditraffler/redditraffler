@@ -72,7 +72,7 @@ def _try_remove_unverified(sub_id):
     """ Removes an unverified raffle for the given sub_id if it exists. """
     unverified_raffle = (
         Raffle.query.filter(Raffle.submission_id == sub_id)
-        .filter(Raffle.user_id == None)
+        .filter(Raffle.user_id.is_(None))
         .first()
     )
     if not unverified_raffle:
