@@ -1,4 +1,4 @@
 module.exports = {
-  "*.{js,jsx}": "yarn run lint",
+  "*.{js,jsx}": "yarn lint",
   "*.py": "pipenv run lint",
 };
