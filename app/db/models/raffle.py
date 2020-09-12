@@ -6,6 +6,8 @@ from app.extensions import db
 
 
 class Raffle(db.Model):
+    MAX_WINNER_COUNT = 100
+
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(

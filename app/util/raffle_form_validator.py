@@ -1,5 +1,5 @@
-import ast
 import re
+import json
 
 from flask import current_app
 
@@ -78,7 +78,10 @@ class RaffleFormValidator:
             val = self.try_cast_int(self.form.get(key))
             if not isinstance(val, int):
                 raise TypeError("Invalid type for key {}: {}".format(key, val))
-            if (val < 0) or ((key == "winnerCount") and (val < 1 or val > 25)):
+            if (val < 0) or (
+                (key == "winnerCount")
+                and not (1 <= val <= Raffle.MAX_WINNER_COUNT)
+            ):
                 raise ValueError("Invalid value for key {}: {}".format(key, val))
 
     def _validate_submission_url(self):
@@ -107,7 +110,7 @@ class RaffleFormValidator:
         """ Check that ignoredUsers is a list, and all of its contents
         are valid Reddit usernames. """
         try:
-            users_list = ast.literal_eval(self.form.get("ignoredUsers"))
+            users_list = json.loads(self.form.get("ignoredUsers"))
             assert isinstance(users_list, list)
         except:
             raise TypeError(
@@ -134,7 +137,7 @@ class RaffleFormValidator:
                 self.form[key] = int(self.form[key])
 
     def _cast_ignored_users_list(self):
-        self.form["ignoredUsers"] = ast.literal_eval(self.form["ignoredUsers"])
+        self.form["ignoredUsers"] = json.loads(self.form.get("ignoredUsers"))
 
     @staticmethod
     def try_cast_int(x):
