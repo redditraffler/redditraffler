@@ -336,7 +336,7 @@ function isValidUsername(username) {
 }
 
 function validateAndAddIgnoredUser() {
-  const MAX_IGNORED_USERS_COUNT = 25;
+  const MAX_IGNORED_USERS_COUNT = 100;
   const $input = $("#ignored-user-input");
   const $msg = $("#ignored-user-msg");
   const username = $input.val();
