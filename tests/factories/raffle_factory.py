@@ -20,7 +20,7 @@ class RaffleFactory(SQLAlchemyModelFactory):
     submission_title = factory.Faker("sentence")
     submission_author = factory.Sequence(lambda n: f"RedditAuthor{n}")
     subreddit = factory.Faker("word")
-    winner_count = factory.Faker("pyint", min_value=1, max_value=25)
+    winner_count = factory.Faker("pyint", min_value=1, max_value=100)
     min_account_age = factory.Faker("pyint", max_value=1000)
     min_comment_karma = factory.Faker("pyint", max_value=1000)
     min_link_karma = factory.Faker("pyint", max_value=1000)

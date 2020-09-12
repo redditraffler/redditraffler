@@ -94,36 +94,44 @@ class TestValidateKarmaKeys:
             v._validate_karma_keys()
 
 
-def test_validate_int_values_valid_ints(form_valid_ints):
-    form = form_valid_ints
-    v = RaffleFormValidator(form)
-    v._validate_int_values()
+class TestValidateIntValues:
+    class TestValidValues:
+        def test_winner_count_within_range(self, form_valid_ints):
+            form = form_valid_ints
+            form["winnerCount"] = 70
+            v = RaffleFormValidator(form)
+            v._validate_int_values()
 
+        def test_string_ints(self, form_valid_ints):
+            form = form_valid_ints
+            for key in form.keys():
+                form[key] = "1"
+            v = RaffleFormValidator(form)
+            v._validate_int_values()
 
-def test_validate_int_values_negative_ints(form_valid_ints):
-    form = form_valid_ints
-    for key in form.keys():
-        form[key] = -1
-    v = RaffleFormValidator(form)
-    with pytest.raises(ValueError):
-        v._validate_int_values()
+    class TestInvalidValues:
+        def test_invalid_types(self, form_valid_ints):
+            form = form_valid_ints
+            for key in form.keys():
+                form[key] = "this_cannot_be_cast_to_int"
+            v = RaffleFormValidator(form)
+            with pytest.raises(TypeError):
+                v._validate_int_values()
 
+        def test_negative_ints(self, form_valid_ints):
+            form = form_valid_ints
+            for key in form.keys():
+                form[key] = -1
+            v = RaffleFormValidator(form)
+            with pytest.raises(ValueError):
+                v._validate_int_values()
 
-def test_validate_int_values_valid_strings(form_valid_ints):
-    form = form_valid_ints
-    for key in form.keys():
-        form[key] = "1"
-    v = RaffleFormValidator(form)
-    v._validate_int_values()
-
-
-def test_validate_int_values_invalid_types(form_valid_ints):
-    form = form_valid_ints
-    for key in form.keys():
-        form[key] = "this_cannot_be_cast_to_int"
-    v = RaffleFormValidator(form)
-    with pytest.raises(TypeError):
-        v._validate_int_values()
+        def test_valid_ints_but_invalid_winner_count(self, form_valid_ints):
+            form = form_valid_ints
+            form["winnerCount"] = RaffleFormValidator.MAX_WINNER_COUNT + 1
+            v = RaffleFormValidator(form)
+            with pytest.raises(ValueError):
+                v._validate_int_values()
 
 
 def test_validate_submission_url_valid_url_valid_submission(base_form, mocker):

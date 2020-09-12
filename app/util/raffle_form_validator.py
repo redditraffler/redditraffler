@@ -11,6 +11,8 @@ class RaffleFormValidator:
     REQUIRED_KEYS = {"submissionUrl", "winnerCount", "minAge", "ignoredUsers"}
     INT_KEYS = {"minAge", "winnerCount", "minComment", "minLink", "minCombined"}
     KARMA_KEYS = {"split": ["minComment", "minLink"], "combined": ["minCombined"]}
+    MIN_WINNER_COUNT = 1
+    MAX_WINNER_COUNT = 100
 
     def __init__(self, form):
         """ form must be a dict. """
@@ -78,7 +80,10 @@ class RaffleFormValidator:
             val = self.try_cast_int(self.form.get(key))
             if not isinstance(val, int):
                 raise TypeError("Invalid type for key {}: {}".format(key, val))
-            if (val < 0) or ((key == "winnerCount") and (val < 1 or val > 25)):
+            if (val < 0) or (
+                (key == "winnerCount")
+                and not (self.MIN_WINNER_COUNT <= val <= self.MAX_WINNER_COUNT)
+            ):
                 raise ValueError("Invalid value for key {}: {}".format(key, val))
 
     def _validate_submission_url(self):
