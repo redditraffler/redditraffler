@@ -1,5 +1,6 @@
 import pytest
 
+from app.db.models.raffle import Raffle
 from app.util.raffle_form_validator import RaffleFormValidator
 from tests.factories import RaffleFactory
 
@@ -128,7 +129,7 @@ class TestValidateIntValues:
 
         def test_valid_ints_but_invalid_winner_count(self, form_valid_ints):
             form = form_valid_ints
-            form["winnerCount"] = RaffleFormValidator.MAX_WINNER_COUNT + 1
+            form["winnerCount"] = Raffle.MAX_WINNER_COUNT + 1
             v = RaffleFormValidator(form)
             with pytest.raises(ValueError):
                 v._validate_int_values()
