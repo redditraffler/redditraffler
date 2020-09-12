@@ -6,7 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
-Nothing here!
+### Changed
+
+- The maximum number of winners per raffle has been increased from 25 to 100.
+- The maximum number of ignored users per raffle has been increased from 25 to 100.
 
 ## 2020.6 (2020-09-07)
 
