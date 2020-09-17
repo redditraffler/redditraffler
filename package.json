@@ -28,7 +28,7 @@
     "@types/jest": "^26.0.13",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
-    "css-loader": "^4.2.2",
+    "css-loader": "^4.3.0",
     "dotenv-webpack": "^2.0.0",
     "eslint": "^7.9.0",
     "eslint-config-airbnb-base": "^14.2.0",
