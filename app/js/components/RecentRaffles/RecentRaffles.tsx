@@ -26,7 +26,7 @@ const ShowMoreButtonContainer = styled("div")`
 /**
  * The main container for the RecentRaffles component.
  */
-const RecentRaffles = () => {
+const RecentRaffles: React.FC = () => {
   const { loading, error, value: raffles } = useAsync(() =>
     getFromApi<RecentRafflesAPIResponse>(Endpoint.getRecentRaffles)
   );
