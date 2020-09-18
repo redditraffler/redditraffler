@@ -1,8 +1,6 @@
 import React from "react";
 import axios from "redaxios";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import "jest-styled-components";
 
 import RaffleMetrics from "./RaffleMetrics";
 
