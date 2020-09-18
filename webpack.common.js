@@ -26,7 +26,7 @@ module.exports = {
       "@js": path.resolve(__dirname, "app/js"),
       "@assets": path.resolve(__dirname, "app/assets"),
     },
-    extensions: [".js", ".jsx", ".css", ".scss"],
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".css", ".scss"],
     modules: ["node_modules", "app/assets/css"],
   },
   plugins: [
@@ -52,12 +52,12 @@ module.exports = {
       },
       {
         enforce: "pre",
-        test: /\.js(x?)$/,
+        test: /\.(t|j)s(x?)$/,
         exclude: /node_modules/,
         loader: "eslint-loader",
       },
       {
-        test: /\.js(x?)$/,
+        test: /\.(t|j)s(x?)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
