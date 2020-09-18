@@ -1,12 +1,13 @@
 import axios from "redaxios";
 
-export const Endpoint = {
+export const Endpoint: Record<string, string | ((string) => string)> = {
   postFormSubmit: "/api/raffles/new",
   getSubmission: "/api/submission",
   getSubmissionsForCurrentUser: "/api/submissions",
   getJobStatus: "/api/job_status",
-  getRafflesForUser: (username) => `/api/users/${username}/raffles`,
-  showRaffle: (raffleId) => `/raffles/${raffleId}`,
+  getRafflesForUser: (username: string): string =>
+    `/api/users/${username}/raffles`,
+  showRaffle: (raffleId: string): string => `/raffles/${raffleId}`,
   getRaffleMetrics: "/api/raffles/metrics",
   getRecentRaffles: "/api/raffles/recent",
 };
@@ -15,7 +16,7 @@ export const Endpoint = {
  * A simple wrapper to perform a GET and return the data as-is.
  * @param {*} endpoint
  */
-export const getFromApi = async (endpoint) => {
+export const getFromApi = async <T = unknown>(endpoint: string): Promise<T> => {
   const { data } = await axios.get(endpoint);
   return data;
 };
