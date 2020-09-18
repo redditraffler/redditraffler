@@ -9,10 +9,13 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:jest-dom/recommended",
     "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier",
     "prettier/react",
+    "prettier/@typescript-eslint",
   ],
-  plugins: ["react", "jsx-a11y"],
+  plugins: ["react", "jsx-a11y", "@typescript-eslint"],
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 11,
     sourceType: "module",
@@ -32,8 +35,10 @@ module.exports = {
   rules: {
     camelcase: "off",
     "import/prefer-default-export": "off",
+    "import/extensions": "off",
     "func-names": "off",
     "no-underscore-dangle": "off",
     "object-shorthand": ["error", "properties"],
+    "no-use-before-define": "off",
   },
 };
