@@ -8,12 +8,12 @@ import RecentRaffles from "@js/components/RecentRaffles";
 
 document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
-    <RaffleMetrics />,
+    React.createElement(RaffleMetrics),
     document.getElementById("raffle-metrics-root")
   );
 
   ReactDOM.render(
-    <RecentRaffles />,
+    React.createElement(RecentRaffles),
     document.getElementById("recent-raffles-root")
   );
 });
