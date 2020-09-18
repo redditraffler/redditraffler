@@ -1,4 +1,4 @@
-export const escapeHtml = (str) =>
+export const escapeHtml = (str: string): string =>
   str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -6,7 +6,10 @@ export const escapeHtml = (str) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 
-export const truncateStringAfterLength = (truncateThreshold, string) => {
+export const truncateStringAfterLength = (
+  truncateThreshold: number,
+  string: string
+): string => {
   const indexToCutOffString = truncateThreshold - 3;
   if (string.length < indexToCutOffString) {
     return string;

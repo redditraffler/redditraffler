@@ -41,10 +41,18 @@ const RaffleListItemContainer = styled(Box)`
   }
 `;
 
+interface RaffleListItemProps extends Record<string, unknown> {
+  createdAt: number;
+  submissionTitle: string;
+  submissionId: string;
+  subreddit: string;
+  urlPath: string;
+}
+
 /**
  * Displays a single raffle item in the RecentRaffles list component.
  */
-const RaffleListItem = ({
+const RaffleListItem: React.FC<RaffleListItemProps> = ({
   createdAt,
   submissionTitle,
   submissionId,

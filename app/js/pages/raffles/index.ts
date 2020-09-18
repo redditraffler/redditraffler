@@ -5,9 +5,11 @@ import dt from "datatables.net-dt";
 
 require("datatables-bulma");
 
+// @ts-ignore
 $.fn.DataTable = dt;
 
 $(function () {
+  // @ts-ignore
   $("#raffles").DataTable({
     lengthChange: false,
     order: [[2, "desc"]],

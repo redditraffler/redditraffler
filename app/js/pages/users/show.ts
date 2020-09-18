@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
 
+    // @ts-ignore
     $(table).DataTable({
       pageLength: 5,
       lengthChange: false,

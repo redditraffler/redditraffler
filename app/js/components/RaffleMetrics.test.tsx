@@ -1,18 +1,17 @@
 import React from "react";
 import axios from "redaxios";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import "jest-styled-components";
 
 import RaffleMetrics from "./RaffleMetrics";
 
 jest.mock("redaxios");
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe("when the API call is in progress", () => {
   beforeEach(() => {
-    axios.get.mockImplementation(async () => {
+    mockedAxios.get.mockImplementation((async () => {
       await new Promise((resolve) => setTimeout(99999, resolve));
-    });
+    }) as any); // eslint-disable-line @typescript-eslint/no-explicit-any
   });
 
   it("returns the skeleton", async () => {
@@ -24,7 +23,7 @@ describe("when the API call is in progress", () => {
 
 describe("when the API call fails", () => {
   beforeEach(() => {
-    axios.get.mockImplementation(async () => {
+    mockedAxios.get.mockImplementation(async () => {
       throw new Error("oh boy");
     });
   });
@@ -39,14 +38,14 @@ describe("when the API call fails", () => {
 
 describe("when the API call is successful", () => {
   beforeEach(() => {
-    axios.get.mockImplementation(async () => ({
+    mockedAxios.get.mockResolvedValue({
       data: {
         num_total_verified_raffles: 123,
         num_total_winners: 456,
         num_total_subreddits: 1234,
         top_recent_subreddits: [],
       },
-    }));
+    } as any); // eslint-disable-line @typescript-eslint/no-explicit-any
   });
 
   it("returns the metrics container", async () => {

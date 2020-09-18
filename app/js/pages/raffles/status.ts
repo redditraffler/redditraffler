@@ -6,7 +6,7 @@ import { Endpoint } from "@js/api";
 const POLL_RATE_MS = 1000;
 const JOB_COMPLETE_REDIRECT_DELAY_MS = 1500;
 
-const $ = (id) => document.getElementById(id);
+const $ = (id: string) => document.getElementById(id);
 
 const ContactUsHTML = (status, jobId) => `
   <p><i class='fas fa-times fa-6x has-text-reddit'></i><p>

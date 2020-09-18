@@ -127,7 +127,7 @@ function showSubmissionDetails(submission) {
   `);
 }
 
-function showSubmissionError(url) {
+function showSubmissionError(url?: string) {
   const $inputField = $("#submission-url");
   const $msg = $("#submission-url-msg");
 
@@ -160,10 +160,11 @@ function showValidationResults(jqXHR) {
 
 function validateUrl() {
   const $msg = $("#submission-url-msg");
-  let url = $(this).val();
+  let url = $(this).val() as string;
 
   const URL_REGEX = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/;
   if (!url || !URL_REGEX.test(url)) {
+    // @ts-ignore
     window._prevUrl = url;
     showSubmissionError();
     return;
@@ -177,7 +178,9 @@ function validateUrl() {
   }
 
   // Skip validation if input value hasn't changed
+  // @ts-ignore
   if (url !== window._prevUrl) {
+    // @ts-ignore
     window._prevUrl = url;
     $msg.html(
       "<div class='la-ball-clip-rotate la-sm la-reddit'><div></div></div>"

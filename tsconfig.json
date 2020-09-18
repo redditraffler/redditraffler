@@ -5,8 +5,10 @@
       "@js/*": ["app/js/*"],
       "@assets/*": ["app/assets/*"]
     },
-    "jsx": "react"
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true
   },
+  "include": ["./app/js"],
   "exclude": ["node_modules"],
   "typeAcquisition": {
     "include": ["jest"]

@@ -1,6 +1,5 @@
 import React from "react";
 import { render, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom";
 
 import Emoji from "./Emoji";
 
