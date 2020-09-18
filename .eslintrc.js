@@ -36,9 +36,11 @@ module.exports = {
     camelcase: "off",
     "import/prefer-default-export": "off",
     "import/extensions": "off",
+    "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
     "func-names": "off",
     "no-underscore-dangle": "off",
     "object-shorthand": ["error", "properties"],
     "no-use-before-define": "off",
+    "@typescript-eslint/ban-ts-comment": "warn",
   },
 };

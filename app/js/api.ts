@@ -1,6 +1,6 @@
 import axios from "redaxios";
 
-export const Endpoint: Record<string, string | ((string) => string)> = {
+export const Endpoint = {
   postFormSubmit: "/api/raffles/new",
   getSubmission: "/api/submission",
   getSubmissionsForCurrentUser: "/api/submissions",

@@ -10,6 +10,7 @@ import Tile from "react-bulma-components/lib/components/tile";
 
 import { Endpoint, getFromApi } from "@js/api";
 import { colors } from "@js/theme";
+import { RaffleMetricsAPIResponse } from "@js/types";
 
 const StatHeading = styled(Heading)`
   color: ${colors.reddit};
@@ -20,12 +21,13 @@ const MetricsBox = styled(Box)`
   border-radius: 10px;
 `;
 
-const RaffleMetrics = () => {
+const RaffleMetrics = (): React.FC => {
   const { loading, error, value: metrics } = useAsync(() =>
-    getFromApi(Endpoint.getRaffleMetrics)
+    getFromApi<RaffleMetricsAPIResponse>(Endpoint.getRaffleMetrics)
   );
 
   if (error) {
+    // @ts-ignore
     return (
       <Container>
         <Columns centered>
@@ -52,6 +54,7 @@ const RaffleMetrics = () => {
     },
   ];
 
+  // @ts-ignore
   return (
     <Container>
       <Columns centered>

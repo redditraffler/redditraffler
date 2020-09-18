@@ -39,14 +39,14 @@ describe("when the API call fails", () => {
 
 describe("when the API call is successful", () => {
   beforeEach(() => {
-    axios.get.mockImplementation(async () => ({
+    axios.get.mockResolvedValue({
       data: {
         num_total_verified_raffles: 123,
         num_total_winners: 456,
         num_total_subreddits: 1234,
         top_recent_subreddits: [],
       },
-    }));
+    });
   });
 
   it("returns the metrics container", async () => {
