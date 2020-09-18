@@ -11,11 +11,11 @@ module.exports = {
   entry: {
     "layouts/base": "./app/js/pages/layouts/base.ts",
     "base/index": "./app/js/pages/base/index.ts",
-    "raffles/index": "./app/js/pages/raffles/index.js",
-    "raffles/new": "./app/js/pages/raffles/new.js",
-    "raffles/status": "./app/js/pages/raffles/status.js",
-    "raffles/show": "./app/js/pages/raffles/show.js",
-    "users/show": "./app/js/pages/users/show.js",
+    "raffles/index": "./app/js/pages/raffles/index.ts",
+    "raffles/new": "./app/js/pages/raffles/new.ts",
+    "raffles/status": "./app/js/pages/raffles/status.ts",
+    "raffles/show": "./app/js/pages/raffles/show.ts",
+    "users/show": "./app/js/pages/users/show.ts",
   },
   output: {
     filename: "[name].[contenthash].js",
