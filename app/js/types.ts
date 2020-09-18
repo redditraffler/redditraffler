@@ -4,3 +4,11 @@ export interface RaffleMetricsAPIResponse {
   num_total_subreddits: number;
   top_recent_subreddits: Array<{ subreddit: string; num_raffles: number }>;
 }
+
+export type RecentRafflesAPIResponse = Array<{
+  created_at: number;
+  submission_title: string;
+  submission_id: string;
+  subreddit: string;
+  url_path: string;
+}>;
