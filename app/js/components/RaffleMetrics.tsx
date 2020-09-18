@@ -21,7 +21,7 @@ const MetricsBox = styled(Box)`
   border-radius: 10px;
 `;
 
-const RaffleMetrics = (): React.FC => {
+const RaffleMetrics: React.FC = () => {
   const { loading, error, value: metrics } = useAsync(() =>
     getFromApi<RaffleMetricsAPIResponse>(Endpoint.getRaffleMetrics)
   );
