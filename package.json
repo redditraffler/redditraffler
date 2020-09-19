@@ -65,6 +65,7 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "@fortawesome/fontawesome-free": "^5.14.0",
+    "@hookform/resolvers": "^0.1.1",
     "balloon-css": "^1.2.0",
     "bulma": "0.8.2",
     "datatables-bulma": "^1.0.1",
