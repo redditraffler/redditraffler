@@ -1,4 +1,4 @@
-import "@assets/css/raffles/new.css";
+import "@assets/css/raffles/new.scss";
 
 import $ from "jquery";
 import swal from "sweetalert";
