@@ -2,9 +2,12 @@ import "@assets/css/raffles/new.css";
 
 import $ from "jquery";
 import swal from "sweetalert";
+import ReactDOM from "react-dom";
+import React from "react";
 
 import { escapeHtml } from "@js/util";
 import { Endpoint } from "@js/api";
+import NewRaffle from "@js/components/NewRaffle";
 
 let ignoredUsersList = [];
 
@@ -419,4 +422,9 @@ $(function () {
   $("#ignored-user-btn").click(validateAndAddIgnoredUser);
   $("#ignored-users").on("click", "a.delete", removeIgnoredUser);
   $("#ignored-user-input").keydown(validateOnEnter);
+
+  ReactDOM.render(
+    React.createElement(NewRaffle),
+    document.getElementById("new-raffle-root")
+  );
 });
