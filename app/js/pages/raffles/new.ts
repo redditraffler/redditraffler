@@ -401,7 +401,7 @@ function handleCombinedKarmaCheckEvent() {
   groupToShow.show();
 }
 
-$(function () {
+document.addEventListener("DOMContentLoaded", () => {
   if ($("#submissions").length > 0) {
     $.ajax({
       dataType: "json",
