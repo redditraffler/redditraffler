@@ -12,3 +12,12 @@ export type RecentRafflesAPIResponse = Array<{
   subreddit: string;
   url_path: string;
 }>;
+
+export type GetUserSubmissionsAPIResponse = Array<{
+  author: string;
+  created_at_utc: number;
+  id: string;
+  subreddit: string;
+  title: string;
+  url: string;
+}>;
