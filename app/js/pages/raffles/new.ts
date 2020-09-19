@@ -423,8 +423,14 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#ignored-users").on("click", "a.delete", removeIgnoredUser);
   $("#ignored-user-input").keydown(validateOnEnter);
 
+  const newRaffleRoot = document.getElementById(
+    "new-raffle-root"
+  ) as HTMLElement;
+
   ReactDOM.render(
-    React.createElement(NewRaffle),
-    document.getElementById("new-raffle-root")
+    React.createElement(NewRaffle, {
+      csrfToken: newRaffleRoot.getAttribute("data-csrf-token") as string,
+    }),
+    newRaffleRoot
   );
 });
