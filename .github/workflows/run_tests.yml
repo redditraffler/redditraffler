@@ -29,7 +29,7 @@ jobs:
       # https://github.com/actions/checkout/issues/170#issuecomment-595793962
       - name: Clone repo
         run: |
-          git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
+          git clone https://github.com/$GITHUB_REPOSITORY.git .
           git fetch origin $GITHUB_REF:temporary-ci-branch
           git checkout $GITHUB_SHA
 
@@ -68,7 +68,7 @@ jobs:
       # https://github.com/actions/checkout/issues/170#issuecomment-595793962
       - name: Clone repo
         run: |
-          git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
+          git clone https://github.com/$GITHUB_REPOSITORY.git .
           git fetch origin $GITHUB_REF:temporary-ci-branch
           git checkout $GITHUB_SHA
 
@@ -110,7 +110,7 @@ jobs:
       # https://github.com/actions/checkout/issues/170#issuecomment-595793962
       - name: Clone repo
         run: |
-          git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
+          git clone https://github.com/$GITHUB_REPOSITORY.git .
           git fetch origin $GITHUB_REF:temporary-ci-branch
           git checkout $GITHUB_SHA
 
