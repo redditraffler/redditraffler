@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import useAsync from "react-use/lib/useAsync";
+import { useFormContext } from "react-hook-form";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import Box from "react-bulma-components/lib/components/box";
 import Loader from "react-bulma-components/lib/components/loader";
 import Icon from "react-bulma-components/lib/components/icon";
+import List from "react-bulma-components/lib/components/list";
+import Columns from "react-bulma-components/lib/components/columns";
 
 import { getFromApi, Endpoint } from "@js/api";
 import { GetUserSubmissionsAPIResponse } from "@js/types";
 import { colors } from "@js/theme";
+import { truncateStringAfterLength } from "@js/util";
+
+dayjs.extend(relativeTime);
 
 const BoxCenteredContent = styled(Box)`
   display: flex;
@@ -23,12 +31,30 @@ const ContentContainer = styled("div")`
   }
 `;
 
+const SubmissionListItem = styled(List.Item)`
+  transition: 0.2s;
+
+  &:not(.is-active):hover {
+    background-color: ${colors.redditVeryLight};
+    cursor: pointer;
+  }
+
+  &.is-active {
+    background-color: ${colors.reddit};
+    color: whitesmoke;
+  }
+`;
+
 const SubmissionPicker: React.FC = () => {
+  const { register, setValue } = useFormContext();
   const { loading, error, value: userSubmissions } = useAsync(() =>
     getFromApi<GetUserSubmissionsAPIResponse>(
       Endpoint.getSubmissionsForCurrentUser
     )
   );
+  const [selectedSubmissionId, setSelectedSubmissionId] = useState<
+    string | undefined
+  >(undefined);
 
   if (loading) {
     return (
@@ -76,7 +102,51 @@ const SubmissionPicker: React.FC = () => {
     );
   }
 
-  return <Box>hello world</Box>;
+  return (
+    <React.Fragment>
+      <input type="hidden" ref={register} name="submissionUrl" />
+      <List>
+        {userSubmissions && userSubmissions.length > 0
+          ? userSubmissions.map(
+              ({ subreddit, title, url, id, created_at_utc }) => {
+                const createdAtDayjs = dayjs(created_at_utc * 1000);
+                return (
+                  <SubmissionListItem
+                    key={id}
+                    onClick={() => {
+                      setSelectedSubmissionId(id);
+                      setValue("submissionUrl", url);
+                    }}
+                    className={id === selectedSubmissionId ? "is-active" : ""}
+                  >
+                    <Columns>
+                      <Columns.Column>
+                        <p className="has-text-weight-medium">
+                          {truncateStringAfterLength(100, title)}
+                        </p>
+                      </Columns.Column>
+                      <Columns.Column narrow>
+                        <p className="has-text-right has-text-left-mobile">
+                          in /r/{subreddit},{" "}
+                          <span title={createdAtDayjs.toString()}>
+                            {createdAtDayjs.from(dayjs())}
+                          </span>
+                          <a href={url} target="_blank" rel="noreferrer">
+                            <Icon>
+                              <span className="fas fa-external-link-alt fa-xs"></span>
+                            </Icon>
+                          </a>
+                        </p>
+                      </Columns.Column>
+                    </Columns>
+                  </SubmissionListItem>
+                );
+              }
+            )
+          : ""}
+      </List>
+    </React.Fragment>
+  );
 };
 
 export default SubmissionPicker;
