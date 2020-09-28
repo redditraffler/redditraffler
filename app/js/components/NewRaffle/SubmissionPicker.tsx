@@ -9,6 +9,7 @@ import Loader from "react-bulma-components/lib/components/loader";
 import Icon from "react-bulma-components/lib/components/icon";
 import List from "react-bulma-components/lib/components/list";
 import Columns from "react-bulma-components/lib/components/columns";
+import Button from "react-bulma-components/lib/components/button";
 
 import { getFromApi, Endpoint } from "@js/api";
 import { GetUserSubmissionsAPIResponse } from "@js/types";
@@ -53,6 +54,14 @@ const SubmissionListItem = styled(List.Item)`
   }
 `;
 
+const ShowMoreButtonContainer = styled("div")`
+  display: flex;
+  justify-content: center;
+`;
+
+const DEFAULT_NUM_SUBMISSIONS_TO_DISPLAY = 5;
+const DEFAULT_SHOW_MORE_COUNT = 10;
+
 const SubmissionPicker: React.FC = () => {
   const { register, setValue } = useFormContext();
   const { loading, error, value: userSubmissions } = useAsync(() =>
@@ -63,6 +72,9 @@ const SubmissionPicker: React.FC = () => {
   const [selectedSubmissionId, setSelectedSubmissionId] = useState<
     string | undefined
   >(undefined);
+  const [numSubmissionsToDisplay, setNumSubmissionsToDisplay] = useState<
+    number
+  >(DEFAULT_NUM_SUBMISSIONS_TO_DISPLAY);
 
   if (loading) {
     return (
@@ -116,9 +128,12 @@ const SubmissionPicker: React.FC = () => {
       <List>
         {userSubmissions && userSubmissions.length > 0
           ? userSubmissions.map(
-              ({ subreddit, title, url, id, created_at_utc }) => {
+              ({ subreddit, title, url, id, created_at_utc }, index) => {
                 const createdAtDayjs = dayjs(created_at_utc * 1000);
-                return (
+                const shouldShowSubmission =
+                  index + 1 <= numSubmissionsToDisplay;
+
+                return shouldShowSubmission ? (
                   <SubmissionListItem
                     key={id}
                     onClick={() => {
@@ -148,11 +163,27 @@ const SubmissionPicker: React.FC = () => {
                       </Columns.Column>
                     </Columns>
                   </SubmissionListItem>
-                );
+                ) : null;
               }
             )
-          : ""}
+          : null}
       </List>
+      {(userSubmissions?.length || 0) > numSubmissionsToDisplay ? (
+        <ShowMoreButtonContainer>
+          <Button
+            outlined
+            rounded
+            size="small"
+            onClick={() =>
+              setNumSubmissionsToDisplay(
+                numSubmissionsToDisplay + DEFAULT_SHOW_MORE_COUNT
+              )
+            }
+          >
+            Show More
+          </Button>
+        </ShowMoreButtonContainer>
+      ) : null}
     </React.Fragment>
   );
 };
