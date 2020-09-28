@@ -42,6 +42,14 @@ const SubmissionListItem = styled(List.Item)`
   &.is-active {
     background-color: ${colors.reddit};
     color: whitesmoke;
+
+    /* Recolor links for contrast against is-active BG */
+    & a {
+      color: white;
+      &:hover {
+        color: ${colors.bulmaDarkGrayText};
+      }
+    }
   }
 `;
 
