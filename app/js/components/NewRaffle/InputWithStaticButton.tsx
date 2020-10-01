@@ -10,7 +10,7 @@ import {
 
 import { colors } from "@js/theme";
 
-interface InputWithStaticButtonProps {
+interface InputWithStaticButtonProps extends Partial<HTMLInputElement> {
   label?: string;
   staticText: string;
   inputType: "text" | "number";
@@ -26,6 +26,7 @@ const InputWithStaticButton: React.FC<InputWithStaticButtonProps> = ({
   staticText,
   inputType,
   name,
+  ...props
 }) => {
   const { control } = useFormContext();
 
@@ -39,6 +40,7 @@ const InputWithStaticButton: React.FC<InputWithStaticButtonProps> = ({
             control={control}
             as={Input}
             type={inputType}
+            {...props}
           />
         </Control>
         <Control>
