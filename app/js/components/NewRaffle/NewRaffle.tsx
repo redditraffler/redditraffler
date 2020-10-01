@@ -94,7 +94,7 @@ const NewRaffle: React.FC<NewRaffleProps> = ({ csrfToken }) => {
               </Columns.Column>
             </Columns>
             <Columns>
-              <Columns.Column>
+              <Columns.Column narrow>
                 <Label>
                   <input
                     type="checkbox"
