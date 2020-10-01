@@ -161,6 +161,7 @@ function showValidationResults(jqXHR) {
   }
 }
 
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 function validateUrl() {
   const $msg = $("#submission-url-msg");
   let url = $(this).val() as string;
@@ -196,6 +197,7 @@ function validateUrl() {
     });
   }
 }
+/* eslint-enable @typescript-eslint/ban-ts-comment */
 
 function getFormDataForSubmit() {
   const $form = $("#raffle-form");
