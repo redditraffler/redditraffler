@@ -14,6 +14,7 @@ import { newRaffleFormSchema } from "./schemas";
 import type { NewRaffleFormSchema } from "./schemas";
 import SubmissionPicker from "./SubmissionPicker";
 import InputWithStaticButton from "./InputWithStaticButton";
+import IgnoredUsersManager from "./IgnoredUsersManager";
 
 const FormSectionContainer = styled(Container)`
   margin-bottom: 1rem;
@@ -80,7 +81,9 @@ const NewRaffle: React.FC<NewRaffleProps> = ({ csrfToken }) => {
           </FormSectionContainer>
 
           <FormSectionContainer>
-            <Heading size={5}>Set restrictions on user accounts.</Heading>
+            <Heading size={5}>
+              Finally, set restrictions on user accounts.
+            </Heading>
             <Columns>
               <Columns.Column>
                 <InputWithStaticButton
@@ -143,6 +146,11 @@ const NewRaffle: React.FC<NewRaffleProps> = ({ csrfToken }) => {
                   </Columns.Column>
                 </React.Fragment>
               )}
+            </Columns>
+            <Columns>
+              <Columns.Column>
+                <IgnoredUsersManager />
+              </Columns.Column>
             </Columns>
           </FormSectionContainer>
           <input type="submit" />
