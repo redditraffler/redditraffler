@@ -65,15 +65,12 @@ jobs:
   lint-and-test-frontend:
     name: Test JavaScript components
     runs-on: ubuntu-latest
-    container: node:12.18.3
     steps:
-      # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
-      # https://github.com/actions/checkout/issues/170#issuecomment-595793962
-      - name: Clone repo
-        run: |
-          git clone https://github.com/$GITHUB_REPOSITORY.git .
-          git fetch origin $GITHUB_REF:temporary-ci-branch
-          git checkout $GITHUB_SHA
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Check node_modules cache
         uses: actions/cache@v2
