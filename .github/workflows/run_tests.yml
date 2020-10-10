@@ -18,6 +18,8 @@ jobs:
     services:
       postgres:
         image: postgres:12.3-alpine
+        ports:
+          - 5432:5432
         env:
           POSTGRES_USER: ci_test
           POSTGRES_PASSWORD: ci
@@ -26,7 +28,7 @@ jobs:
       PIPENV_VENV_IN_PROJECT: true
       PIP_CACHE_DIR: /tmp/pip_cache
       PIPENV_CACHE_DIR: /tmp/pipenv_cache
-      TEST_DATABASE_URL: postgres://ci_test:ci@localhost/redditraffler_ci_test
+      TEST_DATABASE_URL: postgres://ci_test:ci@localhost:5432/redditraffler_ci_test
     steps:
       - uses: actions/checkout@v2
 
