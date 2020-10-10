@@ -11,7 +11,6 @@ jobs:
   lint-and-test-backend:
     name: Test Python app
     runs-on: ubuntu-latest
-    container: python:3.6.12
     services:
       postgres:
         image: postgres:12.3-alpine
