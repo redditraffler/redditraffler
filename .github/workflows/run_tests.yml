@@ -27,11 +27,17 @@ jobs:
     steps:
       # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
       # https://github.com/actions/checkout/issues/170#issuecomment-595793962
-      - name: Clone repo
-        run: |
-          git clone https://github.com/$GITHUB_REPOSITORY.git .
-          git fetch origin $GITHUB_REF:temporary-ci-branch
-          git checkout $GITHUB_SHA
+      # - name: Clone repo
+      #   run: |
+      #     git clone https://github.com/$GITHUB_REPOSITORY.git .
+      #     git fetch origin $GITHUB_REF:temporary-ci-branch
+      #     git checkout $GITHUB_SHA
+
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.6 # Match whatever's running in Heroku
 
       - name: Install Pipenv dependencies
         run: |
