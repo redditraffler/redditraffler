@@ -14,34 +14,32 @@ import { colors } from "@js/theme";
 const IgnoredUsersManager: React.FC = () => {
   const { control } = useFormContext();
   const [currentTextInput, setCurrentTextInput] = useState<string>("");
-  const [isCurrentUsernameValid, setIsCurrentUsernameValid] = useState<boolean>(
-    false
-  );
+  const [isCurrentUserValid, setIsCurrentUserValid] = useState<boolean>(false);
   const [ignoredUsersList, setIgnoredUsersList] = useState<Array<string>>([]);
 
   const shouldShowValidationError =
-    currentTextInput !== "" && !isCurrentUsernameValid;
+    currentTextInput !== "" && !isCurrentUserValid;
 
   /**
    * Returns if a username is a valid Reddit username and checks whether
    * that user is already ignored.
-   * @param username The username to test
+   * @param user The username to test
    */
-  const isValidUsername = (username: string) => {
+  const isValidUser = (user: string) => {
     const USERNAME_REGEX = /^[\w-]+$/;
     const ignoredUsersSetLowercase = new Set(
-      ignoredUsersList.map((user) => user.toLowerCase())
+      ignoredUsersList.map((u) => user.toLowerCase())
     );
     return (
-      username.length >= 3 &&
-      username.length <= 20 &&
-      USERNAME_REGEX.test(username) &&
-      !ignoredUsersSetLowercase.has(username)
+      user.length >= 3 &&
+      user.length <= 20 &&
+      USERNAME_REGEX.test(user) &&
+      !ignoredUsersSetLowercase.has(user)
     );
   };
 
   const addIgnoredUser = (user: string) => {
-    setIsCurrentUsernameValid(true);
+    setIsCurrentUserValid(true);
     setIgnoredUsersList([...ignoredUsersList, user]);
     setCurrentTextInput(""); // Clear input on successful add
   };
@@ -66,7 +64,7 @@ const IgnoredUsersManager: React.FC = () => {
             color={shouldShowValidationError ? "danger" : null}
             value={currentTextInput}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setIsCurrentUsernameValid(isValidUsername(e.target.value));
+              setIsCurrentUserValid(isValidUser(e.target.value));
               setCurrentTextInput(e.target.value);
             }}
             onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -75,7 +73,7 @@ const IgnoredUsersManager: React.FC = () => {
               }
 
               e.preventDefault(); // Stop the whole form from submitting
-              if (isCurrentUsernameValid) {
+              if (isCurrentUserValid) {
                 addIgnoredUser(currentTextInput);
               }
             }}
@@ -83,7 +81,7 @@ const IgnoredUsersManager: React.FC = () => {
         </Control>
         <Control>
           <Button
-            disabled={!isCurrentUsernameValid}
+            disabled={!isCurrentUserValid}
             style={{ backgroundColor: colors.reddit, color: "whitesmoke" }}
             onClick={() => addIgnoredUser(currentTextInput)}
             onKeyPress={(e: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -99,7 +97,7 @@ const IgnoredUsersManager: React.FC = () => {
       {shouldShowValidationError && (
         <Help color="danger">
           This is not a valid Reddit username, or it is already in the list of
-          ignored users.
+          ignored usernames.
         </Help>
       )}
       {ignoredUsersList.map((user) => (
