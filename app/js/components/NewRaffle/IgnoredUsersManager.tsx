@@ -8,14 +8,20 @@ import {
   Help,
 } from "react-bulma-components/lib/components/form";
 import Button from "react-bulma-components/lib/components/button";
+import Columns from "react-bulma-components/lib/components/columns";
+import Tag from "react-bulma-components/lib/components/tag";
 
 import { colors } from "@js/theme";
+
+const DEFAULT_IGNORED_USERS_LIST = ["AutoModerator"];
 
 const IgnoredUsersManager: React.FC = () => {
   const { control } = useFormContext();
   const [currentTextInput, setCurrentTextInput] = useState<string>("");
   const [isCurrentUserValid, setIsCurrentUserValid] = useState<boolean>(false);
-  const [ignoredUsersList, setIgnoredUsersList] = useState<Array<string>>([]);
+  const [ignoredUsersList, setIgnoredUsersList] = useState<Array<string>>(
+    DEFAULT_IGNORED_USERS_LIST
+  );
 
   const shouldShowValidationError =
     currentTextInput !== "" && !isCurrentUserValid;
@@ -48,6 +54,16 @@ const IgnoredUsersManager: React.FC = () => {
     setCurrentTextInput(""); // Clear input on successful add
   };
 
+  /**
+   * Removes the given user from the ignoredUsersList
+   * @param user The user to remove
+   */
+  const removeIgnoredUser = (user: string) => {
+    setIgnoredUsersList(
+      ignoredUsersList.filter((u) => u.toLowerCase() !== user.toLowerCase())
+    );
+  };
+
   return (
     <React.Fragment>
       <Label style={{ color: colors.reddit }}>Ignored Users</Label>
@@ -58,55 +74,58 @@ const IgnoredUsersManager: React.FC = () => {
         <br />
         Usernames are case-insensitive.
       </Help>
-      <Field kind="addons">
-        <Control>
-          <span className="button is-static">/u/</span>
-        </Control>
-        <Control>
-          <Input
-            type="text"
-            color={shouldShowValidationError ? "danger" : null}
-            value={currentTextInput}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setIsCurrentUserValid(isValidUser(e.target.value));
-              setCurrentTextInput(e.target.value);
-            }}
-            onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              if (e.key !== "Enter") {
-                return;
-              }
+      <Columns>
+        <Columns.Column narrow>
+          <Field kind="addons">
+            <Control>
+              <span className="button is-static">/u/</span>
+            </Control>
+            <Control>
+              <Input
+                type="text"
+                color={shouldShowValidationError ? "danger" : null}
+                value={currentTextInput}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setIsCurrentUserValid(isValidUser(e.target.value));
+                  setCurrentTextInput(e.target.value);
+                }}
+                onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.key !== "Enter") {
+                    return;
+                  }
 
-              e.preventDefault(); // Stop the whole form from submitting
-              if (isCurrentUserValid) {
-                addIgnoredUser(currentTextInput);
-              }
-            }}
-          />
-        </Control>
-        <Control>
-          <Button
-            disabled={!isCurrentUserValid}
-            style={{ backgroundColor: colors.reddit, color: "whitesmoke" }}
-            onClick={() => addIgnoredUser(currentTextInput)}
-            onKeyPress={(e: React.KeyboardEvent<HTMLButtonElement>) => {
-              if (e.key === "Enter") {
-                addIgnoredUser(currentTextInput);
-              }
-            }}
-          >
-            Ignore
-          </Button>
-        </Control>
-      </Field>
-      {shouldShowValidationError && (
-        <Help color="danger">
-          This is not a valid Reddit username, or it is already in the list of
-          ignored usernames.
-        </Help>
-      )}
-      {ignoredUsersList.map((user) => (
-        <p key={user}>{user}</p>
-      ))}
+                  e.preventDefault(); // Stop the whole form from submitting
+                  if (isCurrentUserValid) {
+                    addIgnoredUser(currentTextInput);
+                  }
+                }}
+              />
+            </Control>
+            <Control>
+              <Button
+                disabled={!isCurrentUserValid}
+                style={{ backgroundColor: colors.reddit, color: "whitesmoke" }}
+                onClick={() => addIgnoredUser(currentTextInput)}
+              >
+                Ignore
+              </Button>
+            </Control>
+          </Field>
+        </Columns.Column>
+        <Columns.Column>
+          {ignoredUsersList.map((user) => (
+            <Tag
+              key={user}
+              rounded
+              style={{ backgroundColor: colors.reddit, color: "whitesmoke" }}
+              size="medium"
+            >
+              {user}
+              <Button remove onClick={() => removeIgnoredUser(user)} />
+            </Tag>
+          ))}
+        </Columns.Column>
+      </Columns>
     </React.Fragment>
   );
 };
