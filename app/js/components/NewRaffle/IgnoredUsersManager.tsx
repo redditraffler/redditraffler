@@ -28,7 +28,7 @@ const IgnoredUsersManager: React.FC = () => {
   const isValidUser = (user: string) => {
     const USERNAME_REGEX = /^[\w-]+$/;
     const ignoredUsersSetLowercase = new Set(
-      ignoredUsersList.map((u) => user.toLowerCase())
+      ignoredUsersList.map((u) => u.toLowerCase())
     );
     return (
       user.length >= 3 &&
