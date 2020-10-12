@@ -38,6 +38,10 @@ const IgnoredUsersManager: React.FC = () => {
     );
   };
 
+  /**
+   * Adds an ignored user by setting the appropriate backend state values.
+   * @param user The username to add to the list backend
+   */
   const addIgnoredUser = (user: string) => {
     setIsCurrentUserValid(true);
     setIgnoredUsersList([...ignoredUsersList, user]);
