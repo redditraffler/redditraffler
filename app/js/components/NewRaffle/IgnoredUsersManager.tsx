@@ -121,6 +121,11 @@ const IgnoredUsersManager: React.FC = () => {
               </Button>
             </Control>
           </Field>
+          {shouldShowValidationError ? (
+            <Help color="danger">
+              This is not a valid Reddit username, or it is already in the list.
+            </Help>
+          ) : null}
         </Columns.Column>
         <Columns.Column>
           {ignoredUsersList.map((user) => (
