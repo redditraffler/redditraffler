@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
+import styled from "styled-components";
 import {
   Field,
   Control,
@@ -14,6 +15,15 @@ import Tag from "react-bulma-components/lib/components/tag";
 import { colors } from "@js/theme";
 
 const DEFAULT_IGNORED_USERS_LIST = ["AutoModerator"];
+
+const IgnoredUserTag = styled(Tag)`
+  && {
+    // Overwrite Bulma CSS
+    background-color: ${colors.reddit};
+    color: whitesmoke;
+    margin: 0.2rem;
+  }
+`;
 
 const IgnoredUsersManager: React.FC = () => {
   const { control } = useFormContext();
@@ -114,15 +124,10 @@ const IgnoredUsersManager: React.FC = () => {
         </Columns.Column>
         <Columns.Column>
           {ignoredUsersList.map((user) => (
-            <Tag
-              key={user}
-              rounded
-              style={{ backgroundColor: colors.reddit, color: "whitesmoke" }}
-              size="medium"
-            >
+            <IgnoredUserTag key={user} rounded size="medium">
               {user}
               <Button remove onClick={() => removeIgnoredUser(user)} />
-            </Tag>
+            </IgnoredUserTag>
           ))}
         </Columns.Column>
       </Columns>
