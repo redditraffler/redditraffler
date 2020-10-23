@@ -50,7 +50,7 @@ const IgnoredUsersManager: React.FC = () => {
       user.length >= 3 &&
       user.length <= 20 &&
       USERNAME_REGEX.test(user) &&
-      !ignoredUsersSetLowercase.has(user)
+      !ignoredUsersSetLowercase.has(user.toLowerCase())
     );
   };
 
