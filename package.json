@@ -68,7 +68,7 @@
     "bulma": "0.8.2",
     "datatables-bulma": "^1.0.1",
     "datatables.net-dt": "^1.10.21",
-    "dayjs": "^1.9.1",
+    "dayjs": "^1.9.4",
     "ga-gtag": "^1.0.1",
     "jquery": "^3.5.1",
     "prop-types": "^15.7.2",
