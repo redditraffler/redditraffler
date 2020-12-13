@@ -1,5 +1,9 @@
 name: Run Tests
 
+env:
+  PYTHON_VERSION: 3.6 # Match whatever's running in Heroku
+  NODE_VERSION: 12.18 # Match whatever's running in Heroku
+
 on:
   push:
     branches:
@@ -11,10 +15,11 @@ jobs:
   lint-and-test-backend:
     name: Test Python app
     runs-on: ubuntu-latest
-    container: python:3.6.12
     services:
       postgres:
         image: postgres:12.3-alpine
+        ports:
+          - 5432:5432
         env:
           POSTGRES_USER: ci_test
           POSTGRES_PASSWORD: ci
@@ -23,15 +28,13 @@ jobs:
       PIPENV_VENV_IN_PROJECT: true
       PIP_CACHE_DIR: /tmp/pip_cache
       PIPENV_CACHE_DIR: /tmp/pipenv_cache
-      TEST_DATABASE_URL: postgres://ci_test:ci@postgres/redditraffler_ci_test
+      TEST_DATABASE_URL: postgres://ci_test:ci@localhost:5432/redditraffler_ci_test
     steps:
-      # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
-      # https://github.com/actions/checkout/issues/170#issuecomment-595793962
-      - name: Clone repo
-        run: |
-          git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
-          git fetch origin $GITHUB_REF:temporary-ci-branch
-          git checkout $GITHUB_SHA
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install Pipenv dependencies
         run: |
@@ -62,15 +65,12 @@ jobs:
   lint-and-test-frontend:
     name: Test JavaScript components
     runs-on: ubuntu-latest
-    container: node:12.18.3
     steps:
-      # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
-      # https://github.com/actions/checkout/issues/170#issuecomment-595793962
-      - name: Clone repo
-        run: |
-          git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
-          git fetch origin $GITHUB_REF:temporary-ci-branch
-          git checkout $GITHUB_SHA
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Check node_modules cache
         uses: actions/cache@v2
@@ -104,15 +104,12 @@ jobs:
   build-frontend:
     name: Test Webpack build
     runs-on: ubuntu-latest
-    container: node:12.18.3
     steps:
-      # NOTE Sep 3 2020: Workaround for Git < 2.18, since actions/checkout won't clone the repo with Git and cc-test-reporter needs Git info.
-      # https://github.com/actions/checkout/issues/170#issuecomment-595793962
-      - name: Clone repo
-        run: |
-          git clone --depth 1 https://github.com/$GITHUB_REPOSITORY.git .
-          git fetch origin $GITHUB_REF:temporary-ci-branch
-          git checkout $GITHUB_SHA
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Check node_modules cache
         uses: actions/cache@v2
