@@ -62,6 +62,9 @@ const ShowMoreButtonContainer = styled("div")`
 const DEFAULT_NUM_SUBMISSIONS_TO_DISPLAY = 5;
 const DEFAULT_SHOW_MORE_COUNT = 10;
 
+/**
+ * Retrieves the current user's Reddit submissions then displays them to allow the user to select them.
+ */
 const SubmissionPicker: React.FC = () => {
   const { register, setValue } = useFormContext();
   const { loading, error, value: userSubmissions } = useAsync(() =>
