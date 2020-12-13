@@ -11,7 +11,7 @@
     "yarn": "1.x"
   },
   "scripts": {
-    "debug": "webpack-dev-server --color --config webpack.dev.js",
+    "debug": "webpack serve --color --config webpack.dev.js",
     "analyze_bundle": "BUNDLE_ANALYZER_ENABLED=true webpack --config webpack.prod.js",
     "lint": "eslint ./app/js/* --ext .ts,.tsx,.js,.jsx",
     "test": "jest ./app/js/*",
