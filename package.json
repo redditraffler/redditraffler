@@ -74,7 +74,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-bulma-components": "^3.4.0",
-    "react-dom": "^16.13.1",
+    "react-dom": "^16.14.0",
     "react-loading-skeleton": "^2.1.1",
     "react-use": "^15.3.4",
     "redaxios": "^0.3.0",
