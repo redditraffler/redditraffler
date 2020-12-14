@@ -1581,10 +1581,10 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
 
-"@types/styled-components@^5.1.4":
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.4.tgz#11f167dbde268635c66adc89b5a5db2e69d75384"
-  integrity sha512-78f5Zuy0v/LTQNOYfpH+CINHpchzMMmAt9amY2YNtSgsk1TmlKm8L2Wijss/mtTrsUAVTm2CdGB8VOM65vA8xg==
+"@types/styled-components@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.5.tgz#a98e2ead1a1c7660b966f3aade4df9c0ec8ed75a"
+  integrity sha512-VWwoKm39W783a75oILtdCjnNn+FSV8Yh3O9naIudtZCAkk+rRfwLWzuPjf5k/OilENgZqAkxJ9sukSOZTAD86g==
   dependencies:
     "@types/hoist-non-react-statics" "*"
     "@types/react" "*"
