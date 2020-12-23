@@ -29,7 +29,7 @@
     "@types/jest": "^26.0.14",
     "@types/jquery": "^3.5.5",
     "@types/react": "^17.0.0",
-    "@types/styled-components": "^5.1.4",
+    "@types/styled-components": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.1",
     "babel-loader": "^8.1.0",
