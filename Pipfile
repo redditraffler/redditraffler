@@ -30,7 +30,7 @@ cssmin = "==0.2.0"
 jsmin = "==2.2.2"
 pyjwt = "==1.7.1"
 werkzeug = "==1.0.1"
-cryptography = "==3.3.1"
+cryptography = "==3.3.2"
 flask-talisman = "==0.7.0"
 rq = "==1.7.0"
 
