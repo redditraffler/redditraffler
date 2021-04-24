@@ -6,7 +6,8 @@
       "@assets/*": ["app/assets/*"]
     },
     "jsx": "react",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true
   },
   "include": ["./app/js"],
   "exclude": ["node_modules"],

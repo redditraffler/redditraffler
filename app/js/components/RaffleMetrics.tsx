@@ -68,13 +68,13 @@ const RaffleMetrics: React.FC = () => {
               ) : (
                 <React.Fragment>
                   {metricsForDisplay.map(({ displayValue, label }) => (
-                      <Tile kind="child" key={label}>
-                        <StatHeading>{displayValue}</StatHeading>
-                        <Heading subtitle style={{ textAlign: "center" }}>
-                          {label}
-                        </Heading>
-                      </Tile>
-                    ))}
+                    <Tile kind="child" key={label}>
+                      <StatHeading>{displayValue}</StatHeading>
+                      <Heading subtitle style={{ textAlign: "center" }}>
+                        {label}
+                      </Heading>
+                    </Tile>
+                  ))}
                 </React.Fragment>
               )}
             </Tile>
