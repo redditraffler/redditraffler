@@ -130,6 +130,8 @@ jobs:
     env:
       CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
     steps:
+      - name: test
+        run: echo $CC_TEST_REPORTER_ID
       - name: Download Coverage Result Artifacts
         uses: actions/download-artifact@v2
         with:
