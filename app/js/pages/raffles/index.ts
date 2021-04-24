@@ -8,7 +8,7 @@ require("datatables-bulma");
 // @ts-ignore
 $.fn.DataTable = dt;
 
-$(function () {
+$(() => {
   // @ts-ignore
   $("#raffles").DataTable({
     lengthChange: false,

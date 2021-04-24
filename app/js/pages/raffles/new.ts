@@ -21,7 +21,7 @@ function initTableControl() {
 
   $(`#submissions > tbody > tr:lt(${visibleRowCount})`).show();
 
-  $("#show-more").click(function () {
+  $("#show-more").click(() => {
     visibleRowCount =
       visibleRowCount + 10 <= rowCount ? visibleRowCount + 10 : rowCount;
     $(`#submissions > tbody > tr:lt(${visibleRowCount})`).show();
@@ -91,7 +91,7 @@ function buildSubmissionsTable(submissions) {
   $table.append(tableHeaders);
 
   // Add row for each submission
-  submissions.forEach(function (submission) {
+  submissions.forEach((submission) => {
     const $tableBody = $("#submissions > tbody");
     $tableBody.append(`
       <tr id='${submission.id}' data-submission-author='${submission.author}'>
@@ -200,7 +200,7 @@ function getFormDataForSubmit() {
   const data = $form.serializeArray();
   data.push({ name: "ignoredUsers", value: JSON.stringify(ignoredUsersList) });
 
-  return data.filter(function (obj) {
+  return data.filter((obj) => {
     const { name } = obj;
     if (useCombinedKarma) {
       return !["minComment", "minLink"].includes(name);
@@ -259,7 +259,7 @@ function confirmForm() {
     },
     text:
       "You won't be able to edit or remove this raffle once it's created. Please make sure you've entered the options correctly!",
-  }).then(function (confirmed) {
+  }).then((confirmed) => {
     if (confirmed) {
       submitForm();
     }
@@ -314,15 +314,13 @@ function removeIgnoredUser() {
   // Remove user from internal list and remove tag
   const $tag = $(this).parent("span");
   const $username = $(this).siblings("span[name='username']");
-  ignoredUsersList = ignoredUsersList.filter(function (elem) {
-    return elem.toLowerCase() !== $username.text().toLowerCase();
-  });
+  ignoredUsersList = ignoredUsersList.filter((elem) => elem.toLowerCase() !== $username.text().toLowerCase());
   $tag.remove();
 }
 
 function setDefaultIgnoredUsers() {
   const DEFAULT_USERS = ["AutoModerator"];
-  DEFAULT_USERS.forEach(function (user) {
+  DEFAULT_USERS.forEach((user) => {
     addIgnoredUser(user);
   });
 }
@@ -398,7 +396,7 @@ function handleCombinedKarmaCheckEvent() {
   groupToShow.show();
 }
 
-$(function () {
+$(() => {
   if ($("#submissions").length > 0) {
     $.ajax({
       dataType: "json",
