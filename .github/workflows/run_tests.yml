@@ -128,7 +128,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [lint-and-test-backend, lint-and-test-frontend]
     env:
-      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      # NOTE 2021-04-24 Dependabot cannot access secrets due to a recent change, so we hardcode the reporter ID.
+      # https://github.community/t/dependabot-doesnt-see-github-actions-secrets/167104
+      # There should be no security issue with exposing the ID here: https://docs.codeclimate.com/docs/finding-your-test-coverage-token#should-i-keep-my-test-reporter-id-secret
+      CC_TEST_REPORTER_ID: ff76aa89df1bdfcc6bb22ff067a277ab631af944d2540aa4b716a43651a54119
     steps:
       - name: Download Coverage Result Artifacts
         uses: actions/download-artifact@v2
@@ -144,4 +147,4 @@ jobs:
         run: ./cc-test-reporter sum-coverage --parts 2 /tmp/codeclimate_backend_coverage/codeclimate_backend_coverage.json /tmp/codeclimate_frontend_coverage/codeclimate_frontend_coverage.json
 
       - name: Upload coverage
-        run: ./cc-test-reporter upload-coverage
+        run: ./cc-test-reporter upload-coverage --id $CC_TEST_REPORTER_ID

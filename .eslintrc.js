@@ -12,8 +12,6 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
     "prettier",
-    "prettier/react",
-    "prettier/@typescript-eslint",
   ],
   plugins: ["react", "jsx-a11y", "@typescript-eslint"],
   parser: "@typescript-eslint/parser",

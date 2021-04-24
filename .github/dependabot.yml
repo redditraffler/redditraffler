@@ -8,7 +8,7 @@ updates:
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     reviewers:
       - "timorthi"
     open-pull-requests-limit: 10
@@ -19,7 +19,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     reviewers:
       - "timorthi"
     open-pull-requests-limit: 10
