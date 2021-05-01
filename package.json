@@ -62,7 +62,7 @@
     "webpack-merge": "^5.7.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.13.17",
+    "@babel/runtime": "^7.14.0",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "balloon-css": "^1.2.0",
     "bulma": "0.8.2",
