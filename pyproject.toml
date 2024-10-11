@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "redditraffler"
+version = "1.0.0"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+cryptography = "==3.3.1"
+cssmin = "==0.2.0"
+flask = "==1.1.2"
+flask-caching = "==1.9.0"
+flask-limiter = "==1.4"
+flask-migrate = "==2.5.3"
+flask-rq2 = "==18.3"
+flask-sqlalchemy = "==2.4.4"
+flask-talisman = "==0.7.0"
+flask-wtf = "==0.14.3"
+gunicorn = "==20.0.4"
+jsmin = "==2.2.2"
+newrelic = "==5.24.0.153"
+praw = "==7.1.0"
+psycopg2-binary = "==2.8.6"
+pyjwt = "==1.7.1"
+pytest = "==6.2.1"
+pytest-flask = "==1.1.0"
+pytest-mock = "==3.5.1"
+python-dotenv = "==0.15.0"
+rollbar = "==0.15.1"
+rq = "==1.7.0"
+werkzeug = "==1.0.1"
+
+[tool.poetry.dev-dependencies]
+black = "==19.3b0"
+coverage = "*"
+factory-boy = "*"
+fakeredis = "*"
+flake8 = "*"
+honcho = "==1.0.1"
