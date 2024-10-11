@@ -23,7 +23,7 @@ class BaseConfig:
     CACHE_CONFIG = {
         "CACHE_TYPE": "redis",
         "CACHE_KEY_PREFIX": "redditraffler_",
-        "CACHE_REDIS_URL": os.getenv("REDIS_URL"),
+        "CACHE_REDIS_URL": RQ_REDIS_URL,
         "CACHE_DEFAULT_TIMEOUT": 60 * 60 * 24,  # 1 day
     }
 
