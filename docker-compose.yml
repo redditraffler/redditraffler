@@ -28,7 +28,7 @@ services:
   redis:
     container_name: redditraffler_redis
     restart: always
-    image: redis:4.0.14-alpine # should match Heroku Redis version
+    image: redis:7-alpine # should match Heroku Redis version
     ports:
       - "6379:6379"
 
