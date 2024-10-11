@@ -16,7 +16,7 @@ class BaseConfig:
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
     DEBUG_CONFIG = get_boolean_env("DEBUG_CONFIG")
 
-    RQ_REDIS_URL = os.getenv('REDIS_TEMPORARY_URL') or os.getenv('REDIS_URL')
+    RQ_REDIS_URL = os.getenv('REDIS_TEMPORARY_URL')
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
