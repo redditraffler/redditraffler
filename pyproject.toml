@@ -4,7 +4,7 @@ version = "1.0.0"
 package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 cryptography = "==3.3.1"
 cssmin = "==0.2.0"
 flask = "==1.1.2"
