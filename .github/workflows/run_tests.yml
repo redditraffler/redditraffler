@@ -68,17 +68,12 @@ jobs:
     name: Test JavaScript components
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-
-      - name: Check node_modules cache
-        uses: actions/cache@v2
-        with:
-          path: ./node_modules
-          key: node-deps-${{ hashFiles('yarn.lock', 'package.json') }}
+          cache: "yarn"
 
       - name: Install Yarn dependencies
         run: yarn install --dev
@@ -98,7 +93,7 @@ jobs:
           ./cc-test-reporter format-coverage --output /tmp/codeclimate_frontend_coverage.json
 
       - name: Store Frontend Coverage Results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: codeclimate_frontend_coverage
           path: /tmp/codeclimate_frontend_coverage.json
@@ -107,17 +102,12 @@ jobs:
     name: Test Webpack build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-
-      - name: Check node_modules cache
-        uses: actions/cache@v2
-        with:
-          path: ./node_modules
-          key: node-deps-${{ hashFiles('yarn.lock', 'package.json') }}
+          cache: "yarn"
 
       - name: Install Yarn dependencies
         run: yarn install --dev
@@ -136,7 +126,7 @@ jobs:
       CC_TEST_REPORTER_ID: ff76aa89df1bdfcc6bb22ff067a277ab631af944d2540aa4b716a43651a54119
     steps:
       - name: Download Coverage Result Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           path: /tmp
 
