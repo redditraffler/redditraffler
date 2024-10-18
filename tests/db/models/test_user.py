@@ -85,7 +85,7 @@ class TestUser:
             user.set_refresh_token("hey_this_is_some_refresh_token")
             saved_token = db_session.query(User).get(user.id).refresh_token_enc
             assert saved_token is not None
-            assert type(saved_token) == bytes
+            assert isinstance(saved_token, bytes)
 
     class TestGetRefreshToken:
         def test_user_must_have_token(self, user, app_with_keys):

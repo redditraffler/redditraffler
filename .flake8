@@ -2,7 +2,7 @@
 verbose = 2
 count = True
 format = pylint
-max-line-length = 88
+max-line-length = 120
 ignore = E722, W503
 include =
   ./app/**

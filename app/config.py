@@ -16,14 +16,14 @@ class BaseConfig:
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
     DEBUG_CONFIG = get_boolean_env("DEBUG_CONFIG")
 
-    RQ_REDIS_URL = os.getenv("REDIS_URL")
+    RQ_REDIS_URL = os.getenv('REDIS_TEMPORARY_URL')
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     CACHE_CONFIG = {
         "CACHE_TYPE": "redis",
         "CACHE_KEY_PREFIX": "redditraffler_",
-        "CACHE_REDIS_URL": os.getenv("REDIS_URL"),
+        "CACHE_REDIS_URL": RQ_REDIS_URL,
         "CACHE_DEFAULT_TIMEOUT": 60 * 60 * 24,  # 1 day
     }
 
@@ -70,14 +70,18 @@ class BaseConfig:
 class DebugConfig(BaseConfig):
     ENV = os.getenv("ENV", "local")
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL") or ""
+    if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
     ROLLBAR_ENABLED = get_boolean_env("ROLLBAR_ENABLED")
 
 
 class ProdConfig(BaseConfig):
     ENV = os.getenv("ENV", "production")
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL") or ""
+    if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
     ROLLBAR_ENABLED = True
 
 
