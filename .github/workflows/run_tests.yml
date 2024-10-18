@@ -1,7 +1,7 @@
 name: Run Tests
 
 env:
-  PYTHON_VERSION: 3.6 # Match whatever's running in Heroku
+  PYTHON_VERSION: 3.12 # Match whatever's running in Heroku
   NODE_VERSION: 12.18 # Match whatever's running in Heroku
 
 on:
@@ -30,19 +30,18 @@ jobs:
       PIPENV_CACHE_DIR: /tmp/pipenv_cache
       TEST_DATABASE_URL: postgres://ci_test:ci@localhost:5432/redditraffler_ci_test
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
+          cache: "poetry"
 
       - name: Install Pipenv dependencies
-        run: |
-          pip install pipenv
-          pipenv install --dev --deploy
+        run: poetry install
 
       - name: Run linter
-        run: pipenv run lint
+        run: poetry run flake8
 
       - name: Install Code Climate test reporter
         run: |
@@ -52,12 +51,12 @@ jobs:
       - name: Run tests
         run: |
           ./cc-test-reporter before-build
-          pipenv run coverage run -m pytest -vv tests
-          pipenv run coverage xml
+          poetry run coverage run -m pytest -vv tests
+          poetry run coverage xml
           ./cc-test-reporter format-coverage --output /tmp/codeclimate_backend_coverage.json
 
       - name: Store Backend Coverage Results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: codeclimate_backend_coverage
           path: /tmp/codeclimate_backend_coverage.json
