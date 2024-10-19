@@ -12,6 +12,35 @@ on:
     # Intentionally blank; no config
 
 jobs:
+  check-requirements-txt:
+    name: Check for up-to-date requirements.txt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "poetry"
+
+      - name: Export poetry lockfile to requirements.txt
+        run: poetry export -f requirements.txt -o requirements-latest.txt
+
+      - name: Compare exported requirements with requirements.txt
+        run: |
+          DIFF=$(grep -xvFf requirements-latest.txt requirements.txt)
+          if [ -z "${DIFF}" ]; then
+            echo "No diff detected."
+            exit 0
+          else
+            echo "Detected diff between latest poetry.lock export and requirements.txt:"
+            echo $DIFF
+            exit 1
+          fi
+
   lint-and-test-backend:
     name: Test Python app
     runs-on: ubuntu-latest
