@@ -16,14 +16,14 @@ class BaseConfig:
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
     DEBUG_CONFIG = get_boolean_env("DEBUG_CONFIG")
 
-    RQ_REDIS_URL = os.getenv("REDIS_URL")
+    RQ_REDIS_URL = os.getenv("REDIS_URL") + "?ssl_cert_reqs=none"
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     CACHE_CONFIG = {
         "CACHE_TYPE": "redis",
         "CACHE_KEY_PREFIX": "redditraffler_",
-        "CACHE_REDIS_URL": RQ_REDIS_URL + "?ssl_cert_reqs=None",
+        "CACHE_REDIS_URL": RQ_REDIS_URL,
         "CACHE_DEFAULT_TIMEOUT": 60 * 60 * 24,  # 1 day
     }
 
