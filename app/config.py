@@ -16,7 +16,11 @@ class BaseConfig:
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
     DEBUG_CONFIG = get_boolean_env("DEBUG_CONFIG")
 
-    RQ_REDIS_URL = os.getenv("REDIS_URL") + "?ssl_cert_reqs=none"
+    RQ_REDIS_URL = (
+        os.getenv("REDIS_URL") + "?ssl_cert_reqs=none"
+        if os.getenv("REDIS_URL")
+        else None
+    )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
