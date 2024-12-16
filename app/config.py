@@ -16,7 +16,7 @@ class BaseConfig:
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
     DEBUG_CONFIG = get_boolean_env("DEBUG_CONFIG")
 
-    RQ_REDIS_URL = os.getenv('REDIS_TEMPORARY_URL')
+    RQ_REDIS_URL = os.getenv("REDIS_URL")
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -72,7 +72,9 @@ class DebugConfig(BaseConfig):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL") or ""
     if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
-        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
+            "postgres://", "postgresql://", 1
+        )
     ROLLBAR_ENABLED = get_boolean_env("ROLLBAR_ENABLED")
 
 
@@ -81,7 +83,9 @@ class ProdConfig(BaseConfig):
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL") or ""
     if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
-        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
+            "postgres://", "postgresql://", 1
+        )
     ROLLBAR_ENABLED = True
 
 
