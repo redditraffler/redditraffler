@@ -1,12 +1,15 @@
-import "@assets/css/raffles/new.css";
+import "@assets/css/raffles/new.scss";
 
 import $ from "jquery";
 import swal from "sweetalert";
+import ReactDOM from "react-dom";
+import React from "react";
 
 import { escapeHtml } from "@js/util";
 import { Endpoint } from "@js/api";
+import NewRaffle from "@js/components/NewRaffle";
 
-let ignoredUsersList = [];
+let ignoredUsersList: Array<string> = [];
 
 function getDateFromUnixTime(timestamp) {
   return new Date(timestamp * 1000).toDateString();
@@ -68,7 +71,7 @@ function initTableRows() {
     // Rebuild the ignored users list with the submission author
     removeAllIgnoredUsers();
     setDefaultIgnoredUsers();
-    addIgnoredUser($clickedRow.attr("data-submission-author"));
+    addIgnoredUser($clickedRow.attr("data-submission-author") as string);
     /* eslint-enable */
   });
 }
@@ -95,9 +98,9 @@ function buildSubmissionsTable(submissions) {
     const $tableBody = $("#submissions > tbody");
     $tableBody.append(`
       <tr id='${submission.id}' data-submission-author='${submission.author}'>
-        <td>${escapeHtml(
-          submission.title
-        )} <a href='${submission.url}' target='_blank'><i class='fas fa-external-link-alt fa-fw fa-xs'></i></a></td>
+        <td>${escapeHtml(submission.title)} <a href='${
+      submission.url
+    }' target='_blank'><i class='fas fa-external-link-alt fa-fw fa-xs'></i></a></td>
         <td>${submission.subreddit}</td>
         <td>${getDateFromUnixTime(submission.created_at_utc)}</td>
       </tr>
@@ -158,6 +161,7 @@ function showValidationResults(jqXHR) {
   }
 }
 
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 function validateUrl() {
   const $msg = $("#submission-url-msg");
   let url = $(this).val() as string;
@@ -193,6 +197,7 @@ function validateUrl() {
     });
   }
 }
+/* eslint-enable @typescript-eslint/ban-ts-comment */
 
 function getFormDataForSubmit() {
   const $form = $("#raffle-form");
@@ -281,6 +286,7 @@ function validateAndSubmitForm(event) {
         "<div id='submission-selection-error' class='content has-text-centered'><p class='has-text-danger'>Please select a submission.</p></div>"
       );
     }
+    // @ts-ignore possibly undefined
     $(document).scrollTop($("#submission-selection").offset().top);
     return;
   }
@@ -289,6 +295,7 @@ function validateAndSubmitForm(event) {
     $("#submission-url").length > 0 &&
     !$("#submission-url").hasClass("is-success")
   ) {
+    // @ts-ignore possibly undefined
     $(document).scrollTop($("#submission-url").offset().top);
     return;
   }
@@ -296,7 +303,7 @@ function validateAndSubmitForm(event) {
   confirmForm();
 }
 
-function addIgnoredUser(username) {
+function addIgnoredUser(username: string) {
   // Add user to internal list and add tag
   ignoredUsersList.push(username);
   $("#ignored-users").append(`
@@ -307,6 +314,7 @@ function addIgnoredUser(username) {
 function removeAllIgnoredUsers() {
   ignoredUsersList = [];
   const ignoredUsersContainer = document.getElementById("ignored-users");
+  // @ts-ignore
   ignoredUsersContainer.innerHTML = null;
 }
 
@@ -314,7 +322,9 @@ function removeIgnoredUser() {
   // Remove user from internal list and remove tag
   const $tag = $(this).parent("span");
   const $username = $(this).siblings("span[name='username']");
-  ignoredUsersList = ignoredUsersList.filter((elem) => elem.toLowerCase() !== $username.text().toLowerCase());
+  ignoredUsersList = ignoredUsersList.filter(
+    (elem) => elem.toLowerCase() !== $username.text().toLowerCase()
+  );
   $tag.remove();
 }
 
@@ -340,7 +350,7 @@ function validateAndAddIgnoredUser() {
   const MAX_IGNORED_USERS_COUNT = 100;
   const $input = $("#ignored-user-input");
   const $msg = $("#ignored-user-msg");
-  const username = $input.val();
+  const username = $input.val() as string;
 
   // Clear any previous messages
   $msg.empty().attr("class", "help is-danger");
@@ -396,7 +406,7 @@ function handleCombinedKarmaCheckEvent() {
   groupToShow.show();
 }
 
-$(() => {
+document.addEventListener("DOMContentLoaded", () => {
   if ($("#submissions").length > 0) {
     $.ajax({
       dataType: "json",
@@ -417,4 +427,15 @@ $(() => {
   $("#ignored-user-btn").click(validateAndAddIgnoredUser);
   $("#ignored-users").on("click", "a.delete", removeIgnoredUser);
   $("#ignored-user-input").keydown(validateOnEnter);
+
+  const newRaffleRoot = document.getElementById(
+    "new-raffle-root"
+  ) as HTMLElement;
+
+  ReactDOM.render(
+    React.createElement(NewRaffle, {
+      csrfToken: newRaffleRoot.getAttribute("data-csrf-token") as string,
+    }),
+    newRaffleRoot
+  );
 });

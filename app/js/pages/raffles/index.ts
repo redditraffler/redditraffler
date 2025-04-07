@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // https://datatables.net/forums/discussion/43042/uncaught-typeerror-cannot-set-property-of-undefined/p2
 
 import $ from "jquery";

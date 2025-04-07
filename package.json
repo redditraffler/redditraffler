@@ -11,7 +11,7 @@
     "yarn": "1.x"
   },
   "scripts": {
-    "debug": "webpack-dev-server --config webpack.dev.js",
+    "debug": "webpack serve --color --config webpack.dev.js",
     "analyze_bundle": "BUNDLE_ANALYZER_ENABLED=true webpack --config webpack.prod.js",
     "lint": "eslint ./app/js/* --ext .ts,.tsx,.js,.jsx",
     "test": "jest ./app/js/*",
@@ -29,12 +29,15 @@
     "@types/jest": "^26.0.22",
     "@types/jquery": "^3.5.5",
     "@types/react": "^17.0.0",
+    "@types/react-dom": "^16.9.8",
     "@types/styled-components": "^5.1.7",
+    "@types/yup": "^0.29.7",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.20.0",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^4.3.0",
+    "cz-conventional-changelog": "3.3.0",
     "dotenv-webpack": "^6.0.0",
     "eslint": "^7.16.0",
     "eslint-config-airbnb-base": "^14.2.1",
@@ -44,12 +47,14 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest-dom": "^3.6.5",
     "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.22.0",
     "husky": "^4.3.6",
     "jest": "^26.6.3",
     "jest-styled-components": "^7.0.4",
     "lint-staged": "^10.5.3",
     "mini-css-extract-plugin": "^0.11.3",
+    "prettier": "^2.1.2",
     "sass": "^1.32.0",
     "sass-loader": "^10.1.0",
     "style-loader": "^1.2.1",
@@ -64,6 +69,7 @@
   "dependencies": {
     "@babel/runtime": "^7.13.17",
     "@fortawesome/fontawesome-free": "^5.15.1",
+    "@hookform/resolvers": "^0.1.1",
     "balloon-css": "^1.2.0",
     "bulma": "0.8.2",
     "datatables-bulma": "^1.0.1",
@@ -75,10 +81,17 @@
     "react": "^16.14.0",
     "react-bulma-components": "^3.4.0",
     "react-dom": "^16.14.0",
+    "react-hook-form": "^6.8.3",
     "react-loading-skeleton": "^2.1.1",
     "react-use": "^17.2.4",
     "redaxios": "^0.3.0",
     "styled-components": "^5.2.1",
-    "sweetalert": "^2.1.2"
+    "sweetalert": "^2.1.2",
+    "yup": "^0.29.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

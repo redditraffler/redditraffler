@@ -17,6 +17,6 @@ export const Endpoint = {
  * @param {*} endpoint
  */
 export const getFromApi = async <T = unknown>(endpoint: string): Promise<T> => {
-  const { data } = await axios.get(endpoint);
+  const { data } = await axios.get<T>(endpoint);
   return data;
 };

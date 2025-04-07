@@ -10,6 +10,7 @@ module.exports = {
     "plugin:jest-dom/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
     "prettier",
   ],
   plugins: ["react", "jsx-a11y", "@typescript-eslint"],
